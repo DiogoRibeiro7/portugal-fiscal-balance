@@ -194,10 +194,10 @@ notebook(
 notebook(
     "15_build_report.ipynb",
     "Build the final report",
-    "Regenerate the English report strictly from persisted pipeline outputs.",
+    "Regenerate the English LaTeX report strictly from persisted pipeline outputs.",
     [
         ("code", "from portugal_fiscal_balance.reporting.render import render_report\npath = render_report(ROOT)\nprint(path)"),
-        ("code", "text = (ROOT / 'report' / 'report.md').read_text(encoding='utf-8')\nprint(text[:5000])"),
+        ("code", "text = (ROOT / 'report' / 'report.tex').read_text(encoding='utf-8')\nprint(text[:5000])"),
     ],
 )
 

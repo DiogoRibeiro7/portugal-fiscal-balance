@@ -49,5 +49,20 @@ desktop.ini
 .idea/
 .vscode/
 
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+report/*.pdf
+
 # Tool-specific local state
 .python-version

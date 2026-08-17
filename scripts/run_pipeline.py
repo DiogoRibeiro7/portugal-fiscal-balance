@@ -215,7 +215,7 @@ def main() -> None:
     print(f"Balance observations: {len(balance_panel)}")
     print(f"Account observations: {len(account_panel)}")
     print(f"Positive aggregate balance years: {balance_summary['positive_aggregate_balance_years']}")
-    print(f"Report: {ROOT / 'report' / 'report.md'}")
+    print(f"Report: {ROOT / 'report' / 'report.tex'}")
 
 
 if __name__ == "__main__":

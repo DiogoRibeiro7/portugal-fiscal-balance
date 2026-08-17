@@ -16,7 +16,7 @@ The repository is deliberately restricted to accounting, statistical and economi
 
 - Methodology: `METHODOLOGY.md`
 - Data dictionary: `DATA_DICTIONARY.md`
-- Generated report: `report/report.md`
+- Generated report: `report/report.tex`
 - Contribution guide: `CONTRIBUTING.md`
 - Citation metadata: `CITATION.cff` and `.zenodo.json`
 - Release checklist: `RELEASE.md`
@@ -132,7 +132,7 @@ portugal-fiscal-balance/
 │   ├── tables/
 │   └── metrics/
 ├── report/
-│   └── report.md
+│   └── report.tex
 ├── scripts/
 │   ├── run_pipeline.py
 │   └── run_notebooks.py
@@ -165,7 +165,7 @@ PYTHONPATH=src pytest
 The final report is written to:
 
 ```text
-report/report.md
+report/report.tex
 ```
 
 ## Zenodo archiving

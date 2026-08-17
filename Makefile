@@ -14,4 +14,4 @@ all: pipeline notebooks test
 clean:
 	rm -f data/interim/*.csv data/processed/*.csv
 	rm -f outputs/tables/*.csv outputs/metrics/*.json outputs/figures/*.png
-	rm -f report/report.md
+	rm -f report/report.tex

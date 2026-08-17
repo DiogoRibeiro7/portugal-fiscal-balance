@@ -66,7 +66,7 @@ def test_report_and_project_do_not_use_precommitted_political_conclusion_labels(
         "manipulated surplus",
         "social_security_dependent_surplus",
     )
-    paths = [ROOT / "README.md", ROOT / "METHODOLOGY.md", ROOT / "report" / "report.md"]
+    paths = [ROOT / "README.md", ROOT / "METHODOLOGY.md", ROOT / "report" / "report.tex"]
     paths.extend((ROOT / "src").rglob("*.py"))
     for path in paths:
         text = path.read_text(encoding="utf-8").lower()
@@ -76,15 +76,15 @@ def test_report_and_project_do_not_use_precommitted_political_conclusion_labels(
 
 def test_report_is_generated_and_contains_core_analysis_sections() -> None:
     """The final report should expose the main quantitative outputs."""
-    report = (ROOT / "report" / "report.md").read_text(encoding="utf-8")
+    report = (ROOT / "report" / "report.tex").read_text(encoding="utf-8")
     expected_headings = [
-        "## 2. Long-run subsector decomposition",
-        "## 4. Revenue and expenditure dynamics",
-        "## 5. Social Security Funds: revenue composition and internal systems",
-        "## 6. Primary balance and interest",
-        "## 8. Debt and stock-flow adjustment",
-        "## 9. Persistence and structural mean shifts",
-        "## 10. Descriptive macroeconomic co-movement",
-        "## 12. Methodological limitations",
+        r"\section{Long-Run Subsector Decomposition}",
+        r"\section{Revenue and Expenditure Dynamics}",
+        r"\section{Social Security Funds: Revenue Composition and Internal Systems}",
+        r"\section{Primary Balance and Interest}",
+        r"\section{Debt and Stock-Flow Adjustment}",
+        r"\section{Persistence and Structural Mean Shifts}",
+        r"\section{Descriptive Macroeconomic Co-Movement}",
+        r"\section{Methodological Limitations}",
     ]
     assert all(heading in report for heading in expected_headings)
