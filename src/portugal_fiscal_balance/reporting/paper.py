@@ -28,6 +28,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 import pandas as pd
 
 from portugal_fiscal_balance.reporting import latex
@@ -122,16 +123,40 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
     )
     weakest = stability.loc[stability["modal_break_years_share"].idxmin()]
 
-    improvements = data.movements.loc[data.movements["direction"].eq("improvement")]
-    deteriorations = data.movements.loc[data.movements["direction"].eq("deterioration")]
-    top_improvement = improvements.iloc[0]
-    top_deterioration = deteriorations.iloc[0]
-    historical_improvements = improvements.loc[improvements["year"].lt(1995), "year"]
-    historical_deteriorations = deteriorations.loc[deteriorations["year"].lt(1995), "year"]
+    scaled = data.movements["aggregate_change_pct_gdp"]
+    top_improvement = data.movements.loc[scaled.idxmax()]
+    top_deterioration = data.movements.loc[scaled.idxmin()]
 
     latest_ssf_accounts = _latest(data.ssf)
     systems_first = data.ss_systems.sort_values("year").iloc[0]
     systems_latest = _latest(data.ss_systems)
+
+    # How close General Government and Central Government actually track, rather
+    # than an appeal to how close they look on a chart.
+    aggregate_ratio = data.balances["general_government_balance_pct_gdp"]
+    central_ratio = data.balances["central_government_balance_pct_gdp"]
+
+    # Sign robustness, verified rather than asserted. A methodological revision
+    # could in principle flip a small balance across zero; in the two overlaps this
+    # panel retains, none does.
+    overlap_signs = int(
+        (
+            np.sign(data.overlap["historical_1995_m_eur"])
+            == np.sign(data.overlap["modern_1995_m_eur"])
+        ).sum()
+    )
+    comparison = data.source_comparison
+    agreeing = 0
+    compared = 0
+    for prefix in ("general_government", "central_government", "regional_local", "social_security"):
+        left = comparison[f"{prefix}_balance_m_eur"]
+        right = comparison[f"cfp_{prefix}_balance_m_eur"]
+        both = left.notna() & right.notna()
+        compared += int(both.sum())
+        agreeing += int((np.sign(left[both]) == np.sign(right[both])).sum())
+
+    # The latest annual change in the Social Security balance, by account.
+    ssf_change_latest = _latest(data.ss_change)
 
     macros: dict[str, str] = {
         # Build identity. Deliberately the repository version and not a build date:
@@ -210,8 +235,24 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
         "TopImprovementPct": _ratio(top_improvement["aggregate_change_pct_gdp"]),
         "TopDeteriorationYear": str(int(top_deterioration["year"])),
         "TopDeteriorationPct": _ratio(top_deterioration["aggregate_change_pct_gdp"]),
-        "HistoricalEpisodes": str(len(historical_improvements) + len(historical_deteriorations)),
-        "MovementsPerDirection": str(int(len(improvements))),
+        "MovementsPerRegime": str(int(data.movements["rank_in_regime"].max())),
+        # How closely the aggregate tracks Central Government.
+        "AggregateCentralCorrelation": _ratio(aggregate_ratio.corr(central_ratio), 3),
+        "AggregateCentralMedianGap": _ratio((aggregate_ratio - central_ratio).abs().median()),
+        # Sign robustness across the retained source overlaps.
+        "OverlapSignAgreements": str(overlap_signs),
+        "OverlapSignTotal": str(int(len(data.overlap))),
+        "SourceSignAgreements": str(agreeing),
+        "SourceSignComparisons": str(compared),
+        # The latest annual movement in the Social Security balance, by account.
+        "SsfChangeYear": str(int(ssf_change_latest["year"])),
+        "SsfChangeTotal": _money(ssf_change_latest["balance_change_m_eur"]),
+        "SsfChangeContributions": _money(ssf_change_latest["contributions_contribution_m_eur"]),
+        "SsfChangeOtherRevenue": _money(ssf_change_latest["other_revenue_contribution_m_eur"]),
+        "SsfChangeTransfers": _money(ssf_change_latest["social_transfers_contribution_m_eur"]),
+        "SsfChangeOtherExpenditure": _money(
+            ssf_change_latest["other_expenditure_contribution_m_eur"]
+        ),
     }
     return macros
 
@@ -267,19 +308,41 @@ def _table_files(data: ReportInputs) -> dict[str, str]:
         },
     )
     movements = _view(
-        data.movements,
+        _label_regimes(data.movements),
         {
-            "direction": "Direction",
+            "regime": "Regime",
+            "rank_in_regime": "Rank",
             "year": "Year",
             "aggregate_change_pct_gdp": "Change (\\% GDP)",
             "central_change_m_eur": "Central (M EUR)",
             "regional_local_change_m_eur": "Regional/local (M EUR)",
             "ssf_change_m_eur": "SSF (M EUR)",
-            "revenue_change_m_eur": "From revenue (M EUR)",
-            "expenditure_change_m_eur": "From expenditure (M EUR)",
+            "dominant_subsector": "Largest contributor",
         },
     )
-    movements["Direction"] = movements["Direction"].str.capitalize()
+    hierarchy = _view(
+        _label_regimes(data.movements),
+        {
+            "regime": "Regime",
+            "year": "Year",
+            "dominant_subsector": "Largest contributor",
+            "dominant_subsector_change_m_eur": "Its balance change (M EUR)",
+            "dominant_revenue_change_m_eur": "$\\Delta$ revenue (M EUR)",
+            "dominant_expenditure_change_m_eur": "$\\Delta$ expenditure (M EUR)",
+            "dominant_expenditure_contribution_m_eur": "Expenditure contribution (M EUR)",
+        },
+    )
+    ssf_change = _view(
+        data.ss_change.loc[data.ss_change["year"].ge(2018)],
+        {
+            "year": "Year",
+            "balance_change_m_eur": "Change in balance (M EUR)",
+            "contributions_contribution_m_eur": "Social contributions (M EUR)",
+            "other_revenue_contribution_m_eur": "Other revenue (M EUR)",
+            "social_transfers_contribution_m_eur": "Social transfers (M EUR)",
+            "other_expenditure_contribution_m_eur": "Other expenditure (M EUR)",
+        },
+    )
     signs = _view(
         _label_sectors(data.primary_signs),
         {
@@ -357,14 +420,37 @@ def _table_files(data: ReportInputs) -> dict[str, str]:
         ),
         "tab_movements.tex": latex.table(
             movements,
-            caption="The largest annual improvements and deteriorations, ranked on the change "
-            "scaled by current-year GDP, with the subsector and the revenue or expenditure "
-            "movements that composed each one.",
+            caption="The largest annual movements inside each statistical regime, ranked on the "
+            "absolute change scaled by current-year GDP.",
             label="movements",
             digits=0,
-            column_digits={"Change (\\% GDP)": 2},
-            note="1995 is excluded: the 1994-to-1995 change straddles the vintage splice in "
-            "both panels and mixes a statistical revision with an economic movement.",
+            column_digits={"Rank": 0, "Change (\\% GDP)": 2},
+            note="Ranking is within a regime rather than across both. Each annual change is "
+            "computed inside one source family, so the changes are sound, but ordering "
+            "historical against modern episodes by size would compare two methodologies. 1995 "
+            "is excluded: that change straddles the splice in both panels.",
+        ),
+        "tab_hierarchy.tex": latex.table(
+            hierarchy,
+            caption="The same episodes, with the subsector accounting for most of each move "
+            "split into its own revenue and expenditure changes.",
+            label="hierarchy",
+            digits=0,
+            note="The split is of the named subsector, not of the aggregate. Expenditure enters "
+            "the balance negatively, so the final column is minus the expenditure change; it is "
+            "that column which adds to the revenue change to give the subsector's balance "
+            "change.",
+        ),
+        "tab_ssfchange.tex": latex.table(
+            ssf_change,
+            caption="Contributions to the annual change in the Social Security balance. Each "
+            "column carries the sign with which the term enters the balance, so the four add to "
+            "the change.",
+            label="ssfchange",
+            digits=0,
+            note="A rise in social transfers appears as a negative contribution, because "
+            "expenditure reduces the balance. The plain expenditure change would have the "
+            "opposite sign and could not be added to the revenue terms.",
         ),
         "tab_primarysigns.tex": latex.table(
             signs,

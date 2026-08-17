@@ -34,6 +34,89 @@ def social_security_account_metrics(accounts: pd.DataFrame) -> pd.DataFrame:
     return frame.sort_values("year").reset_index(drop=True)
 
 
+#: Modern expenditure components that sum to total Social Security expenditure.
+_SSF_EXPENDITURE_PARTS: tuple[str, ...] = (
+    "social_transfers_m_eur",
+    "compensation_m_eur",
+    "intermediate_consumption_m_eur",
+    "subsidies_m_eur",
+    "interest_m_eur",
+    "other_current_expenditure_m_eur",
+    "capital_expenditure_m_eur",
+)
+
+
+def ssf_balance_change_decomposition(accounts: pd.DataFrame) -> pd.DataFrame:
+    """Decompose each annual change in the Social Security balance into its accounts.
+
+    The balance identity differences exactly,
+
+        dB = dR - dE,
+
+    and each side splits further. On the revenue side the split is available for
+    the whole detailed panel: contributions against everything else. On the
+    expenditure side the component detail exists only for the modern period, so
+    social transfers are separated from the remainder there and left missing
+    before.
+
+    Signs are the point of this table. Expenditure enters the balance negatively,
+    so a rise in expenditure *reduces* the balance. Reporting ``dE`` beside ``dB``
+    invites the reader to add them, which is wrong. Every ``*_contribution_*``
+    column therefore carries the sign with which the term enters the balance
+    change, and those columns sum to ``dB``; the plain ``*_change_*`` columns are
+    the underlying movements, which do not.
+
+    No change is computed across the 1995-to-2000 source gap.
+    """
+    frame = accounts.loc[accounts["sector"].eq("social_security_funds")].sort_values("year").copy()
+    frame["other_revenue_m_eur"] = frame["total_revenue_m_eur"] - frame["social_contributions_m_eur"]
+    available = frame[list(_SSF_EXPENDITURE_PARTS)].notna().all(axis=1)
+    frame["other_expenditure_m_eur"] = np.where(
+        available, frame["total_expenditure_m_eur"] - frame["social_transfers_m_eur"], np.nan
+    )
+
+    levels = {
+        "balance": "balance_m_eur",
+        "revenue": "total_revenue_m_eur",
+        "expenditure": "total_expenditure_m_eur",
+        "contributions": "social_contributions_m_eur",
+        "other_revenue": "other_revenue_m_eur",
+        "social_transfers": "social_transfers_m_eur",
+        "other_expenditure": "other_expenditure_m_eur",
+    }
+    out = frame[["year", "statistical_regime"]].copy()
+    out["year_gap"] = frame["year"].diff()
+    for name, column in levels.items():
+        out[f"{name}_change_m_eur"] = frame[column].diff()
+    # A change is only meaningful between adjacent source years.
+    change_columns = [f"{name}_change_m_eur" for name in levels]
+    out.loc[out["year_gap"].ne(1), change_columns] = np.nan
+
+    # Contributions to the balance change: revenue enters positively, expenditure
+    # negatively. These are the columns that add up to the balance change.
+    out["contributions_contribution_m_eur"] = out["contributions_change_m_eur"]
+    out["other_revenue_contribution_m_eur"] = out["other_revenue_change_m_eur"]
+    out["social_transfers_contribution_m_eur"] = -out["social_transfers_change_m_eur"]
+    out["other_expenditure_contribution_m_eur"] = -out["other_expenditure_change_m_eur"]
+
+    out["revenue_split_error_m_eur"] = out["revenue_change_m_eur"] - (
+        out["contributions_change_m_eur"] + out["other_revenue_change_m_eur"]
+    )
+    out["expenditure_split_error_m_eur"] = out["expenditure_change_m_eur"] - (
+        out["social_transfers_change_m_eur"] + out["other_expenditure_change_m_eur"]
+    )
+    out["balance_identity_error_m_eur"] = out["balance_change_m_eur"] - (
+        out["revenue_change_m_eur"] - out["expenditure_change_m_eur"]
+    )
+    out["contribution_closure_error_m_eur"] = out["balance_change_m_eur"] - (
+        out["contributions_contribution_m_eur"]
+        + out["other_revenue_contribution_m_eur"]
+        + out["social_transfers_contribution_m_eur"]
+        + out["other_expenditure_contribution_m_eur"]
+    )
+    return out.dropna(subset=["balance_change_m_eur"]).reset_index(drop=True)
+
+
 def ssf_accounting_boundary_comparison(
     balance_panel: pd.DataFrame,
     system_balances: pd.DataFrame,

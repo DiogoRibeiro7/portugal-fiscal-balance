@@ -18,12 +18,14 @@ mandates, and different legal constraints on borrowing. Their balances are
 therefore determined by different things, and there is no reason to expect them to
 move together.
 
-Aggregation hides that. In \LatestYear\ Portugal's positive aggregate balance was
+Aggregation obscures that. In \LatestYear\ Portugal's positive aggregate balance was
 the sum of a Central Government balance of \LatestCentral\ million euro, a Regional
 and Local balance of \LatestRegional\ million, and a Social Security Funds balance
 of \LatestSsf\ million. The headline figure and the composition behind it support
-quite different descriptions of the same year, and only the headline figure is
-routinely reported.
+quite different descriptions of the same year. The aggregate is what fiscal targets
+attach to and what receives most of the attention; the subsector decomposition,
+although published and regularly discussed by fiscal institutions, has attracted
+much less attention as a long-run object.
 
 \subsection{Research questions}
 
@@ -34,9 +36,16 @@ This paper addresses two questions.
 institutional subsectors since \PanelStart, and how persistent are the
 contributions of Central Government, Regional and Local Government, and Social
 Security Funds?}
-\item \textbf{What accounting mechanisms account for the changing contribution of
-the Social Security Funds, particularly in the recent period?}
+\item \textbf{How is the Social Security Funds balance composed, which account
+movements produce its annual changes, and how does its national-accounts boundary
+relate to the internal Social Security budget systems?}
 \end{enumerate}
+
+The second question is deliberately posed at the level of accounts rather than of
+economic mechanism. We decompose the change in the balance into the revenue and
+expenditure movements that produced it, which locates the change; we do not identify
+what caused those movements, which would require a model of the contribution base,
+entitlement rules and demographics that this paper does not build.
 
 Both are descriptive questions about recorded quantities, and we answer them as
 such. The central object is an accounting identity,
@@ -79,6 +88,21 @@ Stabilisation Fund in the same context \citep{cfp_fefss}. This literature is
 concerned with the system's own finances and its long-run adequacy, rather than
 with the arithmetic by which that system's balance enters the national aggregate.
 
+The Council's monitoring publications are more directly relevant still, and they
+bear on what this paper may claim as new. Reporting on \LatestYear,
+\citet{cfp_outturn2025} records a general-government surplus alongside a Central
+Government deficit that widened for a second consecutive year, and states that the
+Social Security Funds continued to be a key factor in the aggregate result; the
+companion report on the Social Security accounts attributes the improvement in the
+system's budget balance to revenue growth exceeding expenditure growth, with social
+contributions the main driver \citep{cfp_ss_outturn2025}. \textbf{The recent pattern
+this paper documents is therefore already identified, for the recent years, by
+Portugal's independent fiscal institution.} We are explicit about that rather than
+presenting it as a discovery. It also provides an external check on our extraction:
+the Council's figure for the \LatestYear\ Social Security budget balance is
+\SsfBudgetLatest\ million euro, which is exactly the total we obtain by summing the
+three budget systems.
+
 A fourth strand is relevant less as a precedent than as a caution. Work on
 stock-flow adjustments has shown that the reported balance is an incomplete account
 of what happens to debt: \citet{vonhagen2006} find that debt accumulates by more
@@ -90,13 +114,21 @@ it the discipline that a balance is a recorded accounting quantity whose relatio
 to anything else has to be demonstrated rather than assumed --- which is why this
 paper stops at the accounting and says so.
 
-To our knowledge no study assembles and analyses the subsector composition of the
-Portuguese general-government balance systematically over a window of this length.
-We state that as a gap in the work we have found rather than as a claim of
-priority: the underlying series are published, and any competent user of the
-Eurostat or CFP data could construct parts of what follows. The contribution is in
-the assembly, the harmonisation, the discipline applied to the resulting statistics
-and the reproducibility of the whole, not in access to anything unavailable.
+Taken together, these strands locate what is left open. The framework supplies the
+subsector definitions and the data. The academic literature on Portugal works at the
+aggregate level over long horizons. The Council documents the subsector composition
+in detail, but for the recent years and as monitoring rather than as a long-run
+series. What we have not found is a systematic treatment of the composition itself
+over a window of this length: the persistence of each subsector's sign, the
+regime-dependence of the magnitudes, the attribution of annual movements, and the
+relation between the two Social Security accounting boundaries.
+
+We state that as a gap in the work we have found, not as a claim of priority. The
+series are published; a competent user of the Eurostat or Council data could
+construct parts of what follows; and the recent pattern is, as noted, already public.
+The contribution lies in the assembly over five decades, the harmonisation across a
+methodological break, the discipline applied to the resulting statistics, and the
+reproducibility of the whole.
 
 \subsection{Contribution}
 
@@ -122,9 +154,16 @@ rather than pooled across the splice. Pooling is not a presentational choice her
 the aggregate balance averages \GgMeanHistorical\% of GDP before 1995 and
 \GgMeanModern\% after, and the pooled \GgMeanPooled\% describes neither period.
 
-\item \textbf{Attribution of the largest episodes to revenue and expenditure.} The
-largest annual improvements and deteriorations, each attributed to a subsector and
-then to the revenue and expenditure movements that composed it.
+\item \textbf{Hierarchical attribution of the largest episodes.} The largest annual
+movements inside each regime, each attributed to a subsector and then --- for that
+same subsector, not for the aggregate --- to its own revenue and expenditure
+movements.
+
+\item \textbf{A decomposition of the Social Security balance change.} Each annual
+change in the Social Security balance split into the account movements that produced
+it: contributions, other revenue, social transfers and other expenditure, each
+carrying the sign with which it enters the balance so that the four terms add to the
+change.
 
 \item \textbf{Two Social Security boundaries, separated and quantified.} The
 ESA 2010 Social Security Funds sector and the budget-execution systems published by
@@ -148,36 +187,44 @@ aggregate balance is positive in \NumPositiveYears\
 \CentralNegativeYears\ observations. The Social Security balance is positive in
 \SsfPositiveYears, with a longest unbroken run of \SsfLongestPositiveRun\ years.
 Regional and Local Government is the only subsector that changes sign with any
-regularity, and it is small in both directions.
+regularity, and it is small in both directions. The aggregate tracks Central
+Government closely: their GDP ratios correlate at \AggregateCentralCorrelation\ with
+a median absolute gap of \AggregateCentralMedianGap\ percentage points of GDP.
 
 In each of the \NumPositiveYears\ years with a positive aggregate balance, the
-combined non-Social-Security balance is negative and the Social Security balance
-exceeds it in absolute size. In \LatestYear\ the non-Social-Security balance was
-\LatestNonSsf\ million euro against a Social Security balance of \LatestSsf\
-million, an offset ratio of \LatestOffset. This is an arithmetic relation between
-two recorded numbers and we do not present it as anything else.
+combined non-Social-Security balance is negative. That is the empirical content of
+the observation, and it is worth isolating: once $\Bgg_t > 0$ and $\Bnonssf_t < 0$
+are both established, it follows from the identity that
+$\Bssf_t > |\Bnonssf_t|$, so the third condition is arithmetic rather than a
+separate finding. What remains to be quantified is the magnitude. In \LatestYear\ the
+non-Social-Security balance was \LatestNonSsf\ million euro against a Social Security
+balance of \LatestSsf\ million, an offset ratio of \LatestOffset.
 
 Magnitudes are regime-dependent and must be read that way. The Central Government
 balance averages \CentralMeanHistorical\% of GDP over \PanelStart--1994 and
 \CentralMeanModern\% over 1995--\PanelEnd; the Social Security balance rises from
 \SsfMeanHistorical\% to \SsfMeanModern\%.
 
-The headline sign is not the underlying sign. Central Government records a negative
-balance in every year of the panel, but its primary balance --- the balance
-excluding interest --- is positive in \PrimaryPositiveYears\ of the
-\PrimaryObservedYears\ years for which the detailed accounts exist, from
-\PrimaryPositiveFirst\ to \PrimaryPositiveLast. Interest averaged
-\InterestMeanPct\% of GDP over that panel and peaked at \InterestPeakPct\%. Both
-statements are descriptive and they are not in conflict; interest is the arithmetic
-that separates them. A conclusion that Central Government runs a permanent
-underlying deficit does not follow from the headline series.
+A persistently negative headline balance does not imply a persistently negative
+primary balance. Central Government records a negative B.9 in every year of the
+panel, but its primary balance --- the balance excluding interest --- is positive in
+\PrimaryPositiveYears\ of the \PrimaryObservedYears\ years for which the detailed
+accounts exist, from \PrimaryPositiveFirst\ to \PrimaryPositiveLast. Interest
+averaged \InterestMeanPct\% of GDP over that panel and peaked at
+\InterestPeakPct\%, and that is the arithmetic separating the two series. We use
+``primary balance'' throughout and avoid calling it an underlying balance, which
+would suggest a structural or cyclically adjusted measure that this paper does not
+compute.
 
-Finally, the recent movement in the Social Security position is concentrated in one
-of the two internal budget systems. The Previdential balance moves from
-\PrevidentialFirst\ million euro in \PrevidentialFirstYear\ to
-\PrevidentialLatest\ million in \LatestYear, while the Citizenship balance stays
-small in both directions and stands at \CitizenshipLatest\ million. That is a
-description of the published series and not an account of what caused it.
+Finally, on the Social Security side, the annual change decomposes into its accounts.
+In \SsfChangeYear\ the balance rose by \SsfChangeTotal\ million euro, with social
+contributions contributing \SsfChangeContributions\ million and other revenue
+\SsfChangeOtherRevenue\ million, against \SsfChangeTransfers\ million from social
+transfers and \SsfChangeOtherExpenditure\ million from other expenditure. Within the
+internal budget systems, the movement over the published window is concentrated in
+the Previdential system, which goes from \PrevidentialFirst\ million euro in
+\PrevidentialFirstYear\ to \PrevidentialLatest\ million in \LatestYear\ while the
+Citizenship balance stays small in both directions at \CitizenshipLatest\ million.
 
 \subsection{Roadmap}
 

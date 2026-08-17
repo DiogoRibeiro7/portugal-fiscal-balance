@@ -5,7 +5,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from portugal_fiscal_balance.schemas import SECTOR_LABELS
+from portugal_fiscal_balance.schemas import SECTOR_LABELS, STATISTICAL_REGIMES
 
 #: Subsector change columns, in the order they contribute to the identity.
 _CHANGE_COLUMNS: dict[str, str] = {
@@ -62,20 +62,35 @@ def largest_balance_movements(
     top: int = 5,
     exclude_years: tuple[int, ...] = (1995,),
 ) -> pd.DataFrame:
-    """Rank the largest annual improvements and deteriorations, and attribute each one.
+    """Rank the largest annual movements inside each statistical regime.
 
-    Two attributions are joined for every episode. The subsector split comes from
-    the canonical balance panel and closes exactly. The revenue and expenditure
-    split comes from the detailed account panel, which is a different source
-    family, so the two measure the same change slightly differently; the residual
-    between them is carried as its own column rather than being reconciled away.
+    Ranking happens **within** a regime, not across both. Each annual change is
+    computed inside one source family, so the changes themselves are sound; but a
+    single table ordering historical against modern episodes by size would compare
+    two methodologies, which is exactly what the rest of this analysis refuses to
+    do for magnitudes. Two rankings of ``top`` episodes are produced instead.
 
-    1995 is excluded by default. The 1994-to-1995 change straddles the vintage
-    splice in both panels, so it mixes a statistical revision with an economic
-    movement and is not comparable with the other episodes.
+    The attribution is hierarchical. The aggregate change is split across
+    subsectors from the canonical balance panel, and then the subsector accounting
+    for most of the move is itself split into its own revenue and expenditure
+    changes from the detailed account panel. Earlier versions reported aggregate
+    revenue and expenditure beside a subsector attribution, which invited the
+    reader to connect two quantities that describe different entities.
+
+    The two panels are different source families and measure the same aggregate
+    change slightly differently; that residual is carried as its own column.
+
+    1995 is excluded by default: the 1994-to-1995 change straddles the vintage
+    splice in both panels and mixes a statistical revision with an economic
+    movement.
     """
     ranked = attribution.loc[~attribution["year"].isin(exclude_years)].copy()
     ranked = ranked.dropna(subset=["aggregate_change_pct_gdp"])
+    ranked["regime"] = np.where(
+        ranked["year"].le(STATISTICAL_REGIMES["1977-1994_historical"][1]),
+        "1977-1994_historical",
+        "1995-2025_modern",
+    )
 
     # Pick, for each year, the subsector with the largest absolute contribution.
     # Done with argmax over the value block rather than idxmax plus per-row
@@ -94,40 +109,78 @@ def largest_balance_movements(
         np.nan,
     )
 
+    # Aggregate revenue and expenditure, for the source-family residual only.
     general = revenue_expenditure.loc[
         revenue_expenditure["sector"].eq("general_government"),
-        ["year", "revenue_change_m_eur", "expenditure_change_m_eur", "balance_change_m_eur"],
+        ["year", "balance_change_m_eur"],
     ].rename(columns={"balance_change_m_eur": "account_balance_change_m_eur"})
     ranked = ranked.merge(general, on="year", how="left", validate="one_to_one")
     ranked["source_family_difference_m_eur"] = (
         ranked["aggregate_change_m_eur"] - ranked["account_balance_change_m_eur"]
     )
 
+    # The hierarchical step: split the dominant subsector's own movement. Joining on
+    # the sector as well as the year is what keeps the revenue and expenditure
+    # figures describing the same entity as the attribution above them.
+    label_to_sector = {SECTOR_LABELS[sector]: sector for sector in _CHANGE_COLUMNS.values()}
+    ranked["dominant_sector_key"] = ranked["dominant_subsector"].map(label_to_sector)
+    subsector = revenue_expenditure[
+        ["year", "sector", "revenue_change_m_eur", "expenditure_change_m_eur"]
+    ].rename(
+        columns={
+            "sector": "dominant_sector_key",
+            "revenue_change_m_eur": "dominant_revenue_change_m_eur",
+            "expenditure_change_m_eur": "dominant_expenditure_change_m_eur",
+        }
+    )
+    ranked = ranked.merge(
+        subsector, on=["year", "dominant_sector_key"], how="left", validate="one_to_one"
+    )
+    # Expenditure enters the balance negatively, so its contribution to the
+    # subsector's movement is minus the change. Carrying both makes the sign
+    # explicit instead of leaving it to the reader.
+    ranked["dominant_expenditure_contribution_m_eur"] = -ranked[
+        "dominant_expenditure_change_m_eur"
+    ]
+    ranked["dominant_split_error_m_eur"] = ranked["dominant_subsector_change_m_eur"] - (
+        ranked["dominant_revenue_change_m_eur"] - ranked["dominant_expenditure_change_m_eur"]
+    )
+
     frames: list[pd.DataFrame] = []
-    for direction, ascending in (("improvement", False), ("deterioration", True)):
-        ordered = ranked.sort_values("aggregate_change_pct_gdp", ascending=ascending)
+    for regime in STATISTICAL_REGIMES:
+        window = ranked.loc[ranked["regime"].eq(regime)]
+        ordered = window.reindex(
+            window["aggregate_change_pct_gdp"].abs().sort_values(ascending=False).index
+        )
         subset = ordered.head(top).copy()
-        subset["direction"] = direction
-        subset["rank"] = range(1, len(subset) + 1)
+        subset["rank_in_regime"] = range(1, len(subset) + 1)
         frames.append(subset)
 
+    combined = pd.concat(frames, ignore_index=True)
+    combined["direction"] = np.where(
+        combined["aggregate_change_pct_gdp"] > 0, "improvement", "deterioration"
+    )
     keep = [
-        "direction",
-        "rank",
+        "regime",
+        "rank_in_regime",
         "year",
+        "direction",
         "aggregate_change_m_eur",
         "aggregate_change_pct_gdp",
         "central_change_m_eur",
         "regional_local_change_m_eur",
         "ssf_change_m_eur",
         "dominant_subsector",
+        "dominant_subsector_change_m_eur",
         "dominant_subsector_share",
-        "revenue_change_m_eur",
-        "expenditure_change_m_eur",
+        "dominant_revenue_change_m_eur",
+        "dominant_expenditure_change_m_eur",
+        "dominant_expenditure_contribution_m_eur",
+        "dominant_split_error_m_eur",
         "account_balance_change_m_eur",
         "source_family_difference_m_eur",
     ]
-    return pd.concat(frames, ignore_index=True)[keep]
+    return combined[keep]
 
 
 def revenue_expenditure_change_decomposition(accounts: pd.DataFrame) -> pd.DataFrame:

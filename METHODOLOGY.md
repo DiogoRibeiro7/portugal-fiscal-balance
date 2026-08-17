@@ -194,7 +194,33 @@ The first is used for the B.9 decomposition. The second is used for the internal
 
 The repository does not subtract all State transfers from the SSF balance and label the result an underlying balance.
 
-### 10.1 Quantifying the boundary, not closing it
+### 10.1 Decomposing the annual change
+
+`ssf_balance_change_decomposition.csv` splits each annual change in the Social Security
+balance into the account movements that produced it:
+
+\[
+\Delta B^{SSF}_t
+=
+\underbrace{\Delta C_t+\Delta R^{oth}_t}_{\text{revenue}}
+\underbrace{-\Delta T_t-\Delta E^{oth}_t}_{\text{expenditure}},
+\]
+
+where \(C\) is social contributions and \(T\) social transfers paid. The revenue split covers
+the whole detailed panel; the expenditure split covers the modern period, where component
+detail exists.
+
+**Signs are enforced rather than left to the reader.** Expenditure enters the balance
+negatively, so each term is also reported as a *contribution* carrying that sign. The
+contribution columns sum to the balance change; the raw change columns do not. Reporting
+\(\Delta E\) beside \(\Delta B\) invites adding two quantities of opposite sign, which is the
+error this convention removes.
+
+The decomposition locates a movement in the accounts. It does not explain it: a contributory
+balance responds to employment, wages, contribution rates, entitlement rules and demographics
+at once. Section 15.1 states what a specification with an actual mechanism would look like.
+
+### 10.2 Quantifying the boundary, not closing it
 
 `ssf_accounting_boundary_comparison.csv` places the two side by side and reports their
 difference. They are never added, netted or reconciled: they are different accounting

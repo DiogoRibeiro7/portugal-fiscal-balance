@@ -62,3 +62,53 @@ jobs:
 
       - name: Mypy
         run: poetry run mypy src
+
+  documents:
+    name: Build LaTeX Documents
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # The Python tests check the documents' structure with regular expressions:
+      # that every macro resolves, every citation has an entry, every figure
+      # exists. They cannot catch a missing package, a BibTeX error or any other
+      # real LaTeX failure. Compiling here closes that gap, so a document that
+      # does not build cannot reach main on the strength of passing tests.
+      - name: Install a LaTeX toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            latexmk texlive-latex-recommended texlive-latex-extra \
+            texlive-fonts-recommended texlive-bibtex-extra biber
+
+      - name: Build the technical report
+        run: latexmk -pdf -interaction=nonstopmode -halt-on-error -cd report/report.tex
+
+      - name: Build the manuscript
+        run: latexmk -pdf -interaction=nonstopmode -halt-on-error -cd paper/paper.tex
+
+      # An unresolved reference still compiles. Fail on it explicitly, because a
+      # published PDF showing "??" is a defect the exit code would otherwise hide.
+      - name: Reject unresolved citations and references
+        run: |
+          status=0
+          for log in report/report.log paper/paper.log; do
+            if grep -Eq "Citation .* undefined|Reference .* undefined|There were undefined references" "$log"; then
+              echo "Unresolved references in $log:"
+              grep -E "Citation .* undefined|Reference .* undefined" "$log" || true
+              status=1
+            fi
+          done
+          exit $status
+
+      - name: Upload the built PDFs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: documents
+          path: |
+            report/report.pdf
+            paper/paper.pdf
+          if-no-files-found: error

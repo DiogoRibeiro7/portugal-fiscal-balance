@@ -21,7 +21,7 @@ So the manuscript is split.
 
 ```text
 paper/
-├── main.tex             authored — preamble and document structure
+├── paper.tex            authored — preamble and document structure
 ├── sections/            authored — the prose, one file per section
 ├── references.bib       authored — every entry checked at the publisher
 └── generated/           WRITTEN BY THE PIPELINE — never edit

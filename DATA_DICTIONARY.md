@@ -73,19 +73,44 @@ movements on nominal euro effectively ranks them by how recent they are.
 
 ## `outputs/tables/largest_balance_movements.csv`
 
-The five largest annual improvements and the five largest deteriorations, ranked on
-`aggregate_change_pct_gdp`. 1995 is excluded because the 1994-to-1995 change straddles the
-vintage splice in both panels.
+The largest annual movements **within each statistical regime**, ranked on the absolute value
+of `aggregate_change_pct_gdp`. Ranking is per regime, not across both: each change is computed
+inside one source family, but ordering historical against modern episodes by size would compare
+two methodologies. 1995 is excluded because that change straddles the splice in both panels.
 
 | Column | Definition |
 |---|---|
-| `direction` | `improvement` or `deterioration` |
-| `rank` | Rank within that direction |
+| `regime`, `rank_in_regime` | Statistical regime and rank inside it |
+| `direction` | `improvement` or `deterioration`, derived from the sign |
 | `dominant_subsector` | Subsector with the largest absolute contribution, as a readable label |
+| `dominant_subsector_change_m_eur` | That subsector's own balance change |
 | `dominant_subsector_share` | Its contribution divided by the absolute aggregate change |
-| `revenue_change_m_eur`, `expenditure_change_m_eur` | General Government revenue and expenditure changes, from the detailed account panel |
-| `account_balance_change_m_eur` | The balance change as measured by the account panel |
-| `source_family_difference_m_eur` | Canonical minus account-panel measure of the same change. The two source families are not forced to agree, so this residual is carried rather than reconciled |
+| `dominant_revenue_change_m_eur`, `dominant_expenditure_change_m_eur` | **That subsector's** revenue and expenditure changes, from the detailed account panel |
+| `dominant_expenditure_contribution_m_eur` | Minus the expenditure change: the sign with which expenditure enters the balance |
+| `dominant_split_error_m_eur` | Subsector balance change minus (revenue − expenditure) change; the two source families are not forced to agree |
+| `account_balance_change_m_eur`, `source_family_difference_m_eur` | The aggregate change as measured by the account panel, and its gap from the canonical measure |
+
+The attribution is hierarchical: the revenue and expenditure columns describe the *named
+subsector*, not the aggregate, so both halves of the table refer to one entity.
+
+## `outputs/tables/ssf_balance_change_decomposition.csv`
+
+Each annual change in the Social Security balance split into the account movements that
+produced it. No change is computed across the 1995-to-2000 source gap.
+
+| Column | Definition |
+|---|---|
+| `balance_change_m_eur`, `revenue_change_m_eur`, `expenditure_change_m_eur` | The identity ΔB = ΔR − ΔE |
+| `contributions_change_m_eur`, `other_revenue_change_m_eur` | Revenue split; available for the whole detailed panel |
+| `social_transfers_change_m_eur`, `other_expenditure_change_m_eur` | Expenditure split; modern period only, where component detail exists |
+| `*_contribution_m_eur` | The same terms carrying the sign with which they enter the balance: revenue positive, expenditure negated |
+| `revenue_split_error_m_eur`, `expenditure_split_error_m_eur` | Residuals of the two splits |
+| `balance_identity_error_m_eur`, `contribution_closure_error_m_eur` | Residuals of ΔB = ΔR − ΔE and of the four contributions summing to ΔB |
+
+**Signs are the point of this table.** Expenditure enters the balance negatively, so a rise in
+social transfers *reduces* the balance. The `*_contribution_*` columns sum to the balance
+change; the plain `*_change_*` columns do not, and placing a raw expenditure change beside a
+balance change invites adding two quantities of opposite sign.
 
 ## `outputs/tables/persistence_by_regime.csv`
 

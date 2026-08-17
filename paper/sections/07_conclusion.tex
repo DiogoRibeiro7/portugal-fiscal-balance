@@ -9,18 +9,21 @@ The Central Government balance is negative in every one of the
 \CentralNegativeYears\ observations. The Social Security balance is positive in
 \SsfPositiveYears, with a longest unbroken run of \SsfLongestPositiveRun\ years.
 Regional and Local Government is the only subsector that changes sign with any
-regularity, and it is small in both directions. The aggregate is positive in
-\NumPositiveYears\ years, and in each of them the combined non-Social-Security
-balance is negative while the Social Security balance exceeds it in absolute size.
+regularity, and it is small in both directions. The aggregate tracks Central
+Government at a correlation of \AggregateCentralCorrelation. The aggregate is positive
+in \NumPositiveYears\ years, and in each of them the combined non-Social-Security
+balance is negative --- from which, given the identity, the rest of that year's
+composition follows.
 
 Two results cut against readings that the aggregate series invites.
 
 The first concerns Central Government. Its balance is negative throughout the panel,
 but its primary balance is positive in \PrimaryPositiveYears\ of the
 \PrimaryObservedYears\ years for which detailed accounts exist, from
-\PrimaryPositiveFirst\ to \PrimaryPositiveLast. A permanent headline deficit is not a
-permanent underlying one, and interest --- averaging \InterestMeanPct\% of GDP and
-peaking at \InterestPeakPct\% --- is the arithmetic that separates them.
+\PrimaryPositiveFirst\ to \PrimaryPositiveLast. A persistently negative B.9 does not
+imply a persistently negative primary balance, and interest --- averaging
+\InterestMeanPct\% of GDP and peaking at \InterestPeakPct\% --- is the arithmetic that
+separates them.
 
 The second concerns Social Security. The ESA 2010 Social Security Funds sector and
 the CFP budget-execution systems are different accounting objects whose balances
@@ -59,12 +62,14 @@ detail here and the years most likely to be restated by a later vintage.
 Three extensions follow naturally, in ascending order of what they would add.
 
 A wage-bill specification would give the Social Security results an economic
-mechanism, relating the change in contributions to the change in the aggregate wage
-bill rather than to aggregate nominal growth.
+mechanism. Equation~\eqref{eq:ssfchange} establishes that contributions dominate the
+recent balance changes; relating the change in contributions to the change in the
+aggregate wage bill $W_t = N_t \bar{w}_t$ would take that from an accounting location
+to an economic one.
 
-A decomposition of revenue into its components would sharpen the episode attribution
-of Table~\ref{tab:movements}, which currently uses totals and therefore cannot see
-composition shifts within revenue.
+A finer decomposition of revenue and expenditure would sharpen the episode attribution
+of Table~\ref{tab:hierarchy}, which uses subsector totals and therefore cannot see
+composition shifts within them.
 
 Most valuable would be a European benchmark. ESA 2010 requires the same subsector
 breakdown from every member state, and Eurostat and the ECB publish it

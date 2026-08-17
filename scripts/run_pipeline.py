@@ -50,6 +50,7 @@ from portugal_fiscal_balance.analysis.social_security import (  # noqa: E402
     social_security_account_metrics,
     social_security_internal_metrics,
     ssf_accounting_boundary_comparison,
+    ssf_balance_change_decomposition,
 )
 from portugal_fiscal_balance.analysis.transfers import transfer_reallocation_sensitivity  # noqa: E402
 from portugal_fiscal_balance.io import sha256_file, write_csv, write_json  # noqa: E402
@@ -170,6 +171,7 @@ def main() -> None:
     ss_accounts = social_security_account_metrics(account_panel)
     ss_system_metrics, ss_detail_metrics = social_security_internal_metrics(ss_systems, ss_detail)
     ss_boundary = ssf_accounting_boundary_comparison(balance_panel, ss_systems)
+    ss_change = ssf_balance_change_decomposition(account_panel)
     transfer_sensitivity = transfer_reallocation_sensitivity(historical.accounts, historical.transfers)
     nominal_comovement = nominal_gdp_comovement_regressions(macro_panel)
     labour_comovement = historical_ssf_labour_regression(macro_panel)
@@ -189,6 +191,7 @@ def main() -> None:
     write_csv(ss_system_metrics, TABLES / "social_security_system_metrics_2019_2025.csv")
     write_csv(ss_detail_metrics, TABLES / "social_security_detail_metrics_2024_2025.csv")
     write_csv(ss_boundary, TABLES / "ssf_accounting_boundary_comparison.csv")
+    write_csv(ss_change, TABLES / "ssf_balance_change_decomposition.csv")
     write_csv(transfer_sensitivity, TABLES / "historical_transfer_reallocation_sensitivity.csv")
     write_csv(nominal_comovement, TABLES / "nominal_gdp_balance_comovement.csv")
     write_csv(labour_comovement, TABLES / "historical_ssf_labour_comovement.csv")
@@ -255,6 +258,9 @@ def main() -> None:
         "13_ssf_budget_systems.png": figures.social_security_systems(ss_system_metrics),
         "14_ssf_accounting_boundary.png": figures.ssf_accounting_boundary(ss_boundary),
         "15_modern_source_differences.png": figures.modern_source_differences(source_comparison),
+        "16_ssf_balance_change_decomposition.png": figures.ssf_balance_change_decomposition(
+            ss_change, start_year=2001, end_year=int(ss_change["year"].max())
+        ),
     }
     for name, figure in persisted_figures.items():
         figures.save_figure(figure, FIGURES / name)

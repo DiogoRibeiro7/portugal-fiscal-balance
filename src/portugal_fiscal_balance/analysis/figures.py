@@ -264,6 +264,25 @@ def _last_observation(years: np.ndarray, values: np.ndarray) -> tuple[float, flo
     return float(years[index]), float(values[index])
 
 
+def _break_after(
+    years: np.ndarray, values: np.ndarray, year: int
+) -> tuple[np.ndarray, np.ndarray]:
+    """Insert a gap in the drawn path immediately after ``year``.
+
+    A vertical rule labelling the 1995 splice is a weaker signal than an actual
+    discontinuity: the eye follows an unbroken line straight across it and reads
+    continuity the caption is trying to deny. Splitting the path makes the two
+    source families visually separate series.
+    """
+    position = int(np.searchsorted(years, year, side="right"))
+    if position <= 0 or position >= len(years):
+        return years, values
+    return (
+        np.concatenate([years[:position], [np.nan], years[position:]]),
+        np.concatenate([values[:position], [np.nan], values[position:]]),
+    )
+
+
 def _line(
     ax: Axes,
     frame: pd.DataFrame,
@@ -272,11 +291,14 @@ def _line(
     label: str,
     colour: str,
     marker: str | None = None,
+    break_after: int | None = None,
 ) -> tuple[str, float, float, str] | None:
     """Plot one gap-aware series and return its end-label anchor."""
     years, values = _gap_aware(frame, column)
-    ax.plot(years, values, label=label, color=colour, marker=marker, zorder=3)
     end = _last_observation(years, values)
+    if break_after is not None:
+        years, values = _break_after(years, values, break_after)
+    ax.plot(years, values, label=label, color=colour, marker=marker, zorder=3)
     if end is None:
         return None
     return (label, end[0], end[1], colour)
@@ -319,7 +341,12 @@ def balances_by_subsector(
     title: str = "Portugal: fiscal balance by subsector, 1977-2025",
     splice_year: int | None = SPLICE_YEAR,
 ) -> Figure:
-    """Plot the four balance ratios that make up the core accounting identity."""
+    """Plot the four balance ratios that make up the core accounting identity.
+
+    Each series is drawn as two segments either side of the splice year, so the
+    change of source family is a visible discontinuity and not just a labelled
+    rule that an unbroken line runs straight through.
+    """
     fig, ax = _panel(title=title, ylabel="Net lending (+) / net borrowing (-), % GDP")
     anchors = [
         _line(
@@ -328,6 +355,7 @@ def balances_by_subsector(
             column,
             label=SECTOR_LABELS[sector],
             colour=SECTOR_COLOURS[sector],
+            break_after=None if splice_year is None else splice_year - 1,
         )
         for sector, column in SECTOR_BALANCE_PCT_GDP.items()
     ]
@@ -710,6 +738,79 @@ def social_security_systems(systems: pd.DataFrame) -> Figure:
         ],
     )
     _zero_rule(ax)
+    _legend(ax, ncol=3)
+    return fig
+
+
+def ssf_balance_change_decomposition(
+    decomposition: pd.DataFrame,
+    *,
+    start_year: int,
+    end_year: int,
+) -> Figure:
+    """Stack the account movements that compose each annual Social Security balance change.
+
+    Every layer is a *contribution to the balance change*, so expenditure layers
+    already carry their negative sign: a rise in social transfers appears below
+    zero because it reduces the balance. Plotting the raw expenditure change here
+    would put a bar above zero for a movement that worsened the balance, which is
+    the ambiguity this figure exists to remove.
+    """
+    frame = decomposition.loc[
+        decomposition["year"].between(start_year, end_year)
+    ].sort_values("year")
+    fig, ax = _panel(
+        title=(
+            "Contributions to the annual change in the Social Security balance, "
+            f"{start_year}-{end_year}"
+        ),
+        ylabel="Contribution to the balance change, million euro",
+        height=5.0,
+    )
+    _signed_stack(
+        ax,
+        frame["year"].to_numpy(dtype=float),
+        [
+            (
+                "Social contributions",
+                frame["contributions_contribution_m_eur"].to_numpy(dtype=float),
+                SERIES_COLOURS[2],
+            ),
+            (
+                "Other revenue",
+                frame["other_revenue_contribution_m_eur"].to_numpy(dtype=float),
+                SERIES_COLOURS[0],
+            ),
+            (
+                "Social transfers paid",
+                frame["social_transfers_contribution_m_eur"].to_numpy(dtype=float),
+                SERIES_COLOURS[1],
+            ),
+            (
+                "Other expenditure",
+                frame["other_expenditure_contribution_m_eur"].to_numpy(dtype=float),
+                SERIES_COLOURS[4],
+            ),
+        ],
+    )
+    ax.plot(
+        frame["year"],
+        frame["balance_change_m_eur"],
+        color=INK_PRIMARY,
+        linewidth=1.6,
+        label="Change in balance (identity total)",
+        zorder=4,
+    )
+    _zero_rule(ax)
+    ax.annotate(
+        "Expenditure layers carry the sign with which they enter the balance",
+        xy=(0.006, 0.02),
+        xycoords="axes fraction",
+        ha="left",
+        va="bottom",
+        fontsize=8.5,
+        color=INK_MUTED,
+    )
     _legend(ax, ncol=3)
     return fig
 

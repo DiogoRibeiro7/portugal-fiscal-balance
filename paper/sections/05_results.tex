@@ -21,9 +21,13 @@ Sources: Banco de Portugal / INE long series and INE via PORDATA.}
 \label{fig:longrun}
 \end{figure}
 
-That closeness is itself the first result. It says the aggregate balance has been
-predominantly a Central Government quantity in level terms, which is what makes the
-recent divergence at the right-hand edge of the figure notable rather than routine.
+That closeness is itself the first result, and it can be stated as a number rather
+than left to the eye. Over the full panel the General Government and Central
+Government ratios correlate at \AggregateCentralCorrelation, with a median absolute
+gap of \AggregateCentralMedianGap\ percentage points of GDP. The aggregate balance
+has been predominantly a Central Government quantity in level terms, which is what
+makes the divergence at the right-hand edge of the figure notable rather than
+routine.
 
 Figure~\ref{fig:contributions} draws the identity directly, stacking the signed
 subsector contributions against the aggregate total. Where a tall stack sits under a
@@ -72,11 +76,16 @@ The aggregate balance is positive in \NumPositiveYears\ of \PanelYears\ years:
 
 \input{generated/tab_positive}
 
-The composition is the same in all \NumPositiveYears. The combined
-non-Social-Security balance is negative, the Social Security balance is positive,
-and the latter exceeds the former in absolute size --- which is precisely the
-condition under which the offset ratio of Equation~\eqref{eq:offset} is defined and
-exceeds one. In \LatestYear\ the identity reads
+The composition is the same in all \NumPositiveYears, and it is worth being precise
+about which part of that is evidence. The empirical finding is that the combined
+non-Social-Security balance is \emph{negative} in every one of them. Given that and
+$\Bgg_t > 0$, the remaining two conditions --- that $\Bssf_t > 0$ and that
+$\Bssf_t > |\Bnonssf_t|$ --- follow from Equation~\eqref{eq:identity} rather than
+constituting separate results. Reporting all three as findings would present a
+consequence of the identity three times.
+
+What the identity does not fix is the magnitude, which is what the offset ratio of
+Equation~\eqref{eq:offset} measures. In \LatestYear\ the identity reads
 \[
 \LatestGg = \LatestCentral + \LatestRegional + \LatestSsf \quad \text{M EUR},
 \]
@@ -96,11 +105,8 @@ recorded quantities and is not a counterfactual.}
 \label{fig:offset}
 \end{figure}
 
-We restate the caution of Section~\ref{sec:framework} because this is the result
-most exposed to over-reading. That the ratio exceeds one in \LatestYear\ is a
-statement about the relative size of two published numbers. It is not a statement
-that the aggregate balance would have been negative under a different institutional
-arrangement, and the identity contains nothing that could support such a statement.
+The ratio relates two published numbers, on the terms set out in
+Section~\ref{sec:framework}.
 
 \subsection{Annual movements}
 
@@ -127,24 +133,43 @@ plotted separately because no change is computed through the 1995 splice.}
 \label{fig:attributionhistorical}
 \end{figure}
 
-Table~\ref{tab:movements} ranks the \MovementsPerDirection\ largest improvements and
-the \MovementsPerDirection\ largest deteriorations on that scaling, and attributes
-each to a subsector and then to the revenue and expenditure movements behind it.
+Table~\ref{tab:movements} ranks the \MovementsPerRegime\ largest movements
+\emph{inside each regime}. Ranking within a regime rather than across both is
+required by the same logic that splits the magnitudes in
+Table~\ref{tab:composition}: each annual change is computed inside one source family
+and is sound, but ordering historical against modern episodes by size would compare
+two methodologies.
 
 \input{generated/tab_movements}
 
-The scaling changes what the ranking shows, which is the point of using it.
-\HistoricalEpisodes\ of the ten episodes fall in the historical regime --- episodes
-that a nominal ranking places nowhere near the top, because the euro amounts
-involved are small relative to modern GDP. The largest single improvement is
-\TopImprovementYear\ at \TopImprovementPct\ percentage points of GDP and the largest
-deterioration is \TopDeteriorationYear\ at \TopDeteriorationPct.
+The scaling is what makes the exercise possible at all. On nominal euro the historical
+regime has no large episodes, because the amounts are small relative to modern GDP;
+on the GDP scale its movements are comparable to the modern ones. The largest single
+improvement in the table is \TopImprovementYear\ at \TopImprovementPct\ percentage
+points of GDP, and the largest deterioration \TopDeteriorationYear\ at
+\TopDeteriorationPct.
 
-Central Government accounts for the largest share of every one of the ten episodes.
-Given that it also carries the level of the aggregate balance
-(Section~\ref{sec:results}), this is less surprising than it first appears, and it
-is worth stating what it does not mean: the subsector accounting arithmetically for
-a movement has not been shown to have produced it.
+The two regimes differ in a way the ranking exposes. In the historical regime the
+five largest movements are all deteriorations; the large improvements of that period
+are smaller in absolute size than its large deteriorations. The modern regime contains
+both.
+
+Central Government accounts for the largest share of every episode in the table.
+Given that it also carries the level of the aggregate balance, at the correlation
+reported above, this is less surprising than it first appears.
+
+Table~\ref{tab:hierarchy} takes each episode one level further, splitting the
+dominant subsector's own movement into its revenue and expenditure changes. The split
+is of that subsector and not of the aggregate, which is what allows the two tables to
+be read together.
+
+\input{generated/tab_hierarchy}
+
+Reading the signs matters here. Expenditure enters the balance negatively, so the
+final column reports minus the expenditure change; it is that column, added to the
+revenue change, which gives the subsector's balance change. The 2011 improvement, for
+instance, comes overwhelmingly from expenditure falling rather than from revenue
+rising, and the 2021 improvement from revenue rising while expenditure also rose.
 
 \subsection{Social Security mechanisms}
 
@@ -165,6 +190,44 @@ source family.}
 \label{fig:ssfshare}
 \end{figure}
 
+\paragraph{Where the annual change comes from.} The contribution share describes
+composition; it does not say what moved the balance. Equation~\eqref{eq:ssfchange}
+does, and Table~\ref{tab:ssfchange} reports it for the recent years.
+
+\input{generated/tab_ssfchange}
+
+In \SsfChangeYear\ the balance rose by \SsfChangeTotal\ million euro. Social
+contributions contributed \SsfChangeContributions\ million and other revenue
+\SsfChangeOtherRevenue\ million; social transfers contributed
+\SsfChangeTransfers\ million and other expenditure
+\SsfChangeOtherExpenditure\ million. The pattern across the recent years is the same
+in each: contributions are the largest positive term and social transfers the largest
+negative one, with the balance change being the residual of two large and partly
+offsetting movements. Figure~\ref{fig:ssfchange} shows the full modern window.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{16_ssf_balance_change_decomposition.png}
+\caption{Contributions to the annual change in the Social Security balance,
+2001--\PanelEnd, in million euro. Each layer carries the sign with which it enters the
+balance, so layers above zero raised the balance that year and layers below zero
+reduced it; the black line is the identity total.}
+\label{fig:ssfchange}
+\end{figure}
+
+This is consistent with what the Council reports for \LatestYear\ from the budget
+accounts, namely that revenue growth exceeded expenditure growth with contributions
+the main driver \citep{cfp_ss_outturn2025}. Our decomposition is on the
+national-accounts boundary rather than the budget one, so the two are not the same
+arithmetic; the agreement in direction and in the dominant term is nevertheless a
+useful external check.
+
+What the decomposition does not do is explain the movement. A contributory balance
+responds to employment, wages, contribution rates, entitlement rules and demographics
+at once, and separating those requires a model of the contribution base that this
+paper does not build. Section~\ref{sec:robustness} says what such a specification
+would look like.
+
 \paragraph{The budget-execution layer.} The CFP publishes the system decomposed into
 the Previdential system, the Social Protection of Citizenship system and special
 regimes. These are budget-execution aggregates on a different accounting boundary.
@@ -183,11 +246,8 @@ The movement is concentrated in one system. The Previdential balance goes from
 \PrevidentialLatest\ million in \LatestYear, while the Citizenship balance stays
 small in both directions, standing at \CitizenshipLatest\ million in \LatestYear.
 Since contributions are the dominant revenue item of the Previdential system, and
-since the contribution share of national-accounts revenue rose over the same years,
-the two layers are telling a consistent story about where the movement sits. Neither
-identifies why it happened, and we do not speculate: a contributory balance moves
-with employment, wages, contribution rates, entitlement rules and demographics
-simultaneously, and separating them needs a model this paper does not build.
+since they are also the dominant positive term in the national-accounts decomposition
+above, the two layers place the movement in the same part of the accounts.
 
 \paragraph{Why the two layers must not be interchanged.} This is a methodological
 result, and it is the one we would most want a reader to carry away.
@@ -219,11 +279,11 @@ documents is not the figure that enters the national-accounts identity, and
 substituting one for the other introduces an error of a few hundred million euro
 without any signal that it has happened. We therefore report both and add neither.
 
-\subsection{Primary balance: the headline sign is not the underlying sign}
+\subsection{A persistently negative B.9 is not a persistently negative primary balance}
 
 The Central Government balance is negative in all \CentralNegativeYears\ years of
-the panel. Read alone, that invites a strong conclusion: that the subsector runs an
-underlying deficit throughout. The detailed accounts do not support it.
+the panel. Read alone, that invites a strong conclusion: that the subsector is in
+deficit on every measure. The detailed accounts do not support it.
 
 The primary balance is reconstructed as $PB_{i,t} = B_{i,t} + I_{i,t}$, where $I$ is
 interest expenditure, and checked against the published primary-balance row.
@@ -252,9 +312,11 @@ headline balance does not. The line breaks at 1996--1999.}
 
 Both statements are descriptive and they do not conflict. The correct summary is
 that the Central Government B.9 is negative throughout the panel \emph{and} that its
-primary balance is positive in a non-trivial minority of the observed years.
+primary balance is positive in a non-trivial minority of the observed years. We call
+the second quantity the primary balance and not an underlying or structural balance:
+it removes interest and nothing else, and in particular it is neither cyclically
+adjusted nor net of temporary measures.
 
-The symmetric caution applies. A positive primary balance is not a sustainability
-result: it excludes interest by construction and therefore says nothing about the
-debt path, which depends on the interest burden it removes. Neither series, on its
-own, licenses a conclusion about sustainability.
+Symmetrically, a positive primary balance is not a sustainability result. It excludes
+interest by construction and therefore says nothing about the debt path, which depends
+on precisely the burden it removes.

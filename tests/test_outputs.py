@@ -136,22 +136,27 @@ def test_gdp_scaled_attribution_decomposes_as_exactly_as_the_level_version() -> 
     assert float(scaled_residual.abs().max()) < 1e-3
 
 
-def test_largest_movements_rank_on_gdp_scale_and_exclude_the_splice() -> None:
-    """Ranking on nominal euro would rank episodes by how recent they are."""
+def test_largest_movements_rank_within_each_regime_not_across_them() -> None:
+    """Ranking across the splice would order two methodologies by size."""
     movements = _read_csv(Path("outputs/tables/largest_balance_movements.csv"))
-    assert len(movements) == 10
-    assert movements["direction"].value_counts().to_dict() == {
-        "improvement": 5,
-        "deterioration": 5,
-    }
+    assert set(movements["regime"]) == {"1977-1994_historical", "1995-2025_modern"}
     assert 1995 not in movements["year"].tolist()
 
-    improvements = movements.loc[movements["direction"].eq("improvement")]
-    deteriorations = movements.loc[movements["direction"].eq("deterioration")]
-    assert (improvements["aggregate_change_pct_gdp"] > 0).all()
-    assert (deteriorations["aggregate_change_pct_gdp"] < 0).all()
-    assert improvements["aggregate_change_pct_gdp"].is_monotonic_decreasing
-    assert deteriorations["aggregate_change_pct_gdp"].is_monotonic_increasing
+    for regime, group in movements.groupby("regime"):
+        ordered = group.sort_values("rank_in_regime")
+        assert ordered["rank_in_regime"].tolist() == list(range(1, len(ordered) + 1))
+        # Ranking is on absolute size, so magnitudes must fall down the ranking.
+        magnitudes = ordered["aggregate_change_pct_gdp"].abs().tolist()
+        assert magnitudes == sorted(magnitudes, reverse=True), f"Bad ordering in {regime}"
+        # Every year must belong to the regime it is ranked in.
+        if regime == "1977-1994_historical":
+            assert ordered["year"].between(1977, 1994).all()
+        else:
+            assert ordered["year"].between(1995, 2025).all()
+
+    directions = movements["direction"]
+    assert (movements.loc[directions.eq("improvement"), "aggregate_change_pct_gdp"] > 0).all()
+    assert (movements.loc[directions.eq("deterioration"), "aggregate_change_pct_gdp"] < 0).all()
 
     # Ranking on the GDP scale must actually change the selection, otherwise the
     # scaling would be decorative.
@@ -160,10 +165,86 @@ def test_largest_movements_rank_on_gdp_scale_and_exclude_the_splice() -> None:
         attribution.reindex(
             attribution["aggregate_change_m_eur"].abs().sort_values(ascending=False).index
         )
-        .head(10)["year"]
+        .head(len(movements))["year"]
         .tolist()
     )
     assert set(movements["year"]) != nominal_top
+
+
+def test_movement_attribution_is_hierarchical_not_parallel() -> None:
+    """The revenue/expenditure split must describe the subsector it sits beside.
+
+    Reporting aggregate revenue and expenditure next to a subsector attribution
+    invites the reader to connect quantities that describe different entities.
+    """
+    movements = _read_csv(Path("outputs/tables/largest_balance_movements.csv"))
+    changes = _read_csv(Path("outputs/tables/revenue_expenditure_change_decomposition.csv"))
+    labels = {
+        "Central Government": "central_government",
+        "Regional and Local": "regional_local_government",
+        "Social Security Funds": "social_security_funds",
+    }
+    for row in movements.itertuples(index=False):
+        source = changes.loc[
+            changes["sector"].eq(labels[row.dominant_subsector]) & changes["year"].eq(row.year)
+        ]
+        assert len(source) == 1, f"No account row for {row.dominant_subsector} in {row.year}"
+        assert np.isclose(row.dominant_revenue_change_m_eur, source["revenue_change_m_eur"].iloc[0])
+        assert np.isclose(
+            row.dominant_expenditure_change_m_eur, source["expenditure_change_m_eur"].iloc[0]
+        )
+        # The expenditure contribution carries the sign with which it enters the
+        # balance, which is the opposite of the raw change.
+        assert np.isclose(
+            row.dominant_expenditure_contribution_m_eur, -row.dominant_expenditure_change_m_eur
+        )
+    # The two source families measure the same subsector change slightly
+    # differently; the residual must stay at the sources' rounding scale.
+    assert float(movements["dominant_split_error_m_eur"].abs().max()) < 2.0
+
+
+def test_ssf_balance_change_decomposition_closes_on_contributions() -> None:
+    """The four contributions must add to the balance change, signs included."""
+    frame = _read_csv(Path("outputs/tables/ssf_balance_change_decomposition.csv"))
+    assert not frame.empty
+    assert float(frame["balance_identity_error_m_eur"].abs().max()) < 1e-6
+    assert float(frame["revenue_split_error_m_eur"].abs().max()) < 1e-6
+
+    detailed = frame.dropna(subset=["other_expenditure_contribution_m_eur"])
+    assert len(detailed) > 20, "Expenditure detail is missing for the modern period"
+    assert float(detailed["expenditure_split_error_m_eur"].abs().max()) < 1e-6
+    assert float(detailed["contribution_closure_error_m_eur"].abs().max()) < 1e-6
+
+    parts = (
+        detailed["contributions_contribution_m_eur"]
+        + detailed["other_revenue_contribution_m_eur"]
+        + detailed["social_transfers_contribution_m_eur"]
+        + detailed["other_expenditure_contribution_m_eur"]
+    )
+    assert np.allclose(parts, detailed["balance_change_m_eur"])
+
+
+def test_ssf_expenditure_contributions_oppose_their_raw_changes() -> None:
+    """A rise in expenditure must appear as a negative contribution to the balance."""
+    frame = _read_csv(Path("outputs/tables/ssf_balance_change_decomposition.csv"))
+    detailed = frame.dropna(subset=["social_transfers_change_m_eur"])
+    assert np.allclose(
+        detailed["social_transfers_contribution_m_eur"],
+        -detailed["social_transfers_change_m_eur"],
+    )
+    assert np.allclose(
+        detailed["other_expenditure_contribution_m_eur"],
+        -detailed["other_expenditure_change_m_eur"],
+    )
+    # Social transfers grew in most years, so their contribution is mostly negative.
+    assert (detailed["social_transfers_contribution_m_eur"] < 0).mean() > 0.5
+
+
+def test_no_change_is_computed_across_the_subsector_source_gap() -> None:
+    """The Social Security decomposition must not bridge 1995 to 2000."""
+    frame = _read_csv(Path("outputs/tables/ssf_balance_change_decomposition.csv"))
+    assert 2000 not in frame["year"].tolist(), "A change was computed across the gap"
+    assert frame.loc[frame["year"].between(1996, 1999)].empty
 
 
 def test_largest_movements_name_a_contributor_by_label_not_by_column() -> None:

@@ -41,6 +41,7 @@ ARTEFACT_INDEX: tuple[tuple[str, str, str], ...] = (
     ("Largest annual movements", "06_year_to_year_attribution", "outputs/tables/largest_balance_movements.csv"),
     ("Revenue and expenditure dynamics", "05_revenue_expenditure", "outputs/tables/revenue_expenditure_change_decomposition.csv"),
     ("Social Security Funds", "09_social_security_mechanisms", "outputs/tables/social_security_account_metrics.csv"),
+    ("Social Security balance-change decomposition", "09_social_security_mechanisms", "outputs/tables/ssf_balance_change_decomposition.csv"),
     ("Social Security accounting boundaries", "09_social_security_mechanisms", "outputs/tables/ssf_accounting_boundary_comparison.csv"),
     ("Primary balance and interest", "11_primary_balance", "outputs/tables/primary_balance_and_interest.csv"),
     ("Primary balance sign frequencies", "11_primary_balance", "outputs/tables/primary_balance_sign_summary.csv"),
@@ -65,6 +66,7 @@ class ReportInputs:
     annual: pd.DataFrame
     accounts: pd.DataFrame
     overlap: pd.DataFrame
+    source_comparison: pd.DataFrame
     attribution: pd.DataFrame
     movements: pd.DataFrame
     revenue_expenditure: pd.DataFrame
@@ -79,6 +81,7 @@ class ReportInputs:
     ss_systems: pd.DataFrame
     ss_detail: pd.DataFrame
     ss_boundary: pd.DataFrame
+    ss_change: pd.DataFrame
     primary: pd.DataFrame
     primary_signs: pd.DataFrame
     investment: pd.DataFrame
@@ -149,6 +152,7 @@ def load(root: Path) -> ReportInputs:
         annual=pd.read_csv(processed / "annual_balance_metrics_1977_2025.csv"),
         accounts=pd.read_csv(processed / "subsector_accounts_1977_2025.csv"),
         overlap=pd.read_csv(interim / "methodology_overlap_1995.csv"),
+        source_comparison=pd.read_csv(interim / "modern_source_comparison.csv"),
         attribution=pd.read_csv(tables / "balance_change_attribution.csv"),
         movements=pd.read_csv(tables / "largest_balance_movements.csv"),
         revenue_expenditure=pd.read_csv(tables / "revenue_expenditure_change_decomposition.csv"),
@@ -163,6 +167,7 @@ def load(root: Path) -> ReportInputs:
         ss_systems=pd.read_csv(tables / "social_security_system_metrics_2019_2025.csv"),
         ss_detail=pd.read_csv(tables / "social_security_detail_metrics_2024_2025.csv"),
         ss_boundary=pd.read_csv(tables / "ssf_accounting_boundary_comparison.csv"),
+        ss_change=pd.read_csv(tables / "ssf_balance_change_decomposition.csv"),
         primary=pd.read_csv(tables / "primary_balance_and_interest.csv"),
         primary_signs=pd.read_csv(tables / "primary_balance_sign_summary.csv"),
         investment=pd.read_csv(tables / "investment_diagnostic.csv"),
@@ -268,8 +273,8 @@ sharply across the 1995 statistical splice -- the aggregate balance averages
 {float(regime_gg.iloc[1]['mean_balance_pct_gdp']):.2f}\% after -- so no level statistic is
 pooled across it. Once interest is excluded, the Central Government primary balance is
 positive in {int(central_signs['primary_positive_years'])} of the
-{int(central_signs['n_years'])} years for which the detailed accounts exist, which is why the
-permanently negative headline balance cannot be read as a permanent underlying deficit.
+{int(central_signs['n_years'])} years for which the detailed accounts exist: a persistently
+negative B.9 does not imply a persistently negative primary balance.
 
 \noindent
 No causal, normative, or policy-intent interpretation is assigned to any result. Every
@@ -529,9 +534,11 @@ def _section_decomposition(data: ReportInputs) -> str:
     )
     contributions_figure = latex.figure(
         "08_subsector_contributions.png",
-        caption="The identity drawn: signed subsector contributions stacked against the "
-        "General Government total. A tall column under a shallow line means the subsectors "
-        "offset one another that year.",
+        caption="The identity drawn: positive and negative subsector contributions are stacked "
+        "separately from zero, and the General Government line gives their algebraic sum. The "
+        "total visible span of a column is therefore the sum of the absolute contributions, not "
+        "the aggregate balance; a tall span under a shallow line means the subsectors offset one "
+        "another that year.",
         label="contributions",
     )
     offset_figure = latex.figure(
@@ -631,10 +638,12 @@ def _section_attribution(data: ReportInputs) -> str:
         + " ranks the same quantity scaled by GDP, which does not have that bias.",
     )
     movements = _view(
-        data.movements,
+        _label_regimes(data.movements),
         {
-            "direction": "Direction",
+            "regime": "Regime",
+            "rank_in_regime": "Rank",
             "year": "Year",
+            "direction": "Direction",
             "aggregate_change_pct_gdp": "Aggregate change (\\% GDP)",
             "aggregate_change_m_eur": "Aggregate change (M EUR)",
             "central_change_m_eur": "Central (M EUR)",
@@ -647,19 +656,22 @@ def _section_attribution(data: ReportInputs) -> str:
     movements["Direction"] = movements["Direction"].str.capitalize()
     movements_table = latex.table(
         movements,
-        caption="The five largest annual improvements and the five largest deteriorations, "
-        "ranked by the change scaled by current-year GDP, with the subsector that accounts "
-        "for most of each move.",
+        caption="The largest annual movements inside each statistical regime, ranked by the "
+        "absolute change scaled by current-year GDP, with the subsector that accounts for most "
+        "of each move.",
         label="movements",
         digits=0,
         column_digits={
+            "Rank": 0,
             "Aggregate change (\\% GDP)": 2,
             "Its share of the move": 2,
         },
-        note="Scaling by current-year GDP shares one denominator across the three subsector "
-        "terms, so the decomposition stays exact; it is not the change in the balance ratio, "
-        "which would also move with the denominator. 1995 is excluded because the "
-        "1994-to-1995 change straddles the vintage splice in both panels.",
+        note="Ranking is within a regime, not across both: each annual change is computed "
+        "inside one source family, but ordering historical against modern episodes by size "
+        "would compare two methodologies. Scaling by current-year GDP shares one denominator "
+        "across the three subsector terms, so the decomposition stays exact; it is not the "
+        "change in the balance ratio, which would also move with the denominator. 1995 is "
+        "excluded because the 1994-to-1995 change straddles the splice in both panels.",
     )
     modern_figure = latex.figure(
         "03_balance_change_attribution.png",
@@ -726,27 +738,26 @@ def _section_revenue_expenditure(data: ReportInputs) -> str:
     episodes = _view(
         data.movements,
         {
-            "direction": "Direction",
             "year": "Year",
-            "account_balance_change_m_eur": "Change in balance (M EUR)",
-            "revenue_change_m_eur": "From revenue (M EUR)",
-            "expenditure_change_m_eur": "From expenditure (M EUR)",
-            "source_family_difference_m_eur": "Source-family residual (M EUR)",
+            "dominant_subsector": "Largest contributor",
+            "dominant_subsector_change_m_eur": "Its balance change (M EUR)",
+            "dominant_revenue_change_m_eur": "$\\Delta$ revenue (M EUR)",
+            "dominant_expenditure_change_m_eur": "$\\Delta$ expenditure (M EUR)",
+            "dominant_expenditure_contribution_m_eur": "Expenditure contribution (M EUR)",
         },
     )
-    episodes["Direction"] = episodes["Direction"].str.capitalize()
     episodes_table = latex.table(
         episodes,
-        caption="The same ten episodes as in "
+        caption="The same episodes as in "
         + latex.ref_table("movements")
-        + ", split into the revenue and expenditure movements that produced them.",
+        + ", with the subsector accounting for most of each move split into its own revenue and "
+        "expenditure changes.",
         label="revexpepisodes",
         digits=0,
-        note="A balance improves when revenue rises faster than expenditure, so a positive "
-        "expenditure column alongside a positive balance change means expenditure grew but grew "
-        "less. The residual column is the gap between this account-panel measure of the annual "
-        "change and the canonical balance-panel measure of the same change: the two come from "
-        "different source families and are not forced to agree.",
+        note="The split is of the named subsector, not of the aggregate, so the columns describe "
+        "the same entity as the contributor column. Expenditure enters the balance negatively: "
+        "the last column is minus the expenditure change, and it is that column which adds to "
+        "the revenue change to give the subsector's balance change.",
     )
     revexp_figure = latex.figure(
         "04_central_revenue_expenditure.png",
@@ -867,6 +878,35 @@ def _section_social_security(data: ReportInputs) -> str:
     )
     latest_boundary = _latest(data.ss_boundary)
     previdential_first = data.ss_systems.sort_values("year").iloc[0]
+    change_recent = _tail_years(data.ss_change, 6)
+    change_view = _view(
+        change_recent,
+        {
+            "year": "Year",
+            "balance_change_m_eur": "Change in balance (M EUR)",
+            "contributions_contribution_m_eur": "Social contributions (M EUR)",
+            "other_revenue_contribution_m_eur": "Other revenue (M EUR)",
+            "social_transfers_contribution_m_eur": "Social transfers (M EUR)",
+            "other_expenditure_contribution_m_eur": "Other expenditure (M EUR)",
+        },
+    )
+    change_table = latex.table(
+        change_view,
+        caption="Contributions to the annual change in the Social Security balance. Each column "
+        "carries the sign with which the term enters the balance, so the four add to the change.",
+        label="ssfchange",
+        digits=0,
+        note="Expenditure enters the balance negatively, so a rise in social transfers appears "
+        "as a negative contribution. Reporting the raw expenditure change beside the balance "
+        "change would invite adding two quantities of opposite sign. The identity closes to "
+        f"{data.ss_change['contribution_closure_error_m_eur'].abs().max():.1e} M EUR.",
+    )
+    change_figure = latex.figure(
+        "16_ssf_balance_change_decomposition.png",
+        caption="The same decomposition drawn, 2001 onward. Layers above zero raised the balance "
+        "that year and layers below zero reduced it; the black line is the identity total.",
+        label="ssfchangefig",
+    )
     return rf"""\section{{Social Security Funds: Revenue Composition and Internal Systems}}
 \label{{sec:ssf}}
 
@@ -879,6 +919,19 @@ revenue in the account table.
 
 {composition_table}
 {share_figure}
+\subsection{{Where the annual change comes from}}
+
+The balance identity differences exactly, so each annual change in the Social Security
+balance decomposes into the account movements that produced it. The revenue split is
+available for the whole detailed panel; the expenditure component detail exists only for
+the modern period, so social transfers are separated from the remainder there.
+
+{change_table}
+{change_figure}
+This locates a change in the accounts. It does not explain it: a contributory balance moves
+with employment, wages, contribution rates, entitlement rules and demographics at the same
+time, and separating those requires a model this report does not build.
+
 \subsection{{A different boundary: the CFP budget systems}}
 
 The CFP's Social Security report decomposes the system into the Previdential system, the
@@ -1007,8 +1060,8 @@ recomputed primary balance was
 \subsection{{The headline sign is not the primary sign}}
 
 Central Government records a negative B.9 in every year of the canonical panel. Read alone,
-that invites the conclusion that the subsector runs an underlying deficit throughout. The
-detailed accounts do not support it. Over the
+that invites the conclusion that the subsector is in deficit on every measure. It is not.
+Over the
 \textbf{{{int(central_signs['n_years'])} years}} for which interest expenditure is
 available, the Central Government headline balance is negative in
 \textbf{{{int(central_signs['headline_negative_years'])}}} of them, while the primary

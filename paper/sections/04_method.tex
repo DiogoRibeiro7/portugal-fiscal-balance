@@ -53,17 +53,41 @@ $B_{i,t} = R_{i,t} - E_{i,t}$, and so is its change:
 \label{eq:revexp}
 \end{equation}
 
-Changes are computed only between adjacent years inside a continuous source block,
-so no change spans the 1995-to-2000 subsector gap. A caution on reading
-Equation~\eqref{eq:revexp}: a balance improves when revenue rises faster than
-expenditure, so a positive expenditure term alongside an improving balance means
-expenditure grew but grew less. It is not decomposed into policy and macroeconomic
-components, which would require assumptions this paper does not make.
+Two conventions keep Equation~\eqref{eq:revexp} unambiguous. Changes are computed
+only between adjacent years inside a continuous source block, so no change spans the
+1995-to-2000 subsector gap. And where a term's role in the balance change is what
+matters, we report its \emph{contribution}, carrying the sign with which it enters:
+the contribution of expenditure is $-\Delta E$, not $\Delta E$. This matters because
+a rise in expenditure reduces the balance, so placing $\Delta E$ beside $\Delta B$
+invites adding two quantities of opposite sign. Contribution columns sum to $\Delta B$;
+the plain change columns do not.
+
+The attribution is also hierarchical rather than parallel. Where an episode is
+attributed to a subsector, the revenue and expenditure split reported beside it is
+that \emph{subsector's} own, not the aggregate's, so both halves of the table describe
+the same entity.
 
 Equations~\eqref{eq:change} and~\eqref{eq:revexp} are computed on different source
 families --- the canonical balance panel and the detailed account panel. They
 therefore measure the same annual change slightly differently, and we carry the
 residual between them as its own column rather than reconciling it away.
+
+\subsection{Decomposing the Social Security balance change}
+
+For the Social Security Funds the same identity is taken one level further. The
+revenue side splits into social contributions and everything else across the whole
+detailed panel; the expenditure side splits into social transfers and everything else
+for the modern period, where component detail exists. Writing contributions to the
+balance change,
+\begin{equation}
+\Delta \Bssf_t
+= \underbrace{\Delta C_t + \Delta R^{oth}_t}_{\text{revenue}}
+\; \underbrace{- \Delta T_t - \Delta E^{oth}_t}_{\text{expenditure}},
+\label{eq:ssfchange}
+\end{equation}
+where $C$ is social contributions, $T$ social transfers paid, and the $oth$ terms the
+respective remainders. Equation~\eqref{eq:ssfchange} closes exactly by construction.
+It locates an annual movement in the accounts; it does not explain it.
 
 \subsection{Offset metric}
 
@@ -100,12 +124,24 @@ never occurs has no estimated row.
 Fewer than fifty annual observations split across two regimes do not support a
 flexible change-point model. The specification is deliberately restrictive: a
 piecewise-constant mean with at most two breaks per regime, a minimum segment
-length of five years, exact dynamic-programming minimisation of within-segment
-squared error, and BIC selection, which may return zero breaks. Segment means and
-break locations are both counted as free parameters, which penalises an extra break
-twice and makes the model less willing to claim one. Detection runs separately
-inside \PanelStart--1994 and 1995--\PanelEnd, so the known splice cannot be selected
-as an economic break.
+length of five years, and exact dynamic-programming minimisation of within-segment
+squared error. This is the mean-shift case of the multiple-structural-change problem
+treated by \citet{baiperron1998}, and selecting the number of breaks by a Schwarz
+criterion follows \citet{yao1988}.
+
+We describe the selection rule as a \emph{BIC-style penalized criterion} rather than
+as ``the BIC'', because the change-point literature uses several penalties and the
+choice is not neutral. Ours charges for segment means and break locations alike:
+\[
+\mathrm{BIC}(k) = n \log\!\left(\frac{\mathrm{RSS}(k)}{n}\right) + (2k+1)\log n,
+\]
+where $k$ is the number of breaks. Charging for the locations is the conservative
+choice here: it penalises an additional break twice and makes the model less willing
+to claim one, which is what we want from a short sample. Zero breaks is always
+admissible.
+
+Detection runs separately inside \PanelStart--1994 and 1995--\PanelEnd, so the known
+splice cannot be selected as an economic break.
 
 Because a single selected date from eighteen or thirty-one observations is not
 determined by the data, we report it with a BIC margin over the next-best break

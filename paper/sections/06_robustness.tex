@@ -12,15 +12,18 @@ the boundary; and no annual change is computed through it. The regime split of
 Table~\ref{tab:composition} is the form in which magnitudes are reported precisely
 because a pooled magnitude would embed the splice silently.
 
-Sign-based results are far more robust to the splice than magnitudes, since a sign
-does not depend on the level convention of a vintage. The persistence results of
-Section~\ref{sec:results} therefore carry more weight than the means beside them,
-and we have kept the two visually separate for that reason.
+Sign-based results are less exposed to the splice than magnitudes, and
+Section~\ref{sec:data} checks that rather than asserting it: sign classifications are
+unchanged across both source overlaps this panel retains. The persistence results of
+Section~\ref{sec:results} therefore carry more weight than the means beside them, and
+we have kept the two visually separate for that reason.
 
 \subsection{How firm are the change-point dates?}
 
 The piecewise-constant mean model of Section~\ref{sec:method} selects break dates,
-and a selected date reads as more determined than it is. Two guards are reported.
+and a selected date reads as more determined than it is --- particularly here, where
+the penalised criterion follows \citet{yao1988} in form but is one of several the
+change-point literature admits \citep{baiperron1998}. Two guards are reported.
 
 The first is a BIC margin over the next-best break count, which says how decisively
 the selection beat its alternatives. The second is a sensitivity grid: detection
@@ -85,13 +88,21 @@ than that literature suggested \citep{seiferling2013} is a live question on whic
 take no position. Its relevance here is narrower: a composition result about
 balances is not a result about debt.
 
-The balance does not identify a mechanism. Nothing in this paper separates
-cyclical from discretionary movements, and no cyclical adjustment is attempted. A
-specification relating balances to nominal GDP growth is available in the
-repository and is reported there in an appendix, where its weaknesses are set out;
-it is deliberately not part of this paper's evidence, because its dependent variable
-and its regressor share a construction through nominal GDP and the fits are very
-low. A better-founded mechanism for the Social Security side would model the
-contribution base directly, regressing the change in contributions on the change in
-the aggregate wage bill $W_t = N_t \bar{w}_t$ rather than on aggregate nominal
-growth. We flag it as the natural next step and do not implement it here.
+The balance does not identify a mechanism. The decompositions of
+Section~\ref{sec:method} locate a movement in the accounts; they do not explain it.
+Nothing here separates cyclical from discretionary movements, and no cyclical
+adjustment is attempted. A specification relating balances to nominal GDP growth
+exists in the repository and is reported there in an appendix with its weaknesses set
+out; it is deliberately not part of this paper's evidence, because its dependent
+variable and its regressor share a construction through nominal GDP and the fits are
+very low.
+
+For the Social Security side specifically, the natural next step is identified but not
+taken. Equation~\eqref{eq:ssfchange} shows that contributions are the dominant
+positive term in the recent balance changes, and the Council attributes the
+contribution growth to rising employment and average earnings
+\citep{cfp_ss_outturn2025}. A better-founded specification would therefore model the
+contribution base directly, relating the change in contributions to the change in the
+aggregate wage bill $W_t = N_t \bar{w}_t$ rather than to aggregate nominal growth.
+That has a clear mechanism and is implementable from published labour data; it is
+future work.

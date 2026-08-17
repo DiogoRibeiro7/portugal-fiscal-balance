@@ -8,6 +8,19 @@ This project follows semantic versioning for repository releases where practical
 
 ### Added
 
+- `ssf_balance_change_decomposition.csv`: each annual change in the Social Security balance
+  split into the account movements that produced it — contributions, other revenue, social
+  transfers and other expenditure. Every term is reported both as a raw change and as a
+  *contribution*, carrying the sign with which it enters the balance, so the four
+  contributions sum to the balance change. This is what the second research question now
+  answers: the earlier section located the balance without decomposing its movement.
+- A figure for that decomposition, in which expenditure layers sit below zero because they
+  reduce the balance. Plotting raw expenditure changes would put a bar above zero for a
+  movement that worsened the balance.
+- A LaTeX job in CI that compiles both documents, runs BibTeX and fails on any unresolved
+  citation or reference. The Python tests check document structure with regular expressions
+  and cannot catch a missing package, a bibliography error or a real LaTeX failure.
+
 - `paper/`: a scientific manuscript, separate from the technical report. It has a research
   question, a literature position, a stated contribution and an argument, and it carries
   only the evidence that argument needs; the report remains the place to look for
@@ -27,6 +40,46 @@ This project follows semantic versioning for repository releases where practical
   resolves. The manuscript is also checked for a build date, which would make the
   committed PDF change on every rebuild.
 - `make paper`.
+
+### Fixed
+
+- The subsector-contributions figure caption claimed the visible column height equals the
+  arithmetic sum of the layers. It does not: positive and negative components stack away from
+  zero independently, so the visible span is the sum of the *absolute* contributions, and the
+  General Government line is the algebraic sum. Corrected in both documents.
+- `largest_balance_movements.csv` reported aggregate revenue and expenditure changes beside a
+  subsector attribution, inviting the reader to connect quantities describing different
+  entities. The attribution is now hierarchical: the revenue and expenditure split is of the
+  subsector that dominates the move. Column labels changed from "From revenue"/"From
+  expenditure", which implied contributions to the balance, to explicit change and
+  contribution columns.
+- The same table ranked historical and modern episodes in one list, comparing two
+  methodologies by size — the practice the rest of the analysis refuses for magnitudes.
+  Ranking now happens within each regime.
+- Figure 1 drew an unbroken line across the 1995 splice while its caption said the two sides
+  are not chained. The line now breaks at the boundary, so the discontinuity is visible
+  rather than only asserted.
+- The claim that a balance's sign does not depend on the vintage was too general: a revision
+  can move a small balance across zero. Replaced with the empirical check — sign
+  classifications are unchanged across both source overlaps this panel retains.
+- Dropped "underlying" as a description of the primary balance. It removes interest and
+  nothing else, and the term suggests a structural or cyclically adjusted measure that is
+  never computed here.
+- The four positive-balance years were presented as three findings. Given a positive
+  aggregate and a negative non-Social-Security balance, the remaining conditions follow from
+  the identity; only the negative non-Social-Security balance is empirical content.
+- The change-point criterion is now described as a BIC-style penalized criterion, with the
+  penalty stated, and attributed to the literature it comes from (Yao 1988; Bai and Perron
+  1998). Presenting it as "the BIC" glossed over the fact that several penalties exist.
+- "Only the headline figure is routinely reported" overstated the case: the Portuguese Public
+  Finance Council publishes and discusses the subsector balances. Softened, and the
+  manuscript now states explicitly that the Council already identifies the recent role of the
+  Social Security Funds, so the contribution is the long-run systematic treatment rather than
+  the recent observation.
+- Shortened the manuscript abstract and concentrated the epistemological caveats in the
+  framework and conclusion instead of restating them in every results subsection.
+- `paper/README.md` referred to `main.tex` in its directory tree after the file was renamed
+  to `paper.tex`.
 
 - Regime-split persistence (`persistence_by_regime.csv`). The pooled mean straddles the 1995
   splice and describes neither regime: the aggregate balance averages -6.43% of GDP over
