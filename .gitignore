@@ -62,7 +62,6 @@ desktop.ini
 *.run.xml
 *.synctex.gz
 *.toc
-report/*.pdf
 
 # Tool-specific local state
 .python-version
