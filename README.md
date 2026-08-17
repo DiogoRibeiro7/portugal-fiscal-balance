@@ -47,7 +47,8 @@ The executed pipeline includes:
 10. debt and stock-flow adjustment reconciliation;
 11. descriptive nominal-GDP co-movement regressions with HAC standard errors;
 12. a historical SSF/employment/unemployment co-movement model for 1978–1995;
-13. automatic generation of the final English report from persisted analysis outputs.
+13. a European benchmark placing Portugal's composition in the distribution of 28 reporters;
+14. automatic generation of the final English report from persisted analysis outputs.
 
 ## Data layers
 
@@ -289,6 +290,7 @@ data/processed/fiscal_balances_1977_2025.csv
 data/processed/annual_balance_metrics_1977_2025.csv
 data/processed/subsector_accounts_1977_2025.csv
 data/processed/macro_panel_1977_2025.csv
+data/processed/european_subsector_panel_1995_2025.csv
 ```
 
 ## Main analysis tables
@@ -311,6 +313,9 @@ outputs/tables/primary_balance_sign_summary.csv
 outputs/tables/investment_diagnostic.csv
 outputs/tables/debt_stock_flow_reconciliation.csv
 outputs/tables/source_validation_summary.csv
+outputs/tables/ssf_balance_change_decomposition.csv
+outputs/tables/european_benchmark_summary.csv
+outputs/tables/european_benchmark_position.csv
 outputs/tables/nominal_gdp_balance_comovement.csv
 outputs/tables/historical_ssf_labour_comovement.csv
 ```

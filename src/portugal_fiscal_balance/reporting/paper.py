@@ -158,6 +158,24 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
     # The latest annual change in the Social Security balance, by account.
     ssf_change_latest = _latest(data.ss_change)
 
+    # European benchmark. The structural comparison is the share of a country's
+    # aggregate-surplus years in which the non-Social-Security balance was negative:
+    # the direct cross-country analogue of this paper's headline composition.
+    summary = data.benchmark_summary
+    portugal = summary.loc[summary["country"].eq("PT")].iloc[0]
+    with_surplus = summary.loc[summary["n_aggregate_positive"].gt(0)].copy()
+    with_surplus["share_offsetting"] = (
+        with_surplus["n_aggregate_positive_with_negative_non_ssf"]
+        / with_surplus["n_aggregate_positive"]
+    )
+    all_offsetting = with_surplus.loc[with_surplus["share_offsetting"].ge(1.0)]
+    position = data.benchmark_position.set_index("metric")
+    ssf_share_row = position.loc["Share of years with a Social Security surplus"]
+    ssf_mean_row = position.loc["Mean Social Security balance (% GDP)"]
+    offset_row = position.loc["Median offset ratio, where defined"]
+    central_row = position.loc["Share of years with a Central Government deficit"]
+    central_always = summary.loc[summary["share_central_negative"].ge(1.0)]
+
     macros: dict[str, str] = {
         # Build identity. Deliberately the repository version and not a build date:
         # the pipeline is deterministic and its outputs are committed, so the
@@ -252,6 +270,38 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
         "SsfChangeTransfers": _money(ssf_change_latest["social_transfers_contribution_m_eur"]),
         "SsfChangeOtherExpenditure": _money(
             ssf_change_latest["other_expenditure_contribution_m_eur"]
+        ),
+        # European benchmark.
+        "BenchmarkCountries": str(int(len(summary))),
+        "BenchmarkStart": str(int(summary["first_year"].min())),
+        "BenchmarkEnd": str(int(summary["last_year"].max())),
+        "BenchmarkYears": str(int(portugal["n_years"])),
+        "PtSsfPositiveShare": _ratio(float(portugal["share_ssf_positive"]) * 100.0, 1),
+        "PtSsfShareMedian": _ratio(float(ssf_share_row["cross_country_median"]) * 100.0, 1),
+        "PtSsfSharePercentile": _ratio(ssf_share_row["percentile"], 0),
+        "PtSsfMeanPct": _ratio(portugal["mean_ssf_pct_gdp"]),
+        "PtSsfMeanMedian": _ratio(ssf_mean_row["cross_country_median"]),
+        "PtSsfMeanPercentile": _ratio(ssf_mean_row["percentile"], 0),
+        "PtCentralNegativeShare": _ratio(float(portugal["share_central_negative"]) * 100.0, 0),
+        "PtCentralPercentile": _ratio(central_row["percentile"], 0),
+        "CentralAlwaysNegativeCountries": str(int(len(central_always))),
+        "PtOffsetMedian": _ratio(portugal["median_offset_ratio"], 3),
+        "OffsetMedianAcrossCountries": _ratio(offset_row["cross_country_median"], 3),
+        "PtOffsetPercentile": _ratio(offset_row["percentile"], 0),
+        # The structural comparison.
+        "PtSurplusYears": str(int(portugal["n_aggregate_positive"])),
+        "PtSurplusOffsetting": str(int(portugal["n_aggregate_positive_with_negative_non_ssf"])),
+        "CountriesWithSurplus": str(int(len(with_surplus))),
+        "CountriesAllOffsetting": str(int(len(all_offsetting))),
+        "SurplusYearsTotal": str(int(with_surplus["n_aggregate_positive"].sum())),
+        "SurplusYearsOffsetting": str(
+            int(with_surplus["n_aggregate_positive_with_negative_non_ssf"].sum())
+        ),
+        "SurplusOffsettingShare": _ratio(
+            100.0
+            * float(with_surplus["n_aggregate_positive_with_negative_non_ssf"].sum())
+            / float(with_surplus["n_aggregate_positive"].sum()),
+            0,
         ),
     }
     return macros
@@ -389,6 +439,37 @@ def _table_files(data: ReportInputs) -> dict[str, str]:
     stability["Modal dates"] = (
         stability["Modal dates"].astype("string").str.replace(";", ", ", regex=False)
     )
+    benchmark = data.benchmark_summary.copy()
+    benchmark["share_offsetting"] = np.where(
+        benchmark["n_aggregate_positive"].gt(0),
+        benchmark["n_aggregate_positive_with_negative_non_ssf"]
+        / benchmark["n_aggregate_positive"],
+        np.nan,
+    )
+    benchmark_view = _view(
+        benchmark.sort_values("share_ssf_positive", ascending=False),
+        {
+            "country": "Reporter",
+            "n_years": "N",
+            "share_central_negative": "Central $<0$",
+            "share_ssf_positive": "SSF $>0$",
+            "mean_ssf_pct_gdp": "Mean SSF (\\% GDP)",
+            "n_aggregate_positive": "Surplus years",
+            "n_aggregate_positive_with_negative_non_ssf": "of which non-SSF $<0$",
+            "median_offset_ratio": "Median offset",
+        },
+    )
+    position_view = _view(
+        data.benchmark_position,
+        {
+            "metric": "Metric",
+            "country_value": "Portugal",
+            "cross_country_median": "Cross-country median",
+            "cross_country_min": "Minimum",
+            "cross_country_max": "Maximum",
+            "percentile": "Percentile",
+        },
+    )
     coverage_source = data.accounts.groupby("sector")["year"].agg(["min", "max", "count"]).reset_index()
     coverage = _view(
         _label_sectors(coverage_source),
@@ -489,6 +570,32 @@ def _table_files(data: ReportInputs) -> dict[str, str]:
             "complete; only the detailed components carry the 1996--1999 gap.",
             label="coverage",
             digits=0,
+        ),
+        "tab_benchmark.tex": latex.table(
+            benchmark_view,
+            caption="Subsector composition across reporters, ordered by the frequency of a "
+            "Social Security surplus. Sign frequencies are shares of the years each reporter "
+            "covers completely.",
+            label="benchmark",
+            digits=3,
+            column_digits={
+                "N": 0,
+                "Surplus years": 0,
+                "of which non-SSF $<0$": 0,
+                "Mean SSF (\\% GDP)": 2,
+            },
+            note="The non-Social-Security aggregate is central plus state plus local "
+            "government, so federal reporters are treated consistently with unitary ones. "
+            "Reporters with fewer than fifteen complete years are excluded, because a "
+            "frequency over a handful of years is not comparable with one over thirty.",
+        ),
+        "tab_benchmarkposition.tex": latex.table(
+            position_view,
+            caption="Portugal's position in each cross-country distribution. The percentile is "
+            "the share of reporters below Portugal's value.",
+            label="benchmarkposition",
+            digits=3,
+            column_digits={"Percentile": 0},
         ),
         "tab_sources.tex": latex.table(
             data.sources,

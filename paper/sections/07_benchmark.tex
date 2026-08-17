@@ -1,0 +1,144 @@
+% Authored. Tables and numbers come from generated/.
+
+\section{A European Benchmark: Is This Composition Unusual?}
+\label{sec:benchmark}
+
+Everything to this point describes one country. It establishes how Portugal's
+general-government balance is composed and how persistent that composition is; it
+cannot establish whether the composition is unusual, because a single-country study
+has no comparison set. That distinction matters for how the results should be read:
+a subsector pattern that is common across Europe invites a different explanation from
+one that is peculiar to Portugal.
+
+ESA 2010 requires the same subsector breakdown from every reporter, so the comparison
+is available \citep{eurostat_gov_main,ecb_gfs}. We take net lending and net borrowing
+by subsector for 1995--\PanelEnd\ from Eurostat and repeat the domestic definitions on
+it.
+
+\subsection{Construction}
+
+Three choices matter, and each is a place where a careless benchmark would mislead.
+
+\textbf{The non-Social-Security aggregate must include state government.} Portugal has
+no S.1312 tier, so its aggregate is central plus local. Germany, Spain, Austria,
+Belgium and Switzerland do have one, and omitting it would leave their identity open
+and understate their non-Social-Security deficits. We therefore define
+$\Bnonssf_{c,t} = B^{S.1311}_{c,t} + B^{S.1312}_{c,t} + B^{S.1313}_{c,t}$, treating a
+missing state tier as contributing nothing because the tier does not exist rather than
+because a value is unknown. With that definition the identity closes to published
+rounding for every reporter.
+
+\textbf{Ratios are computed in national currency.} Eurostat publishes shares of GDP to
+one decimal, which is an unusable denominator for a ratio: a non-Social-Security
+balance printed as $-0.2$ could lie anywhere in a band wide enough to move the offset
+ratio by a quarter of its value. The levels carry far more precision, and the ratio is
+currency-invariant. We additionally require the denominator to be at least $0.5$\% of
+GDP in absolute size before reporting a ratio, so that a near-zero denominator cannot
+manufacture a large one.
+
+\textbf{Coverage is made comparable.} A country-year enters only if all four required
+sectors are reported, and a reporter enters the summary only with at least fifteen
+complete years. A frequency computed over a handful of years is not comparable with one
+computed over thirty. This leaves \BenchmarkCountries\ reporters over
+\BenchmarkStart--\BenchmarkEnd, with Portugal contributing \BenchmarkYears\ years.
+
+Two remarks on what the comparison is worth. Eurostat's Portuguese rows agree with our
+domestic panel to rounding, which is an independent check on the extraction of
+Section~\ref{sec:data} as well as the basis for the comparison. And this is a
+distribution, not a test: locating Portugal within a spread of accounting compositions
+says how common that composition is, not why any country's takes the form it does.
+
+\subsection{Where Portugal sits}
+
+Table~\ref{tab:benchmark} reports the composition for every reporter and
+Table~\ref{tab:benchmarkposition} locates Portugal in each distribution.
+
+\input{generated/tab_benchmark}
+\input{generated/tab_benchmarkposition}
+
+The answer is not uniform across the paper's findings, and that is the substantive
+result of this section.
+
+\paragraph{The Central Government deficit is not unusual.} Portugal records a Central
+Government deficit in \PtCentralNegativeShare\% of its reported years, which places it
+at the \PtCentralPercentile th percentile --- but \CentralAlwaysNegativeCountries\ of
+the \BenchmarkCountries\ reporters also record one in every single year. A persistently
+deficit-running central tier is a common European pattern, not a Portuguese
+peculiarity. Read on its own, the domestic finding that Central Government is negative
+in all \CentralNegativeYears\ years would invite the opposite impression.
+
+\paragraph{The Social Security surplus is unusual, in both frequency and size.}
+Portugal records a Social Security surplus in \PtSsfPositiveShare\% of years against a
+cross-country median of \PtSsfShareMedian\%, at the \PtSsfSharePercentile th
+percentile. Its mean Social Security balance is \PtSsfMeanPct\% of GDP against a median
+of \PtSsfMeanMedian\%, again at the \PtSsfMeanPercentile th percentile. On both
+measures Portugal sits in the upper tail.
+
+\paragraph{The typical offset magnitude is ordinary.} Portugal's median offset ratio,
+over the years in which it is defined, is \PtOffsetMedian\ against a cross-country
+median of \OffsetMedianAcrossCountries, at the \PtOffsetPercentile th percentile. In a
+typical year the Portuguese Social Security surplus offsets no more of the
+non-Social-Security deficit than elsewhere. What distinguishes Portugal is the recent
+years, in which the ratio exceeds one, not the central tendency.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{17_european_benchmark.png}
+\caption{Subsector sign frequencies across reporters, Portugal highlighted, ordered by
+the frequency of a Social Security surplus. Left: share of reported years with a Social
+Security surplus. Right: share with a Central Government deficit. Portugal is in the
+upper tail of the first and shares the maximum of the second with several reporters.}
+\label{fig:benchmark}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{18_european_offset_distribution.png}
+\caption{Offset ratio where defined: Portugal against all other reporters pooled, as a
+share of each group's defined country-years. Values above three are clipped to the last
+bin. The Portuguese distribution is not shifted relative to the others; its recent years
+sit in the right tail of both.}
+\label{fig:offsetdistribution}
+\end{figure}
+
+\subsection{The composition of a surplus year}
+
+The sharpest comparison is not a sign frequency but the structure of the surplus years
+themselves, because that is the paper's headline composition restated as a
+cross-country question: when a country records an aggregate surplus, is its
+non-Social-Security balance in deficit?
+
+Across the \CountriesWithSurplus\ reporters with at least one aggregate surplus, that
+composition holds in \SurplusYearsOffsetting\ of \SurplusYearsTotal\ surplus
+country-years, or \SurplusOffsettingShare\%. It is therefore a minority pattern: most
+European surpluses are recorded with the non-Social-Security tiers also in surplus, or
+close to balance.
+
+Portugal is the exception in the strict sense. Of the \CountriesWithSurplus\ reporters,
+\CountriesAllOffsetting\ record a negative non-Social-Security balance in \emph{every}
+one of their aggregate-surplus years, and Portugal is among them, at
+\PtSurplusOffsetting\ of \PtSurplusYears.
+
+That result needs its sample stated plainly alongside it. Portugal has only
+\PtSurplusYears\ surplus years, so ``all of them'' is four observations, and several
+reporters with more surplus years have high but not unanimous shares. The defensible
+statement is therefore the conjunction: the composition is a minority pattern in Europe,
+Portugal exhibits it in every surplus year it has recorded, and the number of such years
+is small. We would not read a stronger claim than that from
+\PtSurplusYears\ observations.
+
+\subsection{What the benchmark changes}
+
+It changes the reading of two results and confirms a third.
+
+The Central Government finding is weaker than it looks in isolation: a permanently
+deficit-running central tier is normal in Europe. The Social Security finding is
+stronger: both the frequency and the size of the Portuguese surplus sit in the upper
+tail. And the composition of the surplus years is genuinely distinctive, subject to the
+sample caveat above.
+
+None of this identifies a cause. Countries differ in how they assign contributory
+schemes between tiers, in whether they operate a state-government level, in the maturity
+of their pension systems and in how they route transfers between subsectors --- and the
+benchmark holds none of that constant. It establishes that the Portuguese composition is
+unusual in a specific, stated respect, which is what the rest of the paper could not do.

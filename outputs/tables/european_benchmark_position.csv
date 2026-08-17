@@ -1,0 +1,6 @@
+metric,country_value,cross_country_median,cross_country_min,cross_country_max,percentile,n_countries
+Share of years with a Central Government deficit,1,0.9032258065,0.3548387097,1,67.85714286,28
+Share of years with a Social Security surplus,0.935483871,0.6887096774,0.3548387097,1,82.14285714,28
+Share of years with an aggregate surplus,0.1290322581,0.1290322581,0,0.7741935484,39.28571429,28
+Mean Social Security balance (% GDP),0.7064516129,0.1676267281,-0.2709677419,2.448387097,82.14285714,28
+"Median offset ratio, where defined",0.1412265604,0.1096938162,0.007584076153,0.8919607245,53.57142857,28

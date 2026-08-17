@@ -964,14 +964,15 @@ figure = figures.revenue_expenditure_changes(
                 """## 3. Which episodes were revenue-driven and which expenditure-driven?
 
 The ranked episodes come from notebook 06, which selects them on the GDP-scaled
-aggregate change. Here they are split into the revenue and expenditure movements
-that composed them.
+aggregate change within each regime. Here each is split into the revenue and
+expenditure movements of **the subsector that dominates it**, not of the aggregate,
+so both halves describe the same entity.
 
-A balance improves when revenue rises faster than expenditure, so a positive
-expenditure column alongside a positive balance change means expenditure grew but
-grew less. The residual column is the gap between this account-panel measure of the
-annual change and the canonical balance-panel measure of the same change: the two
-come from different source families and are not forced to agree.""",
+Expenditure enters the balance negatively. The contribution column is therefore minus
+the expenditure change, and it is that column which adds to the revenue change to give
+the subsector's balance change. The split residual is the gap between the canonical
+panel's measure of that subsector change and the account panel's: two source families
+that are not forced to agree.""",
             ),
             (
                 "code",
@@ -979,12 +980,14 @@ come from different source families and are not forced to agree.""",
 display(
     movements[
         [
-            'direction',
+            'regime',
             'year',
-            'account_balance_change_m_eur',
-            'revenue_change_m_eur',
-            'expenditure_change_m_eur',
-            'source_family_difference_m_eur',
+            'dominant_subsector',
+            'dominant_subsector_change_m_eur',
+            'dominant_revenue_change_m_eur',
+            'dominant_expenditure_change_m_eur',
+            'dominant_expenditure_contribution_m_eur',
+            'dominant_split_error_m_eur',
         ]
     ].round(1)
 )""",
@@ -1109,16 +1112,15 @@ display(largest[share_columns].head(10).round(3))""",
             ),
             (
                 "md",
-                """## 4. The largest improvements and deteriorations
+                """## 4. The largest movements, ranked inside each regime
 
 Ranked on the GDP-scaled change, which removes the recency bias of a nominal
-ranking. 1995 is excluded because the 1994-to-1995 change straddles the vintage
-splice in both panels.
+ranking, and **within** each statistical regime rather than across both. Each annual
+change is computed inside one source family and is sound, but ordering historical
+against modern episodes by size would compare two methodologies -- the thing this
+analysis refuses to do with magnitudes everywhere else.
 
-The revenue and expenditure columns come from the detailed account panel, a
-different source family from the canonical balance panel. The residual column is
-the gap between the two measures of the same annual change; it is carried rather
-than reconciled away.""",
+1995 is excluded because that change straddles the vintage splice in both panels.""",
             ),
             (
                 "code",
@@ -1126,8 +1128,10 @@ than reconciled away.""",
 display(
     movements[
         [
-            'direction',
+            'regime',
+            'rank_in_regime',
             'year',
+            'direction',
             'aggregate_change_pct_gdp',
             'aggregate_change_m_eur',
             'dominant_subsector',
@@ -1137,16 +1141,24 @@ display(
 )""",
             ),
             (
+                "md",
+                """The attribution is hierarchical: the revenue and expenditure split below is of the
+subsector that dominates each move, not of the aggregate, so both halves describe the
+same entity. Expenditure enters the balance negatively, so its contribution is minus
+the change.""",
+            ),
+            (
                 "code",
                 r"""display(
     movements[
         [
-            'direction',
+            'regime',
             'year',
-            'account_balance_change_m_eur',
-            'revenue_change_m_eur',
-            'expenditure_change_m_eur',
-            'source_family_difference_m_eur',
+            'dominant_subsector',
+            'dominant_subsector_change_m_eur',
+            'dominant_revenue_change_m_eur',
+            'dominant_expenditure_contribution_m_eur',
+            'dominant_split_error_m_eur',
         ]
     ].round(1)
 )""",
@@ -1932,8 +1944,165 @@ display(labour.T.rename(columns={0: 'estimate'}).round(4))""",
         ],
     ),
     Notebook(
-        name="15_build_report.ipynb",
-        title="15. Build the final report",
+        name="15_european_benchmark.ipynb",
+        title="15. European benchmark",
+        purpose=(
+            "Place Portugal's subsector composition in the distribution of European "
+            "reporters, which is the one question a single-country study cannot answer."
+        ),
+        inputs=[
+            "data/processed/european_subsector_panel_1995_2025.csv",
+            "outputs/tables/european_benchmark_summary.csv",
+            "outputs/tables/european_benchmark_position.csv",
+        ],
+        outputs=["Nothing. All three artefacts are persisted by the pipeline."],
+        method="`METHODOLOGY.md` section 17",
+        cells=[
+            (
+                "md",
+                r"""## 1. Why leave Portugal at all
+
+Every other notebook describes one country. That establishes how Portugal behaves and
+cannot establish whether it is unusual, because there is no comparison set. ESA 2010
+requires the same subsector breakdown from every reporter, so the comparison exists.
+
+Three construction choices decide whether the comparison is fair.
+
+**The non-Social-Security aggregate includes state government.**
+
+$$B^{nonSSF}_{c,t} = B^{S.1311}_{c,t} + B^{S.1312}_{c,t} + B^{S.1313}_{c,t}.$$
+
+Portugal has no S.1312 tier; Germany, Spain, Austria, Belgium and Switzerland do.
+Omitting it would leave their identity open and understate their non-Social-Security
+deficits. A missing tier contributes zero because it does not exist, not because a
+value is unknown.
+
+**Ratios use national currency.** Eurostat publishes shares of GDP to one decimal,
+which is an unusable denominator: a balance printed as -0.2 could sit anywhere in a
+band wide enough to move the offset ratio by a quarter of its value.
+
+**Coverage is made comparable.** A country-year needs all four required sectors, and a
+reporter needs at least fifteen complete years before its frequencies are compared with
+a reporter covering thirty.""",
+            ),
+            (
+                "code",
+                r"""panel = pd.read_csv(PROCESSED / 'european_subsector_panel_1995_2025.csv')
+summary = pd.read_csv(TABLES / 'european_benchmark_summary.csv')
+print('country-years:', len(panel), 'of which complete:', int(panel['complete'].sum()))
+print('reporters in the summary:', len(summary))
+print('offset ratio defined in:', int(panel['offset_ratio'].notna().sum()), 'country-years')
+print('max |identity residual|, national currency:', round(float(panel['closure_error_mio_nac'].abs().max()), 2))""",
+            ),
+            (
+                "md",
+                """## 2. Does the external source agree with our own panel?
+
+Eurostat compiles the Portuguese figures independently of the PORDATA bridge this
+repository uses. Agreement is therefore a check on the extraction, not a tautology.""",
+            ),
+            (
+                "code",
+                r"""domestic = pd.read_csv(PROCESSED / 'fiscal_balances_1977_2025.csv')
+check = (
+    panel.loc[panel['country'].eq('PT'), ['year', 'general_government_mio_nac', 'social_security_mio_nac']]
+    .merge(
+        domestic[['year', 'general_government_balance_m_eur', 'social_security_balance_m_eur']],
+        on='year',
+    )
+)
+check['gg_gap'] = check['general_government_mio_nac'] - check['general_government_balance_m_eur']
+check['ssf_gap'] = check['social_security_mio_nac'] - check['social_security_balance_m_eur']
+print('years compared:', len(check))
+print('max |General Government gap| (M EUR):', round(float(check['gg_gap'].abs().max()), 2))
+print('max |Social Security gap| (M EUR):', round(float(check['ssf_gap'].abs().max()), 2))
+display(check.tail(4).round(2))""",
+            ),
+            (
+                "md",
+                """## 3. Sign frequencies across reporters
+
+Ordered by the frequency of a Social Security surplus, because the position in the
+ranking is the quantity of interest.""",
+            ),
+            (
+                "code",
+                r"""display(
+    summary.sort_values('share_ssf_positive', ascending=False)[
+        [
+            'country',
+            'n_years',
+            'share_central_negative',
+            'share_ssf_positive',
+            'mean_ssf_pct_gdp',
+            'median_offset_ratio',
+        ]
+    ].round(3)
+)""",
+            ),
+            ("code", r"""figure = figures.european_benchmark(summary)"""),
+            ("code", r"""figure = figures.european_offset_distribution(panel)"""),
+            (
+                "md",
+                """## 4. Where Portugal sits
+
+The answer is not uniform, which is the substantive result. A persistently
+deficit-running central tier is common in Europe. A Social Security surplus of
+Portugal's frequency and size is not.""",
+            ),
+            (
+                "code",
+                r"""position = pd.read_csv(TABLES / 'european_benchmark_position.csv')
+display(position.round(3))
+central_always = summary.loc[summary['share_central_negative'].ge(1.0), 'country'].tolist()
+print('reporters with a Central Government deficit in every year:', len(central_always))
+print(' ', central_always)""",
+            ),
+            (
+                "md",
+                """## 5. The composition of a surplus year
+
+This is the paper's headline composition restated as a cross-country question: when a
+country records an aggregate surplus, is its non-Social-Security balance in deficit?""",
+            ),
+            (
+                "code",
+                r"""with_surplus = summary.loc[summary['n_aggregate_positive'].gt(0)].copy()
+with_surplus['share_offsetting'] = (
+    with_surplus['n_aggregate_positive_with_negative_non_ssf'] / with_surplus['n_aggregate_positive']
+)
+display(
+    with_surplus.sort_values('share_offsetting', ascending=False)[
+        ['country', 'n_aggregate_positive', 'n_aggregate_positive_with_negative_non_ssf', 'share_offsetting']
+    ].round(3)
+)
+total = int(with_surplus['n_aggregate_positive'].sum())
+offsetting = int(with_surplus['n_aggregate_positive_with_negative_non_ssf'].sum())
+print(f'surplus country-years: {offsetting} of {total} have a negative non-SSF balance ({100 * offsetting / total:.0f}%)')
+print('reporters showing it in every surplus year:', int((with_surplus['share_offsetting'] >= 1.0).sum()))""",
+            ),
+            (
+                "md",
+                f"""{LIMITS_HEADING}
+
+1. **This is a distribution, not a test.** Locating Portugal in a spread of accounting
+   compositions says how common that composition is. It says nothing about why any
+   country's composition takes the form it does.
+2. **Nothing is held constant.** Reporters differ in whether they operate a state tier,
+   in how contributory schemes are assigned between tiers, in pension-system maturity
+   and in how transfers are routed between subsectors.
+3. **Portugal's surplus years are few.** A share computed over four observations is
+   reported with its count beside it and should not be read as a rate.
+4. **Eurostat vintages differ from the domestic sources.** The agreement checked in
+   section 2 is to rounding, not to the euro.
+5. Excluding reporters with fewer than fifteen complete years is a **stated choice**,
+   not a property of the data; the excluded reporters remain in the persisted panel.""",
+            ),
+        ],
+    ),
+    Notebook(
+        name="16_build_report.ipynb",
+        title="16. Build the final report",
         purpose=(
             "Regenerate the English LaTeX report strictly from persisted pipeline outputs, "
             "and show which files the renderer consumes so that every reported number is "

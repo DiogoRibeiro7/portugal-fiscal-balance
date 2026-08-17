@@ -172,6 +172,37 @@ Every cross-check in one unit, so two different kinds of test can be compared di
 Identity closure does not imply source agreement: the identities close to rounding while
 the largest source disagreement is a Central Government difference of about 67 M€.
 
+## `data/processed/european_subsector_panel_1995_2025.csv`
+
+Country-year panel built from the bundled Eurostat snapshot, used only for the benchmark.
+
+| Column | Definition |
+|---|---|
+| `general_government_mio_nac`, `social_security_mio_nac` | B.9 in millions of national currency |
+| `non_ssf_mio_nac` | Central **plus state plus local** government. Including the state tier is what makes federal and unitary reporters comparable; a missing tier contributes zero because it does not exist |
+| `state_government_mio_nac`, `has_state_tier` | The state tier itself, kept visible so its size is checkable |
+| `*_pct_gdp` | The same quantities as published shares of GDP, to one decimal |
+| `closure_error_mio_nac` | Aggregate minus the sum of the two component groups |
+| `sectors_reported`, `complete` | How many of the four required sectors the country-year reports |
+| `offset_ratio` | Social Security balance over the absolute non-Social-Security balance, in national currency, defined only where the latter is negative, the former positive, and the denominator at least 0.5% of GDP |
+
+Ratios use national currency because the published shares of GDP carry one decimal, which is
+too coarse a denominator: a balance printed as −0.2 could lie anywhere in a band wide enough
+to move the ratio by a quarter of its value.
+
+## `outputs/tables/european_benchmark_summary.csv`
+
+One row per reporter with at least fifteen complete years. Sign frequencies, mean Social
+Security balance, count of aggregate-surplus years and — the structural comparison —
+`n_aggregate_positive_with_negative_non_ssf`, the number of those surplus years in which the
+non-Social-Security balance was negative.
+
+## `outputs/tables/european_benchmark_position.csv`
+
+One row per metric giving Portugal's value, the cross-country median, minimum, maximum and
+percentile rank, so a claim that Portugal is or is not unusual can be read off rather than
+asserted.
+
 ## Main output metrics
 
 ### SSF offset ratio

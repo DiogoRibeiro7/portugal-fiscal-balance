@@ -28,7 +28,8 @@ def test_notebook_pipeline_is_complete_and_ordered() -> None:
         "12_investment_diagnostic.ipynb",
         "13_debt_reconciliation.ipynb",
         "14_macroeconomic_comovement.ipynb",
-        "15_build_report.ipynb",
+        "15_european_benchmark.ipynb",
+        "16_build_report.ipynb",
     ]
 
 
@@ -48,7 +49,7 @@ def test_notebooks_do_not_reimplement_core_analysis() -> None:
         "01_extract_historical_data.ipynb",
         "02_extract_modern_data.ipynb",
         "03_harmonize_and_validate.ipynb",
-        "15_build_report.ipynb",
+        "16_build_report.ipynb",
     }
     for name in delegated:
         notebook = nbformat.read(ROOT / "notebooks" / name, as_version=4)

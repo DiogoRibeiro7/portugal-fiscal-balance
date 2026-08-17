@@ -8,6 +8,30 @@ This project follows semantic versioning for repository releases where practical
 
 ### Added
 
+- **European benchmark.** Eurostat `gov_10a_main` B.9 by subsector, 1995-2025, bundled as a
+  raw source and read from the snapshot. The same definitions are applied to 28 reporters,
+  which answers the one question a single-country study cannot: whether Portugal's
+  composition is unusual. The answer is not uniform, and that is the point. A permanently
+  deficit-running central tier is common — 9 reporters record one in every year they cover —
+  so the Central Government finding is weaker in context than in isolation. Portugal's
+  Social Security surplus is in the upper tail on both frequency (93.5% of years against a
+  median of 68.9%) and size (0.71% of GDP against 0.17%). Its median offset ratio is
+  ordinary. And on the sharpest comparison, the composition of a surplus year, Portugal is
+  the only reporter whose every aggregate-surplus year combines that surplus with a negative
+  non-Social-Security balance — a composition found in 27% of European surplus years, though
+  Portugal's own count is 4, which is stated beside the claim.
+- Three construction choices are enforced rather than assumed. The non-Social-Security
+  aggregate includes state government, so federal reporters are treated consistently with
+  unitary ones and their identity closes. Ratios are computed in national currency, because
+  the published shares of GDP carry one decimal and are an unusable ratio denominator; the
+  offset ratio additionally requires a denominator of at least 0.5% of GDP. And a reporter
+  needs fifteen complete years before its frequencies are compared with a reporter covering
+  thirty.
+- Eurostat's Portuguese rows agree with the domestic panel to rounding, so the benchmark
+  source doubles as an independent check on the whole extraction.
+- `sources/eurostat.py`, `analysis/benchmark.py`, two figures, a benchmark section in both
+  documents, and notebook `15_european_benchmark`.
+
 - `ssf_balance_change_decomposition.csv`: each annual change in the Social Security balance
   split into the account movements that produced it — contributions, other revenue, social
   transfers and other expenditure. Every term is reported both as a raw change and as a

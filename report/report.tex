@@ -160,6 +160,7 @@ Banco Portugal Long Series & Banco de Portugal / INE & 1977-1995 for the histori
 PORDATA Balance By Level & INE via PORDATA & 1995-2025 & 2026-04 & 2a5d54649041 \\
 CFP Annual General Government & Portuguese Public Finance Council (CFP) & 1995-2025 & 2026-04-15 & 8f6b5a2916a4 \\
 CFP Annual Subsectors & Portuguese Public Finance Council (CFP) & 2000-2025 & 2026-04-15 & 4d9e1b07cd38 \\
+Eurostat Subsector Balances & Eurostat & 1995-2025, EU and EFTA reporters, B9 by subsector & 2026-07-21 & cf4c9408c237 \\
 CFP Social Security Detail & Portuguese Public Finance Council (CFP) & 2019-2025 systems; detailed 2024-2025 tables & 2026-04 & d9f28e424ab6 \\
 \bottomrule
 \end{tabular}%
@@ -1097,6 +1098,133 @@ of the specification grid agrees. A break year should not be quoted from this re
 its share. This report attaches no historical cause to any of them, and a minimum segment
 length of five years means shifts near the end of the sample cannot be detected yet.
 
+\section{European Benchmark}
+\label{sec:benchmark}
+
+Every other section of this report describes one country, which cannot establish whether
+what it describes is unusual. ESA 2010 requires the same subsector breakdown from every
+reporter, so the comparison is available. The definitions used here are the domestic ones,
+with three adjustments.
+
+\begin{enumerate}
+\item The non-Social-Security aggregate is central \emph{plus state} plus local
+government. Portugal has no state tier; several reporters do, and omitting it would leave
+their identity open.
+\item Ratios are computed in national currency. The published shares of GDP carry one
+decimal, which is too coarse a denominator for a ratio.
+\item A reporter enters only with at least fifteen complete years, so a frequency over a
+handful of years is not compared with one over thirty.
+\end{enumerate}
+
+This leaves \textbf{28 reporters} over
+1995--2025. Eurostat's
+Portuguese rows agree with the domestic panel to rounding, so this source doubles as an
+independent check on the extraction.
+
+\begin{table}[htbp]
+\centering
+\caption{Subsector composition across European reporters, ordered by the frequency of a Social Security surplus.}
+\label{tab:benchmark}
+\small
+\fitwidth{%
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+Reporter & N & Central $<0$ & SSF $>0$ & Mean SSF (\% GDP) & Surplus years & of which non-SSF $<0$ & Median offset \\
+\midrule
+FI & 31 & 0.774 & 1.000 & 2.45 & 11 & 6 & 0.540 \\
+LU & 31 & 0.645 & 1.000 & 1.65 & 24 & 10 & 0.892 \\
+DK & 31 & 0.355 & 0.935 & 0.05 & 21 & 0 & 0.008 \\
+CY & 31 & 0.806 & 0.935 & 2.23 & 9 & 4 & 0.446 \\
+PT & 31 & 1.000 & 0.935 & 0.71 & 4 & 4 & 0.141 \\
+IT & 31 & 1.000 & 0.839 & 0.18 & 0 & 0 & 0.064 \\
+EL & 31 & 0.903 & 0.839 & 0.97 & 6 & 3 & 0.206 \\
+EE & 31 & 0.613 & 0.839 & 0.25 & 12 & 2 & 0.306 \\
+IS & 28 & 0.536 & 0.821 & 0.16 & 10 & 0 & 0.043 \\
+SE & 31 & 0.581 & 0.806 & 0.19 & 14 & 2 & 0.225 \\
+SK & 31 & 1.000 & 0.742 & 0.42 & 0 & 0 & 0.061 \\
+BG & 31 & 0.613 & 0.710 & 0.17 & 13 & 2 & 0.095 \\
+RO & 31 & 1.000 & 0.710 & 0.13 & 0 & 0 & 0.084 \\
+CH & 30 & 0.533 & 0.700 & 0.16 & 17 & 5 & 0.058 \\
+LV & 31 & 0.968 & 0.677 & 0.35 & 2 & 0 & 0.316 \\
+LT & 31 & 1.000 & 0.613 & 0.25 & 4 & 3 & 0.419 \\
+DE & 31 & 0.774 & 0.613 & 0.04 & 8 & 2 & 0.085 \\
+NL & 31 & 0.806 & 0.581 & 0.17 & 8 & 4 & 0.310 \\
+IE & 31 & 0.516 & 0.581 & 0.09 & 16 & 3 & 0.167 \\
+BE & 31 & 1.000 & 0.581 & 0.06 & 3 & 2 & 0.072 \\
+AT & 31 & 0.968 & 0.548 & 0.02 & 2 & 0 & 0.056 \\
+HU & 31 & 1.000 & 0.548 & 0.02 & 0 & 0 & 0.045 \\
+SI & 31 & 0.935 & 0.516 & -0.05 & 3 & 1 & 0.043 \\
+PL & 31 & 1.000 & 0.484 & 0.24 & 0 & 0 & 0.263 \\
+HR & 31 & 0.871 & 0.452 & -0.12 & 4 & 1 & 0.124 \\
+FR & 31 & 1.000 & 0.419 & -0.20 & 0 & 0 & 0.072 \\
+CZ & 31 & 0.935 & 0.387 & -0.04 & 4 & 0 & 0.051 \\
+ES & 31 & 0.903 & 0.355 & -0.27 & 3 & 0 & 0.464 \\
+\bottomrule
+\end{tabular}%
+}
+\par\smallskip
+\begin{minipage}{\linewidth}\footnotesize\itshape The non-Social-Security aggregate is central plus state plus local government, so federal reporters are treated consistently with unitary ones. Reporters with fewer than fifteen complete years are excluded.\end{minipage}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Portugal's position in each cross-country distribution.}
+\label{tab:benchmarkposition}
+\small
+\fitwidth{%
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Metric & Portugal & Cross-country median & Minimum & Maximum & Percentile \\
+\midrule
+Share of years with a Central Government deficit & 1.000 & 0.903 & 0.355 & 1.000 & 68 \\
+Share of years with a Social Security surplus & 0.935 & 0.689 & 0.355 & 1.000 & 82 \\
+Share of years with an aggregate surplus & 0.129 & 0.129 & 0.000 & 0.774 & 39 \\
+Mean Social Security balance (\% GDP) & 0.706 & 0.168 & -0.271 & 2.448 & 82 \\
+Median offset ratio, where defined & 0.141 & 0.110 & 0.008 & 0.892 & 54 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+The answer differs across the findings. A Central Government deficit is recorded in
+\textbf{100\%} of Portuguese years, but
+\textbf{9 of 28 reporters} record one in every year they
+cover: a persistently deficit-running central tier is a common European pattern. The
+Social Security surplus is different, occurring in
+\textbf{93.5\%} of Portuguese years against a
+cross-country median of
+\textbf{68.9\%}, and averaging
+\textbf{0.71\% of GDP} against a median of
+\textbf{0.17\%}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\linewidth]{17_european_benchmark.png}
+\caption{Subsector sign frequencies across reporters, Portugal highlighted and reporters ordered by the frequency of a Social Security surplus.}
+\label{fig:benchmarkfig}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\linewidth]{18_european_offset_distribution.png}
+\caption{Offset ratio where defined: Portugal against all other reporters pooled, as a share of each group's defined country-years. Values above three are clipped.}
+\label{fig:benchmarkoffset}
+\end{figure}
+
+The sharpest comparison is the composition of a surplus year. Across the
+\textbf{22 reporters} with at least one aggregate surplus, a negative
+non-Social-Security balance accompanies the surplus in
+\textbf{54 of 198} surplus country-years, or
+\textbf{27\%}. It is a minority pattern.
+\textbf{1 of those reporters} show it in every one of their surplus
+years, Portugal among them, on
+\textbf{4 surplus years} --- a count small enough
+that it is stated beside the claim.
+
+This is a distribution, not a test. Reporters differ in whether they operate a state tier,
+in how contributory schemes are assigned between tiers, in pension-system maturity and in
+how transfers are routed, and none of that is held constant here.
+
 \section{Intergovernmental Transfers}
 \label{sec:transfers}
 
@@ -1293,6 +1421,7 @@ Debt and stock-flow adjustment & \texttt{13\_debt\_reconciliation} & \texttt{out
 Persistence, pooled and by regime & \texttt{07\_persistence} & \texttt{outputs/tables/persistence\_by\_regime.csv} \\
 Structural mean shifts & \texttt{08\_structural\_breaks} & \texttt{outputs/tables/structural\_breaks.csv} \\
 Change-point robustness & \texttt{08\_structural\_breaks} & \texttt{outputs/tables/structural\_break\_sensitivity.csv} \\
+European benchmark & \texttt{16\_european\_benchmark} & \texttt{outputs/tables/european\_benchmark\_summary.csv} \\
 Descriptive macroeconomic co-movement & \texttt{14\_macroeconomic\_comovement} & \texttt{outputs/tables/nominal\_gdp\_balance\_comovement.csv} \\
 Intergovernmental transfers & \texttt{10\_intergovernmental\_transfers} & \texttt{outputs/tables/historical\_transfer\_reallocation\_sensitivity.csv} \\
 \bottomrule

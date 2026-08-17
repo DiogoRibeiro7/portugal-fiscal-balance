@@ -50,6 +50,7 @@ ARTEFACT_INDEX: tuple[tuple[str, str, str], ...] = (
     ("Persistence, pooled and by regime", "07_persistence", "outputs/tables/persistence_by_regime.csv"),
     ("Structural mean shifts", "08_structural_breaks", "outputs/tables/structural_breaks.csv"),
     ("Change-point robustness", "08_structural_breaks", "outputs/tables/structural_break_sensitivity.csv"),
+    ("European benchmark", "16_european_benchmark", "outputs/tables/european_benchmark_summary.csv"),
     ("Descriptive macroeconomic co-movement", "14_macroeconomic_comovement", "outputs/tables/nominal_gdp_balance_comovement.csv"),
     ("Intergovernmental transfers", "10_intergovernmental_transfers", "outputs/tables/historical_transfer_reallocation_sensitivity.csv"),
 )
@@ -90,6 +91,9 @@ class ReportInputs:
     labour_comovement: pd.DataFrame
     validation_summary: pd.DataFrame
     balances: pd.DataFrame
+    benchmark_panel: pd.DataFrame
+    benchmark_summary: pd.DataFrame
+    benchmark_position: pd.DataFrame
 
 
 def _read_version(root: Path) -> str:
@@ -176,6 +180,9 @@ def load(root: Path) -> ReportInputs:
         labour_comovement=pd.read_csv(tables / "historical_ssf_labour_comovement.csv"),
         validation_summary=pd.read_csv(tables / "source_validation_summary.csv"),
         balances=pd.read_csv(processed / "fiscal_balances_1977_2025.csv"),
+        benchmark_panel=pd.read_csv(processed / "european_subsector_panel_1995_2025.csv"),
+        benchmark_summary=pd.read_csv(tables / "european_benchmark_summary.csv"),
+        benchmark_position=pd.read_csv(tables / "european_benchmark_position.csv"),
     )
 
 
@@ -1542,6 +1549,131 @@ risk.
 """
 
 
+def _section_benchmark(data: ReportInputs) -> str:
+    """Build the European benchmark section."""
+    summary = data.benchmark_summary
+    portugal = _sector_row(summary.rename(columns={"country": "sector"}), "PT")
+    with_surplus = summary.loc[summary["n_aggregate_positive"].gt(0)]
+    all_offsetting = with_surplus.loc[
+        with_surplus["n_aggregate_positive_with_negative_non_ssf"]
+        >= with_surplus["n_aggregate_positive"]
+    ]
+    central_always = summary.loc[summary["share_central_negative"].ge(1.0)]
+    surplus_years = int(with_surplus["n_aggregate_positive"].sum())
+    offsetting_years = int(with_surplus["n_aggregate_positive_with_negative_non_ssf"].sum())
+
+    view = _view(
+        summary.sort_values("share_ssf_positive", ascending=False),
+        {
+            "country": "Reporter",
+            "n_years": "N",
+            "share_central_negative": "Central $<0$",
+            "share_ssf_positive": "SSF $>0$",
+            "mean_ssf_pct_gdp": "Mean SSF (\\% GDP)",
+            "n_aggregate_positive": "Surplus years",
+            "n_aggregate_positive_with_negative_non_ssf": "of which non-SSF $<0$",
+            "median_offset_ratio": "Median offset",
+        },
+    )
+    summary_table = latex.table(
+        view,
+        caption="Subsector composition across European reporters, ordered by the frequency of "
+        "a Social Security surplus.",
+        label="benchmark",
+        digits=3,
+        column_digits={
+            "N": 0,
+            "Surplus years": 0,
+            "of which non-SSF $<0$": 0,
+            "Mean SSF (\\% GDP)": 2,
+        },
+        note="The non-Social-Security aggregate is central plus state plus local government, "
+        "so federal reporters are treated consistently with unitary ones. Reporters with fewer "
+        "than fifteen complete years are excluded.",
+    )
+    position_table = latex.table(
+        _view(
+            data.benchmark_position,
+            {
+                "metric": "Metric",
+                "country_value": "Portugal",
+                "cross_country_median": "Cross-country median",
+                "cross_country_min": "Minimum",
+                "cross_country_max": "Maximum",
+                "percentile": "Percentile",
+            },
+        ),
+        caption="Portugal's position in each cross-country distribution.",
+        label="benchmarkposition",
+        digits=3,
+        column_digits={"Percentile": 0},
+    )
+    frequency_figure = latex.figure(
+        "17_european_benchmark.png",
+        caption="Subsector sign frequencies across reporters, Portugal highlighted and reporters "
+        "ordered by the frequency of a Social Security surplus.",
+        label="benchmarkfig",
+    )
+    distribution_figure = latex.figure(
+        "18_european_offset_distribution.png",
+        caption="Offset ratio where defined: Portugal against all other reporters pooled, as a "
+        "share of each group's defined country-years. Values above three are clipped.",
+        label="benchmarkoffset",
+    )
+    return rf"""\section{{European Benchmark}}
+\label{{sec:benchmark}}
+
+Every other section of this report describes one country, which cannot establish whether
+what it describes is unusual. ESA 2010 requires the same subsector breakdown from every
+reporter, so the comparison is available. The definitions used here are the domestic ones,
+with three adjustments.
+
+\begin{{enumerate}}
+\item The non-Social-Security aggregate is central \emph{{plus state}} plus local
+government. Portugal has no state tier; several reporters do, and omitting it would leave
+their identity open.
+\item Ratios are computed in national currency. The published shares of GDP carry one
+decimal, which is too coarse a denominator for a ratio.
+\item A reporter enters only with at least fifteen complete years, so a frequency over a
+handful of years is not compared with one over thirty.
+\end{{enumerate}}
+
+This leaves \textbf{{{len(summary)} reporters}} over
+{int(summary['first_year'].min())}--{int(summary['last_year'].max())}. Eurostat's
+Portuguese rows agree with the domestic panel to rounding, so this source doubles as an
+independent check on the extraction.
+
+{summary_table}
+{position_table}
+The answer differs across the findings. A Central Government deficit is recorded in
+\textbf{{{portugal['share_central_negative'] * 100:.0f}\%}} of Portuguese years, but
+\textbf{{{len(central_always)} of {len(summary)} reporters}} record one in every year they
+cover: a persistently deficit-running central tier is a common European pattern. The
+Social Security surplus is different, occurring in
+\textbf{{{portugal['share_ssf_positive'] * 100:.1f}\%}} of Portuguese years against a
+cross-country median of
+\textbf{{{summary['share_ssf_positive'].median() * 100:.1f}\%}}, and averaging
+\textbf{{{portugal['mean_ssf_pct_gdp']:.2f}\% of GDP}} against a median of
+\textbf{{{summary['mean_ssf_pct_gdp'].median():.2f}\%}}.
+
+{frequency_figure}
+{distribution_figure}
+The sharpest comparison is the composition of a surplus year. Across the
+\textbf{{{len(with_surplus)} reporters}} with at least one aggregate surplus, a negative
+non-Social-Security balance accompanies the surplus in
+\textbf{{{offsetting_years} of {surplus_years}}} surplus country-years, or
+\textbf{{{100.0 * offsetting_years / surplus_years:.0f}\%}}. It is a minority pattern.
+\textbf{{{len(all_offsetting)} of those reporters}} show it in every one of their surplus
+years, Portugal among them, on
+\textbf{{{int(portugal['n_aggregate_positive'])} surplus years}} --- a count small enough
+that it is stated beside the claim.
+
+This is a distribution, not a test. Reporters differ in whether they operate a state tier,
+in how contributory schemes are assigned between tiers, in pension-system maturity and in
+how transfers are routed, and none of that is held constant here.
+"""
+
+
 def _section_transfers() -> str:
     """Build the intergovernmental transfers section."""
     return r"""\section{Intergovernmental Transfers}
@@ -1685,6 +1817,7 @@ def render_report(root: Path) -> Path:
             _section_investment(data),
             _section_debt(data),
             _section_persistence(data),
+            _section_benchmark(data),
             _section_transfers(),
             _section_limitations(),
             _section_reproducibility(data),

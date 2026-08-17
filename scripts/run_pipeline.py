@@ -18,6 +18,11 @@ from portugal_fiscal_balance.analysis.balance import (  # noqa: E402
     compute_balance_metrics,
     summarize_balance_metrics,
 )
+from portugal_fiscal_balance.analysis.benchmark import (  # noqa: E402
+    european_benchmark_summary,
+    european_subsector_panel,
+    portugal_benchmark_position,
+)
 from portugal_fiscal_balance.analysis.changepoints import (  # noqa: E402
     structural_break_bic_ladder,
     structural_break_sensitivity,
@@ -81,6 +86,7 @@ from portugal_fiscal_balance.sources.cfp import (  # noqa: E402
     extract_cfp_annual,
     extract_social_security_detail,
 )
+from portugal_fiscal_balance.sources.eurostat import extract_subsector_balances  # noqa: E402
 from portugal_fiscal_balance.sources.pordata import load_balance_snapshot  # noqa: E402
 
 warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
@@ -197,6 +203,19 @@ def main() -> None:
     write_csv(labour_comovement, TABLES / "historical_ssf_labour_comovement.csv")
     write_csv(validation_summary, TABLES / "source_validation_summary.csv")
 
+    # 5b. European benchmark. This is the only part of the analysis that leaves
+    #     Portugal, and it exists to answer the one question a single-country study
+    #     cannot: whether the composition documented above is unusual.
+    eurostat_path = RAW / "eurostat" / "eurostat_gov_10a_main_b9_by_sector_2026-07-21.csv"
+    eurostat_long = extract_subsector_balances(eurostat_path)
+    benchmark_panel = european_subsector_panel(eurostat_long)
+    benchmark_summary = european_benchmark_summary(benchmark_panel)
+    benchmark_position = portugal_benchmark_position(benchmark_summary)
+    write_csv(eurostat_long, INTERIM / "eurostat_subsector_balances_1995_2025.csv")
+    write_csv(benchmark_panel, PROCESSED / "european_subsector_panel_1995_2025.csv")
+    write_csv(benchmark_summary, TABLES / "european_benchmark_summary.csv")
+    write_csv(benchmark_position, TABLES / "european_benchmark_position.csv")
+
     # 6. Compact tables used directly by the report.
     recent = balance_metrics.loc[balance_metrics["year"].between(2010, 2025), [
         "year",
@@ -260,6 +279,10 @@ def main() -> None:
         "15_modern_source_differences.png": figures.modern_source_differences(source_comparison),
         "16_ssf_balance_change_decomposition.png": figures.ssf_balance_change_decomposition(
             ss_change, start_year=2001, end_year=int(ss_change["year"].max())
+        ),
+        "17_european_benchmark.png": figures.european_benchmark(benchmark_summary),
+        "18_european_offset_distribution.png": figures.european_offset_distribution(
+            benchmark_panel
         ),
     }
     for name, figure in persisted_figures.items():

@@ -1257,6 +1257,114 @@ def account_coverage(accounts: pd.DataFrame) -> Figure:
     return fig
 
 
+def european_benchmark(summary: pd.DataFrame, *, highlight: str = "PT") -> Figure:
+    """Place one country in the cross-country distribution of two sign frequencies.
+
+    A single-country study can say how Portugal behaves; only a distribution can say
+    whether that is unusual. The two frequencies plotted are the ones the domestic
+    analysis found most persistent, so this figure answers the question the rest of
+    the analysis raises but cannot settle.
+
+    Countries are ordered by the Social Security frequency rather than
+    alphabetically, because the position in the ranking is the quantity of interest.
+    """
+    frame = summary.sort_values("share_ssf_positive").reset_index(drop=True)
+    positions = np.arange(len(frame), dtype=float)
+    is_target = frame["country"].eq(highlight).to_numpy()
+
+    apply_house_style()
+    fig, axes = plt.subplots(1, 2, figsize=(10.0, 5.6), sharey=True)
+    left, right = axes[0], axes[1]
+    for ax, column, title in (
+        (left, "share_ssf_positive", "Years with a Social Security surplus"),
+        (right, "share_central_negative", "Years with a Central Government deficit"),
+    ):
+        colours = [
+            SECTOR_COLOURS["social_security_funds"] if flag else NEUTRAL_COLOUR
+            for flag in is_target
+        ]
+        edges = [INK_PRIMARY if flag else BASELINE for flag in is_target]
+        ax.barh(
+            positions,
+            100.0 * frame[column].to_numpy(dtype=float),
+            color=colours,
+            edgecolor=edges,
+            linewidth=1.0,
+            zorder=2,
+        )
+        ax.set_title(title, pad=10.0, fontsize=10.5)
+        ax.set_xlabel("Share of reported years, %")
+        ax.grid(visible=True, axis="x")
+        ax.set_axisbelow(True)
+        ax.set_xlim(0, 100)
+
+    left.set_yticks(positions, frame["country"].tolist())
+    left.tick_params(axis="y", length=0, labelcolor=INK_SECONDARY)
+    left.set_ylim(-0.8, len(frame) - 0.2)
+    fig.suptitle(
+        f"Subsector sign frequencies across reporters, {highlight} highlighted",
+        x=0.01,
+        ha="left",
+        fontsize=12.5,
+        color=INK_PRIMARY,
+    )
+    return fig
+
+
+def european_offset_distribution(panel: pd.DataFrame, *, highlight: str = "PT") -> Figure:
+    """Compare one country's offset ratios with the pooled cross-country distribution.
+
+    Only country-years in which the ratio is defined appear, so the horizontal
+    position is comparable across countries; the counts differ and are stated in the
+    caption rather than implied by the widths.
+    """
+    defined = panel.dropna(subset=["offset_ratio"])
+    target = defined.loc[defined["country"].eq(highlight), "offset_ratio"]
+    others = defined.loc[~defined["country"].eq(highlight), "offset_ratio"]
+
+    fig, ax = _panel(
+        title="Offset ratio where defined: one country against all other reporters",
+        ylabel="Share of country-years, %",
+        xlabel="Social Security balance / |non-Social-Security balance|",
+        height=4.6,
+        grid_axis="y",
+    )
+    edges = np.linspace(0.0, 3.0, 25).tolist()
+    for values, label, colour in (
+        (others, "All other reporters", SERIES_COLOURS[0]),
+        (target, f"{highlight}", SECTOR_COLOURS["social_security_funds"]),
+    ):
+        clipped = values.clip(upper=edges[-1])
+        weights = np.full(len(clipped), 100.0 / max(len(clipped), 1))
+        ax.hist(
+            clipped,
+            bins=edges,
+            weights=weights,
+            histtype="stepfilled",
+            alpha=0.55,
+            color=colour,
+            edgecolor=colour,
+            linewidth=1.4,
+            label=label,
+            zorder=3,
+        )
+    _reference_rule(ax, 0.0, "")
+    ax.axvline(1.0, color=INK_MUTED, linewidth=1.0, zorder=1)
+    ax.annotate(
+        "ratio = 1",
+        xy=(1.0, 0.96),
+        xycoords=("data", "axes fraction"),
+        xytext=(4, 0),
+        textcoords="offset points",
+        ha="left",
+        va="top",
+        fontsize=8.5,
+        color=INK_MUTED,
+    )
+    _legend(ax, ncol=2)
+    return fig
+
+
 def closure_errors(panel: pd.DataFrame, *, tolerance_m_eur: float = 2.0) -> Figure:
     """Plot the subsector closure residual against its tolerance band."""
     frame = panel.sort_values("year")

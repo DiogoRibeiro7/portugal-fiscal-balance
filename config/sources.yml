@@ -34,6 +34,18 @@ sources:
     local_file: data/raw/cfp/cfp_sec2010_annual_subsectors_2026-04-15.xlsx
     notes: ESA 2010 Central, Regional/Local and Social Security Funds accounts.
 
+  eurostat_subsector_balances:
+    institution: Eurostat
+    coverage: 1995-2025, EU and EFTA reporters, B9 by subsector
+    vintage: 2026-07-21
+    url: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/gov_10a_main/A.PC_GDP+MIO_NAC.S13+S1311+S1312+S1313+S1314.B9.?format=SDMX-CSV&startPeriod=1995
+    local_file: data/raw/eurostat/eurostat_gov_10a_main_b9_by_sector_2026-07-21.csv
+    notes: >-
+      Harmonised subsector net lending/borrowing used only for the European benchmark.
+      Retained as returned by the dissemination API, including observation flags. The
+      Portuguese rows agree with the domestic panel to rounding, which makes this an
+      independent check on the extraction as well as a comparison set.
+
   cfp_social_security_detail:
     institution: Portuguese Public Finance Council (CFP)
     coverage: 2019-2025 systems; detailed 2024-2025 tables

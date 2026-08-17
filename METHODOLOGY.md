@@ -329,6 +329,49 @@ A specification with a clearer mechanism would model the Social Security contrib
 directly, regressing the change in contributions on the change in the aggregate wage bill
 \(W_t=N_t\bar w_t\) rather than on aggregate nominal growth. That is not implemented.
 
+## 17. European benchmark
+
+Every other section studies one country, which establishes how Portugal behaves but not
+whether that behaviour is unusual. ESA 2010 requires the same subsector breakdown from every
+reporter, so the comparison exists. Eurostat `gov_10a_main` B.9 by subsector, 1995–2025, is
+bundled as a raw source and read from the snapshot; nothing is fetched at run time.
+
+Three construction choices decide whether the comparison is fair.
+
+**The non-Social-Security aggregate includes state government:**
+
+\[
+B^{nonSSF}_{c,t}=B^{S.1311}_{c,t}+B^{S.1312}_{c,t}+B^{S.1313}_{c,t}.
+\]
+
+Portugal has no S.1312 tier; Germany, Spain, Austria, Belgium and Switzerland do. Omitting it
+would leave their identity open and understate their non-Social-Security deficits. A missing
+tier contributes zero because the tier does not exist, not because a value is unknown.
+
+**Ratios use national currency.** The published shares of GDP carry one decimal, which is an
+unusable denominator for a ratio. The offset ratio is additionally reported only where the
+denominator is at least 0.5% of GDP in absolute size, so that a near-zero denominator cannot
+manufacture a large ratio.
+
+**Coverage is made comparable.** A country-year enters only with all four required sectors
+reported; a reporter enters the summary only with at least fifteen complete years. Both
+choices are stated rather than silent, and the excluded reporters remain in the persisted
+panel.
+
+The identity closes to publication rounding for every reporter, which is checked in absolute
+terms rather than relative: the aggregate is near zero by construction in the years of
+interest, and several reporters have components of only a few million national currency
+units, so ordinary rounding looks like a large relative error in both cases.
+
+This produces a distribution, not a test. Locating Portugal within a spread of accounting
+compositions says how common that composition is among reporters. It says nothing about why
+any country's composition takes the form it does, and nothing is held constant: reporters
+differ in whether they operate a state tier, in how contributory schemes are assigned between
+tiers, in pension-system maturity and in how transfers are routed.
+
+Eurostat's Portuguese rows agree with the domestic panel to rounding, so this source also
+serves as an independent check on the extraction described in sections 3 and 3.1.
+
 ## 16. Reproducibility rules
 
 - raw source files are retained;

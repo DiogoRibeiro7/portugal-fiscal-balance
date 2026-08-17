@@ -451,6 +451,102 @@ def test_source_validation_summary_separates_identity_from_agreement() -> None:
     assert (summary["n_observations"] > 0).all()
 
 
+def test_european_panel_closes_the_identity_for_every_reporter() -> None:
+    """A benchmark built on an open identity would compare incomparable aggregates."""
+    panel = _read_csv(Path("data/processed/european_subsector_panel_1995_2025.csv"))
+    assert panel["country"].nunique() > 20
+    closure = panel["closure_error_mio_nac"].abs().dropna()
+    assert len(closure) > 800
+
+    # The tolerance is publication precision, tested in absolute terms. A relative
+    # test is the wrong instrument here twice over: the aggregate is near zero by
+    # construction in the years this analysis is about, and several reporters have
+    # components of only a few million national currency units, so ordinary rounding
+    # looks like a large relative error in both cases.
+    assert float(closure.max()) <= 2.0, "Residual exceeds the coarsest publication rounding"
+    # Most reporters publish to one decimal, where four rounded components can differ
+    # by at most about 0.2.
+    assert float((closure <= 0.2).mean()) > 0.95
+
+
+def test_state_government_is_included_in_the_non_ssf_aggregate() -> None:
+    """Omitting the state tier would leave federal reporters' identity open."""
+    panel = _read_csv(Path("data/processed/european_subsector_panel_1995_2025.csv"))
+    federal = panel.loc[panel["has_state_tier"]]
+    assert not federal.empty, "No reporter with a state tier was found"
+    assert federal["country"].nunique() >= 4
+    # With the state tier included these reporters close to publication rounding.
+    assert float(federal["closure_error_mio_nac"].abs().max()) <= 2.0
+
+    # And the tier is materially large, so omitting it would be a real error rather
+    # than a rounding one. This is what makes its inclusion a substantive choice.
+    assert float(federal["state_government_mio_nac"].abs().max()) > 1000.0
+    # Portugal has no state tier, which is why its aggregate is central plus local.
+    portugal = panel.loc[panel["country"].eq("PT")]
+    assert not portugal["has_state_tier"].any()
+
+
+def test_european_panel_reproduces_the_domestic_portuguese_series() -> None:
+    """Eurostat compiles Portugal independently, so agreement checks the extraction."""
+    panel = _read_csv(Path("data/processed/european_subsector_panel_1995_2025.csv"))
+    domestic = _read_csv(Path("data/processed/fiscal_balances_1977_2025.csv"))
+    merged = panel.loc[panel["country"].eq("PT")].merge(domestic, on="year", how="inner")
+    assert len(merged) >= 30
+    for external, internal in (
+        ("general_government_mio_nac", "general_government_balance_m_eur"),
+        ("social_security_mio_nac", "social_security_balance_m_eur"),
+    ):
+        gap = (merged[external] - merged[internal]).abs()
+        assert float(gap.max()) < 1.0, f"{external} disagrees with {internal}"
+
+
+def test_offset_ratio_is_not_computed_on_a_rounding_scale_denominator() -> None:
+    """A near-zero denominator would manufacture a large ratio from rounding."""
+    panel = _read_csv(Path("data/processed/european_subsector_panel_1995_2025.csv"))
+    defined = panel.dropna(subset=["offset_ratio"])
+    assert not defined.empty
+    assert (defined["non_ssf_pct_gdp"].abs() >= 0.5).all()
+    assert (defined["non_ssf_mio_nac"] < 0).all()
+    assert (defined["social_security_mio_nac"] > 0).all()
+    assert (defined["offset_ratio"] > 0).all()
+
+
+def test_benchmark_summary_excludes_aggregates_and_short_reporters() -> None:
+    """The euro area is not a peer of its members, and a short panel is not comparable."""
+    summary = _read_csv(Path("outputs/tables/european_benchmark_summary.csv"))
+    assert not summary.empty
+    aggregates = {"EA", "EA19", "EA20", "EA21", "EU", "EU27_2020", "EU28"}
+    assert not (set(summary["country"]) & aggregates)
+    assert (summary["n_years"] >= 15).all()
+    assert "PT" in set(summary["country"])
+    for column in ("share_central_negative", "share_ssf_positive", "share_aggregate_positive"):
+        assert summary[column].between(0.0, 1.0).all()
+    # The structural count cannot exceed the number of surplus years it counts within.
+    assert (
+        summary["n_aggregate_positive_with_negative_non_ssf"] <= summary["n_aggregate_positive"]
+    ).all()
+
+
+def test_benchmark_position_locates_portugal_without_asserting_it() -> None:
+    """The percentile must be derived from the summary, not stated beside it."""
+    summary = _read_csv(Path("outputs/tables/european_benchmark_summary.csv"))
+    position = _read_csv(Path("outputs/tables/european_benchmark_position.csv"))
+    assert not position.empty
+    assert position["percentile"].between(0.0, 100.0).all()
+
+    portugal = summary.loc[summary["country"].eq("PT")].iloc[0]
+    checks = {
+        "Share of years with a Social Security surplus": "share_ssf_positive",
+        "Mean Social Security balance (% GDP)": "mean_ssf_pct_gdp",
+    }
+    for metric, column in checks.items():
+        row = position.loc[position["metric"].eq(metric)].iloc[0]
+        assert np.isclose(row["country_value"], portugal[column])
+        expected = 100.0 * (summary[column] < portugal[column]).mean()
+        assert np.isclose(row["percentile"], expected)
+        assert row["cross_country_min"] <= row["country_value"] <= row["cross_country_max"]
+
+
 def test_analysis_summary_records_validation_diagnostics() -> None:
     """Machine-readable pipeline diagnostics must be persisted for independent checking."""
     path = METRICS / "analysis_summary.json"
