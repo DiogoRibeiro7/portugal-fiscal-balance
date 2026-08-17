@@ -1,0 +1,25 @@
+{
+  "title": "Portugal Fiscal Balance, 1977-2025",
+  "description": "Reproducible empirical analysis of Portugal's general-government fiscal balance by subsector, 1977-2025.",
+  "creators": [
+    {
+      "name": "Ribeiro, Diogo"
+    }
+  ],
+  "keywords": [
+    "Portugal",
+    "fiscal policy",
+    "public finance",
+    "government finance",
+    "general government",
+    "national accounts",
+    "reproducible research",
+    "Python",
+    "pandas",
+    "Jupyter"
+  ],
+  "license": "mit",
+  "upload_type": "software",
+  "access_right": "open",
+  "language": "eng"
+}

@@ -155,6 +155,10 @@ The final report is written to:
 report/report.md
 ```
 
+## Zenodo archiving
+
+Zenodo release metadata is defined in `.zenodo.json`. After the repository is enabled in Zenodo's GitHub integration, publishing a GitHub release will archive that release in Zenodo and assign a DOI.
+
 ## Main processed datasets
 
 ```text
