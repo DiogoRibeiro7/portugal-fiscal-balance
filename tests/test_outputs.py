@@ -203,6 +203,77 @@ def test_movement_attribution_is_hierarchical_not_parallel() -> None:
     assert float(movements["dominant_split_error_m_eur"].abs().max()) < 2.0
 
 
+def test_component_contributions_close_to_the_balance_change() -> None:
+    """The component split must reproduce the balance change it decomposes."""
+    frame = _read_csv(Path("outputs/tables/account_component_changes.csv"))
+    assert not frame.empty
+    assert float(frame["component_closure_error_m_eur"].abs().max()) < 1e-6
+
+    totals = frame.groupby(["sector", "year"]).agg(
+        contributions=("contribution_m_eur", "sum"),
+        balance_change=("balance_change_m_eur", "first"),
+    )
+    assert np.allclose(totals["contributions"], totals["balance_change"], atol=1e-6)
+
+
+def test_each_sector_year_uses_the_finest_component_scheme_it_reports() -> None:
+    """Coarsening the modern period to the historical scheme would discard real detail."""
+    frame = _read_csv(Path("outputs/tables/account_component_changes.csv"))
+    schemes = frame.groupby(["sector", "year"])["component_scheme"].nunique()
+    assert (schemes == 1).all(), "A sector-year carries more than one scheme"
+
+    modern = frame.loc[frame["component_scheme"].eq("modern_detailed")]
+    historical = frame.loc[frame["component_scheme"].eq("historical_current_capital")]
+    assert not modern.empty and not historical.empty
+    # The modern scheme resolves the accounts further than the historical one, which
+    # is the reason for keeping both rather than forcing a common set.
+    assert modern["component"].nunique() > historical["component"].nunique()
+    assert (historical["year"] <= 1995).all()
+    assert (modern["year"] >= 1995).all()
+
+
+def test_expenditure_components_contribute_with_the_opposite_sign() -> None:
+    """A rise in an expenditure component must reduce the balance."""
+    frame = _read_csv(Path("outputs/tables/account_component_changes.csv"))
+    revenue = frame.loc[frame["side"].eq("revenue")]
+    expenditure = frame.loc[frame["side"].eq("expenditure")]
+    assert not revenue.empty and not expenditure.empty
+    assert np.allclose(revenue["contribution_m_eur"], revenue["change_m_eur"])
+    assert np.allclose(expenditure["contribution_m_eur"], -expenditure["change_m_eur"])
+
+
+def test_episode_components_describe_the_dominant_subsector() -> None:
+    """All three levels of the attribution must refer to one entity."""
+    episodes = _read_csv(Path("outputs/tables/episode_component_attribution.csv"))
+    movements = _read_csv(Path("outputs/tables/largest_balance_movements.csv"))
+    components = _read_csv(Path("outputs/tables/account_component_changes.csv"))
+    assert not episodes.empty
+
+    labels = {
+        "Central Government": "central_government",
+        "Regional and Local": "regional_local_government",
+        "Social Security Funds": "social_security_funds",
+    }
+    keyed = movements.set_index(["regime", "rank_in_regime"])
+    for row in episodes.itertuples(index=False):
+        episode = keyed.loc[(row.regime, row.rank_in_regime)]
+        assert row.year == episode["year"]
+        assert row.dominant_subsector == episode["dominant_subsector"]
+        # The component figure must come from that subsector's own accounts.
+        source = components.loc[
+            components["sector"].eq(labels[row.dominant_subsector])
+            & components["year"].eq(row.year)
+            & components["component"].eq(row.component)
+        ]
+        assert len(source) == 1
+        assert np.isclose(row.contribution_m_eur, source["contribution_m_eur"].iloc[0])
+
+    # Ranked by absolute contribution within each episode.
+    for _, group in episodes.groupby(["regime", "rank_in_regime"], sort=False):
+        magnitudes = group["contribution_m_eur"].abs().tolist()
+        assert magnitudes == sorted(magnitudes, reverse=True)
+
+
 def test_ssf_balance_change_decomposition_closes_on_contributions() -> None:
     """The four contributions must add to the balance change, signs included."""
     frame = _read_csv(Path("outputs/tables/ssf_balance_change_decomposition.csv"))

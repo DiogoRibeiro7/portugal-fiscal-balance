@@ -8,6 +8,21 @@ This project follows semantic versioning for repository releases where practical
 
 ### Added
 
+- **Component-level episode attribution**, the extension the manuscript's conclusion named.
+  `account_component_changes.csv` decomposes each annual revenue and expenditure change into
+  its components, and `episode_component_attribution.csv` names the three largest component
+  movements behind each ranked episode, for the subsector that dominates it. All three levels
+  of the attribution — aggregate, subsector, that subsector's accounts — now describe one
+  entity.
+- The component view separates episodes that the totals make look alike. 2009 is dominated by
+  taxes falling 4,248 M EUR, a revenue collapse rather than an expenditure surge; 2011 by
+  capital expenditure falling 4,594 M EUR; 2021 by revenue components throughout.
+- The two source families are not forced onto a common scheme. The modern workbooks separate
+  four revenue and seven expenditure components, the historical series only current from
+  capital, and each sector-year uses the finer scheme it reports. Coarsening the modern period
+  would discard real detail; assigning modern component names to historical movements would
+  fabricate it. Both decompositions close to numerical precision.
+
 - **European benchmark.** Eurostat `gov_10a_main` B.9 by subsector, 1995-2025, bundled as a
   raw source and read from the snapshot. The same definitions are applied to 28 reporters,
   which answers the one question a single-country study cannot: whether Portugal's

@@ -70,6 +70,7 @@ class ReportInputs:
     source_comparison: pd.DataFrame
     attribution: pd.DataFrame
     movements: pd.DataFrame
+    episode_components: pd.DataFrame
     revenue_expenditure: pd.DataFrame
     recent: pd.DataFrame
     persistence: pd.DataFrame
@@ -159,6 +160,7 @@ def load(root: Path) -> ReportInputs:
         source_comparison=pd.read_csv(interim / "modern_source_comparison.csv"),
         attribution=pd.read_csv(tables / "balance_change_attribution.csv"),
         movements=pd.read_csv(tables / "largest_balance_movements.csv"),
+        episode_components=pd.read_csv(tables / "episode_component_attribution.csv"),
         revenue_expenditure=pd.read_csv(tables / "revenue_expenditure_change_decomposition.csv"),
         recent=pd.read_csv(tables / "recent_balance_decomposition_2010_2025.csv"),
         persistence=pd.read_csv(tables / "persistence_summary.csv"),
@@ -766,6 +768,32 @@ def _section_revenue_expenditure(data: ReportInputs) -> str:
         "the last column is minus the expenditure change, and it is that column which adds to "
         "the revenue change to give the subsector's balance change.",
     )
+    components = _view(
+        _label_regimes(data.episode_components),
+        {
+            "regime": "Regime",
+            "year": "Year",
+            "dominant_subsector": "Subsector",
+            "side": "Side",
+            "component": "Component",
+            "change_m_eur": "Change (M EUR)",
+            "contribution_m_eur": "Contribution to balance (M EUR)",
+        },
+    )
+    components["Side"] = components["Side"].str.capitalize()
+    components_table = latex.table(
+        components,
+        caption="The three largest component movements behind each episode, for the subsector "
+        "that dominates it, ranked by the absolute size of the contribution.",
+        label="episodecomponents",
+        digits=0,
+        note="The two source families resolve the accounts at different depths: the modern "
+        "workbooks separate four revenue and seven expenditure components, the historical "
+        "series only current from capital. Each sector-year uses the finer scheme it reports, "
+        "so the modern period is never coarsened to match the historical one. Expenditure "
+        "contributions are negated, so a falling capital expenditure appears as a positive "
+        "contribution.",
+    )
     revexp_figure = latex.figure(
         "04_central_revenue_expenditure.png",
         caption="Central Government revenue, expenditure and balance as shares of GDP, "
@@ -796,6 +824,13 @@ components, so those rows are dropped rather than interpolated.
 
 {changes_table}
 {episodes_table}
+\subsection{{Which accounts moved}}
+
+The subsector split says where an episode sits; the component split says which accounts
+produced it. The two source families resolve the accounts at different depths, so each
+sector-year uses the finer scheme it reports rather than being coarsened to a common one.
+
+{components_table}
 {changes_figure}
 {revexp_figure}
 The decomposition uses totals, so a change in revenue may reflect composition shifts that

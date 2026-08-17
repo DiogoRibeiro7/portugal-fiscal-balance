@@ -36,6 +36,8 @@ from portugal_fiscal_balance.analysis.comovement import (  # noqa: E402
 )
 from portugal_fiscal_balance.analysis.debt import debt_reconciliation_table  # noqa: E402
 from portugal_fiscal_balance.analysis.decomposition import (  # noqa: E402
+    account_component_changes,
+    episode_component_attribution,
     largest_balance_movements,
     revenue_expenditure_change_decomposition,
     year_to_year_balance_attribution,
@@ -157,10 +159,14 @@ def main() -> None:
     break_grid = structural_break_sensitivity(balance_panel)
     break_stability = structural_break_stability(break_grid)
     movements = largest_balance_movements(changes, revenue_expenditure_changes)
+    component_changes = account_component_changes(account_panel)
+    episode_components = episode_component_attribution(movements, component_changes)
     write_csv(balance_metrics, PROCESSED / "annual_balance_metrics_1977_2025.csv")
     write_csv(changes, TABLES / "balance_change_attribution.csv")
     write_csv(revenue_expenditure_changes, TABLES / "revenue_expenditure_change_decomposition.csv")
     write_csv(movements, TABLES / "largest_balance_movements.csv")
+    write_csv(component_changes, TABLES / "account_component_changes.csv")
+    write_csv(episode_components, TABLES / "episode_component_attribution.csv")
     write_csv(persistence, TABLES / "persistence_summary.csv")
     write_csv(regime_persistence, TABLES / "persistence_by_regime.csv")
     write_csv(transitions, TABLES / "transition_probabilities.csv")

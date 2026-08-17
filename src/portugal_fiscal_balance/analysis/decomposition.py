@@ -183,6 +183,184 @@ def largest_balance_movements(
     return combined[keep]
 
 
+#: Component schemes, by side. The two source families publish different breakdowns,
+#: and the difference is not cosmetic: the modern workbooks resolve revenue into four
+#: components and expenditure into seven, while the historical series resolves each
+#: into current and capital only. Forcing one scheme on both would either discard the
+#: modern detail or invent historical detail that does not exist.
+_COMPONENT_SCHEMES: dict[str, dict[str, dict[str, str]]] = {
+    "modern_detailed": {
+        "revenue": {
+            "social_contributions_m_eur": "Social contributions",
+            "tax_revenue_m_eur": "Taxes",
+            "sales_other_current_revenue_m_eur": "Sales and other current revenue",
+            "capital_revenue_m_eur": "Capital revenue",
+        },
+        "expenditure": {
+            "social_transfers_m_eur": "Social transfers",
+            "compensation_m_eur": "Compensation of employees",
+            "intermediate_consumption_m_eur": "Intermediate consumption",
+            "subsidies_m_eur": "Subsidies",
+            "interest_m_eur": "Interest",
+            "other_current_expenditure_m_eur": "Other current expenditure",
+            "capital_expenditure_m_eur": "Capital expenditure",
+        },
+    },
+    "historical_current_capital": {
+        "revenue": {
+            "current_revenue_m_eur": "Current revenue",
+            "capital_revenue_m_eur": "Capital revenue",
+        },
+        "expenditure": {
+            "current_expenditure_m_eur": "Current expenditure",
+            "capital_expenditure_m_eur": "Capital expenditure",
+        },
+    },
+}
+
+
+def account_component_changes(accounts: pd.DataFrame) -> pd.DataFrame:
+    """Decompose each annual revenue and expenditure change into its components.
+
+    Returns one row per sector-year-component in long form, because the two source
+    families resolve the accounts at different depths and a wide table would need a
+    column for every component of both.
+
+    Each component carries two figures. ``change_m_eur`` is the movement in the
+    component itself. ``contribution_m_eur`` is that movement's effect on the
+    balance, so expenditure components are negated: a rise in social transfers
+    reduces the balance. The contributions sum to the balance change; the raw
+    changes do not.
+
+    A sector-year uses whichever scheme it reports completely. Where both are
+    available the detailed one is used, so the modern period is never coarsened to
+    match the historical one. No change is computed across a source gap.
+    """
+    required = ["year", "sector", "total_revenue_m_eur", "total_expenditure_m_eur", "balance_m_eur"]
+    missing = [column for column in required if column not in accounts]
+    if missing:
+        raise ValueError(f"accounts missing columns: {missing}")
+
+    records: list[pd.DataFrame] = []
+    for sector, group in accounts.groupby("sector", sort=False):
+        data = group.sort_values("year").copy()
+        adjacent = data["year"].diff().eq(1)
+        balance_change = data["balance_m_eur"].diff()
+
+        for scheme, sides in _COMPONENT_SCHEMES.items():
+            columns = [column for side in sides.values() for column in side]
+            if any(column not in data.columns for column in columns):
+                continue
+            complete = data[columns].notna().all(axis=1)
+            # Both this year and the previous one must report the scheme, or the
+            # difference would be taken against a missing level.
+            usable = complete & complete.shift(fill_value=False) & adjacent
+            if not usable.any():
+                continue
+
+            for side, labels in sides.items():
+                sign = 1.0 if side == "revenue" else -1.0
+                for column, label in labels.items():
+                    change = data[column].diff()
+                    frame = pd.DataFrame(
+                        {
+                            "year": data["year"],
+                            "sector": sector,
+                            "component_scheme": scheme,
+                            "side": side,
+                            "component": label,
+                            "change_m_eur": change,
+                            "contribution_m_eur": sign * change,
+                            "balance_change_m_eur": balance_change,
+                        }
+                    )
+                    records.append(frame.loc[usable])
+
+    if not records:
+        return pd.DataFrame(
+            columns=[
+                "year",
+                "sector",
+                "component_scheme",
+                "side",
+                "component",
+                "change_m_eur",
+                "contribution_m_eur",
+                "balance_change_m_eur",
+            ]
+        )
+
+    long = pd.concat(records, ignore_index=True)
+    # Where a sector-year reports both schemes, keep the finer one.
+    preferred = (
+        long.groupby(["sector", "year"])["component_scheme"]
+        .apply(lambda values: "modern_detailed" if "modern_detailed" in set(values) else values.iloc[0])
+        .rename("preferred_scheme")
+        .reset_index()
+    )
+    long = long.merge(preferred, on=["sector", "year"], how="left")
+    long = long.loc[long["component_scheme"].eq(long["preferred_scheme"])].drop(
+        columns="preferred_scheme"
+    )
+
+    closure = (
+        long.groupby(["sector", "year"])
+        .agg(
+            contribution_total_m_eur=("contribution_m_eur", "sum"),
+            balance_change=("balance_change_m_eur", "first"),
+        )
+        .reset_index()
+    )
+    closure["component_closure_error_m_eur"] = (
+        closure["balance_change"] - closure["contribution_total_m_eur"]
+    )
+    long = long.merge(
+        closure[["sector", "year", "component_closure_error_m_eur"]],
+        on=["sector", "year"],
+        how="left",
+    )
+    return long.sort_values(["sector", "year", "side", "component"]).reset_index(drop=True)
+
+
+def episode_component_attribution(
+    movements: pd.DataFrame,
+    components: pd.DataFrame,
+    *,
+    top: int = 3,
+) -> pd.DataFrame:
+    """Name the component movements behind each ranked episode.
+
+    The episodes come from :func:`largest_balance_movements` and the components from
+    :func:`account_component_changes`, joined on the subsector that dominates each
+    episode so that all three levels of the attribution describe one entity:
+    aggregate, subsector, then that subsector's accounts.
+
+    Components are ranked by the absolute size of their contribution to the balance
+    change, so a large expenditure rise and a large revenue rise compete on the same
+    footing.
+    """
+    label_to_sector = {SECTOR_LABELS[sector]: sector for sector in _CHANGE_COLUMNS.values()}
+    episodes = movements[
+        ["regime", "rank_in_regime", "year", "dominant_subsector", "dominant_subsector_change_m_eur"]
+    ].copy()
+    episodes["sector"] = episodes["dominant_subsector"].map(label_to_sector)
+
+    merged = episodes.merge(
+        components[["year", "sector", "component_scheme", "side", "component", "change_m_eur", "contribution_m_eur"]],
+        on=["year", "sector"],
+        how="left",
+    )
+    merged = merged.dropna(subset=["component"])
+    merged["absolute_contribution"] = merged["contribution_m_eur"].abs()
+    ranked = (
+        merged.sort_values(["regime", "rank_in_regime", "absolute_contribution"], ascending=[True, True, False])
+        .groupby(["regime", "rank_in_regime"], sort=False)
+        .head(top)
+        .drop(columns="absolute_contribution")
+    )
+    return ranked.reset_index(drop=True)
+
+
 def revenue_expenditure_change_decomposition(accounts: pd.DataFrame) -> pd.DataFrame:
     """Decompose the change in balance into total-revenue and total-expenditure changes."""
     required = ["year", "sector", "total_revenue_m_eur", "total_expenditure_m_eur", "balance_m_eur"]

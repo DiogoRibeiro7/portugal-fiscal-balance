@@ -1,0 +1,31 @@
+regime,rank_in_regime,year,dominant_subsector,dominant_subsector_change_m_eur,sector,component_scheme,side,component,change_m_eur,contribution_m_eur
+1977-1994_historical,1,1981,Central Government,-385.3031244,central_government,historical_current_capital,expenditure,Current expenditure,701.890985,-701.890985
+1977-1994_historical,1,1981,Central Government,-385.3031244,central_government,historical_current_capital,revenue,Current revenue,397.3846354,397.3846354
+1977-1994_historical,1,1981,Central Government,-385.3031244,central_government,historical_current_capital,expenditure,Capital expenditure,78.11045381,-78.11045381
+1977-1994_historical,2,1984,Central Government,-922.2316142,central_government,historical_current_capital,expenditure,Current expenditure,1529.044027,-1529.044027
+1977-1994_historical,2,1984,Central Government,-922.2316142,central_government,historical_current_capital,revenue,Current revenue,590.9681458,590.9681458
+1977-1994_historical,2,1984,Central Government,-922.2316142,central_government,historical_current_capital,revenue,Capital revenue,25.17855468,25.17855468
+1977-1994_historical,3,1980,Central Government,-233.0719335,central_government,historical_current_capital,expenditure,Current expenditure,524.66444,-524.66444
+1977-1994_historical,3,1980,Central Government,-233.0719335,central_government,historical_current_capital,revenue,Current revenue,380.4664802,380.4664802
+1977-1994_historical,3,1980,Central Government,-233.0719335,central_government,historical_current_capital,expenditure,Capital expenditure,95.90941331,-95.90941331
+1977-1994_historical,4,1993,Central Government,-2057.319859,central_government,historical_current_capital,expenditure,Current expenditure,1493.760938,-1493.760938
+1977-1994_historical,4,1993,Central Government,-2057.319859,central_government,historical_current_capital,revenue,Current revenue,-485.9958477,-485.9958477
+1977-1994_historical,4,1993,Central Government,-2057.319859,central_government,historical_current_capital,expenditure,Capital expenditure,67.51229537,-67.51229537
+1977-1994_historical,5,1990,Central Government,-1305.477799,central_government,historical_current_capital,expenditure,Current expenditure,2554.815966,-2554.815966
+1977-1994_historical,5,1990,Central Government,-1305.477799,central_government,historical_current_capital,revenue,Current revenue,1663.410254,1663.410254
+1977-1994_historical,5,1990,Central Government,-1305.477799,central_government,historical_current_capital,expenditure,Capital expenditure,616.9531429,-616.9531429
+1995-2025_modern,1,2009,Central Government,-8939,central_government,modern_detailed,revenue,Taxes,-4247.656,-4247.656
+1995-2025_modern,1,2009,Central Government,-8939,central_government,modern_detailed,expenditure,Capital expenditure,1570.943147,-1570.943147
+1995-2025_modern,1,2009,Central Government,-8939,central_government,modern_detailed,expenditure,Social transfers,1346.395,-1346.395
+1995-2025_modern,2,2020,Central Government,-10224,central_government,modern_detailed,revenue,Taxes,-3354.905,-3354.905
+1995-2025_modern,2,2020,Central Government,-10224,central_government,modern_detailed,expenditure,Other current expenditure,3122.28,-3122.28
+1995-2025_modern,2,2020,Central Government,-10224,central_government,modern_detailed,expenditure,Capital expenditure,2087.424,-2087.424
+1995-2025_modern,3,2011,Central Government,5937,central_government,modern_detailed,expenditure,Capital expenditure,-4594.40144,4594.40144
+1995-2025_modern,3,2011,Central Government,5937,central_government,modern_detailed,expenditure,Interest,2235.31747,-2235.31747
+1995-2025_modern,3,2011,Central Government,5937,central_government,modern_detailed,revenue,Taxes,1983.843,1983.843
+1995-2025_modern,4,2015,Central Government,4283,central_government,modern_detailed,expenditure,Capital expenditure,-3095.367,3095.367
+1995-2025_modern,4,2015,Central Government,4283,central_government,modern_detailed,revenue,Taxes,1774.78,1774.78
+1995-2025_modern,4,2015,Central Government,4283,central_government,modern_detailed,expenditure,Social transfers,1059.937,-1059.937
+1995-2025_modern,5,2021,Central Government,5570,central_government,modern_detailed,revenue,Taxes,3484.659,3484.659
+1995-2025_modern,5,2021,Central Government,5570,central_government,modern_detailed,revenue,Sales and other current revenue,1615.916,1615.916
+1995-2025_modern,5,2021,Central Government,5570,central_government,modern_detailed,revenue,Capital revenue,1460.141,1460.141

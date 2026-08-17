@@ -1,0 +1,1440 @@
+year,sector,component_scheme,side,component,change_m_eur,contribution_m_eur,balance_change_m_eur,component_closure_error_m_eur
+1978,central_government,historical_current_capital,expenditure,Capital expenditure,48.56549715,-48.56549715,-158.1685818,-2.842170943e-14
+1978,central_government,historical_current_capital,expenditure,Current expenditure,217.5233062,-217.5233062,-158.1685818,-2.842170943e-14
+1978,central_government,historical_current_capital,revenue,Capital revenue,0.1709729552,0.1709729552,-158.1685818,-2.842170943e-14
+1978,central_government,historical_current_capital,revenue,Current revenue,107.7492485,107.7492485,-158.1685818,-2.842170943e-14
+1979,central_government,historical_current_capital,expenditure,Capital expenditure,59.52595245,-59.52595245,-82.99702274,2.842170943e-14
+1979,central_government,historical_current_capital,expenditure,Current expenditure,250.7181222,-250.7181222,-82.99702274,2.842170943e-14
+1979,central_government,historical_current_capital,revenue,Capital revenue,-0.6256771181,-0.6256771181,-82.99702274,2.842170943e-14
+1979,central_government,historical_current_capital,revenue,Current revenue,227.8727291,227.8727291,-82.99702274,2.842170943e-14
+1980,central_government,historical_current_capital,expenditure,Capital expenditure,95.90941331,-95.90941331,-233.0719335,1.705302566e-13
+1980,central_government,historical_current_capital,expenditure,Current expenditure,524.66444,-524.66444,-233.0719335,1.705302566e-13
+1980,central_government,historical_current_capital,revenue,Capital revenue,7.035439591,7.035439591,-233.0719335,1.705302566e-13
+1980,central_government,historical_current_capital,revenue,Current revenue,380.4664802,380.4664802,-233.0719335,1.705302566e-13
+1981,central_government,historical_current_capital,expenditure,Capital expenditure,78.11045381,-78.11045381,-385.3031244,5.684341886e-14
+1981,central_government,historical_current_capital,expenditure,Current expenditure,701.890985,-701.890985,-385.3031244,5.684341886e-14
+1981,central_government,historical_current_capital,revenue,Capital revenue,-2.686320966,-2.686320966,-385.3031244,5.684341886e-14
+1981,central_government,historical_current_capital,revenue,Current revenue,397.3846354,397.3846354,-385.3031244,5.684341886e-14
+1982,central_government,historical_current_capital,expenditure,Capital expenditure,88.73085863,-88.73085863,186.9794674,-2.842170943e-13
+1982,central_government,historical_current_capital,expenditure,Current expenditure,292.1668583,-292.1668583,186.9794674,-2.842170943e-13
+1982,central_government,historical_current_capital,revenue,Capital revenue,1.232030806,1.232030806,186.9794674,-2.842170943e-13
+1982,central_government,historical_current_capital,revenue,Current revenue,566.6451535,566.6451535,186.9794674,-2.842170943e-13
+1983,central_government,historical_current_capital,expenditure,Capital expenditure,66.47030842,-66.47030842,-60.54352413,1.705302566e-13
+1983,central_government,historical_current_capital,expenditure,Current expenditure,928.788028,-928.788028,-60.54352413,1.705302566e-13
+1983,central_government,historical_current_capital,revenue,Capital revenue,21.67128221,21.67128221,-60.54352413,1.705302566e-13
+1983,central_government,historical_current_capital,revenue,Current revenue,913.0435301,913.0435301,-60.54352413,1.705302566e-13
+1984,central_government,historical_current_capital,expenditure,Capital expenditure,9.334287575,-9.334287575,-922.2316142,-3.410605132e-13
+1984,central_government,historical_current_capital,expenditure,Current expenditure,1529.044027,-1529.044027,-922.2316142,-3.410605132e-13
+1984,central_government,historical_current_capital,revenue,Capital revenue,25.17855468,25.17855468,-922.2316142,-3.410605132e-13
+1984,central_government,historical_current_capital,revenue,Current revenue,590.9681458,590.9681458,-922.2316142,-3.410605132e-13
+1985,central_government,historical_current_capital,expenditure,Capital expenditure,170.0039454,-170.0039454,-341.7590387,3.410605132e-13
+1985,central_government,historical_current_capital,expenditure,Current expenditure,1082.198292,-1082.198292,-341.7590387,3.410605132e-13
+1985,central_government,historical_current_capital,revenue,Capital revenue,4.043819395,4.043819395,-341.7590387,3.410605132e-13
+1985,central_government,historical_current_capital,revenue,Current revenue,906.3993792,906.3993792,-341.7590387,3.410605132e-13
+1986,central_government,historical_current_capital,expenditure,Capital expenditure,338.775915,-338.775915,355.3721675,-1.023181539e-12
+1986,central_government,historical_current_capital,expenditure,Current expenditure,524.059096,-524.059096,355.3721675,-1.023181539e-12
+1986,central_government,historical_current_capital,revenue,Capital revenue,103.5491366,103.5491366,355.3721675,-1.023181539e-12
+1986,central_government,historical_current_capital,revenue,Current revenue,1114.658042,1114.658042,355.3721675,-1.023181539e-12
+1987,central_government,historical_current_capital,expenditure,Capital expenditure,-47.09649744,47.09649744,-17.94176036,-3.410605132e-13
+1987,central_government,historical_current_capital,expenditure,Current expenditure,715.1964498,-715.1964498,-17.94176036,-3.410605132e-13
+1987,central_government,historical_current_capital,revenue,Capital revenue,-28.42150417,-28.42150417,-17.94176036,-3.410605132e-13
+1987,central_government,historical_current_capital,revenue,Current revenue,678.5796961,678.5796961,-17.94176036,-3.410605132e-13
+1988,central_government,historical_current_capital,expenditure,Capital expenditure,201.3946389,-201.3946389,385.0545186,2.614797268e-12
+1988,central_government,historical_current_capital,expenditure,Current expenditure,967.8223413,-967.8223413,385.0545186,2.614797268e-12
+1988,central_government,historical_current_capital,revenue,Capital revenue,32.47673108,32.47673108,385.0545186,2.614797268e-12
+1988,central_government,historical_current_capital,revenue,Current revenue,1521.794768,1521.794768,385.0545186,2.614797268e-12
+1989,central_government,historical_current_capital,expenditure,Capital expenditure,231.0082701,-231.0082701,317.8888878,-1.364242053e-12
+1989,central_government,historical_current_capital,expenditure,Current expenditure,1363.45291,-1363.45291,317.8888878,-1.364242053e-12
+1989,central_government,historical_current_capital,revenue,Capital revenue,184.8644766,184.8644766,317.8888878,-1.364242053e-12
+1989,central_government,historical_current_capital,revenue,Current revenue,1727.485591,1727.485591,317.8888878,-1.364242053e-12
+1990,central_government,historical_current_capital,expenditure,Capital expenditure,616.9531429,-616.9531429,-1305.477799,-1.136868377e-12
+1990,central_government,historical_current_capital,expenditure,Current expenditure,2554.815966,-2554.815966,-1305.477799,-1.136868377e-12
+1990,central_government,historical_current_capital,revenue,Capital revenue,202.8810567,202.8810567,-1305.477799,-1.136868377e-12
+1990,central_government,historical_current_capital,revenue,Current revenue,1663.410254,1663.410254,-1305.477799,-1.136868377e-12
+1991,central_government,historical_current_capital,expenditure,Capital expenditure,253.8681777,-253.8681777,-836.990852,9.094947018e-13
+1991,central_government,historical_current_capital,expenditure,Current expenditure,3049.018915,-3049.018915,-836.990852,9.094947018e-13
+1991,central_government,historical_current_capital,revenue,Capital revenue,132.4657575,132.4657575,-836.990852,9.094947018e-13
+1991,central_government,historical_current_capital,revenue,Current revenue,2333.430483,2333.430483,-836.990852,9.094947018e-13
+1992,central_government,historical_current_capital,expenditure,Capital expenditure,670.2796261,-670.2796261,1225.878632,1.136868377e-12
+1992,central_government,historical_current_capital,expenditure,Current expenditure,1642.905308,-1642.905308,1225.878632,1.136868377e-12
+1992,central_government,historical_current_capital,revenue,Capital revenue,255.4942588,255.4942588,1225.878632,1.136868377e-12
+1992,central_government,historical_current_capital,revenue,Current revenue,3283.569308,3283.569308,1225.878632,1.136868377e-12
+1993,central_government,historical_current_capital,expenditure,Capital expenditure,67.51229537,-67.51229537,-2057.319859,-3.637978807e-12
+1993,central_government,historical_current_capital,expenditure,Current expenditure,1493.760938,-1493.760938,-2057.319859,-3.637978807e-12
+1993,central_government,historical_current_capital,revenue,Capital revenue,-10.05077763,-10.05077763,-2057.319859,-3.637978807e-12
+1993,central_government,historical_current_capital,revenue,Current revenue,-485.9958477,-485.9958477,-2057.319859,-3.637978807e-12
+1994,central_government,historical_current_capital,expenditure,Capital expenditure,-112.8859064,112.8859064,14.85516051,4.547473509e-13
+1994,central_government,historical_current_capital,expenditure,Current expenditure,1181.813102,-1181.813102,14.85516051,4.547473509e-13
+1994,central_government,historical_current_capital,revenue,Capital revenue,57.93038777,57.93038777,14.85516051,4.547473509e-13
+1994,central_government,historical_current_capital,revenue,Current revenue,1025.851968,1025.851968,14.85516051,4.547473509e-13
+1995,central_government,historical_current_capital,expenditure,Capital expenditure,477.6515166,-477.6515166,-148.9696399,-3.183231456e-12
+1995,central_government,historical_current_capital,expenditure,Current expenditure,1399.415836,-1399.415836,-148.9696399,-3.183231456e-12
+1995,central_government,historical_current_capital,revenue,Capital revenue,175.1678455,175.1678455,-148.9696399,-3.183231456e-12
+1995,central_government,historical_current_capital,revenue,Current revenue,1552.929867,1552.929867,-148.9696399,-3.183231456e-12
+2001,central_government,modern_detailed,expenditure,Capital expenditure,1208.9524,-1208.9524,-1956.745576,-1.091393642e-11
+2001,central_government,modern_detailed,expenditure,Compensation of employees,898.7284533,-898.7284533,-1956.745576,-1.091393642e-11
+2001,central_government,modern_detailed,expenditure,Interest,160.828,-160.828,-1956.745576,-1.091393642e-11
+2001,central_government,modern_detailed,expenditure,Intermediate consumption,233.799,-233.799,-1956.745576,-1.091393642e-11
+2001,central_government,modern_detailed,expenditure,Other current expenditure,299.538,-299.538,-1956.745576,-1.091393642e-11
+2001,central_government,modern_detailed,expenditure,Social transfers,560.511,-560.511,-1956.745576,-1.091393642e-11
+2001,central_government,modern_detailed,expenditure,Subsidies,123.521,-123.521,-1956.745576,-1.091393642e-11
+2001,central_government,modern_detailed,revenue,Capital revenue,459.643,459.643,-1956.745576,-1.091393642e-11
+2001,central_government,modern_detailed,revenue,Sales and other current revenue,-133.7557229,-133.7557229,-1956.745576,-1.091393642e-11
+2001,central_government,modern_detailed,revenue,Social contributions,181.649,181.649,-1956.745576,-1.091393642e-11
+2001,central_government,modern_detailed,revenue,Taxes,1021.596,1021.596,-1956.745576,-1.091393642e-11
+2002,central_government,modern_detailed,expenditure,Capital expenditure,-1037.8144,1037.8144,667.8856071,5.00222086e-12
+2002,central_government,modern_detailed,expenditure,Compensation of employees,1152.84,-1152.84,667.8856071,5.00222086e-12
+2002,central_government,modern_detailed,expenditure,Interest,93.538,-93.538,667.8856071,5.00222086e-12
+2002,central_government,modern_detailed,expenditure,Intermediate consumption,30.63,-30.63,667.8856071,5.00222086e-12
+2002,central_government,modern_detailed,expenditure,Other current expenditure,1104.984,-1104.984,667.8856071,5.00222086e-12
+2002,central_government,modern_detailed,expenditure,Social transfers,708.044,-708.044,667.8856071,5.00222086e-12
+2002,central_government,modern_detailed,expenditure,Subsidies,-161.473,161.473,667.8856071,5.00222086e-12
+2002,central_government,modern_detailed,revenue,Capital revenue,-446.405,-446.405,667.8856071,5.00222086e-12
+2002,central_government,modern_detailed,revenue,Sales and other current revenue,613.3022071,613.3022071,667.8856071,5.00222086e-12
+2002,central_government,modern_detailed,revenue,Social contributions,603.01,603.01,667.8856071,5.00222086e-12
+2002,central_government,modern_detailed,revenue,Taxes,1788.727,1788.727,667.8856071,5.00222086e-12
+2003,central_government,modern_detailed,expenditure,Capital expenditure,772.129,-772.129,-2884.726357,3.637978807e-12
+2003,central_government,modern_detailed,expenditure,Compensation of employees,520.032,-520.032,-2884.726357,3.637978807e-12
+2003,central_government,modern_detailed,expenditure,Interest,-149.675,149.675,-2884.726357,3.637978807e-12
+2003,central_government,modern_detailed,expenditure,Intermediate consumption,292.629,-292.629,-2884.726357,3.637978807e-12
+2003,central_government,modern_detailed,expenditure,Other current expenditure,274.018,-274.018,-2884.726357,3.637978807e-12
+2003,central_government,modern_detailed,expenditure,Social transfers,1142.881,-1142.881,-2884.726357,3.637978807e-12
+2003,central_government,modern_detailed,expenditure,Subsidies,116.16,-116.16,-2884.726357,3.637978807e-12
+2003,central_government,modern_detailed,revenue,Capital revenue,297.5895432,297.5895432,-2884.726357,3.637978807e-12
+2003,central_government,modern_detailed,revenue,Sales and other current revenue,-132.5438998,-132.5438998,-2884.726357,3.637978807e-12
+2003,central_government,modern_detailed,revenue,Social contributions,725.288,725.288,-2884.726357,3.637978807e-12
+2003,central_government,modern_detailed,revenue,Taxes,-806.886,-806.886,-2884.726357,3.637978807e-12
+2004,central_government,modern_detailed,expenditure,Capital expenditure,1045.592571,-1045.592571,-1221.228177,2.273736754e-13
+2004,central_government,modern_detailed,expenditure,Compensation of employees,710.486,-710.486,-1221.228177,2.273736754e-13
+2004,central_government,modern_detailed,expenditure,Interest,12.35857222,-12.35857222,-1221.228177,2.273736754e-13
+2004,central_government,modern_detailed,expenditure,Intermediate consumption,376.49,-376.49,-1221.228177,2.273736754e-13
+2004,central_government,modern_detailed,expenditure,Other current expenditure,851.547,-851.547,-1221.228177,2.273736754e-13
+2004,central_government,modern_detailed,expenditure,Social transfers,615.123,-615.123,-1221.228177,2.273736754e-13
+2004,central_government,modern_detailed,expenditure,Subsidies,-259.309,259.309,-1221.228177,2.273736754e-13
+2004,central_government,modern_detailed,revenue,Capital revenue,-641.7390132,-641.7390132,-1221.228177,2.273736754e-13
+2004,central_government,modern_detailed,revenue,Sales and other current revenue,669.6619796,669.6619796,-1221.228177,2.273736754e-13
+2004,central_government,modern_detailed,revenue,Social contributions,579.078,579.078,-1221.228177,2.273736754e-13
+2004,central_government,modern_detailed,revenue,Taxes,1524.059,1524.059,-1221.228177,2.273736754e-13
+2005,central_government,modern_detailed,expenditure,Capital expenditure,-640.895831,640.895831,-456.5920354,7.275957614e-12
+2005,central_government,modern_detailed,expenditure,Compensation of employees,1113.100043,-1113.100043,-456.5920354,7.275957614e-12
+2005,central_government,modern_detailed,expenditure,Interest,166.9869376,-166.9869376,-456.5920354,7.275957614e-12
+2005,central_government,modern_detailed,expenditure,Intermediate consumption,418.377,-418.377,-456.5920354,7.275957614e-12
+2005,central_government,modern_detailed,expenditure,Other current expenditure,1018.709,-1018.709,-456.5920354,7.275957614e-12
+2005,central_government,modern_detailed,expenditure,Social transfers,909.009,-909.009,-456.5920354,7.275957614e-12
+2005,central_government,modern_detailed,expenditure,Subsidies,-10.541,10.541,-456.5920354,7.275957614e-12
+2005,central_government,modern_detailed,revenue,Capital revenue,201.70347,201.70347,-456.5920354,7.275957614e-12
+2005,central_government,modern_detailed,revenue,Sales and other current revenue,-233.3503558,-233.3503558,-456.5920354,7.275957614e-12
+2005,central_government,modern_detailed,revenue,Social contributions,529.853,529.853,-456.5920354,7.275957614e-12
+2005,central_government,modern_detailed,revenue,Taxes,2019.947,2019.947,-456.5920354,7.275957614e-12
+2006,central_government,modern_detailed,expenditure,Capital expenditure,-727.9767764,727.9767764,2093.146436,-1.455191523e-11
+2006,central_government,modern_detailed,expenditure,Compensation of employees,-555.3469454,555.3469454,2093.146436,-1.455191523e-11
+2006,central_government,modern_detailed,expenditure,Interest,510.732215,-510.732215,2093.146436,-1.455191523e-11
+2006,central_government,modern_detailed,expenditure,Intermediate consumption,265.081,-265.081,2093.146436,-1.455191523e-11
+2006,central_government,modern_detailed,expenditure,Other current expenditure,1127.282132,-1127.282132,2093.146436,-1.455191523e-11
+2006,central_government,modern_detailed,expenditure,Social transfers,-107.287,107.287,2093.146436,-1.455191523e-11
+2006,central_government,modern_detailed,expenditure,Subsidies,-41.775,41.775,2093.146436,-1.455191523e-11
+2006,central_government,modern_detailed,revenue,Capital revenue,-491.4748028,-491.4748028,2093.146436,-1.455191523e-11
+2006,central_government,modern_detailed,revenue,Sales and other current revenue,734.8028644,734.8028644,2093.146436,-1.455191523e-11
+2006,central_government,modern_detailed,revenue,Social contributions,-216.518,-216.518,2093.146436,-1.455191523e-11
+2006,central_government,modern_detailed,revenue,Taxes,2537.046,2537.046,2093.146436,-1.455191523e-11
+2007,central_government,modern_detailed,expenditure,Capital expenditure,-451.0934221,451.0934221,1519.469248,1.136868377e-11
+2007,central_government,modern_detailed,expenditure,Compensation of employees,-43.80620356,43.80620356,1519.469248,1.136868377e-11
+2007,central_government,modern_detailed,expenditure,Interest,508.8495224,-508.8495224,1519.469248,1.136868377e-11
+2007,central_government,modern_detailed,expenditure,Intermediate consumption,719.405,-719.405,1519.469248,1.136868377e-11
+2007,central_government,modern_detailed,expenditure,Other current expenditure,297.423405,-297.423405,1519.469248,1.136868377e-11
+2007,central_government,modern_detailed,expenditure,Social transfers,604.52,-604.52,1519.469248,1.136868377e-11
+2007,central_government,modern_detailed,expenditure,Subsidies,-68.33,68.33,1519.469248,1.136868377e-11
+2007,central_government,modern_detailed,revenue,Capital revenue,44.60618838,44.60618838,1519.469248,1.136868377e-11
+2007,central_government,modern_detailed,revenue,Sales and other current revenue,843.1023614,843.1023614,1519.469248,1.136868377e-11
+2007,central_government,modern_detailed,revenue,Social contributions,-131.522,-131.522,1519.469248,1.136868377e-11
+2007,central_government,modern_detailed,revenue,Taxes,2330.251,2330.251,1519.469248,1.136868377e-11
+2008,central_government,modern_detailed,expenditure,Capital expenditure,-47.75968851,47.75968851,-1366.451005,2.046363079e-12
+2008,central_government,modern_detailed,expenditure,Compensation of employees,326.177106,-326.177106,-1366.451005,2.046363079e-12
+2008,central_government,modern_detailed,expenditure,Interest,335.5655557,-335.5655557,-1366.451005,2.046363079e-12
+2008,central_government,modern_detailed,expenditure,Intermediate consumption,102.22,-102.22,-1366.451005,2.046363079e-12
+2008,central_government,modern_detailed,expenditure,Other current expenditure,1469.913663,-1469.913663,-1366.451005,2.046363079e-12
+2008,central_government,modern_detailed,expenditure,Social transfers,564.209,-564.209,-1366.451005,2.046363079e-12
+2008,central_government,modern_detailed,expenditure,Subsidies,-116.826,116.826,-1366.451005,2.046363079e-12
+2008,central_government,modern_detailed,revenue,Capital revenue,-182.0150255,-182.0150255,-1366.451005,2.046363079e-12
+2008,central_government,modern_detailed,revenue,Sales and other current revenue,280.600657,280.600657,-1366.451005,2.046363079e-12
+2008,central_government,modern_detailed,revenue,Social contributions,198.942,198.942,-1366.451005,2.046363079e-12
+2008,central_government,modern_detailed,revenue,Taxes,969.521,969.521,-1366.451005,2.046363079e-12
+2009,central_government,modern_detailed,expenditure,Capital expenditure,1570.943147,-1570.943147,-8939.254299,0
+2009,central_government,modern_detailed,expenditure,Compensation of employees,760.036,-760.036,-8939.254299,0
+2009,central_government,modern_detailed,expenditure,Interest,-242.823803,242.823803,-8939.254299,0
+2009,central_government,modern_detailed,expenditure,Intermediate consumption,752.88,-752.88,-8939.254299,0
+2009,central_government,modern_detailed,expenditure,Other current expenditure,1240.7358,-1240.7358,-8939.254299,0
+2009,central_government,modern_detailed,expenditure,Social transfers,1346.395,-1346.395,-8939.254299,0
+2009,central_government,modern_detailed,expenditure,Subsidies,44.48,-44.48,-8939.254299,0
+2009,central_government,modern_detailed,revenue,Capital revenue,-38.95936,-38.95936,-8939.254299,0
+2009,central_government,modern_detailed,revenue,Sales and other current revenue,523.415205,523.415205,-8939.254299,0
+2009,central_government,modern_detailed,revenue,Social contributions,296.592,296.592,-8939.254299,0
+2009,central_government,modern_detailed,revenue,Taxes,-4247.656,-4247.656,-8939.254299,0
+2010,central_government,modern_detailed,expenditure,Capital expenditure,4321.062,-4321.062,-3450.50486,-9.094947018e-12
+2010,central_government,modern_detailed,expenditure,Compensation of employees,70.748,-70.748,-3450.50486,-9.094947018e-12
+2010,central_government,modern_detailed,expenditure,Interest,206.26,-206.26,-3450.50486,-9.094947018e-12
+2010,central_government,modern_detailed,expenditure,Intermediate consumption,-254.402,254.402,-3450.50486,-9.094947018e-12
+2010,central_government,modern_detailed,expenditure,Other current expenditure,1029.858,-1029.858,-3450.50486,-9.094947018e-12
+2010,central_government,modern_detailed,expenditure,Social transfers,-84.573,84.573,-3450.50486,-9.094947018e-12
+2010,central_government,modern_detailed,expenditure,Subsidies,-49.403,49.403,-3450.50486,-9.094947018e-12
+2010,central_government,modern_detailed,revenue,Capital revenue,540.838,540.838,-3450.50486,-9.094947018e-12
+2010,central_government,modern_detailed,revenue,Sales and other current revenue,-792.18232,-792.18232,-3450.50486,-9.094947018e-12
+2010,central_government,modern_detailed,revenue,Social contributions,-141.99954,-141.99954,-3450.50486,-9.094947018e-12
+2010,central_government,modern_detailed,revenue,Taxes,2182.389,2182.389,-3450.50486,-9.094947018e-12
+2011,central_government,modern_detailed,expenditure,Capital expenditure,-4594.40144,4594.40144,5937.106363,-3.637978807e-12
+2011,central_government,modern_detailed,expenditure,Compensation of employees,-1773.236,1773.236,5937.106363,-3.637978807e-12
+2011,central_government,modern_detailed,expenditure,Interest,2235.31747,-2235.31747,5937.106363,-3.637978807e-12
+2011,central_government,modern_detailed,expenditure,Intermediate consumption,354.495,-354.495,5937.106363,-3.637978807e-12
+2011,central_government,modern_detailed,expenditure,Other current expenditure,-776.7095,776.7095,5937.106363,-3.637978807e-12
+2011,central_government,modern_detailed,expenditure,Social transfers,-14.944,14.944,5937.106363,-3.637978807e-12
+2011,central_government,modern_detailed,expenditure,Subsidies,-158.509,158.509,5937.106363,-3.637978807e-12
+2011,central_government,modern_detailed,revenue,Capital revenue,-526.743,-526.743,5937.106363,-3.637978807e-12
+2011,central_government,modern_detailed,revenue,Sales and other current revenue,87.619353,87.619353,5937.106363,-3.637978807e-12
+2011,central_government,modern_detailed,revenue,Social contributions,-335.60046,-335.60046,5937.106363,-3.637978807e-12
+2011,central_government,modern_detailed,revenue,Taxes,1983.843,1983.843,5937.106363,-3.637978807e-12
+2012,central_government,modern_detailed,expenditure,Capital expenditure,-771.80633,771.80633,2259.177167,9.094947018e-13
+2012,central_government,modern_detailed,expenditure,Compensation of employees,-2490.289,2490.289,2259.177167,9.094947018e-13
+2012,central_government,modern_detailed,expenditure,Interest,618.68797,-618.68797,2259.177167,9.094947018e-13
+2012,central_government,modern_detailed,expenditure,Intermediate consumption,-889.834,889.834,2259.177167,9.094947018e-13
+2012,central_government,modern_detailed,expenditure,Other current expenditure,670.94981,-670.94981,2259.177167,9.094947018e-13
+2012,central_government,modern_detailed,expenditure,Social transfers,-1094.858,1094.858,2259.177167,9.094947018e-13
+2012,central_government,modern_detailed,expenditure,Subsidies,-69.506,69.506,2259.177167,9.094947018e-13
+2012,central_government,modern_detailed,revenue,Capital revenue,1020.168,1020.168,2259.177167,9.094947018e-13
+2012,central_government,modern_detailed,revenue,Sales and other current revenue,1030.413617,1030.413617,2259.177167,9.094947018e-13
+2012,central_government,modern_detailed,revenue,Social contributions,-1303.341,-1303.341,2259.177167,9.094947018e-13
+2012,central_government,modern_detailed,revenue,Taxes,-2514.719,-2514.719,2259.177167,9.094947018e-13
+2013,central_government,modern_detailed,expenditure,Capital expenditure,-1239.89023,1239.89023,2047.46001,3.183231456e-12
+2013,central_government,modern_detailed,expenditure,Compensation of employees,1294.381,-1294.381,2047.46001,3.183231456e-12
+2013,central_government,modern_detailed,expenditure,Interest,-52.94844,52.94844,2047.46001,3.183231456e-12
+2013,central_government,modern_detailed,expenditure,Intermediate consumption,-76.722,76.722,2047.46001,3.183231456e-12
+2013,central_government,modern_detailed,expenditure,Other current expenditure,1375.69669,-1375.69669,2047.46001,3.183231456e-12
+2013,central_government,modern_detailed,expenditure,Social transfers,899.235,-899.235,2047.46001,3.183231456e-12
+2013,central_government,modern_detailed,expenditure,Subsidies,-3.813,3.813,2047.46001,3.183231456e-12
+2013,central_government,modern_detailed,revenue,Capital revenue,-1084.416,-1084.416,2047.46001,3.183231456e-12
+2013,central_government,modern_detailed,revenue,Sales and other current revenue,467.59703,467.59703,2047.46001,3.183231456e-12
+2013,central_government,modern_detailed,revenue,Social contributions,981.971,981.971,2047.46001,3.183231456e-12
+2013,central_government,modern_detailed,revenue,Taxes,3878.247,3878.247,2047.46001,3.183231456e-12
+2014,central_government,modern_detailed,expenditure,Capital expenditure,5209.826,-5209.826,-4658.72,-1.000444172e-11
+2014,central_government,modern_detailed,expenditure,Compensation of employees,-548.056,548.056,-4658.72,-1.000444172e-11
+2014,central_government,modern_detailed,expenditure,Interest,230.602,-230.602,-4658.72,-1.000444172e-11
+2014,central_government,modern_detailed,expenditure,Intermediate consumption,325.7,-325.7,-4658.72,-1.000444172e-11
+2014,central_government,modern_detailed,expenditure,Other current expenditure,-651.541,651.541,-4658.72,-1.000444172e-11
+2014,central_government,modern_detailed,expenditure,Social transfers,11.058,-11.058,-4658.72,-1.000444172e-11
+2014,central_government,modern_detailed,expenditure,Subsidies,250.951,-250.951,-4658.72,-1.000444172e-11
+2014,central_government,modern_detailed,revenue,Capital revenue,-49.759,-49.759,-4658.72,-1.000444172e-11
+2014,central_government,modern_detailed,revenue,Sales and other current revenue,-236.903,-236.903,-4658.72,-1.000444172e-11
+2014,central_government,modern_detailed,revenue,Social contributions,-124.628,-124.628,-4658.72,-1.000444172e-11
+2014,central_government,modern_detailed,revenue,Taxes,581.11,581.11,-4658.72,-1.000444172e-11
+2015,central_government,modern_detailed,expenditure,Capital expenditure,-3095.367,3095.367,4283.124004,1.000444172e-11
+2015,central_government,modern_detailed,expenditure,Compensation of employees,-99.74,99.74,4283.124004,1.000444172e-11
+2015,central_government,modern_detailed,expenditure,Interest,-107.370001,107.370001,4283.124004,1.000444172e-11
+2015,central_government,modern_detailed,expenditure,Intermediate consumption,109.458,-109.458,4283.124004,1.000444172e-11
+2015,central_government,modern_detailed,expenditure,Other current expenditure,-460.391003,460.391003,4283.124004,1.000444172e-11
+2015,central_government,modern_detailed,expenditure,Social transfers,1059.937,-1059.937,4283.124004,1.000444172e-11
+2015,central_government,modern_detailed,expenditure,Subsidies,-109.176,109.176,4283.124004,1.000444172e-11
+2015,central_government,modern_detailed,revenue,Capital revenue,144.968,144.968,4283.124004,1.000444172e-11
+2015,central_government,modern_detailed,revenue,Sales and other current revenue,-102.868,-102.868,4283.124004,1.000444172e-11
+2015,central_government,modern_detailed,revenue,Social contributions,-236.405,-236.405,4283.124004,1.000444172e-11
+2015,central_government,modern_detailed,revenue,Taxes,1774.78,1774.78,4283.124004,1.000444172e-11
+2016,central_government,modern_detailed,expenditure,Capital expenditure,-3639.91634,3639.91634,3875.783336,-5.911715562e-12
+2016,central_government,modern_detailed,expenditure,Compensation of employees,479.024,-479.024,3875.783336,-5.911715562e-12
+2016,central_government,modern_detailed,expenditure,Interest,-399.422999,399.422999,3875.783336,-5.911715562e-12
+2016,central_government,modern_detailed,expenditure,Intermediate consumption,198.063,-198.063,3875.783336,-5.911715562e-12
+2016,central_government,modern_detailed,expenditure,Other current expenditure,126.561003,-126.561003,3875.783336,-5.911715562e-12
+2016,central_government,modern_detailed,expenditure,Social transfers,126.34,-126.34,3875.783336,-5.911715562e-12
+2016,central_government,modern_detailed,expenditure,Subsidies,-85.029,85.029,3875.783336,-5.911715562e-12
+2016,central_government,modern_detailed,revenue,Capital revenue,-86.038,-86.038,3875.783336,-5.911715562e-12
+2016,central_government,modern_detailed,revenue,Sales and other current revenue,-58.039,-58.039,3875.783336,-5.911715562e-12
+2016,central_government,modern_detailed,revenue,Social contributions,107.53,107.53,3875.783336,-5.911715562e-12
+2016,central_government,modern_detailed,revenue,Taxes,717.95,717.95,3875.783336,-5.911715562e-12
+2017,central_government,modern_detailed,expenditure,Capital expenditure,4282.8334,-4282.8334,-2405.0894,9.094947018e-12
+2017,central_government,modern_detailed,expenditure,Compensation of employees,390.319,-390.319,-2405.0894,9.094947018e-12
+2017,central_government,modern_detailed,expenditure,Interest,-306.406,306.406,-2405.0894,9.094947018e-12
+2017,central_government,modern_detailed,expenditure,Intermediate consumption,20.366,-20.366,-2405.0894,9.094947018e-12
+2017,central_government,modern_detailed,expenditure,Other current expenditure,-275.864,275.864,-2405.0894,9.094947018e-12
+2017,central_government,modern_detailed,expenditure,Social transfers,168.161,-168.161,-2405.0894,9.094947018e-12
+2017,central_government,modern_detailed,expenditure,Subsidies,-92.037,92.037,-2405.0894,9.094947018e-12
+2017,central_government,modern_detailed,revenue,Capital revenue,-232.868,-232.868,-2405.0894,9.094947018e-12
+2017,central_government,modern_detailed,revenue,Sales and other current revenue,-97.461,-97.461,-2405.0894,9.094947018e-12
+2017,central_government,modern_detailed,revenue,Social contributions,31.411,31.411,-2405.0894,9.094947018e-12
+2017,central_government,modern_detailed,revenue,Taxes,2081.201,2081.201,-2405.0894,9.094947018e-12
+2018,central_government,modern_detailed,expenditure,Capital expenditure,-2354.58506,2354.58506,5053.25306,-9.094947018e-13
+2018,central_government,modern_detailed,expenditure,Compensation of employees,437.416,-437.416,5053.25306,-9.094947018e-13
+2018,central_government,modern_detailed,expenditure,Interest,-493.851,493.851,5053.25306,-9.094947018e-13
+2018,central_government,modern_detailed,expenditure,Intermediate consumption,170.058,-170.058,5053.25306,-9.094947018e-13
+2018,central_government,modern_detailed,expenditure,Other current expenditure,40.131,-40.131,5053.25306,-9.094947018e-13
+2018,central_government,modern_detailed,expenditure,Social transfers,367.097,-367.097,5053.25306,-9.094947018e-13
+2018,central_government,modern_detailed,expenditure,Subsidies,-99.509,99.509,5053.25306,-9.094947018e-13
+2018,central_government,modern_detailed,revenue,Capital revenue,149.308,149.308,5053.25306,-9.094947018e-13
+2018,central_government,modern_detailed,revenue,Sales and other current revenue,399.758,399.758,5053.25306,-9.094947018e-13
+2018,central_government,modern_detailed,revenue,Social contributions,-2.355,-2.355,5053.25306,-9.094947018e-13
+2018,central_government,modern_detailed,revenue,Taxes,2573.299,2573.299,5053.25306,-9.094947018e-13
+2019,central_government,modern_detailed,expenditure,Capital expenditure,343.679,-343.679,75.941,1.136868377e-13
+2019,central_government,modern_detailed,expenditure,Compensation of employees,754.119,-754.119,75.941,1.136868377e-13
+2019,central_government,modern_detailed,expenditure,Interest,-585.194,585.194,75.941,1.136868377e-13
+2019,central_government,modern_detailed,expenditure,Intermediate consumption,46.974,-46.974,75.941,1.136868377e-13
+2019,central_government,modern_detailed,expenditure,Other current expenditure,763.314,-763.314,75.941,1.136868377e-13
+2019,central_government,modern_detailed,expenditure,Social transfers,268.509,-268.509,75.941,1.136868377e-13
+2019,central_government,modern_detailed,expenditure,Subsidies,81.647,-81.647,75.941,1.136868377e-13
+2019,central_government,modern_detailed,revenue,Capital revenue,-154.102,-154.102,75.941,1.136868377e-13
+2019,central_government,modern_detailed,revenue,Sales and other current revenue,594.632,594.632,75.941,1.136868377e-13
+2019,central_government,modern_detailed,revenue,Social contributions,-2.413,-2.413,75.941,1.136868377e-13
+2019,central_government,modern_detailed,revenue,Taxes,1310.872,1310.872,75.941,1.136868377e-13
+2020,central_government,modern_detailed,expenditure,Capital expenditure,2087.424,-2087.424,-10223.699,-9.094947018e-12
+2020,central_government,modern_detailed,expenditure,Compensation of employees,563.534,-563.534,-10223.699,-9.094947018e-12
+2020,central_government,modern_detailed,expenditure,Interest,-552.693,552.693,-10223.699,-9.094947018e-12
+2020,central_government,modern_detailed,expenditure,Intermediate consumption,166.493,-166.493,-10223.699,-9.094947018e-12
+2020,central_government,modern_detailed,expenditure,Other current expenditure,3122.28,-3122.28,-10223.699,-9.094947018e-12
+2020,central_government,modern_detailed,expenditure,Social transfers,-124.48,124.48,-10223.699,-9.094947018e-12
+2020,central_government,modern_detailed,expenditure,Subsidies,1212.848,-1212.848,-10223.699,-9.094947018e-12
+2020,central_government,modern_detailed,revenue,Capital revenue,116.943,116.943,-10223.699,-9.094947018e-12
+2020,central_government,modern_detailed,revenue,Sales and other current revenue,-422.866,-422.866,-10223.699,-9.094947018e-12
+2020,central_government,modern_detailed,revenue,Social contributions,-87.465,-87.465,-10223.699,-9.094947018e-12
+2020,central_government,modern_detailed,revenue,Taxes,-3354.905,-3354.905,-10223.699,-9.094947018e-12
+2021,central_government,modern_detailed,expenditure,Capital expenditure,-1231.516,1231.516,5569.892,1.364242053e-11
+2021,central_government,modern_detailed,expenditure,Compensation of employees,816.282,-816.282,5569.892,1.364242053e-11
+2021,central_government,modern_detailed,expenditure,Interest,-604.927,604.927,5569.892,1.364242053e-11
+2021,central_government,modern_detailed,expenditure,Intermediate consumption,763.377,-763.377,5569.892,1.364242053e-11
+2021,central_government,modern_detailed,expenditure,Other current expenditure,360.61,-360.61,5569.892,1.364242053e-11
+2021,central_government,modern_detailed,expenditure,Social transfers,656.098,-656.098,5569.892,1.364242053e-11
+2021,central_government,modern_detailed,expenditure,Subsidies,525.107,-525.107,5569.892,1.364242053e-11
+2021,central_government,modern_detailed,revenue,Capital revenue,1460.141,1460.141,5569.892,1.364242053e-11
+2021,central_government,modern_detailed,revenue,Sales and other current revenue,1615.916,1615.916,5569.892,1.364242053e-11
+2021,central_government,modern_detailed,revenue,Social contributions,294.207,294.207,5569.892,1.364242053e-11
+2021,central_government,modern_detailed,revenue,Taxes,3484.659,3484.659,5569.892,1.364242053e-11
+2022,central_government,modern_detailed,expenditure,Capital expenditure,796.938,-796.938,3018.589,-1.091393642e-11
+2022,central_government,modern_detailed,expenditure,Compensation of employees,490.916,-490.916,3018.589,-1.091393642e-11
+2022,central_government,modern_detailed,expenditure,Interest,-479.614,479.614,3018.589,-1.091393642e-11
+2022,central_government,modern_detailed,expenditure,Intermediate consumption,761.849,-761.849,3018.589,-1.091393642e-11
+2022,central_government,modern_detailed,expenditure,Other current expenditure,831.875,-831.875,3018.589,-1.091393642e-11
+2022,central_government,modern_detailed,expenditure,Social transfers,1466.448,-1466.448,3018.589,-1.091393642e-11
+2022,central_government,modern_detailed,expenditure,Subsidies,-261.619,261.619,3018.589,-1.091393642e-11
+2022,central_government,modern_detailed,revenue,Capital revenue,-958.274,-958.274,3018.589,-1.091393642e-11
+2022,central_government,modern_detailed,revenue,Sales and other current revenue,-718.151,-718.151,3018.589,-1.091393642e-11
+2022,central_government,modern_detailed,revenue,Social contributions,29.738,29.738,3018.589,-1.091393642e-11
+2022,central_government,modern_detailed,revenue,Taxes,8272.069,8272.069,3018.589,-1.091393642e-11
+2023,central_government,modern_detailed,expenditure,Capital expenditure,1624.384,-1624.384,2518.689,1.227817847e-11
+2023,central_government,modern_detailed,expenditure,Compensation of employees,1181.975,-1181.975,2518.689,1.227817847e-11
+2023,central_government,modern_detailed,expenditure,Interest,918.491,-918.491,2518.689,1.227817847e-11
+2023,central_government,modern_detailed,expenditure,Intermediate consumption,272.046,-272.046,2518.689,1.227817847e-11
+2023,central_government,modern_detailed,expenditure,Other current expenditure,463.247,-463.247,2518.689,1.227817847e-11
+2023,central_government,modern_detailed,expenditure,Social transfers,161,-161,2518.689,1.227817847e-11
+2023,central_government,modern_detailed,expenditure,Subsidies,-591.334,591.334,2518.689,1.227817847e-11
+2023,central_government,modern_detailed,revenue,Capital revenue,1137.083,1137.083,2518.689,1.227817847e-11
+2023,central_government,modern_detailed,revenue,Sales and other current revenue,359.144,359.144,2518.689,1.227817847e-11
+2023,central_government,modern_detailed,revenue,Social contributions,286.738,286.738,2518.689,1.227817847e-11
+2023,central_government,modern_detailed,revenue,Taxes,4765.533,4765.533,2518.689,1.227817847e-11
+2024,central_government,modern_detailed,expenditure,Capital expenditure,-424.422,424.422,-1976.48145,-9.094947018e-13
+2024,central_government,modern_detailed,expenditure,Compensation of employees,1925.975,-1925.975,-1976.48145,-9.094947018e-13
+2024,central_government,modern_detailed,expenditure,Interest,484.264,-484.264,-1976.48145,-9.094947018e-13
+2024,central_government,modern_detailed,expenditure,Intermediate consumption,491.741,-491.741,-1976.48145,-9.094947018e-13
+2024,central_government,modern_detailed,expenditure,Other current expenditure,2796.089,-2796.089,-1976.48145,-9.094947018e-13
+2024,central_government,modern_detailed,expenditure,Social transfers,1593.864,-1593.864,-1976.48145,-9.094947018e-13
+2024,central_government,modern_detailed,expenditure,Subsidies,-5.2,5.2,-1976.48145,-9.094947018e-13
+2024,central_government,modern_detailed,revenue,Capital revenue,-51.78145,-51.78145,-1976.48145,-9.094947018e-13
+2024,central_government,modern_detailed,revenue,Sales and other current revenue,989.691,989.691,-1976.48145,-9.094947018e-13
+2024,central_government,modern_detailed,revenue,Social contributions,489.274,489.274,-1976.48145,-9.094947018e-13
+2024,central_government,modern_detailed,revenue,Taxes,3458.646,3458.646,-1976.48145,-9.094947018e-13
+2025,central_government,modern_detailed,expenditure,Capital expenditure,1020.379,-1020.379,-1211.877183,-1.932676241e-11
+2025,central_government,modern_detailed,expenditure,Compensation of employees,1625.42,-1625.42,-1211.877183,-1.932676241e-11
+2025,central_government,modern_detailed,expenditure,Interest,83.178,-83.178,-1211.877183,-1.932676241e-11
+2025,central_government,modern_detailed,expenditure,Intermediate consumption,265.958,-265.958,-1211.877183,-1.932676241e-11
+2025,central_government,modern_detailed,expenditure,Other current expenditure,1736.504,-1736.504,-1211.877183,-1.932676241e-11
+2025,central_government,modern_detailed,expenditure,Social transfers,923.479,-923.479,-1211.877183,-1.932676241e-11
+2025,central_government,modern_detailed,expenditure,Subsidies,-215.409,215.409,-1211.877183,-1.932676241e-11
+2025,central_government,modern_detailed,revenue,Capital revenue,869.6378172,869.6378172,-1211.877183,-1.932676241e-11
+2025,central_government,modern_detailed,revenue,Sales and other current revenue,-547.405,-547.405,-1211.877183,-1.932676241e-11
+2025,central_government,modern_detailed,revenue,Social contributions,369.035,369.035,-1211.877183,-1.932676241e-11
+2025,central_government,modern_detailed,revenue,Taxes,3536.364,3536.364,-1211.877183,-1.932676241e-11
+1978,general_government,historical_current_capital,expenditure,Capital expenditure,58.73775328,-58.73775328,-131.9211155,-2.842170943e-14
+1978,general_government,historical_current_capital,expenditure,Current expenditure,298.3027977,-298.3027977,-131.9211155,-2.842170943e-14
+1978,general_government,historical_current_capital,revenue,Capital revenue,9.373942569,9.373942569,-131.9211155,-2.842170943e-14
+1978,general_government,historical_current_capital,revenue,Current revenue,215.7454929,215.7454929,-131.9211155,-2.842170943e-14
+1979,general_government,historical_current_capital,expenditure,Capital expenditure,65.06787603,-65.06787603,-48.92744566,-8.526512829e-14
+1979,general_government,historical_current_capital,expenditure,Current expenditure,322.9524496,-322.9524496,-48.92744566,-8.526512829e-14
+1979,general_government,historical_current_capital,revenue,Capital revenue,-6.475045049,-6.475045049,-48.92744566,-8.526512829e-14
+1979,general_government,historical_current_capital,revenue,Current revenue,345.567925,345.567925,-48.92744566,-8.526512829e-14
+1980,general_government,historical_current_capital,expenditure,Capital expenditure,107.0160827,-107.0160827,-296.2232916,2.273736754e-13
+1980,general_government,historical_current_capital,expenditure,Current expenditure,712.2194245,-712.2194245,-296.2232916,2.273736754e-13
+1980,general_government,historical_current_capital,revenue,Capital revenue,4.283622606,4.283622606,-296.2232916,2.273736754e-13
+1980,general_government,historical_current_capital,revenue,Current revenue,518.728593,518.728593,-296.2232916,2.273736754e-13
+1981,general_government,historical_current_capital,expenditure,Capital expenditure,130.1611117,-130.1611117,-477.8025258,-6.821210263e-13
+1981,general_government,historical_current_capital,expenditure,Current expenditure,921.1040971,-921.1040971,-477.8025258,-6.821210263e-13
+1981,general_government,historical_current_capital,revenue,Capital revenue,-3.472351633,-3.472351633,-477.8025258,-6.821210263e-13
+1981,general_government,historical_current_capital,revenue,Current revenue,576.9350346,576.9350346,-477.8025258,-6.821210263e-13
+1982,general_government,historical_current_capital,expenditure,Capital expenditure,136.1155715,-136.1155715,188.1974969,1.705302566e-13
+1982,general_government,historical_current_capital,expenditure,Current expenditure,511.3065359,-511.3065359,188.1974969,1.705302566e-13
+1982,general_government,historical_current_capital,revenue,Capital revenue,1.453472132,1.453472132,188.1974969,1.705302566e-13
+1982,general_government,historical_current_capital,revenue,Current revenue,834.1661322,834.1661322,188.1974969,1.705302566e-13
+1983,general_government,historical_current_capital,expenditure,Capital expenditure,60.99403623,-60.99403623,-3.012603648,3.410605132e-13
+1983,general_government,historical_current_capital,expenditure,Current expenditure,1155.025077,-1155.025077,-3.012603648,3.410605132e-13
+1983,general_government,historical_current_capital,revenue,Capital revenue,24.21217366,24.21217366,-3.012603648,3.410605132e-13
+1983,general_government,historical_current_capital,revenue,Current revenue,1188.794335,1188.794335,-3.012603648,3.410605132e-13
+1984,general_government,historical_current_capital,expenditure,Capital expenditure,30.58392096,-30.58392096,-790.1585603,-1.136868377e-13
+1984,general_government,historical_current_capital,expenditure,Current expenditure,1702.575183,-1702.575183,-790.1585603,-1.136868377e-13
+1984,general_government,historical_current_capital,revenue,Capital revenue,28.72381062,28.72381062,-790.1585603,-1.136868377e-13
+1984,general_government,historical_current_capital,revenue,Current revenue,914.276733,914.276733,-790.1585603,-1.136868377e-13
+1985,general_government,historical_current_capital,expenditure,Capital expenditure,204.6406959,-204.6406959,-411.4529563,2.273736754e-13
+1985,general_government,historical_current_capital,expenditure,Current expenditure,1474.618896,-1474.618896,-411.4529563,2.273736754e-13
+1985,general_government,historical_current_capital,revenue,Capital revenue,7.490193633,7.490193633,-411.4529563,2.273736754e-13
+1985,general_government,historical_current_capital,revenue,Current revenue,1260.316442,1260.316442,-411.4529563,2.273736754e-13
+1986,general_government,historical_current_capital,expenditure,Capital expenditure,276.962251,-276.962251,633.4873349,5.684341886e-13
+1986,general_government,historical_current_capital,expenditure,Current expenditure,1181.461626,-1181.461626,633.4873349,5.684341886e-13
+1986,general_government,historical_current_capital,revenue,Capital revenue,114.2315769,114.2315769,633.4873349,5.684341886e-13
+1986,general_government,historical_current_capital,revenue,Current revenue,1977.679635,1977.679635,633.4873349,5.684341886e-13
+1987,general_government,historical_current_capital,expenditure,Capital expenditure,28.05135623,-28.05135623,-154.173442,0
+1987,general_government,historical_current_capital,expenditure,Current expenditure,1472.86187,-1472.86187,-154.173442,0
+1987,general_government,historical_current_capital,revenue,Capital revenue,42.75695574,42.75695574,-154.173442,0
+1987,general_government,historical_current_capital,revenue,Current revenue,1303.982828,1303.982828,-154.173442,0
+1988,general_government,historical_current_capital,expenditure,Capital expenditure,357.8426093,-357.8426093,516.0569727,-1.818989404e-12
+1988,general_government,historical_current_capital,expenditure,Current expenditure,1438.788474,-1438.788474,516.0569727,-1.818989404e-12
+1988,general_government,historical_current_capital,revenue,Capital revenue,71.67226983,71.67226983,516.0569727,-1.818989404e-12
+1988,general_government,historical_current_capital,revenue,Current revenue,2241.015786,2241.015786,516.0569727,-1.818989404e-12
+1989,general_government,historical_current_capital,expenditure,Capital expenditure,435.4146956,-435.4146956,232.8210014,1.364242053e-12
+1989,general_government,historical_current_capital,expenditure,Current expenditure,2030.627322,-2030.627322,232.8210014,1.364242053e-12
+1989,general_government,historical_current_capital,revenue,Capital revenue,311.6439381,311.6439381,232.8210014,1.364242053e-12
+1989,general_government,historical_current_capital,revenue,Current revenue,2387.219081,2387.219081,232.8210014,1.364242053e-12
+1990,general_government,historical_current_capital,expenditure,Capital expenditure,504.2471045,-504.2471045,-1635.33827,2.50111043e-12
+1990,general_government,historical_current_capital,expenditure,Current expenditure,3884.823753,-3884.823753,-1635.33827,2.50111043e-12
+1990,general_government,historical_current_capital,revenue,Capital revenue,123.9013976,123.9013976,-1635.33827,2.50111043e-12
+1990,general_government,historical_current_capital,revenue,Current revenue,2629.83119,2629.83119,-1635.33827,2.50111043e-12
+1991,general_government,historical_current_capital,expenditure,Capital expenditure,463.1723147,-463.1723147,-928.8280843,-2.273736754e-12
+1991,general_government,historical_current_capital,expenditure,Current expenditure,4229.822643,-4229.822643,-928.8280843,-2.273736754e-12
+1991,general_government,historical_current_capital,revenue,Capital revenue,304.2268134,304.2268134,-928.8280843,-2.273736754e-12
+1991,general_government,historical_current_capital,revenue,Current revenue,3459.94006,3459.94006,-928.8280843,-2.273736754e-12
+1992,general_government,historical_current_capital,expenditure,Capital expenditure,773.534033,-773.534033,1546.811933,-1.136868377e-12
+1992,general_government,historical_current_capital,expenditure,Current expenditure,2970.072511,-2970.072511,1546.811933,-1.136868377e-12
+1992,general_government,historical_current_capital,revenue,Capital revenue,315.0856436,315.0856436,1546.811933,-1.136868377e-12
+1992,general_government,historical_current_capital,revenue,Current revenue,4975.332833,4975.332833,1546.811933,-1.136868377e-12
+1993,general_government,historical_current_capital,expenditure,Capital expenditure,211.7030706,-211.7030706,-2221.53737,-1.818989404e-12
+1993,general_government,historical_current_capital,expenditure,Current expenditure,2378.084258,-2378.084258,-2221.53737,-1.818989404e-12
+1993,general_government,historical_current_capital,revenue,Capital revenue,-70.81932543,-70.81932543,-2221.53737,-1.818989404e-12
+1993,general_government,historical_current_capital,revenue,Current revenue,439.0692838,439.0692838,-2221.53737,-1.818989404e-12
+1994,general_government,historical_current_capital,expenditure,Capital expenditure,-347.4017121,347.4017121,-327.0498596,2.50111043e-12
+1994,general_government,historical_current_capital,expenditure,Current expenditure,1929.812708,-1929.812708,-327.0498596,2.50111043e-12
+1994,general_government,historical_current_capital,revenue,Capital revenue,2.239602558,2.239602558,-327.0498596,2.50111043e-12
+1994,general_government,historical_current_capital,revenue,Current revenue,1253.121533,1253.121533,-327.0498596,2.50111043e-12
+1996,general_government,modern_detailed,expenditure,Capital expenditure,716.149,-716.149,140.446,1.000444172e-11
+1996,general_government,modern_detailed,expenditure,Compensation of employees,842.184,-842.184,140.446,1.000444172e-11
+1996,general_government,modern_detailed,expenditure,Interest,-372.671,372.671,140.446,1.000444172e-11
+1996,general_government,modern_detailed,expenditure,Intermediate consumption,314.536,-314.536,140.446,1.000444172e-11
+1996,general_government,modern_detailed,expenditure,Other current expenditure,92.494,-92.494,140.446,1.000444172e-11
+1996,general_government,modern_detailed,expenditure,Social transfers,933.882,-933.882,140.446,1.000444172e-11
+1996,general_government,modern_detailed,expenditure,Subsidies,234.117,-234.117,140.446,1.000444172e-11
+1996,general_government,modern_detailed,revenue,Capital revenue,81.219,81.219,140.446,1.000444172e-11
+1996,general_government,modern_detailed,revenue,Sales and other current revenue,388.349,388.349,140.446,1.000444172e-11
+1996,general_government,modern_detailed,revenue,Social contributions,465.089,465.089,140.446,1.000444172e-11
+1996,general_government,modern_detailed,revenue,Taxes,1966.48,1966.48,140.446,1.000444172e-11
+1997,general_government,modern_detailed,expenditure,Capital expenditure,1110.246,-1110.246,678.07564,-1.38697942e-11
+1997,general_government,modern_detailed,expenditure,Compensation of employees,1040.72436,-1040.72436,678.07564,-1.38697942e-11
+1997,general_government,modern_detailed,expenditure,Interest,-635.357,635.357,678.07564,-1.38697942e-11
+1997,general_government,modern_detailed,expenditure,Intermediate consumption,269.699,-269.699,678.07564,-1.38697942e-11
+1997,general_government,modern_detailed,expenditure,Other current expenditure,168.532,-168.532,678.07564,-1.38697942e-11
+1997,general_government,modern_detailed,expenditure,Social transfers,795.738,-795.738,678.07564,-1.38697942e-11
+1997,general_government,modern_detailed,expenditure,Subsidies,-12.714,12.714,678.07564,-1.38697942e-11
+1997,general_government,modern_detailed,revenue,Capital revenue,517.745,517.745,678.07564,-1.38697942e-11
+1997,general_government,modern_detailed,revenue,Sales and other current revenue,406.613,406.613,678.07564,-1.38697942e-11
+1997,general_government,modern_detailed,revenue,Social contributions,993.297,993.297,678.07564,-1.38697942e-11
+1997,general_government,modern_detailed,revenue,Taxes,1497.289,1497.289,678.07564,-1.38697942e-11
+1998,general_government,modern_detailed,expenditure,Capital expenditure,779.541617,-779.541617,-1093.695467,9.322320693e-12
+1998,general_government,modern_detailed,expenditure,Compensation of employees,1548.95185,-1548.95185,-1093.695467,9.322320693e-12
+1998,general_government,modern_detailed,expenditure,Interest,-424.511,424.511,-1093.695467,9.322320693e-12
+1998,general_government,modern_detailed,expenditure,Intermediate consumption,317.038,-317.038,-1093.695467,9.322320693e-12
+1998,general_government,modern_detailed,expenditure,Other current expenditure,299.458,-299.458,-1093.695467,9.322320693e-12
+1998,general_government,modern_detailed,expenditure,Social transfers,1338.976,-1338.976,-1093.695467,9.322320693e-12
+1998,general_government,modern_detailed,expenditure,Subsidies,217.191,-217.191,-1093.695467,9.322320693e-12
+1998,general_government,modern_detailed,revenue,Capital revenue,-358.255,-358.255,-1093.695467,9.322320693e-12
+1998,general_government,modern_detailed,revenue,Sales and other current revenue,-1.867,-1.867,-1093.695467,9.322320693e-12
+1998,general_government,modern_detailed,revenue,Social contributions,1119.182,1119.182,-1093.695467,9.322320693e-12
+1998,general_government,modern_detailed,revenue,Taxes,2223.89,2223.89,-1093.695467,9.322320693e-12
+1999,general_government,modern_detailed,expenditure,Capital expenditure,-115.677617,115.677617,1259.906287,-1.29602995e-11
+1999,general_government,modern_detailed,expenditure,Compensation of employees,1372.11733,-1372.11733,1259.906287,-1.29602995e-11
+1999,general_government,modern_detailed,expenditure,Interest,26.672,-26.672,1259.906287,-1.29602995e-11
+1999,general_government,modern_detailed,expenditure,Intermediate consumption,525.235,-525.235,1259.906287,-1.29602995e-11
+1999,general_government,modern_detailed,expenditure,Other current expenditure,188.829,-188.829,1259.906287,-1.29602995e-11
+1999,general_government,modern_detailed,expenditure,Social transfers,1108.14,-1108.14,1259.906287,-1.29602995e-11
+1999,general_government,modern_detailed,expenditure,Subsidies,291.392,-291.392,1259.906287,-1.29602995e-11
+1999,general_government,modern_detailed,revenue,Capital revenue,-18.283,-18.283,1259.906287,-1.29602995e-11
+1999,general_government,modern_detailed,revenue,Sales and other current revenue,1222.795,1222.795,1259.906287,-1.29602995e-11
+1999,general_government,modern_detailed,revenue,Social contributions,724.661,724.661,1259.906287,-1.29602995e-11
+1999,general_government,modern_detailed,revenue,Taxes,2727.441,2727.441,1259.906287,-1.29602995e-11
+2000,general_government,modern_detailed,expenditure,Capital expenditure,-560.826,560.826,-446.39015,4.547473509e-12
+2000,general_government,modern_detailed,expenditure,Compensation of employees,1730.93301,-1730.93301,-446.39015,4.547473509e-12
+2000,general_government,modern_detailed,expenditure,Interest,338.86,-338.86,-446.39015,4.547473509e-12
+2000,general_government,modern_detailed,expenditure,Intermediate consumption,679.662,-679.662,-446.39015,4.547473509e-12
+2000,general_government,modern_detailed,expenditure,Other current expenditure,161.323,-161.323,-446.39015,4.547473509e-12
+2000,general_government,modern_detailed,expenditure,Social transfers,1599.456,-1599.456,-446.39015,4.547473509e-12
+2000,general_government,modern_detailed,expenditure,Subsidies,-96.982,96.982,-446.39015,4.547473509e-12
+2000,general_government,modern_detailed,revenue,Capital revenue,-120.545,-120.545,-446.39015,4.547473509e-12
+2000,general_government,modern_detailed,revenue,Sales and other current revenue,246.29686,246.29686,-446.39015,4.547473509e-12
+2000,general_government,modern_detailed,revenue,Social contributions,1348.71,1348.71,-446.39015,4.547473509e-12
+2000,general_government,modern_detailed,revenue,Taxes,1931.574,1931.574,-446.39015,4.547473509e-12
+2001,general_government,modern_detailed,expenditure,Capital expenditure,1650.6764,-1650.6764,-2365.636965,-1.000444172e-11
+2001,general_government,modern_detailed,expenditure,Compensation of employees,1178.49045,-1178.49045,-2365.636965,-1.000444172e-11
+2001,general_government,modern_detailed,expenditure,Interest,195.476,-195.476,-2365.636965,-1.000444172e-11
+2001,general_government,modern_detailed,expenditure,Intermediate consumption,284.582,-284.582,-2365.636965,-1.000444172e-11
+2001,general_government,modern_detailed,expenditure,Other current expenditure,201.053,-201.053,-2365.636965,-1.000444172e-11
+2001,general_government,modern_detailed,expenditure,Social transfers,1501.415,-1501.415,-2365.636965,-1.000444172e-11
+2001,general_government,modern_detailed,expenditure,Subsidies,128.521,-128.521,-2365.636965,-1.000444172e-11
+2001,general_government,modern_detailed,revenue,Capital revenue,736.992,736.992,-2365.636965,-1.000444172e-11
+2001,general_government,modern_detailed,revenue,Sales and other current revenue,-87.029115,-87.029115,-2365.636965,-1.000444172e-11
+2001,general_government,modern_detailed,revenue,Social contributions,1034.077,1034.077,-2365.636965,-1.000444172e-11
+2001,general_government,modern_detailed,revenue,Taxes,1090.537,1090.537,-2365.636965,-1.000444172e-11
+2002,general_government,modern_detailed,expenditure,Capital expenditure,-1113.3034,1113.3034,1751.23105,1.159605745e-11
+2002,general_government,modern_detailed,expenditure,Compensation of employees,1354.244,-1354.244,1751.23105,1.159605745e-11
+2002,general_government,modern_detailed,expenditure,Interest,-14.843,14.843,1751.23105,1.159605745e-11
+2002,general_government,modern_detailed,expenditure,Intermediate consumption,228.857,-228.857,1751.23105,1.159605745e-11
+2002,general_government,modern_detailed,expenditure,Other current expenditure,421.395,-421.395,1751.23105,1.159605745e-11
+2002,general_government,modern_detailed,expenditure,Social transfers,1656.98,-1656.98,1751.23105,1.159605745e-11
+2002,general_government,modern_detailed,expenditure,Subsidies,-95.17,95.17,1751.23105,1.159605745e-11
+2002,general_government,modern_detailed,revenue,Capital revenue,303.026,303.026,1751.23105,1.159605745e-11
+2002,general_government,modern_detailed,revenue,Sales and other current revenue,659.42965,659.42965,1751.23105,1.159605745e-11
+2002,general_government,modern_detailed,revenue,Social contributions,1131.474,1131.474,1751.23105,1.159605745e-11
+2002,general_government,modern_detailed,revenue,Taxes,2095.461,2095.461,1751.23105,1.159605745e-11
+2003,general_government,modern_detailed,expenditure,Capital expenditure,504.415,-504.415,-3638.474785,-1.455191523e-11
+2003,general_government,modern_detailed,expenditure,Compensation of employees,735.771,-735.771,-3638.474785,-1.455191523e-11
+2003,general_government,modern_detailed,expenditure,Interest,-159.403,159.403,-3638.474785,-1.455191523e-11
+2003,general_government,modern_detailed,expenditure,Intermediate consumption,353.86,-353.86,-3638.474785,-1.455191523e-11
+2003,general_government,modern_detailed,expenditure,Other current expenditure,-55.338,55.338,-3638.474785,-1.455191523e-11
+2003,general_government,modern_detailed,expenditure,Social transfers,2434.738,-2434.738,-3638.474785,-1.455191523e-11
+2003,general_government,modern_detailed,expenditure,Subsidies,184.591,-184.591,-3638.474785,-1.455191523e-11
+2003,general_government,modern_detailed,revenue,Capital revenue,175.16454,175.16454,-3638.474785,-1.455191523e-11
+2003,general_government,modern_detailed,revenue,Sales and other current revenue,97.338675,97.338675,-3638.474785,-1.455191523e-11
+2003,general_government,modern_detailed,revenue,Social contributions,806.793,806.793,-3638.474785,-1.455191523e-11
+2003,general_government,modern_detailed,revenue,Taxes,-719.137,-719.137,-3638.474785,-1.455191523e-11
+2004,general_government,modern_detailed,expenditure,Capital expenditure,962.76857,-962.76857,-1117.795352,1.659827831e-11
+2004,general_government,modern_detailed,expenditure,Compensation of employees,832.216,-832.216,-1117.795352,1.659827831e-11
+2004,general_government,modern_detailed,expenditure,Interest,25.68757,-25.68757,-1117.795352,1.659827831e-11
+2004,general_government,modern_detailed,expenditure,Intermediate consumption,531.649,-531.649,-1117.795352,1.659827831e-11
+2004,general_government,modern_detailed,expenditure,Other current expenditure,349.043,-349.043,-1117.795352,1.659827831e-11
+2004,general_government,modern_detailed,expenditure,Social transfers,1778.018,-1778.018,-1117.795352,1.659827831e-11
+2004,general_government,modern_detailed,expenditure,Subsidies,-382.507,382.507,-1117.795352,1.659827831e-11
+2004,general_government,modern_detailed,revenue,Capital revenue,-664.86801,-664.86801,-1117.795352,1.659827831e-11
+2004,general_government,modern_detailed,revenue,Sales and other current revenue,981.224798,981.224798,-1117.795352,1.659827831e-11
+2004,general_government,modern_detailed,revenue,Social contributions,875.048,875.048,-1117.795352,1.659827831e-11
+2004,general_government,modern_detailed,revenue,Taxes,1787.675,1787.675,-1117.795352,1.659827831e-11
+2005,general_government,modern_detailed,expenditure,Capital expenditure,-563.40483,563.40483,-276.457631,4.547473509e-13
+2005,general_government,modern_detailed,expenditure,Compensation of employees,1298.34604,-1298.34604,-276.457631,4.547473509e-13
+2005,general_government,modern_detailed,expenditure,Interest,162.52094,-162.52094,-276.457631,4.547473509e-13
+2005,general_government,modern_detailed,expenditure,Intermediate consumption,657.335,-657.335,-276.457631,4.547473509e-13
+2005,general_government,modern_detailed,expenditure,Other current expenditure,220.718,-220.718,-276.457631,4.547473509e-13
+2005,general_government,modern_detailed,expenditure,Social transfers,1869.907,-1869.907,-276.457631,4.547473509e-13
+2005,general_government,modern_detailed,expenditure,Subsidies,77.309,-77.309,-276.457631,4.547473509e-13
+2005,general_government,modern_detailed,revenue,Capital revenue,157.68347,157.68347,-276.457631,4.547473509e-13
+2005,general_government,modern_detailed,revenue,Sales and other current revenue,-193.991951,-193.991951,-276.457631,4.547473509e-13
+2005,general_government,modern_detailed,revenue,Social contributions,1123.15,1123.15,-276.457631,4.547473509e-13
+2005,general_government,modern_detailed,revenue,Taxes,2359.432,2359.432,-276.457631,4.547473509e-13
+2006,general_government,modern_detailed,expenditure,Capital expenditure,-1328.839334,1328.839334,2791.212342,-4.092726158e-12
+2006,general_government,modern_detailed,expenditure,Compensation of employees,-129.711942,129.711942,2791.212342,-4.092726158e-12
+2006,general_government,modern_detailed,expenditure,Interest,554.90152,-554.90152,2791.212342,-4.092726158e-12
+2006,general_government,modern_detailed,expenditure,Intermediate consumption,360.888,-360.888,2791.212342,-4.092726158e-12
+2006,general_government,modern_detailed,expenditure,Other current expenditure,310.57,-310.57,2791.212342,-4.092726158e-12
+2006,general_government,modern_detailed,expenditure,Social transfers,1283.016,-1283.016,2791.212342,-4.092726158e-12
+2006,general_government,modern_detailed,expenditure,Subsidies,-2.264,2.264,2791.212342,-4.092726158e-12
+2006,general_government,modern_detailed,revenue,Capital revenue,-641.926086,-641.926086,2791.212342,-4.092726158e-12
+2006,general_government,modern_detailed,revenue,Sales and other current revenue,957.757672,957.757672,2791.212342,-4.092726158e-12
+2006,general_government,modern_detailed,revenue,Social contributions,798.733,798.733,2791.212342,-4.092726158e-12
+2006,general_government,modern_detailed,revenue,Taxes,2725.208,2725.208,2791.212342,-4.092726158e-12
+2007,general_government,modern_detailed,expenditure,Capital expenditure,-180.004877,180.004877,1882.853398,-1.045918907e-11
+2007,general_government,modern_detailed,expenditure,Compensation of employees,78.729796,-78.729796,1882.853398,-1.045918907e-11
+2007,general_government,modern_detailed,expenditure,Interest,578.867851,-578.867851,1882.853398,-1.045918907e-11
+2007,general_government,modern_detailed,expenditure,Intermediate consumption,1056.156,-1056.156,1882.853398,-1.045918907e-11
+2007,general_government,modern_detailed,expenditure,Other current expenditure,152.036,-152.036,1882.853398,-1.045918907e-11
+2007,general_government,modern_detailed,expenditure,Social transfers,1301.476,-1301.476,1882.853398,-1.045918907e-11
+2007,general_government,modern_detailed,expenditure,Subsidies,-98.384,98.384,1882.853398,-1.045918907e-11
+2007,general_government,modern_detailed,revenue,Capital revenue,65.191255,65.191255,1882.853398,-1.045918907e-11
+2007,general_government,modern_detailed,revenue,Sales and other current revenue,1194.246913,1194.246913,1882.853398,-1.045918907e-11
+2007,general_government,modern_detailed,revenue,Social contributions,666.524,666.524,1882.853398,-1.045918907e-11
+2007,general_government,modern_detailed,revenue,Taxes,2845.768,2845.768,1882.853398,-1.045918907e-11
+2008,general_government,modern_detailed,expenditure,Capital expenditure,644.849424,-644.849424,-1779.877538,1.546140993e-11
+2008,general_government,modern_detailed,expenditure,Compensation of employees,483.357106,-483.357106,-1779.877538,1.546140993e-11
+2008,general_government,modern_detailed,expenditure,Interest,367.741752,-367.741752,-1779.877538,1.546140993e-11
+2008,general_government,modern_detailed,expenditure,Intermediate consumption,375.307,-375.307,-1779.877538,1.546140993e-11
+2008,general_government,modern_detailed,expenditure,Other current expenditure,34.873,-34.873,-1779.877538,1.546140993e-11
+2008,general_government,modern_detailed,expenditure,Social transfers,1633.953,-1633.953,-1779.877538,1.546140993e-11
+2008,general_government,modern_detailed,expenditure,Subsidies,-182.909,182.909,-1779.877538,1.546140993e-11
+2008,general_government,modern_detailed,revenue,Capital revenue,-99.084969,-99.084969,-1779.877538,1.546140993e-11
+2008,general_government,modern_detailed,revenue,Sales and other current revenue,552.908713,552.908713,-1779.877538,1.546140993e-11
+2008,general_government,modern_detailed,revenue,Social contributions,828.444,828.444,-1779.877538,1.546140993e-11
+2008,general_government,modern_detailed,revenue,Taxes,295.027,295.027,-1779.877538,1.546140993e-11
+2009,general_government,modern_detailed,expenditure,Capital expenditure,1330.112047,-1330.112047,-10495.92263,-1.273292582e-11
+2009,general_government,modern_detailed,expenditure,Compensation of employees,1115.092,-1115.092,-10495.92263,-1.273292582e-11
+2009,general_government,modern_detailed,expenditure,Interest,-342.726633,342.726633,-10495.92263,-1.273292582e-11
+2009,general_government,modern_detailed,expenditure,Intermediate consumption,978.908,-978.908,-10495.92263,-1.273292582e-11
+2009,general_government,modern_detailed,expenditure,Other current expenditure,525.416,-525.416,-10495.92263,-1.273292582e-11
+2009,general_government,modern_detailed,expenditure,Social transfers,2983.075,-2983.075,-10495.92263,-1.273292582e-11
+2009,general_government,modern_detailed,expenditure,Subsidies,104.215,-104.215,-10495.92263,-1.273292582e-11
+2009,general_government,modern_detailed,revenue,Capital revenue,-122.5762,-122.5762,-10495.92263,-1.273292582e-11
+2009,general_government,modern_detailed,revenue,Sales and other current revenue,391.071985,391.071985,-10495.92263,-1.273292582e-11
+2009,general_government,modern_detailed,revenue,Social contributions,479.057,479.057,-10495.92263,-1.273292582e-11
+2009,general_government,modern_detailed,revenue,Taxes,-4549.384,-4549.384,-10495.92263,-1.273292582e-11
+2010,general_government,modern_detailed,expenditure,Capital expenditure,4413.735,-4413.735,-3216.10789,1.045918907e-11
+2010,general_government,modern_detailed,expenditure,Compensation of employees,4.318,-4.318,-3216.10789,1.045918907e-11
+2010,general_government,modern_detailed,expenditure,Interest,15.352,-15.352,-3216.10789,1.045918907e-11
+2010,general_government,modern_detailed,expenditure,Intermediate consumption,-216.387,216.387,-3216.10789,1.045918907e-11
+2010,general_government,modern_detailed,expenditure,Other current expenditure,260.129,-260.129,-3216.10789,1.045918907e-11
+2010,general_government,modern_detailed,expenditure,Social transfers,650.362,-650.362,-3216.10789,1.045918907e-11
+2010,general_government,modern_detailed,expenditure,Subsidies,37.07,-37.07,-3216.10789,1.045918907e-11
+2010,general_government,modern_detailed,revenue,Capital revenue,773.714,773.714,-3216.10789,1.045918907e-11
+2010,general_government,modern_detailed,revenue,Sales and other current revenue,-761.2032,-761.2032,-3216.10789,1.045918907e-11
+2010,general_government,modern_detailed,revenue,Social contributions,164.50565,164.50565,-3216.10789,1.045918907e-11
+2010,general_government,modern_detailed,revenue,Taxes,1771.45466,1771.45466,-3216.10789,1.045918907e-11
+2011,general_government,modern_detailed,expenditure,Capital expenditure,-5187.09044,5187.09044,6913.091513,-2.728484105e-12
+2011,general_government,modern_detailed,expenditure,Compensation of employees,-1993.85,1993.85,6913.091513,-2.728484105e-12
+2011,general_government,modern_detailed,expenditure,Interest,2276.08547,-2276.08547,6913.091513,-2.728484105e-12
+2011,general_government,modern_detailed,expenditure,Intermediate consumption,32.859,-32.859,6913.091513,-2.728484105e-12
+2011,general_government,modern_detailed,expenditure,Other current expenditure,4.6945,-4.6945,6913.091513,-2.728484105e-12
+2011,general_government,modern_detailed,expenditure,Social transfers,-118.292,118.292,6913.091513,-2.728484105e-12
+2011,general_government,modern_detailed,expenditure,Subsidies,-131.333,131.333,6913.091513,-2.728484105e-12
+2011,general_government,modern_detailed,revenue,Capital revenue,-316.177,-316.177,6913.091513,-2.728484105e-12
+2011,general_government,modern_detailed,revenue,Sales and other current revenue,177.510353,177.510353,6913.091513,-2.728484105e-12
+2011,general_government,modern_detailed,revenue,Social contributions,-165.73365,-165.73365,6913.091513,-2.728484105e-12
+2011,general_government,modern_detailed,revenue,Taxes,2100.56534,2100.56534,6913.091513,-2.728484105e-12
+2012,general_government,modern_detailed,expenditure,Capital expenditure,-1656.60533,1656.60533,3170.569757,1.500666258e-11
+2012,general_government,modern_detailed,expenditure,Compensation of employees,-2927.616,2927.616,3170.569757,1.500666258e-11
+2012,general_government,modern_detailed,expenditure,Interest,615.38497,-615.38497,3170.569757,1.500666258e-11
+2012,general_government,modern_detailed,expenditure,Intermediate consumption,-959.295,959.295,3170.569757,1.500666258e-11
+2012,general_government,modern_detailed,expenditure,Other current expenditure,-455.27319,455.27319,3170.569757,1.500666258e-11
+2012,general_government,modern_detailed,expenditure,Social transfers,-326.407,326.407,3170.569757,1.500666258e-11
+2012,general_government,modern_detailed,expenditure,Subsidies,-193.55784,193.55784,3170.569757,1.500666258e-11
+2012,general_government,modern_detailed,revenue,Capital revenue,1091.973,1091.973,3170.569757,1.500666258e-11
+2012,general_government,modern_detailed,revenue,Sales and other current revenue,929.520617,929.520617,3170.569757,1.500666258e-11
+2012,general_government,modern_detailed,revenue,Social contributions,-2059.952,-2059.952,3170.569757,1.500666258e-11
+2012,general_government,modern_detailed,revenue,Taxes,-2694.34125,-2694.34125,3170.569757,1.500666258e-11
+2013,general_government,modern_detailed,expenditure,Capital expenditure,-517.37123,517.37123,1555.18542,-9.094947018e-12
+2013,general_government,modern_detailed,expenditure,Compensation of employees,1629.524,-1629.524,1555.18542,-9.094947018e-12
+2013,general_government,modern_detailed,expenditure,Interest,2.30756,-2.30756,1555.18542,-9.094947018e-12
+2013,general_government,modern_detailed,expenditure,Intermediate consumption,-98.047,98.047,1555.18542,-9.094947018e-12
+2013,general_government,modern_detailed,expenditure,Other current expenditure,198.96469,-198.96469,1555.18542,-9.094947018e-12
+2013,general_government,modern_detailed,expenditure,Social transfers,1780.621,-1780.621,1555.18542,-9.094947018e-12
+2013,general_government,modern_detailed,expenditure,Subsidies,-36.01516,36.01516,1555.18542,-9.094947018e-12
+2013,general_government,modern_detailed,revenue,Capital revenue,-1202.359,-1202.359,1555.18542,-9.094947018e-12
+2013,general_government,modern_detailed,revenue,Sales and other current revenue,94.39203,94.39203,1555.18542,-9.094947018e-12
+2013,general_government,modern_detailed,revenue,Social contributions,1307.037,1307.037,1555.18542,-9.094947018e-12
+2013,general_government,modern_detailed,revenue,Taxes,4316.09925,4316.09925,1555.18542,-9.094947018e-12
+2014,general_government,modern_detailed,expenditure,Capital expenditure,5037.7,-5037.7,-3853.246,-1.546140993e-11
+2014,general_government,modern_detailed,expenditure,Compensation of employees,-801.733,801.733,-3853.246,-1.546140993e-11
+2014,general_government,modern_detailed,expenditure,Interest,195.111,-195.111,-3853.246,-1.546140993e-11
+2014,general_government,modern_detailed,expenditure,Intermediate consumption,261.005,-261.005,-3853.246,-1.546140993e-11
+2014,general_government,modern_detailed,expenditure,Other current expenditure,53.976,-53.976,-3853.246,-1.546140993e-11
+2014,general_government,modern_detailed,expenditure,Social transfers,-666.517,666.517,-3853.246,-1.546140993e-11
+2014,general_government,modern_detailed,expenditure,Subsidies,204.957,-204.957,-3853.246,-1.546140993e-11
+2014,general_government,modern_detailed,revenue,Capital revenue,-251.997,-251.997,-3853.246,-1.546140993e-11
+2014,general_government,modern_detailed,revenue,Sales and other current revenue,-185.979,-185.979,-3853.246,-1.546140993e-11
+2014,general_government,modern_detailed,revenue,Social contributions,7.978,7.978,-3853.246,-1.546140993e-11
+2014,general_government,modern_detailed,revenue,Taxes,861.251,861.251,-3853.246,-1.546140993e-11
+2015,general_government,modern_detailed,expenditure,Capital expenditure,-2912.871,2912.871,4725.549002,2.637534635e-11
+2015,general_government,modern_detailed,expenditure,Compensation of employees,-151.231,151.231,4725.549002,2.637534635e-11
+2015,general_government,modern_detailed,expenditure,Interest,-201.525001,201.525001,4725.549002,2.637534635e-11
+2015,general_government,modern_detailed,expenditure,Intermediate consumption,162.06,-162.06,4725.549002,2.637534635e-11
+2015,general_government,modern_detailed,expenditure,Other current expenditure,-211.560001,211.560001,4725.549002,2.637534635e-11
+2015,general_government,modern_detailed,expenditure,Social transfers,590.96,-590.96,4725.549002,2.637534635e-11
+2015,general_government,modern_detailed,expenditure,Subsidies,-147.072,147.072,4725.549002,2.637534635e-11
+2015,general_government,modern_detailed,revenue,Capital revenue,151.319,151.319,4725.549002,2.637534635e-11
+2015,general_government,modern_detailed,revenue,Sales and other current revenue,-587.139,-587.139,4725.549002,2.637534635e-11
+2015,general_government,modern_detailed,revenue,Social contributions,326.142,326.142,4725.549002,2.637534635e-11
+2015,general_government,modern_detailed,revenue,Taxes,1963.988,1963.988,4725.549002,2.637534635e-11
+2016,general_government,modern_detailed,expenditure,Capital expenditure,-3967.72934,3967.72934,4403.925338,7.275957614e-12
+2016,general_government,modern_detailed,expenditure,Compensation of employees,576.777,-576.777,4403.925338,7.275957614e-12
+2016,general_government,modern_detailed,expenditure,Interest,-499.533999,499.533999,4403.925338,7.275957614e-12
+2016,general_government,modern_detailed,expenditure,Intermediate consumption,363.395,-363.395,4403.925338,7.275957614e-12
+2016,general_government,modern_detailed,expenditure,Other current expenditure,82.908001,-82.908001,4403.925338,7.275957614e-12
+2016,general_government,modern_detailed,expenditure,Social transfers,464.24,-464.24,4403.925338,7.275957614e-12
+2016,general_government,modern_detailed,expenditure,Subsidies,-76.412,76.412,4403.925338,7.275957614e-12
+2016,general_government,modern_detailed,revenue,Capital revenue,-360.722,-360.722,4403.925338,7.275957614e-12
+2016,general_government,modern_detailed,revenue,Sales and other current revenue,-14.076,-14.076,4403.925338,7.275957614e-12
+2016,general_government,modern_detailed,revenue,Social contributions,826.475,826.475,4403.925338,7.275957614e-12
+2016,general_government,modern_detailed,revenue,Taxes,895.893,895.893,4403.925338,7.275957614e-12
+2017,general_government,modern_detailed,expenditure,Capital expenditure,4784.5244,-4784.5244,-2247.4964,-1.455191523e-11
+2017,general_government,modern_detailed,expenditure,Compensation of employees,492.319,-492.319,-2247.4964,-1.455191523e-11
+2017,general_government,modern_detailed,expenditure,Interest,-333.934,333.934,-2247.4964,-1.455191523e-11
+2017,general_government,modern_detailed,expenditure,Intermediate consumption,215.378,-215.378,-2247.4964,-1.455191523e-11
+2017,general_government,modern_detailed,expenditure,Other current expenditure,-285.227,285.227,-2247.4964,-1.455191523e-11
+2017,general_government,modern_detailed,expenditure,Social transfers,544.594,-544.594,-2247.4964,-1.455191523e-11
+2017,general_government,modern_detailed,expenditure,Subsidies,-109.666,109.666,-2247.4964,-1.455191523e-11
+2017,general_government,modern_detailed,revenue,Capital revenue,-334.35,-334.35,-2247.4964,-1.455191523e-11
+2017,general_government,modern_detailed,revenue,Sales and other current revenue,58.645,58.645,-2247.4964,-1.455191523e-11
+2017,general_government,modern_detailed,revenue,Social contributions,1083.084,1083.084,-2247.4964,-1.455191523e-11
+2017,general_government,modern_detailed,revenue,Taxes,2253.113,2253.113,-2247.4964,-1.455191523e-11
+2018,general_government,modern_detailed,expenditure,Capital expenditure,-2293.17506,2293.17506,4996.73206,3.637978807e-12
+2018,general_government,modern_detailed,expenditure,Compensation of employees,637.407,-637.407,4996.73206,3.637978807e-12
+2018,general_government,modern_detailed,expenditure,Interest,-493.525,493.525,4996.73206,3.637978807e-12
+2018,general_government,modern_detailed,expenditure,Intermediate consumption,262.54,-262.54,4996.73206,3.637978807e-12
+2018,general_government,modern_detailed,expenditure,Other current expenditure,464.003,-464.003,4996.73206,3.637978807e-12
+2018,general_government,modern_detailed,expenditure,Social transfers,1244.411,-1244.411,4996.73206,3.637978807e-12
+2018,general_government,modern_detailed,expenditure,Subsidies,-24.837,24.837,4996.73206,3.637978807e-12
+2018,general_government,modern_detailed,revenue,Capital revenue,258.585,258.585,4996.73206,3.637978807e-12
+2018,general_government,modern_detailed,revenue,Sales and other current revenue,449.787,449.787,4996.73206,3.637978807e-12
+2018,general_government,modern_detailed,revenue,Social contributions,1166.189,1166.189,4996.73206,3.637978807e-12
+2018,general_government,modern_detailed,revenue,Taxes,2918.995,2918.995,4996.73206,3.637978807e-12
+2019,general_government,modern_detailed,expenditure,Capital expenditure,-99.455,99.455,1121.818,-1.864464139e-11
+2019,general_government,modern_detailed,expenditure,Compensation of employees,1111.306,-1111.306,1121.818,-1.864464139e-11
+2019,general_government,modern_detailed,expenditure,Interest,-578.913,578.913,1121.818,-1.864464139e-11
+2019,general_government,modern_detailed,expenditure,Intermediate consumption,170.338,-170.338,1121.818,-1.864464139e-11
+2019,general_government,modern_detailed,expenditure,Other current expenditure,24.171,-24.171,1121.818,-1.864464139e-11
+2019,general_government,modern_detailed,expenditure,Social transfers,1595.467,-1595.467,1121.818,-1.864464139e-11
+2019,general_government,modern_detailed,expenditure,Subsidies,168.405,-168.405,1121.818,-1.864464139e-11
+2019,general_government,modern_detailed,revenue,Capital revenue,-126.137,-126.137,1121.818,-1.864464139e-11
+2019,general_government,modern_detailed,revenue,Sales and other current revenue,583.199,583.199,1121.818,-1.864464139e-11
+2019,general_government,modern_detailed,revenue,Social contributions,1500.169,1500.169,1121.818,-1.864464139e-11
+2019,general_government,modern_detailed,revenue,Taxes,1555.906,1555.906,1121.818,-1.864464139e-11
+2020,general_government,modern_detailed,expenditure,Capital expenditure,2856.082,-2856.082,-11812.861,-1.637090463e-11
+2020,general_government,modern_detailed,expenditure,Compensation of employees,785.437,-785.437,-11812.861,-1.637090463e-11
+2020,general_government,modern_detailed,expenditure,Interest,-529.807,529.807,-11812.861,-1.637090463e-11
+2020,general_government,modern_detailed,expenditure,Intermediate consumption,5.567,-5.567,-11812.861,-1.637090463e-11
+2020,general_government,modern_detailed,expenditure,Other current expenditure,412.214,-412.214,-11812.861,-1.637090463e-11
+2020,general_government,modern_detailed,expenditure,Social transfers,1383.907,-1383.907,-11812.861,-1.637090463e-11
+2020,general_government,modern_detailed,expenditure,Subsidies,2722.964,-2722.964,-11812.861,-1.637090463e-11
+2020,general_government,modern_detailed,revenue,Capital revenue,266.457,266.457,-11812.861,-1.637090463e-11
+2020,general_government,modern_detailed,revenue,Sales and other current revenue,-945.149,-945.149,-11812.861,-1.637090463e-11
+2020,general_government,modern_detailed,revenue,Social contributions,239.701,239.701,-11812.861,-1.637090463e-11
+2020,general_government,modern_detailed,revenue,Taxes,-3737.506,-3737.506,-11812.861,-1.637090463e-11
+2021,general_government,modern_detailed,expenditure,Capital expenditure,-687.327,687.327,5446.819,1.818989404e-12
+2021,general_government,modern_detailed,expenditure,Compensation of employees,1105.365,-1105.365,5446.819,1.818989404e-12
+2021,general_government,modern_detailed,expenditure,Interest,-579.347,579.347,5446.819,1.818989404e-12
+2021,general_government,modern_detailed,expenditure,Intermediate consumption,1042.63,-1042.63,5446.819,1.818989404e-12
+2021,general_government,modern_detailed,expenditure,Other current expenditure,747.629,-747.629,5446.819,1.818989404e-12
+2021,general_government,modern_detailed,expenditure,Social transfers,1529.624,-1529.624,5446.819,1.818989404e-12
+2021,general_government,modern_detailed,expenditure,Subsidies,582.942,-582.942,5446.819,1.818989404e-12
+2021,general_government,modern_detailed,revenue,Capital revenue,1585.246,1585.246,5446.819,1.818989404e-12
+2021,general_government,modern_detailed,revenue,Sales and other current revenue,1988.035,1988.035,5446.819,1.818989404e-12
+2021,general_government,modern_detailed,revenue,Social contributions,1734.299,1734.299,5446.819,1.818989404e-12
+2021,general_government,modern_detailed,revenue,Taxes,3880.755,3880.755,5446.819,1.818989404e-12
+2022,general_government,modern_detailed,expenditure,Capital expenditure,776.119,-776.119,5359.777,3.456079867e-11
+2022,general_government,modern_detailed,expenditure,Compensation of employees,934.19,-934.19,5359.777,3.456079867e-11
+2022,general_government,modern_detailed,expenditure,Interest,-509.76,509.76,5359.777,3.456079867e-11
+2022,general_government,modern_detailed,expenditure,Intermediate consumption,1190.641,-1190.641,5359.777,3.456079867e-11
+2022,general_government,modern_detailed,expenditure,Other current expenditure,514.558,-514.558,5359.777,3.456079867e-11
+2022,general_government,modern_detailed,expenditure,Social transfers,3142.667,-3142.667,5359.777,3.456079867e-11
+2022,general_government,modern_detailed,expenditure,Subsidies,-1509.898,1509.898,5359.777,3.456079867e-11
+2022,general_government,modern_detailed,revenue,Capital revenue,-1094.052,-1094.052,5359.777,3.456079867e-11
+2022,general_government,modern_detailed,revenue,Sales and other current revenue,-315.489,-315.489,5359.777,3.456079867e-11
+2022,general_government,modern_detailed,revenue,Social contributions,2351.463,2351.463,5359.777,3.456079867e-11
+2022,general_government,modern_detailed,revenue,Taxes,8956.372,8956.372,5359.777,3.456079867e-11
+2023,general_government,modern_detailed,expenditure,Capital expenditure,1738.56,-1738.56,3786.99,-2.273736754e-12
+2023,general_government,modern_detailed,expenditure,Compensation of employees,1843.833,-1843.833,3786.99,-2.273736754e-12
+2023,general_government,modern_detailed,expenditure,Interest,945.272,-945.272,3786.99,-2.273736754e-12
+2023,general_government,modern_detailed,expenditure,Intermediate consumption,869.776,-869.776,3786.99,-2.273736754e-12
+2023,general_government,modern_detailed,expenditure,Other current expenditure,-12.959,12.959,3786.99,-2.273736754e-12
+2023,general_government,modern_detailed,expenditure,Social transfers,1951.572,-1951.572,3786.99,-2.273736754e-12
+2023,general_government,modern_detailed,expenditure,Subsidies,-728.743,728.743,3786.99,-2.273736754e-12
+2023,general_government,modern_detailed,revenue,Capital revenue,1337.005,1337.005,3786.99,-2.273736754e-12
+2023,general_government,modern_detailed,revenue,Sales and other current revenue,808.962,808.962,3786.99,-2.273736754e-12
+2023,general_government,modern_detailed,revenue,Social contributions,3129.449,3129.449,3786.99,-2.273736754e-12
+2023,general_government,modern_detailed,revenue,Taxes,5118.885,5118.885,3786.99,-2.273736754e-12
+2024,general_government,modern_detailed,expenditure,Capital expenditure,-714.234,714.234,-1167.200647,-3.319655661e-11
+2024,general_government,modern_detailed,expenditure,Compensation of employees,2501.171,-2501.171,-1167.200647,-3.319655661e-11
+2024,general_government,modern_detailed,expenditure,Interest,381.498,-381.498,-1167.200647,-3.319655661e-11
+2024,general_government,modern_detailed,expenditure,Intermediate consumption,1050.269,-1050.269,-1167.200647,-3.319655661e-11
+2024,general_government,modern_detailed,expenditure,Other current expenditure,897.157,-897.157,-1167.200647,-3.319655661e-11
+2024,general_government,modern_detailed,expenditure,Social transfers,5179.979,-5179.979,-1167.200647,-3.319655661e-11
+2024,general_government,modern_detailed,expenditure,Subsidies,-131.411,131.411,-1167.200647,-3.319655661e-11
+2024,general_government,modern_detailed,revenue,Capital revenue,-308.789204,-308.789204,-1167.200647,-3.319655661e-11
+2024,general_government,modern_detailed,revenue,Sales and other current revenue,1509.608557,1509.608557,-1167.200647,-3.319655661e-11
+2024,general_government,modern_detailed,revenue,Social contributions,3067.879,3067.879,-1167.200647,-3.319655661e-11
+2024,general_government,modern_detailed,revenue,Taxes,3728.53,3728.53,-1167.200647,-3.319655661e-11
+2025,general_government,modern_detailed,expenditure,Capital expenditure,1819.561,-1819.561,196.1124297,2.546585165e-11
+2025,general_government,modern_detailed,expenditure,Compensation of employees,2290.213,-2290.213,196.1124297,2.546585165e-11
+2025,general_government,modern_detailed,expenditure,Interest,29.753,-29.753,196.1124297,2.546585165e-11
+2025,general_government,modern_detailed,expenditure,Intermediate consumption,646.788,-646.788,196.1124297,2.546585165e-11
+2025,general_government,modern_detailed,expenditure,Other current expenditure,462.548,-462.548,196.1124297,2.546585165e-11
+2025,general_government,modern_detailed,expenditure,Social transfers,3054.435,-3054.435,196.1124297,2.546585165e-11
+2025,general_government,modern_detailed,expenditure,Subsidies,-167.246,167.246,196.1124297,2.546585165e-11
+2025,general_government,modern_detailed,revenue,Capital revenue,1235.684454,1235.684454,196.1124297,2.546585165e-11
+2025,general_government,modern_detailed,revenue,Sales and other current revenue,-7.266024,-7.266024,196.1124297,2.546585165e-11
+2025,general_government,modern_detailed,revenue,Social contributions,2888.295,2888.295,196.1124297,2.546585165e-11
+2025,general_government,modern_detailed,revenue,Taxes,4215.451,4215.451,196.1124297,2.546585165e-11
+1978,regional_local_government,historical_current_capital,expenditure,Capital expenditure,15.32893853,-15.32893853,-10.80074268,8.881784197e-15
+1978,regional_local_government,historical_current_capital,expenditure,Current expenditure,18.16062931,-18.16062931,-10.80074268,8.881784197e-15
+1978,regional_local_government,historical_current_capital,revenue,Capital revenue,12.61385937,12.61385937,-10.80074268,8.881784197e-15
+1978,regional_local_government,historical_current_capital,revenue,Current revenue,10.07496579,10.07496579,-10.80074268,8.881784197e-15
+1979,regional_local_government,historical_current_capital,expenditure,Capital expenditure,45.91212139,-45.91212139,10.58634666,-3.552713679e-14
+1979,regional_local_government,historical_current_capital,expenditure,Current expenditure,33.45485155,-33.45485155,10.58634666,-3.552713679e-14
+1979,regional_local_government,historical_current_capital,revenue,Capital revenue,35.21415897,35.21415897,10.58634666,-3.552713679e-14
+1979,regional_local_government,historical_current_capital,revenue,Current revenue,54.73916063,54.73916063,10.58634666,-3.552713679e-14
+1980,regional_local_government,historical_current_capital,expenditure,Capital expenditure,56.66775716,-56.66775716,-34.2340139,7.105427358e-14
+1980,regional_local_government,historical_current_capital,expenditure,Current expenditure,47.9982467,-47.9982467,-34.2340139,7.105427358e-14
+1980,regional_local_government,historical_current_capital,revenue,Capital revenue,42.26218427,42.26218427,-34.2340139,7.105427358e-14
+1980,regional_local_government,historical_current_capital,revenue,Current revenue,28.16980569,28.16980569,-34.2340139,7.105427358e-14
+1981,regional_local_government,historical_current_capital,expenditure,Capital expenditure,75.81897627,-75.81897627,-47.96340819,7.105427358e-15
+1981,regional_local_government,historical_current_capital,expenditure,Current expenditure,40.12106863,-40.12106863,-47.96340819,7.105427358e-15
+1981,regional_local_government,historical_current_capital,revenue,Capital revenue,24.91816722,24.91816722,-47.96340819,7.105427358e-15
+1981,regional_local_government,historical_current_capital,revenue,Current revenue,43.05846949,43.05846949,-47.96340819,7.105427358e-15
+1982,regional_local_government,historical_current_capital,expenditure,Capital expenditure,42.82809928,-42.82809928,-33.42717052,1.421085472e-14
+1982,regional_local_government,historical_current_capital,expenditure,Current expenditure,60.57457509,-60.57457509,-33.42717052,1.421085472e-14
+1982,regional_local_government,historical_current_capital,revenue,Capital revenue,-6.971034806,-6.971034806,-33.42717052,1.421085472e-14
+1982,regional_local_government,historical_current_capital,revenue,Current revenue,76.94653866,76.94653866,-33.42717052,1.421085472e-14
+1983,regional_local_government,historical_current_capital,expenditure,Capital expenditure,-3.183961652,3.183961652,7.74391716,-5.684341886e-14
+1983,regional_local_government,historical_current_capital,expenditure,Current expenditure,75.31940592,-75.31940592,7.74391716,-5.684341886e-14
+1983,regional_local_government,historical_current_capital,revenue,Capital revenue,9.891396734,9.891396734,7.74391716,-5.684341886e-14
+1983,regional_local_government,historical_current_capital,revenue,Current revenue,69.9879647,69.9879647,7.74391716,-5.684341886e-14
+1984,regional_local_government,historical_current_capital,expenditure,Capital expenditure,19.4980098,-19.4980098,-0.6123193105,-1.421085472e-14
+1984,regional_local_government,historical_current_capital,expenditure,Current expenditure,70.07255617,-70.07255617,-0.6123193105,-1.421085472e-14
+1984,regional_local_government,historical_current_capital,revenue,Capital revenue,0.663909977,0.663909977,-0.6123193105,-1.421085472e-14
+1984,regional_local_government,historical_current_capital,revenue,Current revenue,88.29433668,88.29433668,-0.6123193105,-1.421085472e-14
+1985,regional_local_government,historical_current_capital,expenditure,Capital expenditure,62.30827206,-62.30827206,-31.04978502,1.136868377e-13
+1985,regional_local_government,historical_current_capital,expenditure,Current expenditure,123.7506686,-123.7506686,-31.04978502,1.136868377e-13
+1985,regional_local_government,historical_current_capital,revenue,Capital revenue,30.53799842,30.53799842,-31.04978502,1.136868377e-13
+1985,regional_local_government,historical_current_capital,revenue,Current revenue,124.4711572,124.4711572,-31.04978502,1.136868377e-13
+1986,regional_local_government,historical_current_capital,expenditure,Capital expenditure,17.65231791,-17.65231791,96.71569019,-1.136868377e-13
+1986,regional_local_government,historical_current_capital,expenditure,Current expenditure,101.0311867,-101.0311867,96.71569019,-1.136868377e-13
+1986,regional_local_government,historical_current_capital,revenue,Capital revenue,78.38551092,78.38551092,96.71569019,-1.136868377e-13
+1986,regional_local_government,historical_current_capital,revenue,Current revenue,137.0136839,137.0136839,96.71569019,-1.136868377e-13
+1987,regional_local_government,historical_current_capital,expenditure,Capital expenditure,72.08627208,-72.08627208,43.73958759,0
+1987,regional_local_government,historical_current_capital,expenditure,Current expenditure,233.2411326,-233.2411326,43.73958759,0
+1987,regional_local_government,historical_current_capital,revenue,Capital revenue,90.17767181,90.17767181,43.73958759,0
+1987,regional_local_government,historical_current_capital,revenue,Current revenue,258.8893205,258.8893205,43.73958759,0
+1988,regional_local_government,historical_current_capital,expenditure,Capital expenditure,163.6954939,-163.6954939,62.55923225,2.842170943e-14
+1988,regional_local_government,historical_current_capital,expenditure,Current expenditure,70.80446103,-70.80446103,62.55923225,2.842170943e-14
+1988,regional_local_government,historical_current_capital,revenue,Capital revenue,48.40833591,48.40833591,62.55923225,2.842170943e-14
+1988,regional_local_government,historical_current_capital,revenue,Current revenue,248.6508512,248.6508512,62.55923225,2.842170943e-14
+1989,regional_local_government,historical_current_capital,expenditure,Capital expenditure,178.0758372,-178.0758372,-139.9177981,-1.705302566e-13
+1989,regional_local_government,historical_current_capital,expenditure,Current expenditure,261.8183274,-261.8183274,-139.9177981,-1.705302566e-13
+1989,regional_local_government,historical_current_capital,revenue,Capital revenue,111.1321715,111.1321715,-139.9177981,-1.705302566e-13
+1989,regional_local_government,historical_current_capital,revenue,Current revenue,188.8441951,188.8441951,-139.9177981,-1.705302566e-13
+1990,regional_local_government,historical_current_capital,expenditure,Capital expenditure,15.24326373,-15.24326373,-271.4907074,0
+1990,regional_local_government,historical_current_capital,expenditure,Current expenditure,512.2310457,-512.2310457,-271.4907074,0
+1990,regional_local_government,historical_current_capital,revenue,Capital revenue,48.6726988,48.6726988,-271.4907074,0
+1990,regional_local_government,historical_current_capital,revenue,Current revenue,207.3109033,207.3109033,-271.4907074,0
+1991,regional_local_government,historical_current_capital,expenditure,Capital expenditure,247.3788171,-247.3788171,206.108279,1.136868377e-13
+1991,regional_local_government,historical_current_capital,expenditure,Current expenditure,67.54901411,-67.54901411,206.108279,1.136868377e-13
+1991,regional_local_government,historical_current_capital,revenue,Capital revenue,236.8741333,236.8741333,206.108279,1.136868377e-13
+1991,regional_local_government,historical_current_capital,revenue,Current revenue,284.1619769,284.1619769,206.108279,1.136868377e-13
+1992,regional_local_government,historical_current_capital,expenditure,Capital expenditure,205.9037719,-205.9037719,70.2806237,1.98951966e-13
+1992,regional_local_government,historical_current_capital,expenditure,Current expenditure,335.7098929,-335.7098929,70.2806237,1.98951966e-13
+1992,regional_local_government,historical_current_capital,revenue,Capital revenue,125.1035006,125.1035006,70.2806237,1.98951966e-13
+1992,regional_local_government,historical_current_capital,revenue,Current revenue,486.790788,486.790788,70.2806237,1.98951966e-13
+1993,regional_local_government,historical_current_capital,expenditure,Capital expenditure,193.6882114,-193.6882114,-209.9440349,-8.526512829e-14
+1993,regional_local_government,historical_current_capital,expenditure,Current expenditure,133.2869959,-133.2869959,-209.9440349,-8.526512829e-14
+1993,regional_local_government,historical_current_capital,revenue,Capital revenue,28.59109546,28.59109546,-209.9440349,-8.526512829e-14
+1993,regional_local_government,historical_current_capital,revenue,Current revenue,88.44007701,88.44007701,-209.9440349,-8.526512829e-14
+1994,regional_local_government,historical_current_capital,expenditure,Capital expenditure,-197.9302478,197.9302478,162.9645152,-6.536993169e-13
+1994,regional_local_government,historical_current_capital,expenditure,Current expenditure,84.80545492,-84.80545492,162.9645152,-6.536993169e-13
+1994,regional_local_government,historical_current_capital,revenue,Capital revenue,-18.42559432,-18.42559432,162.9645152,-6.536993169e-13
+1994,regional_local_government,historical_current_capital,revenue,Current revenue,68.26531665,68.26531665,162.9645152,-6.536993169e-13
+1995,regional_local_government,historical_current_capital,expenditure,Capital expenditure,88.68571066,-88.68571066,139.2798922,8.526512829e-13
+1995,regional_local_government,historical_current_capital,expenditure,Current expenditure,130.2454249,-130.2454249,139.2798922,8.526512829e-13
+1995,regional_local_government,historical_current_capital,revenue,Capital revenue,87.88818946,87.88818946,139.2798922,8.526512829e-13
+1995,regional_local_government,historical_current_capital,revenue,Current revenue,270.3228383,270.3228383,139.2798922,8.526512829e-13
+2001,regional_local_government,modern_detailed,expenditure,Capital expenditure,514.724,-514.724,-51.37327364,1.250555215e-12
+2001,regional_local_government,modern_detailed,expenditure,Compensation of employees,236.932,-236.932,-51.37327364,1.250555215e-12
+2001,regional_local_government,modern_detailed,expenditure,Interest,43.025,-43.025,-51.37327364,1.250555215e-12
+2001,regional_local_government,modern_detailed,expenditure,Intermediate consumption,50.355,-50.355,-51.37327364,1.250555215e-12
+2001,regional_local_government,modern_detailed,expenditure,Other current expenditure,25.727,-25.727,-51.37327364,1.250555215e-12
+2001,regional_local_government,modern_detailed,expenditure,Social transfers,84.04,-84.04,-51.37327364,1.250555215e-12
+2001,regional_local_government,modern_detailed,expenditure,Subsidies,23.378,-23.378,-51.37327364,1.250555215e-12
+2001,regional_local_government,modern_detailed,revenue,Capital revenue,515.301,515.301,-51.37327364,1.250555215e-12
+2001,regional_local_government,modern_detailed,revenue,Sales and other current revenue,326.0777264,326.0777264,-51.37327364,1.250555215e-12
+2001,regional_local_government,modern_detailed,revenue,Social contributions,55.797,55.797,-51.37327364,1.250555215e-12
+2001,regional_local_government,modern_detailed,revenue,Taxes,29.632,29.632,-51.37327364,1.250555215e-12
+2002,regional_local_government,modern_detailed,expenditure,Capital expenditure,46.4,-46.4,-117.9928656,8.242295735e-13
+2002,regional_local_government,modern_detailed,expenditure,Compensation of employees,209.934,-209.934,-117.9928656,8.242295735e-13
+2002,regional_local_government,modern_detailed,expenditure,Interest,-4.388,4.388,-117.9928656,8.242295735e-13
+2002,regional_local_government,modern_detailed,expenditure,Intermediate consumption,176.977,-176.977,-117.9928656,8.242295735e-13
+2002,regional_local_government,modern_detailed,expenditure,Other current expenditure,21.244,-21.244,-117.9928656,8.242295735e-13
+2002,regional_local_government,modern_detailed,expenditure,Social transfers,37.864,-37.864,-117.9928656,8.242295735e-13
+2002,regional_local_government,modern_detailed,expenditure,Subsidies,34.893,-34.893,-117.9928656,8.242295735e-13
+2002,regional_local_government,modern_detailed,revenue,Capital revenue,-42.835,-42.835,-117.9928656,8.242295735e-13
+2002,regional_local_government,modern_detailed,revenue,Sales and other current revenue,163.4851344,163.4851344,-117.9928656,8.242295735e-13
+2002,regional_local_government,modern_detailed,revenue,Social contributions,20.071,20.071,-117.9928656,8.242295735e-13
+2002,regional_local_government,modern_detailed,revenue,Taxes,264.21,264.21,-117.9928656,8.242295735e-13
+2003,regional_local_government,modern_detailed,expenditure,Capital expenditure,-213.759,213.759,-37.98084128,-4.831690603e-12
+2003,regional_local_government,modern_detailed,expenditure,Compensation of employees,98.052,-98.052,-37.98084128,-4.831690603e-12
+2003,regional_local_government,modern_detailed,expenditure,Interest,-3.342,3.342,-37.98084128,-4.831690603e-12
+2003,regional_local_government,modern_detailed,expenditure,Intermediate consumption,115.109,-115.109,-37.98084128,-4.831690603e-12
+2003,regional_local_government,modern_detailed,expenditure,Other current expenditure,9.137,-9.137,-37.98084128,-4.831690603e-12
+2003,regional_local_government,modern_detailed,expenditure,Social transfers,119.246,-119.246,-37.98084128,-4.831690603e-12
+2003,regional_local_government,modern_detailed,expenditure,Subsidies,7.253,-7.253,-37.98084128,-4.831690603e-12
+2003,regional_local_government,modern_detailed,revenue,Capital revenue,-63.321,-63.321,-37.98084128,-4.831690603e-12
+2003,regional_local_government,modern_detailed,revenue,Sales and other current revenue,244.0051587,244.0051587,-37.98084128,-4.831690603e-12
+2003,regional_local_government,modern_detailed,revenue,Social contributions,-13.58,-13.58,-37.98084128,-4.831690603e-12
+2003,regional_local_government,modern_detailed,revenue,Taxes,-73.389,-73.389,-37.98084128,-4.831690603e-12
+2004,regional_local_government,modern_detailed,expenditure,Capital expenditure,-8.729,8.729,165.1050827,3.581135388e-12
+2004,regional_local_government,modern_detailed,expenditure,Compensation of employees,158.535,-158.535,165.1050827,3.581135388e-12
+2004,regional_local_government,modern_detailed,expenditure,Interest,14.279,-14.279,165.1050827,3.581135388e-12
+2004,regional_local_government,modern_detailed,expenditure,Intermediate consumption,103.36,-103.36,165.1050827,3.581135388e-12
+2004,regional_local_government,modern_detailed,expenditure,Other current expenditure,61.683,-61.683,165.1050827,3.581135388e-12
+2004,regional_local_government,modern_detailed,expenditure,Social transfers,149.071,-149.071,165.1050827,3.581135388e-12
+2004,regional_local_government,modern_detailed,expenditure,Subsidies,-26.068,26.068,165.1050827,3.581135388e-12
+2004,regional_local_government,modern_detailed,revenue,Capital revenue,52.694,52.694,165.1050827,3.581135388e-12
+2004,regional_local_government,modern_detailed,revenue,Sales and other current revenue,212.0560827,212.0560827,165.1050827,3.581135388e-12
+2004,regional_local_government,modern_detailed,revenue,Social contributions,32.21,32.21,165.1050827,3.581135388e-12
+2004,regional_local_government,modern_detailed,revenue,Taxes,320.276,320.276,165.1050827,3.581135388e-12
+2005,regional_local_government,modern_detailed,expenditure,Capital expenditure,75.863,-75.863,-51.65233251,-1.364242053e-12
+2005,regional_local_government,modern_detailed,expenditure,Compensation of employees,192.508,-192.508,-51.65233251,-1.364242053e-12
+2005,regional_local_government,modern_detailed,expenditure,Interest,-1.84,1.84,-51.65233251,-1.364242053e-12
+2005,regional_local_government,modern_detailed,expenditure,Intermediate consumption,248.889,-248.889,-51.65233251,-1.364242053e-12
+2005,regional_local_government,modern_detailed,expenditure,Other current expenditure,18.143,-18.143,-51.65233251,-1.364242053e-12
+2005,regional_local_government,modern_detailed,expenditure,Social transfers,-77.165,77.165,-51.65233251,-1.364242053e-12
+2005,regional_local_government,modern_detailed,expenditure,Subsidies,33.869,-33.869,-51.65233251,-1.364242053e-12
+2005,regional_local_government,modern_detailed,revenue,Capital revenue,-21.572,-21.572,-51.65233251,-1.364242053e-12
+2005,regional_local_government,modern_detailed,revenue,Sales and other current revenue,301.0256675,301.0256675,-51.65233251,-1.364242053e-12
+2005,regional_local_government,modern_detailed,revenue,Social contributions,-34.071,-34.071,-51.65233251,-1.364242053e-12
+2005,regional_local_government,modern_detailed,revenue,Taxes,193.232,193.232,-51.65233251,-1.364242053e-12
+2006,regional_local_government,modern_detailed,expenditure,Capital expenditure,-687.4891291,687.4891291,371.3651567,-1.136868377e-13
+2006,regional_local_government,modern_detailed,expenditure,Compensation of employees,412.192,-412.192,371.3651567,-1.136868377e-13
+2006,regional_local_government,modern_detailed,expenditure,Interest,48.00280463,-48.00280463,371.3651567,-1.136868377e-13
+2006,regional_local_government,modern_detailed,expenditure,Intermediate consumption,98.333,-98.333,371.3651567,-1.136868377e-13
+2006,regional_local_government,modern_detailed,expenditure,Other current expenditure,127.426651,-127.426651,371.3651567,-1.136868377e-13
+2006,regional_local_government,modern_detailed,expenditure,Social transfers,463.652,-463.652,371.3651567,-1.136868377e-13
+2006,regional_local_government,modern_detailed,expenditure,Subsidies,19.698,-19.698,371.3651567,-1.136868377e-13
+2006,regional_local_government,modern_detailed,revenue,Capital revenue,-252.6543799,-252.6543799,371.3651567,-1.136868377e-13
+2006,regional_local_government,modern_detailed,revenue,Sales and other current revenue,455.6828631,455.6828631,371.3651567,-1.136868377e-13
+2006,regional_local_government,modern_detailed,revenue,Social contributions,449.647,449.647,371.3651567,-1.136868377e-13
+2006,regional_local_government,modern_detailed,revenue,Taxes,200.505,200.505,371.3651567,-1.136868377e-13
+2007,regional_local_government,modern_detailed,expenditure,Capital expenditure,259.2907928,-259.2907928,-259.3977689,1.591615728e-12
+2007,regional_local_government,modern_detailed,expenditure,Compensation of employees,142.644,-142.644,-259.3977689,1.591615728e-12
+2007,regional_local_government,modern_detailed,expenditure,Interest,94.89462439,-94.89462439,-259.3977689,1.591615728e-12
+2007,regional_local_government,modern_detailed,expenditure,Intermediate consumption,312.138,-312.138,-259.3977689,1.591615728e-12
+2007,regional_local_government,modern_detailed,expenditure,Other current expenditure,51.194638,-51.194638,-259.3977689,1.591615728e-12
+2007,regional_local_government,modern_detailed,expenditure,Social transfers,43.147,-43.147,-259.3977689,1.591615728e-12
+2007,regional_local_government,modern_detailed,expenditure,Subsidies,29.555,-29.555,-259.3977689,1.591615728e-12
+2007,regional_local_government,modern_detailed,revenue,Capital revenue,-36.57285349,-36.57285349,-259.3977689,1.591615728e-12
+2007,regional_local_government,modern_detailed,revenue,Sales and other current revenue,206.0301398,206.0301398,-259.3977689,1.591615728e-12
+2007,regional_local_government,modern_detailed,revenue,Social contributions,31.254,31.254,-259.3977689,1.591615728e-12
+2007,regional_local_government,modern_detailed,revenue,Taxes,472.755,472.755,-259.3977689,1.591615728e-12
+2008,regional_local_government,modern_detailed,expenditure,Capital expenditure,531.8212363,-531.8212363,-631.0526257,-2.273736754e-13
+2008,regional_local_government,modern_detailed,expenditure,Compensation of employees,156.779,-156.779,-631.0526257,-2.273736754e-13
+2008,regional_local_government,modern_detailed,expenditure,Interest,39.98521098,-39.98521098,-631.0526257,-2.273736754e-13
+2008,regional_local_government,modern_detailed,expenditure,Intermediate consumption,166.32,-166.32,-631.0526257,-2.273736754e-13
+2008,regional_local_government,modern_detailed,expenditure,Other current expenditure,-60.016289,60.016289,-631.0526257,-2.273736754e-13
+2008,regional_local_government,modern_detailed,expenditure,Social transfers,198.319,-198.319,-631.0526257,-2.273736754e-13
+2008,regional_local_government,modern_detailed,expenditure,Subsidies,-31.813,31.813,-631.0526257,-2.273736754e-13
+2008,regional_local_government,modern_detailed,revenue,Capital revenue,-34.80348661,-34.80348661,-631.0526257,-2.273736754e-13
+2008,regional_local_government,modern_detailed,revenue,Sales and other current revenue,363.4660192,363.4660192,-631.0526257,-2.273736754e-13
+2008,regional_local_government,modern_detailed,revenue,Social contributions,-2.587,-2.587,-631.0526257,-2.273736754e-13
+2008,regional_local_government,modern_detailed,revenue,Taxes,44.267,44.267,-631.0526257,-2.273736754e-13
+2009,regional_local_government,modern_detailed,expenditure,Capital expenditure,-236.2519,236.2519,-288.91536,3.296918294e-12
+2009,regional_local_government,modern_detailed,expenditure,Compensation of employees,346.633,-346.633,-288.91536,3.296918294e-12
+2009,regional_local_government,modern_detailed,expenditure,Interest,-61.29064,61.29064,-288.91536,3.296918294e-12
+2009,regional_local_government,modern_detailed,expenditure,Intermediate consumption,260.802,-260.802,-288.91536,3.296918294e-12
+2009,regional_local_government,modern_detailed,expenditure,Other current expenditure,133.952,-133.952,-288.91536,3.296918294e-12
+2009,regional_local_government,modern_detailed,expenditure,Social transfers,-43.687,43.687,-288.91536,3.296918294e-12
+2009,regional_local_government,modern_detailed,expenditure,Subsidies,-41.351,41.351,-288.91536,3.296918294e-12
+2009,regional_local_government,modern_detailed,revenue,Capital revenue,-43.14628,-43.14628,-288.91536,3.296918294e-12
+2009,regional_local_government,modern_detailed,revenue,Sales and other current revenue,344.04038,344.04038,-288.91536,3.296918294e-12
+2009,regional_local_government,modern_detailed,revenue,Social contributions,71.057,71.057,-288.91536,3.296918294e-12
+2009,regional_local_government,modern_detailed,revenue,Taxes,-302.06,-302.06,-288.91536,3.296918294e-12
+2010,regional_local_government,modern_detailed,expenditure,Capital expenditure,154.349,-154.349,-157.92137,-2.50111043e-12
+2010,regional_local_government,modern_detailed,expenditure,Compensation of employees,-44.92,44.92,-157.92137,-2.50111043e-12
+2010,regional_local_government,modern_detailed,expenditure,Interest,-189.45,189.45,-157.92137,-2.50111043e-12
+2010,regional_local_government,modern_detailed,expenditure,Intermediate consumption,14.189,-14.189,-157.92137,-2.50111043e-12
+2010,regional_local_government,modern_detailed,expenditure,Other current expenditure,340.296,-340.296,-157.92137,-2.50111043e-12
+2010,regional_local_government,modern_detailed,expenditure,Social transfers,-25.543,25.543,-157.92137,-2.50111043e-12
+2010,regional_local_government,modern_detailed,expenditure,Subsidies,31.444,-31.444,-157.92137,-2.50111043e-12
+2010,regional_local_government,modern_detailed,revenue,Capital revenue,279.235,279.235,-157.92137,-2.50111043e-12
+2010,regional_local_government,modern_detailed,revenue,Sales and other current revenue,287.71297,287.71297,-157.92137,-2.50111043e-12
+2010,regional_local_government,modern_detailed,revenue,Social contributions,-52.203,-52.203,-157.92137,-2.50111043e-12
+2010,regional_local_government,modern_detailed,revenue,Taxes,-392.30134,-392.30134,-157.92137,-2.50111043e-12
+2011,regional_local_government,modern_detailed,expenditure,Capital expenditure,-740.593,740.593,1341.78834,1.818989404e-12
+2011,regional_local_government,modern_detailed,expenditure,Compensation of employees,-191.721,191.721,1341.78834,1.818989404e-12
+2011,regional_local_government,modern_detailed,expenditure,Interest,78.155,-78.155,1341.78834,1.818989404e-12
+2011,regional_local_government,modern_detailed,expenditure,Intermediate consumption,-258.602,258.602,1341.78834,1.818989404e-12
+2011,regional_local_government,modern_detailed,expenditure,Other current expenditure,-251.982,251.982,1341.78834,1.818989404e-12
+2011,regional_local_government,modern_detailed,expenditure,Social transfers,-40.395,40.395,1341.78834,1.818989404e-12
+2011,regional_local_government,modern_detailed,expenditure,Subsidies,31.835,-31.835,1341.78834,1.818989404e-12
+2011,regional_local_government,modern_detailed,revenue,Capital revenue,26.882,26.882,1341.78834,1.818989404e-12
+2011,regional_local_government,modern_detailed,revenue,Sales and other current revenue,-112.289,-112.289,1341.78834,1.818989404e-12
+2011,regional_local_government,modern_detailed,revenue,Social contributions,-42.071,-42.071,1341.78834,1.818989404e-12
+2011,regional_local_government,modern_detailed,revenue,Taxes,95.96334,95.96334,1341.78834,1.818989404e-12
+2012,regional_local_government,modern_detailed,expenditure,Capital expenditure,-956.772,956.772,1036.47959,-2.50111043e-12
+2012,regional_local_government,modern_detailed,expenditure,Compensation of employees,-377.213,377.213,1036.47959,-2.50111043e-12
+2012,regional_local_government,modern_detailed,expenditure,Interest,13.359,-13.359,1036.47959,-2.50111043e-12
+2012,regional_local_government,modern_detailed,expenditure,Intermediate consumption,-69.348,69.348,1036.47959,-2.50111043e-12
+2012,regional_local_government,modern_detailed,expenditure,Other current expenditure,45.507,-45.507,1036.47959,-2.50111043e-12
+2012,regional_local_government,modern_detailed,expenditure,Social transfers,-80.381,80.381,1036.47959,-2.50111043e-12
+2012,regional_local_government,modern_detailed,expenditure,Subsidies,-59.34384,59.34384,1036.47959,-2.50111043e-12
+2012,regional_local_government,modern_detailed,revenue,Capital revenue,-15.603,-15.603,1036.47959,-2.50111043e-12
+2012,regional_local_government,modern_detailed,revenue,Sales and other current revenue,-189.783,-189.783,1036.47959,-2.50111043e-12
+2012,regional_local_government,modern_detailed,revenue,Social contributions,-55.239,-55.239,1036.47959,-2.50111043e-12
+2012,regional_local_government,modern_detailed,revenue,Taxes,-187.08725,-187.08725,1036.47959,-2.50111043e-12
+2013,regional_local_government,modern_detailed,expenditure,Capital expenditure,382.213,-382.213,-526.22959,-9.094947018e-13
+2013,regional_local_government,modern_detailed,expenditure,Compensation of employees,310.3,-310.3,-526.22959,-9.094947018e-13
+2013,regional_local_government,modern_detailed,expenditure,Interest,32.929,-32.929,-526.22959,-9.094947018e-13
+2013,regional_local_government,modern_detailed,expenditure,Intermediate consumption,-10.814,10.814,-526.22959,-9.094947018e-13
+2013,regional_local_government,modern_detailed,expenditure,Other current expenditure,-115.995,115.995,-526.22959,-9.094947018e-13
+2013,regional_local_government,modern_detailed,expenditure,Social transfers,188.791,-188.791,-526.22959,-9.094947018e-13
+2013,regional_local_government,modern_detailed,expenditure,Subsidies,-18.67716,18.67716,-526.22959,-9.094947018e-13
+2013,regional_local_government,modern_detailed,revenue,Capital revenue,-459.69,-459.69,-526.22959,-9.094947018e-13
+2013,regional_local_government,modern_detailed,revenue,Sales and other current revenue,151.691,151.691,-526.22959,-9.094947018e-13
+2013,regional_local_government,modern_detailed,revenue,Social contributions,118.968,118.968,-526.22959,-9.094947018e-13
+2013,regional_local_government,modern_detailed,revenue,Taxes,431.54825,431.54825,-526.22959,-9.094947018e-13
+2014,regional_local_government,modern_detailed,expenditure,Capital expenditure,-370.975,370.975,345.678,1.98951966e-12
+2014,regional_local_government,modern_detailed,expenditure,Compensation of employees,-247.521,247.521,345.678,1.98951966e-12
+2014,regional_local_government,modern_detailed,expenditure,Interest,6.469,-6.469,345.678,1.98951966e-12
+2014,regional_local_government,modern_detailed,expenditure,Intermediate consumption,-54.396,54.396,345.678,1.98951966e-12
+2014,regional_local_government,modern_detailed,expenditure,Other current expenditure,-44.458,44.458,345.678,1.98951966e-12
+2014,regional_local_government,modern_detailed,expenditure,Social transfers,-135.849,135.849,345.678,1.98951966e-12
+2014,regional_local_government,modern_detailed,expenditure,Subsidies,-13.791,13.791,345.678,1.98951966e-12
+2014,regional_local_government,modern_detailed,revenue,Capital revenue,-401.624,-401.624,345.678,1.98951966e-12
+2014,regional_local_government,modern_detailed,revenue,Sales and other current revenue,-270.278,-270.278,345.678,1.98951966e-12
+2014,regional_local_government,modern_detailed,revenue,Social contributions,-126.382,-126.382,345.678,1.98951966e-12
+2014,regional_local_government,modern_detailed,revenue,Taxes,283.441,283.441,345.678,1.98951966e-12
+2015,regional_local_government,modern_detailed,expenditure,Capital expenditure,217.583,-217.583,121.527,-1.449507181e-12
+2015,regional_local_government,modern_detailed,expenditure,Compensation of employees,-22.194,22.194,121.527,-1.449507181e-12
+2015,regional_local_government,modern_detailed,expenditure,Interest,11.452,-11.452,121.527,-1.449507181e-12
+2015,regional_local_government,modern_detailed,expenditure,Intermediate consumption,59.778,-59.778,121.527,-1.449507181e-12
+2015,regional_local_government,modern_detailed,expenditure,Other current expenditure,30.444,-30.444,121.527,-1.449507181e-12
+2015,regional_local_government,modern_detailed,expenditure,Social transfers,-37.566,37.566,121.527,-1.449507181e-12
+2015,regional_local_government,modern_detailed,expenditure,Subsidies,9.24,-9.24,121.527,-1.449507181e-12
+2015,regional_local_government,modern_detailed,revenue,Capital revenue,32.345,32.345,121.527,-1.449507181e-12
+2015,regional_local_government,modern_detailed,revenue,Sales and other current revenue,201.224,201.224,121.527,-1.449507181e-12
+2015,regional_local_government,modern_detailed,revenue,Social contributions,-22.1,-22.1,121.527,-1.449507181e-12
+2015,regional_local_government,modern_detailed,revenue,Taxes,178.795,178.795,121.527,-1.449507181e-12
+2016,regional_local_government,modern_detailed,expenditure,Capital expenditure,-284.158,284.158,86.733,-1.705302566e-12
+2016,regional_local_government,modern_detailed,expenditure,Compensation of employees,93.454,-93.454,86.733,-1.705302566e-12
+2016,regional_local_government,modern_detailed,expenditure,Interest,-34.681,34.681,86.733,-1.705302566e-12
+2016,regional_local_government,modern_detailed,expenditure,Intermediate consumption,171.662,-171.662,86.733,-1.705302566e-12
+2016,regional_local_government,modern_detailed,expenditure,Other current expenditure,4.295,-4.295,86.733,-1.705302566e-12
+2016,regional_local_government,modern_detailed,expenditure,Social transfers,72.736,-72.736,86.733,-1.705302566e-12
+2016,regional_local_government,modern_detailed,expenditure,Subsidies,-8.107,8.107,86.733,-1.705302566e-12
+2016,regional_local_government,modern_detailed,revenue,Capital revenue,-260.846,-260.846,86.733,-1.705302566e-12
+2016,regional_local_government,modern_detailed,revenue,Sales and other current revenue,210.362,210.362,86.733,-1.705302566e-12
+2016,regional_local_government,modern_detailed,revenue,Social contributions,8.932,8.932,86.733,-1.705302566e-12
+2016,regional_local_government,modern_detailed,revenue,Taxes,143.486,143.486,86.733,-1.705302566e-12
+2017,regional_local_government,modern_detailed,expenditure,Capital expenditure,501.701,-501.701,-515.018,3.296918294e-12
+2017,regional_local_government,modern_detailed,expenditure,Compensation of employees,93.333,-93.333,-515.018,3.296918294e-12
+2017,regional_local_government,modern_detailed,expenditure,Interest,1.402,-1.402,-515.018,3.296918294e-12
+2017,regional_local_government,modern_detailed,expenditure,Intermediate consumption,187.122,-187.122,-515.018,3.296918294e-12
+2017,regional_local_government,modern_detailed,expenditure,Other current expenditure,14.252,-14.252,-515.018,3.296918294e-12
+2017,regional_local_government,modern_detailed,expenditure,Social transfers,49.924,-49.924,-515.018,3.296918294e-12
+2017,regional_local_government,modern_detailed,expenditure,Subsidies,-5.903,5.903,-515.018,3.296918294e-12
+2017,regional_local_government,modern_detailed,revenue,Capital revenue,-76.135,-76.135,-515.018,3.296918294e-12
+2017,regional_local_government,modern_detailed,revenue,Sales and other current revenue,243.118,243.118,-515.018,3.296918294e-12
+2017,regional_local_government,modern_detailed,revenue,Social contributions,9.465,9.465,-515.018,3.296918294e-12
+2017,regional_local_government,modern_detailed,revenue,Taxes,150.365,150.365,-515.018,3.296918294e-12
+2018,regional_local_government,modern_detailed,expenditure,Capital expenditure,30.6,-30.6,151.241,-3.723243935e-12
+2018,regional_local_government,modern_detailed,expenditure,Compensation of employees,187.129,-187.129,151.241,-3.723243935e-12
+2018,regional_local_government,modern_detailed,expenditure,Interest,-10.678,10.678,151.241,-3.723243935e-12
+2018,regional_local_government,modern_detailed,expenditure,Intermediate consumption,101.717,-101.717,151.241,-3.723243935e-12
+2018,regional_local_government,modern_detailed,expenditure,Other current expenditure,38.207,-38.207,151.241,-3.723243935e-12
+2018,regional_local_government,modern_detailed,expenditure,Social transfers,41.527,-41.527,151.241,-3.723243935e-12
+2018,regional_local_government,modern_detailed,expenditure,Subsidies,56.003,-56.003,151.241,-3.723243935e-12
+2018,regional_local_government,modern_detailed,revenue,Capital revenue,129.189,129.189,151.241,-3.723243935e-12
+2018,regional_local_government,modern_detailed,revenue,Sales and other current revenue,119.176,119.176,151.241,-3.723243935e-12
+2018,regional_local_government,modern_detailed,revenue,Social contributions,2.747,2.747,151.241,-3.723243935e-12
+2018,regional_local_government,modern_detailed,revenue,Taxes,344.634,344.634,151.241,-3.723243935e-12
+2019,regional_local_government,modern_detailed,expenditure,Capital expenditure,-185.071,185.071,105.199,-1.307398634e-12
+2019,regional_local_government,modern_detailed,expenditure,Compensation of employees,340.724,-340.724,105.199,-1.307398634e-12
+2019,regional_local_government,modern_detailed,expenditure,Interest,-32.794,32.794,105.199,-1.307398634e-12
+2019,regional_local_government,modern_detailed,expenditure,Intermediate consumption,121.843,-121.843,105.199,-1.307398634e-12
+2019,regional_local_government,modern_detailed,expenditure,Other current expenditure,-41.363,41.363,105.199,-1.307398634e-12
+2019,regional_local_government,modern_detailed,expenditure,Social transfers,181.821,-181.821,105.199,-1.307398634e-12
+2019,regional_local_government,modern_detailed,expenditure,Subsidies,75.681,-75.681,105.199,-1.307398634e-12
+2019,regional_local_government,modern_detailed,revenue,Capital revenue,193.498,193.498,105.199,-1.307398634e-12
+2019,regional_local_government,modern_detailed,revenue,Sales and other current revenue,114.058,114.058,105.199,-1.307398634e-12
+2019,regional_local_government,modern_detailed,revenue,Social contributions,19.073,19.073,105.199,-1.307398634e-12
+2019,regional_local_government,modern_detailed,revenue,Taxes,239.411,239.411,105.199,-1.307398634e-12
+2020,regional_local_government,modern_detailed,expenditure,Capital expenditure,707.446,-707.446,-811.601,2.842170943e-12
+2020,regional_local_government,modern_detailed,expenditure,Compensation of employees,219.55,-219.55,-811.601,2.842170943e-12
+2020,regional_local_government,modern_detailed,expenditure,Interest,-56.733,56.733,-811.601,2.842170943e-12
+2020,regional_local_government,modern_detailed,expenditure,Intermediate consumption,-168.398,168.398,-811.601,2.842170943e-12
+2020,regional_local_government,modern_detailed,expenditure,Other current expenditure,44.866,-44.866,-811.601,2.842170943e-12
+2020,regional_local_government,modern_detailed,expenditure,Social transfers,59.552,-59.552,-811.601,2.842170943e-12
+2020,regional_local_government,modern_detailed,expenditure,Subsidies,144.758,-144.758,-811.601,2.842170943e-12
+2020,regional_local_government,modern_detailed,revenue,Capital revenue,133.219,133.219,-811.601,2.842170943e-12
+2020,regional_local_government,modern_detailed,revenue,Sales and other current revenue,329.851,329.851,-811.601,2.842170943e-12
+2020,regional_local_government,modern_detailed,revenue,Social contributions,15.743,15.743,-811.601,2.842170943e-12
+2020,regional_local_government,modern_detailed,revenue,Taxes,-339.373,-339.373,-811.601,2.842170943e-12
+2021,regional_local_government,modern_detailed,expenditure,Capital expenditure,615.483,-615.483,-393.481,8.526512829e-13
+2021,regional_local_government,modern_detailed,expenditure,Compensation of employees,280.95,-280.95,-393.481,8.526512829e-13
+2021,regional_local_government,modern_detailed,expenditure,Interest,15.451,-15.451,-393.481,8.526512829e-13
+2021,regional_local_government,modern_detailed,expenditure,Intermediate consumption,274.057,-274.057,-393.481,8.526512829e-13
+2021,regional_local_government,modern_detailed,expenditure,Other current expenditure,94.37,-94.37,-393.481,8.526512829e-13
+2021,regional_local_government,modern_detailed,expenditure,Social transfers,79.992,-79.992,-393.481,8.526512829e-13
+2021,regional_local_government,modern_detailed,expenditure,Subsidies,217.897,-217.897,-393.481,8.526512829e-13
+2021,regional_local_government,modern_detailed,revenue,Capital revenue,194.067,194.067,-393.481,8.526512829e-13
+2021,regional_local_government,modern_detailed,revenue,Sales and other current revenue,592.381,592.381,-393.481,8.526512829e-13
+2021,regional_local_government,modern_detailed,revenue,Social contributions,10.483,10.483,-393.481,8.526512829e-13
+2021,regional_local_government,modern_detailed,revenue,Taxes,387.788,387.788,-393.481,8.526512829e-13
+2022,regional_local_government,modern_detailed,expenditure,Capital expenditure,-151.183,151.183,510.101,-1.307398634e-12
+2022,regional_local_government,modern_detailed,expenditure,Compensation of employees,434.286,-434.286,510.101,-1.307398634e-12
+2022,regional_local_government,modern_detailed,expenditure,Interest,-20.421,20.421,510.101,-1.307398634e-12
+2022,regional_local_government,modern_detailed,expenditure,Intermediate consumption,431.37,-431.37,510.101,-1.307398634e-12
+2022,regional_local_government,modern_detailed,expenditure,Other current expenditure,40.145,-40.145,510.101,-1.307398634e-12
+2022,regional_local_government,modern_detailed,expenditure,Social transfers,151.295,-151.295,510.101,-1.307398634e-12
+2022,regional_local_government,modern_detailed,expenditure,Subsidies,-141.082,141.082,510.101,-1.307398634e-12
+2022,regional_local_government,modern_detailed,revenue,Capital revenue,-251.04,-251.04,510.101,-1.307398634e-12
+2022,regional_local_government,modern_detailed,revenue,Sales and other current revenue,806.949,806.949,510.101,-1.307398634e-12
+2022,regional_local_government,modern_detailed,revenue,Social contributions,32.25,32.25,510.101,-1.307398634e-12
+2022,regional_local_government,modern_detailed,revenue,Taxes,666.352,666.352,510.101,-1.307398634e-12
+2023,regional_local_government,modern_detailed,expenditure,Capital expenditure,242.872,-242.872,-152.454,2.444267011e-12
+2023,regional_local_government,modern_detailed,expenditure,Compensation of employees,645.93,-645.93,-152.454,2.444267011e-12
+2023,regional_local_government,modern_detailed,expenditure,Interest,16.027,-16.027,-152.454,2.444267011e-12
+2023,regional_local_government,modern_detailed,expenditure,Intermediate consumption,577.187,-577.187,-152.454,2.444267011e-12
+2023,regional_local_government,modern_detailed,expenditure,Other current expenditure,74.737,-74.737,-152.454,2.444267011e-12
+2023,regional_local_government,modern_detailed,expenditure,Social transfers,137.411,-137.411,-152.454,2.444267011e-12
+2023,regional_local_government,modern_detailed,expenditure,Subsidies,-12.389,12.389,-152.454,2.444267011e-12
+2023,regional_local_government,modern_detailed,revenue,Capital revenue,426.334,426.334,-152.454,2.444267011e-12
+2023,regional_local_government,modern_detailed,revenue,Sales and other current revenue,717.274,717.274,-152.454,2.444267011e-12
+2023,regional_local_government,modern_detailed,revenue,Social contributions,37.167,37.167,-152.454,2.444267011e-12
+2023,regional_local_government,modern_detailed,revenue,Taxes,348.546,348.546,-152.454,2.444267011e-12
+2024,regional_local_government,modern_detailed,expenditure,Capital expenditure,40.064,-40.064,498.884296,-3.183231456e-12
+2024,regional_local_government,modern_detailed,expenditure,Compensation of employees,569.346,-569.346,498.884296,-3.183231456e-12
+2024,regional_local_government,modern_detailed,expenditure,Interest,61.104,-61.104,498.884296,-3.183231456e-12
+2024,regional_local_government,modern_detailed,expenditure,Intermediate consumption,545.312,-545.312,498.884296,-3.183231456e-12
+2024,regional_local_government,modern_detailed,expenditure,Other current expenditure,74.78,-74.78,498.884296,-3.183231456e-12
+2024,regional_local_government,modern_detailed,expenditure,Social transfers,569.457,-569.457,498.884296,-3.183231456e-12
+2024,regional_local_government,modern_detailed,expenditure,Subsidies,-103.18,103.18,498.884296,-3.183231456e-12
+2024,regional_local_government,modern_detailed,revenue,Capital revenue,107.653739,107.653739,498.884296,-3.183231456e-12
+2024,regional_local_government,modern_detailed,revenue,Sales and other current revenue,1854.809557,1854.809557,498.884296,-3.183231456e-12
+2024,regional_local_government,modern_detailed,revenue,Social contributions,21.316,21.316,498.884296,-3.183231456e-12
+2024,regional_local_government,modern_detailed,revenue,Taxes,271.988,271.988,498.884296,-3.183231456e-12
+2025,regional_local_government,modern_detailed,expenditure,Capital expenditure,1035.913,-1035.913,373.8529545,4.092726158e-12
+2025,regional_local_government,modern_detailed,expenditure,Compensation of employees,640.514,-640.514,373.8529545,4.092726158e-12
+2025,regional_local_government,modern_detailed,expenditure,Interest,-31.851,31.851,373.8529545,4.092726158e-12
+2025,regional_local_government,modern_detailed,expenditure,Intermediate consumption,369.154,-369.154,373.8529545,4.092726158e-12
+2025,regional_local_government,modern_detailed,expenditure,Other current expenditure,4.846,-4.846,373.8529545,4.092726158e-12
+2025,regional_local_government,modern_detailed,expenditure,Social transfers,128.219,-128.219,373.8529545,4.092726158e-12
+2025,regional_local_government,modern_detailed,expenditure,Subsidies,-4.562,4.562,373.8529545,4.092726158e-12
+2025,regional_local_government,modern_detailed,revenue,Capital revenue,579.6200185,579.6200185,373.8529545,4.092726158e-12
+2025,regional_local_government,modern_detailed,revenue,Sales and other current revenue,1209.019936,1209.019936,373.8529545,4.092726158e-12
+2025,regional_local_government,modern_detailed,revenue,Social contributions,51.614,51.614,373.8529545,4.092726158e-12
+2025,regional_local_government,modern_detailed,revenue,Taxes,675.832,675.832,373.8529545,4.092726158e-12
+1978,social_security_funds,historical_current_capital,expenditure,Capital expenditure,3.506549216,-3.506549216,37.04820899,7.105427358e-15
+1978,social_security_funds,historical_current_capital,expenditure,Current expenditure,42.90945684,-42.90945684,37.04820899,7.105427358e-15
+1978,social_security_funds,historical_current_capital,revenue,Capital revenue,5.252341856,5.252341856,37.04820899,7.105427358e-15
+1978,social_security_funds,historical_current_capital,revenue,Current revenue,78.2118732,78.2118732,37.04820899,7.105427358e-15
+1979,social_security_funds,historical_current_capital,expenditure,Capital expenditure,0.6085334344,-0.6085334344,23.48323041,4.618527782e-14
+1979,social_security_funds,historical_current_capital,expenditure,Current expenditure,50.71337512,-50.71337512,23.48323041,4.618527782e-14
+1979,social_security_funds,historical_current_capital,revenue,Capital revenue,-0.0847956425,-0.0847956425,23.48323041,4.618527782e-14
+1979,social_security_funds,historical_current_capital,revenue,Current revenue,74.88993461,74.88993461,23.48323041,4.618527782e-14
+1980,social_security_funds,historical_current_capital,expenditure,Capital expenditure,2.588761086,-2.588761086,-28.9173442,-4.97379915e-14
+1980,social_security_funds,historical_current_capital,expenditure,Current expenditure,170.7216504,-170.7216504,-28.9173442,-4.97379915e-14
+1980,social_security_funds,historical_current_capital,revenue,Capital revenue,3.135847607,3.135847607,-28.9173442,-4.97379915e-14
+1980,social_security_funds,historical_current_capital,revenue,Current revenue,141.2572197,141.2572197,-28.9173442,-4.97379915e-14
+1981,social_security_funds,historical_current_capital,expenditure,Capital expenditure,2.065023294,-2.065023294,-44.53599326,-1.350031198e-13
+1981,social_security_funds,historical_current_capital,expenditure,Current expenditure,190.1766046,-190.1766046,-44.53599326,-1.350031198e-13
+1981,social_security_funds,historical_current_capital,revenue,Capital revenue,0.1291437635,0.1291437635,-44.53599326,-1.350031198e-13
+1981,social_security_funds,historical_current_capital,revenue,Current revenue,147.5764909,147.5764909,-44.53599326,-1.350031198e-13
+1982,social_security_funds,historical_current_capital,expenditure,Capital expenditure,-1.566225397,1.566225397,34.64520007,1.136868377e-13
+1982,social_security_funds,historical_current_capital,expenditure,Current expenditure,202.2888832,-202.2888832,34.64520007,1.136868377e-13
+1982,social_security_funds,historical_current_capital,revenue,Capital revenue,1.069637174,1.069637174,34.64520007,1.136868377e-13
+1982,social_security_funds,historical_current_capital,revenue,Current revenue,234.2982207,234.2982207,34.64520007,1.136868377e-13
+1983,social_security_funds,historical_current_capital,expenditure,Capital expenditure,4.512624575,-4.512624575,49.78700332,1.421085472e-13
+1983,social_security_funds,historical_current_capital,expenditure,Current expenditure,227.8698128,-227.8698128,49.78700332,1.421085472e-13
+1983,social_security_funds,historical_current_capital,revenue,Capital revenue,-0.5455701759,-0.5455701759,49.78700332,1.421085472e-13
+1983,social_security_funds,historical_current_capital,revenue,Current revenue,282.7150109,282.7150109,49.78700332,1.421085472e-13
+1984,social_security_funds,historical_current_capital,expenditure,Capital expenditure,-1.198521563,1.198521563,132.6853733,-2.557953849e-13
+1984,social_security_funds,historical_current_capital,expenditure,Current expenditure,251.6048722,-251.6048722,132.6853733,-2.557953849e-13
+1984,social_security_funds,historical_current_capital,revenue,Capital revenue,-0.06879919394,-0.06879919394,132.6853733,-2.557953849e-13
+1984,social_security_funds,historical_current_capital,revenue,Current revenue,383.160523,383.160523,132.6853733,-2.557953849e-13
+1985,social_security_funds,historical_current_capital,expenditure,Capital expenditure,0.6373739288,-0.6373739288,-38.64413264,-6.394884622e-14
+1985,social_security_funds,historical_current_capital,expenditure,Current expenditure,346.0829455,-346.0829455,-38.64413264,-6.394884622e-14
+1985,social_security_funds,historical_current_capital,revenue,Capital revenue,1.217271376,1.217271376,-38.64413264,-6.394884622e-14
+1985,social_security_funds,historical_current_capital,revenue,Current revenue,306.8589154,306.8589154,-38.64413264,-6.394884622e-14
+1986,social_security_funds,historical_current_capital,expenditure,Capital expenditure,39.06516296,-39.06516296,181.3994773,-5.684341886e-14
+1986,social_security_funds,historical_current_capital,expenditure,Current expenditure,592.8243568,-592.8243568,181.3994773,-5.684341886e-14
+1986,social_security_funds,historical_current_capital,revenue,Capital revenue,50.82807434,50.82807434,181.3994773,-5.684341886e-14
+1986,social_security_funds,historical_current_capital,revenue,Current revenue,762.4609227,762.4609227,181.3994773,-5.684341886e-14
+1987,social_security_funds,historical_current_capital,expenditure,Capital expenditure,-19.04514121,19.04514121,-179.9712692,0
+1987,social_security_funds,historical_current_capital,expenditure,Current expenditure,678.7523569,-678.7523569,-179.9712692,0
+1987,social_security_funds,historical_current_capital,revenue,Capital revenue,-41.1059347,-41.1059347,-179.9712692,0
+1987,social_security_funds,historical_current_capital,revenue,Current revenue,520.8418812,520.8418812,-179.9712692,0
+1988,social_security_funds,historical_current_capital,expenditure,Capital expenditure,1.92038188,-1.92038188,68.44322184,1.705302566e-13
+1988,social_security_funds,historical_current_capital,expenditure,Current expenditure,488.4838157,-488.4838157,68.44322184,1.705302566e-13
+1988,social_security_funds,historical_current_capital,revenue,Capital revenue,-0.04489181074,-0.04489181074,68.44322184,1.705302566e-13
+1988,social_security_funds,historical_current_capital,revenue,Current revenue,558.8923112,558.8923112,68.44322184,1.705302566e-13
+1989,social_security_funds,historical_current_capital,expenditure,Capital expenditure,4.253793358,-4.253793358,54.84991171,-1.492139745e-13
+1989,social_security_funds,historical_current_capital,expenditure,Current expenditure,589.617016,-589.617016,54.84991171,-1.492139745e-13
+1989,social_security_funds,historical_current_capital,revenue,Capital revenue,-6.429504893,-6.429504893,54.84991171,-1.492139745e-13
+1989,social_security_funds,historical_current_capital,revenue,Current revenue,655.150226,655.150226,54.84991171,-1.492139745e-13
+1990,social_security_funds,historical_current_capital,expenditure,Capital expenditure,-0.8406340719,0.8406340719,-58.36976387,3.268496584e-13
+1990,social_security_funds,historical_current_capital,expenditure,Current expenditure,922.3596962,-922.3596962,-58.36976387,3.268496584e-13
+1990,social_security_funds,historical_current_capital,revenue,Capital revenue,-0.5436897078,-0.5436897078,-58.36976387,3.268496584e-13
+1990,social_security_funds,historical_current_capital,revenue,Current revenue,863.692988,863.692988,-58.36976387,3.268496584e-13
+1991,social_security_funds,historical_current_capital,expenditure,Capital expenditure,26.42487605,-26.42487605,-297.9455113,-2.842170943e-13
+1991,social_security_funds,historical_current_capital,expenditure,Current expenditure,1336.072723,-1336.072723,-297.9455113,-2.842170943e-13
+1991,social_security_funds,historical_current_capital,revenue,Capital revenue,-0.6135214134,-0.6135214134,-297.9455113,-2.842170943e-13
+1991,social_security_funds,historical_current_capital,revenue,Current revenue,1065.165609,1065.165609,-297.9455113,-2.842170943e-13
+1992,social_security_funds,historical_current_capital,expenditure,Capital expenditure,-30.98208318,30.98208318,250.652677,0
+1992,social_security_funds,historical_current_capital,expenditure,Current expenditure,1315.172157,-1315.172157,250.652677,0
+1992,social_security_funds,historical_current_capital,revenue,Capital revenue,6.15516605,6.15516605,250.652677,0
+1992,social_security_funds,historical_current_capital,revenue,Current revenue,1528.687584,1528.687584,250.652677,0
+1993,social_security_funds,historical_current_capital,expenditure,Capital expenditure,40.20637763,-40.20637763,45.72652408,1.413980044e-12
+1993,social_security_funds,historical_current_capital,expenditure,Current expenditure,1417.34053,-1417.34053,45.72652408,1.413980044e-12
+1993,social_security_funds,historical_current_capital,revenue,Capital revenue,0.344170549,0.344170549,45.72652408,1.413980044e-12
+1993,social_security_funds,historical_current_capital,revenue,Current revenue,1502.929261,1502.929261,45.72652408,1.413980044e-12
+1994,social_security_funds,historical_current_capital,expenditure,Capital expenditure,1.57248123,-1.57248123,-504.8695353,-1.307398634e-12
+1994,social_security_funds,historical_current_capital,expenditure,Current expenditure,630.4630328,-630.4630328,-504.8695353,-1.307398634e-12
+1994,social_security_funds,historical_current_capital,revenue,Capital revenue,0.8928482358,0.8928482358,-504.8695353,-1.307398634e-12
+1994,social_security_funds,historical_current_capital,revenue,Current revenue,126.2731304,126.2731304,-504.8695353,-1.307398634e-12
+1995,social_security_funds,historical_current_capital,expenditure,Capital expenditure,18.03548192,-18.03548192,-91.14927767,2.714273251e-12
+1995,social_security_funds,historical_current_capital,expenditure,Current expenditure,1087.323045,-1087.323045,-91.14927767,2.714273251e-12
+1995,social_security_funds,historical_current_capital,revenue,Capital revenue,2.533893317,2.533893317,-91.14927767,2.714273251e-12
+1995,social_security_funds,historical_current_capital,revenue,Current revenue,1011.675356,1011.675356,-91.14927767,2.714273251e-12
+2001,social_security_funds,modern_detailed,expenditure,Capital expenditure,176.799,-176.799,-365.2541194,-1.98951966e-12
+2001,social_security_funds,modern_detailed,expenditure,Compensation of employees,42.83,-42.83,-365.2541194,-1.98951966e-12
+2001,social_security_funds,modern_detailed,expenditure,Interest,2.552,-2.552,-365.2541194,-1.98951966e-12
+2001,social_security_funds,modern_detailed,expenditure,Intermediate consumption,0.855,-0.855,-365.2541194,-1.98951966e-12
+2001,social_security_funds,modern_detailed,expenditure,Other current expenditure,134.733,-134.733,-365.2541194,-1.98951966e-12
+2001,social_security_funds,modern_detailed,expenditure,Social transfers,856.864,-856.864,-365.2541194,-1.98951966e-12
+2001,social_security_funds,modern_detailed,expenditure,Subsidies,-18.378,18.378,-365.2541194,-1.98951966e-12
+2001,social_security_funds,modern_detailed,revenue,Capital revenue,11.847,11.847,-365.2541194,-1.98951966e-12
+2001,social_security_funds,modern_detailed,revenue,Sales and other current revenue,-10.03311942,-10.03311942,-365.2541194,-1.98951966e-12
+2001,social_security_funds,modern_detailed,revenue,Social contributions,796.631,796.631,-365.2541194,-1.98951966e-12
+2001,social_security_funds,modern_detailed,revenue,Taxes,32.556,32.556,-365.2541194,-1.98951966e-12
+2002,social_security_funds,modern_detailed,expenditure,Capital expenditure,-907.562,907.562,1200.244309,-1.364242053e-12
+2002,social_security_funds,modern_detailed,expenditure,Compensation of employees,-8.53,8.53,1200.244309,-1.364242053e-12
+2002,social_security_funds,modern_detailed,expenditure,Interest,0.512,-0.512,1200.244309,-1.364242053e-12
+2002,social_security_funds,modern_detailed,expenditure,Intermediate consumption,23.317,-23.317,1200.244309,-1.364242053e-12
+2002,social_security_funds,modern_detailed,expenditure,Other current expenditure,411.921,-411.921,1200.244309,-1.364242053e-12
+2002,social_security_funds,modern_detailed,expenditure,Social transfers,911.072,-911.072,1200.244309,-1.364242053e-12
+2002,social_security_funds,modern_detailed,expenditure,Subsidies,31.41,-31.41,1200.244309,-1.364242053e-12
+2002,social_security_funds,modern_detailed,revenue,Capital revenue,6.593,6.593,1200.244309,-1.364242053e-12
+2002,social_security_funds,modern_detailed,revenue,Sales and other current revenue,1112.787309,1112.787309,1200.244309,-1.364242053e-12
+2002,social_security_funds,modern_detailed,revenue,Social contributions,508.393,508.393,1200.244309,-1.364242053e-12
+2002,social_security_funds,modern_detailed,revenue,Taxes,34.611,34.611,1200.244309,-1.364242053e-12
+2003,social_security_funds,modern_detailed,expenditure,Capital expenditure,-5.861,5.861,-585.6495859,-2.046363079e-12
+2003,social_security_funds,modern_detailed,expenditure,Compensation of employees,117.687,-117.687,-585.6495859,-2.046363079e-12
+2003,social_security_funds,modern_detailed,expenditure,Interest,0.031,-0.031,-585.6495859,-2.046363079e-12
+2003,social_security_funds,modern_detailed,expenditure,Intermediate consumption,-49.959,49.959,-585.6495859,-2.046363079e-12
+2003,social_security_funds,modern_detailed,expenditure,Other current expenditure,-138.488,138.488,-585.6495859,-2.046363079e-12
+2003,social_security_funds,modern_detailed,expenditure,Social transfers,1172.611,-1172.611,-585.6495859,-2.046363079e-12
+2003,social_security_funds,modern_detailed,expenditure,Subsidies,61.178,-61.178,-585.6495859,-2.046363079e-12
+2003,social_security_funds,modern_detailed,revenue,Capital revenue,-11.01,-11.01,-585.6495859,-2.046363079e-12
+2003,social_security_funds,modern_detailed,revenue,Sales and other current revenue,329.9454141,329.9454141,-585.6495859,-2.046363079e-12
+2003,social_security_funds,modern_detailed,revenue,Social contributions,95.085,95.085,-585.6495859,-2.046363079e-12
+2003,social_security_funds,modern_detailed,revenue,Taxes,157.529,157.529,-585.6495859,-2.046363079e-12
+2004,social_security_funds,modern_detailed,expenditure,Capital expenditure,-2.223,2.223,-96.58226224,2.216893336e-12
+2004,social_security_funds,modern_detailed,expenditure,Compensation of employees,-36.805,36.805,-96.58226224,2.216893336e-12
+2004,social_security_funds,modern_detailed,expenditure,Interest,-3.092,3.092,-96.58226224,2.216893336e-12
+2004,social_security_funds,modern_detailed,expenditure,Intermediate consumption,57.931,-57.931,-96.58226224,2.216893336e-12
+2004,social_security_funds,modern_detailed,expenditure,Other current expenditure,159.894,-159.894,-96.58226224,2.216893336e-12
+2004,social_security_funds,modern_detailed,expenditure,Social transfers,1013.824,-1013.824,-96.58226224,2.216893336e-12
+2004,social_security_funds,modern_detailed,expenditure,Subsidies,-97.13,97.13,-96.58226224,2.216893336e-12
+2004,social_security_funds,modern_detailed,revenue,Capital revenue,-3.951,-3.951,-96.58226224,2.216893336e-12
+2004,social_security_funds,modern_detailed,revenue,Sales and other current revenue,803.5067378,803.5067378,-96.58226224,2.216893336e-12
+2004,social_security_funds,modern_detailed,revenue,Social contributions,263.76,263.76,-96.58226224,2.216893336e-12
+2004,social_security_funds,modern_detailed,revenue,Taxes,-67.499,-67.499,-96.58226224,2.216893336e-12
+2005,social_security_funds,modern_detailed,expenditure,Capital expenditure,24.094,-24.094,202.8277358,-3.694822226e-13
+2005,social_security_funds,modern_detailed,expenditure,Compensation of employees,-7.262,7.262,202.8277358,-3.694822226e-13
+2005,social_security_funds,modern_detailed,expenditure,Interest,3.533,-3.533,202.8277358,-3.694822226e-13
+2005,social_security_funds,modern_detailed,expenditure,Intermediate consumption,-3.22,3.22,202.8277358,-3.694822226e-13
+2005,social_security_funds,modern_detailed,expenditure,Other current expenditure,-18.004,18.004,202.8277358,-3.694822226e-13
+2005,social_security_funds,modern_detailed,expenditure,Social transfers,1038.063,-1038.063,202.8277358,-3.694822226e-13
+2005,social_security_funds,modern_detailed,expenditure,Subsidies,53.981,-53.981,202.8277358,-3.694822226e-13
+2005,social_security_funds,modern_detailed,revenue,Capital revenue,0.018,0.018,202.8277358,-3.694822226e-13
+2005,social_security_funds,modern_detailed,revenue,Sales and other current revenue,515.2157358,515.2157358,202.8277358,-3.694822226e-13
+2005,social_security_funds,modern_detailed,revenue,Social contributions,627.368,627.368,202.8277358,-3.694822226e-13
+2005,social_security_funds,modern_detailed,revenue,Taxes,151.411,151.411,202.8277358,-3.694822226e-13
+2006,social_security_funds,modern_detailed,expenditure,Capital expenditure,-23.349818,23.349818,304.7647532,1.250555215e-12
+2006,social_security_funds,modern_detailed,expenditure,Compensation of employees,13.443,-13.443,304.7647532,1.250555215e-12
+2006,social_security_funds,modern_detailed,expenditure,Interest,-3.533582,3.533582,304.7647532,1.250555215e-12
+2006,social_security_funds,modern_detailed,expenditure,Intermediate consumption,0.859,-0.859,304.7647532,1.250555215e-12
+2006,social_security_funds,modern_detailed,expenditure,Other current expenditure,127.696233,-127.696233,304.7647532,1.250555215e-12
+2006,social_security_funds,modern_detailed,expenditure,Social transfers,926.651,-926.651,304.7647532,1.250555215e-12
+2006,social_security_funds,modern_detailed,expenditure,Subsidies,19.813,-19.813,304.7647532,1.250555215e-12
+2006,social_security_funds,modern_detailed,revenue,Capital revenue,-7.773293,-7.773293,304.7647532,1.250555215e-12
+2006,social_security_funds,modern_detailed,revenue,Sales and other current revenue,809.9628792,809.9628792,304.7647532,1.250555215e-12
+2006,social_security_funds,modern_detailed,revenue,Social contributions,565.604,565.604,304.7647532,1.250555215e-12
+2006,social_security_funds,modern_detailed,revenue,Taxes,-1.45,-1.45,304.7647532,1.250555215e-12
+2007,social_security_funds,modern_detailed,expenditure,Capital expenditure,-31.102545,31.102545,602.7789181,-1.932676241e-12
+2007,social_security_funds,modern_detailed,expenditure,Compensation of employees,-20.108,20.108,602.7789181,-1.932676241e-12
+2007,social_security_funds,modern_detailed,expenditure,Interest,0.123241,-0.123241,602.7789181,-1.932676241e-12
+2007,social_security_funds,modern_detailed,expenditure,Intermediate consumption,25.927,-25.927,602.7789181,-1.932676241e-12
+2007,social_security_funds,modern_detailed,expenditure,Other current expenditure,51.834754,-51.834754,602.7789181,-1.932676241e-12
+2007,social_security_funds,modern_detailed,expenditure,Social transfers,653.809,-653.809,602.7789181,-1.932676241e-12
+2007,social_security_funds,modern_detailed,expenditure,Subsidies,-59.609,59.609,602.7789181,-1.932676241e-12
+2007,social_security_funds,modern_detailed,revenue,Capital revenue,-0.092377,-0.092377,602.7789181,-1.932676241e-12
+2007,social_security_funds,modern_detailed,revenue,Sales and other current revenue,435.6857451,435.6857451,602.7789181,-1.932676241e-12
+2007,social_security_funds,modern_detailed,revenue,Social contributions,766.792,766.792,602.7789181,-1.932676241e-12
+2007,social_security_funds,modern_detailed,revenue,Taxes,21.268,21.268,602.7789181,-1.932676241e-12
+2008,social_security_funds,modern_detailed,expenditure,Capital expenditure,25.130533,-25.130533,260.0541732,-2.216893336e-12
+2008,social_security_funds,modern_detailed,expenditure,Compensation of employees,0.401,-0.401,260.0541732,-2.216893336e-12
+2008,social_security_funds,modern_detailed,expenditure,Interest,-0.043829,0.043829,260.0541732,-2.216893336e-12
+2008,social_security_funds,modern_detailed,expenditure,Intermediate consumption,0.5,-0.5,260.0541732,-2.216893336e-12
+2008,social_security_funds,modern_detailed,expenditure,Other current expenditure,100.236343,-100.236343,260.0541732,-2.216893336e-12
+2008,social_security_funds,modern_detailed,expenditure,Social transfers,871.425,-871.425,260.0541732,-2.216893336e-12
+2008,social_security_funds,modern_detailed,expenditure,Subsidies,-34.27,34.27,260.0541732,-2.216893336e-12
+2008,social_security_funds,modern_detailed,revenue,Capital revenue,-3.57357,-3.57357,260.0541732,-2.216893336e-12
+2008,social_security_funds,modern_detailed,revenue,Sales and other current revenue,1276.95779,1276.95779,260.0541732,-2.216893336e-12
+2008,social_security_funds,modern_detailed,revenue,Social contributions,632.089,632.089,260.0541732,-2.216893336e-12
+2008,social_security_funds,modern_detailed,revenue,Taxes,-682.04,-682.04,260.0541732,-2.216893336e-12
+2009,social_security_funds,modern_detailed,expenditure,Capital expenditure,36.44383,-36.44383,-1267.75305,6.821210263e-13
+2009,social_security_funds,modern_detailed,expenditure,Compensation of employees,8.423,-8.423,-1267.75305,6.821210263e-13
+2009,social_security_funds,modern_detailed,expenditure,Interest,-0.02183,0.02183,-1267.75305,6.821210263e-13
+2009,social_security_funds,modern_detailed,expenditure,Intermediate consumption,-34.774,34.774,-1267.75305,6.821210263e-13
+2009,social_security_funds,modern_detailed,expenditure,Other current expenditure,148.51467,-148.51467,-1267.75305,6.821210263e-13
+2009,social_security_funds,modern_detailed,expenditure,Social transfers,1680.367,-1680.367,-1267.75305,6.821210263e-13
+2009,social_security_funds,modern_detailed,expenditure,Subsidies,101.086,-101.086,-1267.75305,6.821210263e-13
+2009,social_security_funds,modern_detailed,revenue,Capital revenue,0.55224,0.55224,-1267.75305,6.821210263e-13
+2009,social_security_funds,modern_detailed,revenue,Sales and other current revenue,559.99338,559.99338,-1267.75305,6.821210263e-13
+2009,social_security_funds,modern_detailed,revenue,Social contributions,111.408,111.408,-1267.75305,6.821210263e-13
+2009,social_security_funds,modern_detailed,revenue,Taxes,0.332,0.332,-1267.75305,6.821210263e-13
+2010,social_security_funds,modern_detailed,expenditure,Capital expenditure,-16.702,16.702,392.31834,-1.136868377e-13
+2010,social_security_funds,modern_detailed,expenditure,Compensation of employees,-21.51,21.51,392.31834,-1.136868377e-13
+2010,social_security_funds,modern_detailed,expenditure,Interest,-0.035,0.035,392.31834,-1.136868377e-13
+2010,social_security_funds,modern_detailed,expenditure,Intermediate consumption,23.826,-23.826,392.31834,-1.136868377e-13
+2010,social_security_funds,modern_detailed,expenditure,Other current expenditure,-60.975,60.975,392.31834,-1.136868377e-13
+2010,social_security_funds,modern_detailed,expenditure,Social transfers,760.478,-760.478,392.31834,-1.136868377e-13
+2010,social_security_funds,modern_detailed,expenditure,Subsidies,55.029,-55.029,392.31834,-1.136868377e-13
+2010,social_security_funds,modern_detailed,revenue,Capital revenue,-1.385,-1.385,392.31834,-1.136868377e-13
+2010,social_security_funds,modern_detailed,revenue,Sales and other current revenue,793.73915,793.73915,392.31834,-1.136868377e-13
+2010,social_security_funds,modern_detailed,revenue,Social contributions,358.70819,358.70819,392.31834,-1.136868377e-13
+2010,social_security_funds,modern_detailed,revenue,Taxes,-18.633,-18.633,392.31834,-1.136868377e-13
+2011,social_security_funds,modern_detailed,expenditure,Capital expenditure,-22.09,22.09,-365.80319,3.410605132e-12
+2011,social_security_funds,modern_detailed,expenditure,Compensation of employees,-28.893,28.893,-365.80319,3.410605132e-12
+2011,social_security_funds,modern_detailed,expenditure,Interest,-0.019,0.019,-365.80319,3.410605132e-12
+2011,social_security_funds,modern_detailed,expenditure,Intermediate consumption,-63.034,63.034,-365.80319,3.410605132e-12
+2011,social_security_funds,modern_detailed,expenditure,Other current expenditure,-92.211,92.211,-365.80319,3.410605132e-12
+2011,social_security_funds,modern_detailed,expenditure,Social transfers,-62.953,62.953,-365.80319,3.410605132e-12
+2011,social_security_funds,modern_detailed,expenditure,Subsidies,-4.659,4.659,-365.80319,3.410605132e-12
+2011,social_security_funds,modern_detailed,revenue,Capital revenue,13.69,13.69,-365.80319,3.410605132e-12
+2011,social_security_funds,modern_detailed,revenue,Sales and other current revenue,-886.049,-886.049,-365.80319,3.410605132e-12
+2011,social_security_funds,modern_detailed,revenue,Social contributions,211.93781,211.93781,-365.80319,3.410605132e-12
+2011,social_security_funds,modern_detailed,revenue,Taxes,20.759,20.759,-365.80319,3.410605132e-12
+2012,social_security_funds,modern_detailed,expenditure,Capital expenditure,-17.01,17.01,-125.087,-1.193711796e-12
+2012,social_security_funds,modern_detailed,expenditure,Compensation of employees,-60.114,60.114,-125.087,-1.193711796e-12
+2012,social_security_funds,modern_detailed,expenditure,Interest,0.015,-0.015,-125.087,-1.193711796e-12
+2012,social_security_funds,modern_detailed,expenditure,Intermediate consumption,-0.113,0.113,-125.087,-1.193711796e-12
+2012,social_security_funds,modern_detailed,expenditure,Other current expenditure,16.842,-16.842,-125.087,-1.193711796e-12
+2012,social_security_funds,modern_detailed,expenditure,Social transfers,848.832,-848.832,-125.087,-1.193711796e-12
+2012,social_security_funds,modern_detailed,expenditure,Subsidies,-64.708,64.708,-125.087,-1.193711796e-12
+2012,social_security_funds,modern_detailed,revenue,Capital revenue,-1.575,-1.575,-125.087,-1.193711796e-12
+2012,social_security_funds,modern_detailed,revenue,Sales and other current revenue,1294.139,1294.139,-125.087,-1.193711796e-12
+2012,social_security_funds,modern_detailed,revenue,Social contributions,-701.372,-701.372,-125.087,-1.193711796e-12
+2012,social_security_funds,modern_detailed,revenue,Taxes,7.465,7.465,-125.087,-1.193711796e-12
+2013,social_security_funds,modern_detailed,expenditure,Capital expenditure,-9.204,9.204,33.955,-1.5063506e-12
+2013,social_security_funds,modern_detailed,expenditure,Compensation of employees,24.843,-24.843,33.955,-1.5063506e-12
+2013,social_security_funds,modern_detailed,expenditure,Interest,-0.01,0.01,33.955,-1.5063506e-12
+2013,social_security_funds,modern_detailed,expenditure,Intermediate consumption,-10.511,10.511,33.955,-1.5063506e-12
+2013,social_security_funds,modern_detailed,expenditure,Other current expenditure,89.072,-89.072,33.955,-1.5063506e-12
+2013,social_security_funds,modern_detailed,expenditure,Social transfers,692.595,-692.595,33.955,-1.5063506e-12
+2013,social_security_funds,modern_detailed,expenditure,Subsidies,-13.525,13.525,33.955,-1.5063506e-12
+2013,social_security_funds,modern_detailed,revenue,Capital revenue,-7.763,-7.763,33.955,-1.5063506e-12
+2013,social_security_funds,modern_detailed,revenue,Sales and other current revenue,602.576,602.576,33.955,-1.5063506e-12
+2013,social_security_funds,modern_detailed,revenue,Social contributions,206.098,206.098,33.955,-1.5063506e-12
+2013,social_security_funds,modern_detailed,revenue,Taxes,6.304,6.304,33.955,-1.5063506e-12
+2014,social_security_funds,modern_detailed,expenditure,Capital expenditure,1.155,-1.155,459.796,1.136868377e-12
+2014,social_security_funds,modern_detailed,expenditure,Compensation of employees,-6.156,6.156,459.796,1.136868377e-12
+2014,social_security_funds,modern_detailed,expenditure,Interest,0.008,-0.008,459.796,1.136868377e-12
+2014,social_security_funds,modern_detailed,expenditure,Intermediate consumption,-10.299,10.299,459.796,1.136868377e-12
+2014,social_security_funds,modern_detailed,expenditure,Other current expenditure,29.231,-29.231,459.796,1.136868377e-12
+2014,social_security_funds,modern_detailed,expenditure,Social transfers,-541.726,541.726,459.796,1.136868377e-12
+2014,social_security_funds,modern_detailed,expenditure,Subsidies,-32.203,32.203,459.796,1.136868377e-12
+2014,social_security_funds,modern_detailed,revenue,Capital revenue,1.692,1.692,459.796,1.136868377e-12
+2014,social_security_funds,modern_detailed,revenue,Sales and other current revenue,-357.574,-357.574,459.796,1.136868377e-12
+2014,social_security_funds,modern_detailed,revenue,Social contributions,258.988,258.988,459.796,1.136868377e-12
+2014,social_security_funds,modern_detailed,revenue,Taxes,-3.3,-3.3,459.796,1.136868377e-12
+2015,social_security_funds,modern_detailed,expenditure,Capital expenditure,-10.212,10.212,320.898,2.728484105e-12
+2015,social_security_funds,modern_detailed,expenditure,Compensation of employees,-29.297,29.297,320.898,2.728484105e-12
+2015,social_security_funds,modern_detailed,expenditure,Interest,-0.019,0.019,320.898,2.728484105e-12
+2015,social_security_funds,modern_detailed,expenditure,Intermediate consumption,-7.176,7.176,320.898,2.728484105e-12
+2015,social_security_funds,modern_detailed,expenditure,Other current expenditure,550.967,-550.967,320.898,2.728484105e-12
+2015,social_security_funds,modern_detailed,expenditure,Social transfers,-431.411,431.411,320.898,2.728484105e-12
+2015,social_security_funds,modern_detailed,expenditure,Subsidies,-47.136,47.136,320.898,2.728484105e-12
+2015,social_security_funds,modern_detailed,revenue,Capital revenue,-1.119,-1.119,320.898,2.728484105e-12
+2015,social_security_funds,modern_detailed,revenue,Sales and other current revenue,-247.327,-247.327,320.898,2.728484105e-12
+2015,social_security_funds,modern_detailed,revenue,Social contributions,584.647,584.647,320.898,2.728484105e-12
+2015,social_security_funds,modern_detailed,revenue,Taxes,10.413,10.413,320.898,2.728484105e-12
+2016,social_security_funds,modern_detailed,expenditure,Capital expenditure,-25.733,25.733,441.409,-1.648459147e-12
+2016,social_security_funds,modern_detailed,expenditure,Compensation of employees,4.299,-4.299,441.409,-1.648459147e-12
+2016,social_security_funds,modern_detailed,expenditure,Interest,0,-0,441.409,-1.648459147e-12
+2016,social_security_funds,modern_detailed,expenditure,Intermediate consumption,-6.33,6.33,441.409,-1.648459147e-12
+2016,social_security_funds,modern_detailed,expenditure,Other current expenditure,12.903,-12.903,441.409,-1.648459147e-12
+2016,social_security_funds,modern_detailed,expenditure,Social transfers,265.164,-265.164,441.409,-1.648459147e-12
+2016,social_security_funds,modern_detailed,expenditure,Subsidies,16.724,-16.724,441.409,-1.648459147e-12
+2016,social_security_funds,modern_detailed,revenue,Capital revenue,4.084,4.084,441.409,-1.648459147e-12
+2016,social_security_funds,modern_detailed,revenue,Sales and other current revenue,-40.118,-40.118,441.409,-1.648459147e-12
+2016,social_security_funds,modern_detailed,revenue,Social contributions,710.013,710.013,441.409,-1.648459147e-12
+2016,social_security_funds,modern_detailed,revenue,Taxes,34.457,34.457,441.409,-1.648459147e-12
+2017,social_security_funds,modern_detailed,expenditure,Capital expenditure,27.032,-27.032,672.611,-1.136868377e-13
+2017,social_security_funds,modern_detailed,expenditure,Compensation of employees,8.667,-8.667,672.611,-1.136868377e-13
+2017,social_security_funds,modern_detailed,expenditure,Interest,0,-0,672.611,-1.136868377e-13
+2017,social_security_funds,modern_detailed,expenditure,Intermediate consumption,7.89,-7.89,672.611,-1.136868377e-13
+2017,social_security_funds,modern_detailed,expenditure,Other current expenditure,45.966,-45.966,672.611,-1.136868377e-13
+2017,social_security_funds,modern_detailed,expenditure,Social transfers,326.509,-326.509,672.611,-1.136868377e-13
+2017,social_security_funds,modern_detailed,expenditure,Subsidies,-11.726,11.726,672.611,-1.136868377e-13
+2017,social_security_funds,modern_detailed,revenue,Capital revenue,1.695,1.695,672.611,-1.136868377e-13
+2017,social_security_funds,modern_detailed,revenue,Sales and other current revenue,11.499,11.499,672.611,-1.136868377e-13
+2017,social_security_funds,modern_detailed,revenue,Social contributions,1042.208,1042.208,672.611,-1.136868377e-13
+2017,social_security_funds,modern_detailed,revenue,Taxes,21.547,21.547,672.611,-1.136868377e-13
+2018,social_security_funds,modern_detailed,expenditure,Capital expenditure,57,-57,-207.762,4.462208381e-12
+2018,social_security_funds,modern_detailed,expenditure,Compensation of employees,12.862,-12.862,-207.762,4.462208381e-12
+2018,social_security_funds,modern_detailed,expenditure,Interest,0,-0,-207.762,4.462208381e-12
+2018,social_security_funds,modern_detailed,expenditure,Intermediate consumption,-9.235,9.235,-207.762,4.462208381e-12
+2018,social_security_funds,modern_detailed,expenditure,Other current expenditure,90.837,-90.837,-207.762,4.462208381e-12
+2018,social_security_funds,modern_detailed,expenditure,Social transfers,835.787,-835.787,-207.762,4.462208381e-12
+2018,social_security_funds,modern_detailed,expenditure,Subsidies,18.669,-18.669,-207.762,4.462208381e-12
+2018,social_security_funds,modern_detailed,revenue,Capital revenue,6.278,6.278,-207.762,4.462208381e-12
+2018,social_security_funds,modern_detailed,revenue,Sales and other current revenue,-374.979,-374.979,-207.762,4.462208381e-12
+2018,social_security_funds,modern_detailed,revenue,Social contributions,1165.797,1165.797,-207.762,4.462208381e-12
+2018,social_security_funds,modern_detailed,revenue,Taxes,1.062,1.062,-207.762,4.462208381e-12
+2019,social_security_funds,modern_detailed,expenditure,Capital expenditure,-89.051,89.051,940.678,-3.637978807e-12
+2019,social_security_funds,modern_detailed,expenditure,Compensation of employees,16.463,-16.463,940.678,-3.637978807e-12
+2019,social_security_funds,modern_detailed,expenditure,Interest,0,-0,940.678,-3.637978807e-12
+2019,social_security_funds,modern_detailed,expenditure,Intermediate consumption,1.521,-1.521,940.678,-3.637978807e-12
+2019,social_security_funds,modern_detailed,expenditure,Other current expenditure,111.119,-111.119,940.678,-3.637978807e-12
+2019,social_security_funds,modern_detailed,expenditure,Social transfers,1145.137,-1145.137,940.678,-3.637978807e-12
+2019,social_security_funds,modern_detailed,expenditure,Subsidies,11.077,-11.077,940.678,-3.637978807e-12
+2019,social_security_funds,modern_detailed,revenue,Capital revenue,3.479,3.479,940.678,-3.637978807e-12
+2019,social_security_funds,modern_detailed,revenue,Sales and other current revenue,644.333,644.333,940.678,-3.637978807e-12
+2019,social_security_funds,modern_detailed,revenue,Social contributions,1483.509,1483.509,940.678,-3.637978807e-12
+2019,social_security_funds,modern_detailed,revenue,Taxes,5.623,5.623,940.678,-3.637978807e-12
+2020,social_security_funds,modern_detailed,expenditure,Capital expenditure,44.79,-44.79,-777.561,2.273736754e-13
+2020,social_security_funds,modern_detailed,expenditure,Compensation of employees,2.353,-2.353,-777.561,2.273736754e-13
+2020,social_security_funds,modern_detailed,expenditure,Interest,0,-0,-777.561,2.273736754e-13
+2020,social_security_funds,modern_detailed,expenditure,Intermediate consumption,7.472,-7.472,-777.561,2.273736754e-13
+2020,social_security_funds,modern_detailed,expenditure,Other current expenditure,417.44,-417.44,-777.561,2.273736754e-13
+2020,social_security_funds,modern_detailed,expenditure,Social transfers,1448.835,-1448.835,-777.561,2.273736754e-13
+2020,social_security_funds,modern_detailed,expenditure,Subsidies,1365.358,-1365.358,-777.561,2.273736754e-13
+2020,social_security_funds,modern_detailed,revenue,Capital revenue,-0.127,-0.127,-777.561,2.273736754e-13
+2020,social_security_funds,modern_detailed,revenue,Sales and other current revenue,2240.619,2240.619,-777.561,2.273736754e-13
+2020,social_security_funds,modern_detailed,revenue,Social contributions,311.423,311.423,-777.561,2.273736754e-13
+2020,social_security_funds,modern_detailed,revenue,Taxes,-43.228,-43.228,-777.561,2.273736754e-13
+2021,social_security_funds,modern_detailed,expenditure,Capital expenditure,9.17,-9.17,270.408,4.547473509e-13
+2021,social_security_funds,modern_detailed,expenditure,Compensation of employees,8.133,-8.133,270.408,4.547473509e-13
+2021,social_security_funds,modern_detailed,expenditure,Interest,0,-0,270.408,4.547473509e-13
+2021,social_security_funds,modern_detailed,expenditure,Intermediate consumption,5.196,-5.196,270.408,4.547473509e-13
+2021,social_security_funds,modern_detailed,expenditure,Other current expenditure,49.343,-49.343,270.408,4.547473509e-13
+2021,social_security_funds,modern_detailed,expenditure,Social transfers,793.534,-793.534,270.408,4.547473509e-13
+2021,social_security_funds,modern_detailed,expenditure,Subsidies,-160.062,160.062,270.408,4.547473509e-13
+2021,social_security_funds,modern_detailed,revenue,Capital revenue,11.502,11.502,270.408,4.547473509e-13
+2021,social_security_funds,modern_detailed,revenue,Sales and other current revenue,-473.697,-473.697,270.408,4.547473509e-13
+2021,social_security_funds,modern_detailed,revenue,Social contributions,1429.609,1429.609,270.408,4.547473509e-13
+2021,social_security_funds,modern_detailed,revenue,Taxes,8.308,8.308,270.408,4.547473509e-13
+2022,social_security_funds,modern_detailed,expenditure,Capital expenditure,7.279,-7.279,1831.087,6.821210263e-13
+2022,social_security_funds,modern_detailed,expenditure,Compensation of employees,8.988,-8.988,1831.087,6.821210263e-13
+2022,social_security_funds,modern_detailed,expenditure,Interest,0,-0,1831.087,6.821210263e-13
+2022,social_security_funds,modern_detailed,expenditure,Intermediate consumption,-2.578,2.578,1831.087,6.821210263e-13
+2022,social_security_funds,modern_detailed,expenditure,Other current expenditure,164.697,-164.697,1831.087,6.821210263e-13
+2022,social_security_funds,modern_detailed,expenditure,Social transfers,1524.924,-1524.924,1831.087,6.821210263e-13
+2022,social_security_funds,modern_detailed,expenditure,Subsidies,-1107.197,1107.197,1831.087,6.821210263e-13
+2022,social_security_funds,modern_detailed,revenue,Capital revenue,-7.823,-7.823,1831.087,6.821210263e-13
+2022,social_security_funds,modern_detailed,revenue,Sales and other current revenue,127.597,127.597,1831.087,6.821210263e-13
+2022,social_security_funds,modern_detailed,revenue,Social contributions,2289.475,2289.475,1831.087,6.821210263e-13
+2022,social_security_funds,modern_detailed,revenue,Taxes,17.951,17.951,1831.087,6.821210263e-13
+2023,social_security_funds,modern_detailed,expenditure,Capital expenditure,84.675,-84.675,1420.755,9.549694369e-12
+2023,social_security_funds,modern_detailed,expenditure,Compensation of employees,15.928,-15.928,1420.755,9.549694369e-12
+2023,social_security_funds,modern_detailed,expenditure,Interest,0,-0,1420.755,9.549694369e-12
+2023,social_security_funds,modern_detailed,expenditure,Intermediate consumption,20.543,-20.543,1420.755,9.549694369e-12
+2023,social_security_funds,modern_detailed,expenditure,Other current expenditure,72.957,-72.957,1420.755,9.549694369e-12
+2023,social_security_funds,modern_detailed,expenditure,Social transfers,1653.161,-1653.161,1420.755,9.549694369e-12
+2023,social_security_funds,modern_detailed,expenditure,Subsidies,-125.02,125.02,1420.755,9.549694369e-12
+2023,social_security_funds,modern_detailed,revenue,Capital revenue,-13.041,-13.041,1420.755,9.549694369e-12
+2023,social_security_funds,modern_detailed,revenue,Sales and other current revenue,345.69,345.69,1420.755,9.549694369e-12
+2023,social_security_funds,modern_detailed,revenue,Social contributions,2805.544,2805.544,1420.755,9.549694369e-12
+2023,social_security_funds,modern_detailed,revenue,Taxes,4.806,4.806,1420.755,9.549694369e-12
+2024,social_security_funds,modern_detailed,expenditure,Capital expenditure,44.601,-44.601,310.396507,-1.000444172e-11
+2024,social_security_funds,modern_detailed,expenditure,Compensation of employees,5.85,-5.85,310.396507,-1.000444172e-11
+2024,social_security_funds,modern_detailed,expenditure,Interest,0,-0,310.396507,-1.000444172e-11
+2024,social_security_funds,modern_detailed,expenditure,Intermediate consumption,13.216,-13.216,310.396507,-1.000444172e-11
+2024,social_security_funds,modern_detailed,expenditure,Other current expenditure,528.288,-528.288,310.396507,-1.000444172e-11
+2024,social_security_funds,modern_detailed,expenditure,Social transfers,3016.658,-3016.658,310.396507,-1.000444172e-11
+2024,social_security_funds,modern_detailed,expenditure,Subsidies,-23.031,23.031,310.396507,-1.000444172e-11
+2024,social_security_funds,modern_detailed,revenue,Capital revenue,9.815507,9.815507,310.396507,-1.000444172e-11
+2024,social_security_funds,modern_detailed,revenue,Sales and other current revenue,1330.978,1330.978,310.396507,-1.000444172e-11
+2024,social_security_funds,modern_detailed,revenue,Social contributions,2557.289,2557.289,310.396507,-1.000444172e-11
+2024,social_security_funds,modern_detailed,revenue,Taxes,-2.104,-2.104,310.396507,-1.000444172e-11
+2025,social_security_funds,modern_detailed,expenditure,Capital expenditure,-4.673,4.673,1034.136658,9.094947018e-13
+2025,social_security_funds,modern_detailed,expenditure,Compensation of employees,24.279,-24.279,1034.136658,9.094947018e-13
+2025,social_security_funds,modern_detailed,expenditure,Interest,0,-0,1034.136658,9.094947018e-13
+2025,social_security_funds,modern_detailed,expenditure,Intermediate consumption,11.676,-11.676,1034.136658,9.094947018e-13
+2025,social_security_funds,modern_detailed,expenditure,Other current expenditure,433.658,-433.658,1034.136658,9.094947018e-13
+2025,social_security_funds,modern_detailed,expenditure,Social transfers,2002.737,-2002.737,1034.136658,9.094947018e-13
+2025,social_security_funds,modern_detailed,expenditure,Subsidies,52.725,-52.725,1034.136658,9.094947018e-13
+2025,social_security_funds,modern_detailed,revenue,Capital revenue,18.484618,18.484618,1034.136658,9.094947018e-13
+2025,social_security_funds,modern_detailed,revenue,Sales and other current revenue,1065.15304,1065.15304,1034.136658,9.094947018e-13
+2025,social_security_funds,modern_detailed,revenue,Social contributions,2467.646,2467.646,1034.136658,9.094947018e-13
+2025,social_security_funds,modern_detailed,revenue,Taxes,3.255,3.255,1034.136658,9.094947018e-13

@@ -93,6 +93,32 @@ two methodologies. 1995 is excluded because that change straddles the splice in 
 The attribution is hierarchical: the revenue and expenditure columns describe the *named
 subsector*, not the aggregate, so both halves of the table refer to one entity.
 
+## `outputs/tables/account_component_changes.csv`
+
+Long panel: one row per sector-year-component. Each annual revenue and expenditure change
+decomposed into the components that produced it.
+
+| Column | Definition |
+|---|---|
+| `component_scheme` | `modern_detailed` (four revenue and seven expenditure components) or `historical_current_capital` (current against capital only) |
+| `side`, `component` | Revenue or expenditure, and the readable component name |
+| `change_m_eur` | The movement in the component itself |
+| `contribution_m_eur` | That movement's effect on the balance: revenue positive, expenditure negated |
+| `balance_change_m_eur`, `component_closure_error_m_eur` | The change being decomposed, and the residual of the contributions summing to it |
+
+The two source families resolve the accounts at different depths and are **not** forced onto
+a common scheme. Each sector-year uses the finer scheme it reports: coarsening the modern
+period would discard real detail, and assigning modern component names to historical
+movements would fabricate it. No change is computed across a source gap.
+
+## `outputs/tables/episode_component_attribution.csv`
+
+The three largest component movements behind each ranked episode of
+`largest_balance_movements.csv`, joined on the subsector that dominates the episode so that
+aggregate, subsector and account levels all describe one entity. Components are ranked by the
+absolute size of their contribution, so a large expenditure rise and a large revenue rise
+compete on the same footing.
+
 ## `outputs/tables/ssf_balance_change_decomposition.csv`
 
 Each annual change in the Social Security balance split into the account movements that

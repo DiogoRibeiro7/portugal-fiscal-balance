@@ -26,7 +26,7 @@ as nothing, which is what makes the guarantee enforceable instead of aspirationa
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 import pandas as pd
@@ -158,6 +158,15 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
     # The latest annual change in the Social Security balance, by account.
     ssf_change_latest = _latest(data.ss_change)
 
+    # The account component that moved most in each of the two headline episodes.
+    def _leading_component(year: int) -> pd.Series[Any]:
+        rows = data.episode_components.loc[data.episode_components["year"].eq(year)]
+        position = int(rows["contribution_m_eur"].abs().idxmax())
+        return cast("pd.Series[Any]", rows.loc[position])
+
+    improvement_component = _leading_component(int(top_improvement["year"]))
+    deterioration_component = _leading_component(int(top_deterioration["year"]))
+
     # European benchmark. The structural comparison is the share of a country's
     # aggregate-surplus years in which the non-Social-Security balance was negative:
     # the direct cross-country analogue of this paper's headline composition.
@@ -254,6 +263,10 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
         "TopDeteriorationYear": str(int(top_deterioration["year"])),
         "TopDeteriorationPct": _ratio(top_deterioration["aggregate_change_pct_gdp"]),
         "MovementsPerRegime": str(int(data.movements["rank_in_regime"].max())),
+        "TopImprovementComponent": str(improvement_component["component"]).lower(),
+        "TopImprovementComponentValue": _money(improvement_component["contribution_m_eur"]),
+        "TopDeteriorationComponent": str(deterioration_component["component"]).lower(),
+        "TopDeteriorationComponentValue": _money(deterioration_component["contribution_m_eur"]),
         # How closely the aggregate tracks Central Government.
         "AggregateCentralCorrelation": _ratio(aggregate_ratio.corr(central_ratio), 3),
         "AggregateCentralMedianGap": _ratio((aggregate_ratio - central_ratio).abs().median()),
@@ -382,6 +395,18 @@ def _table_files(data: ReportInputs) -> dict[str, str]:
             "dominant_expenditure_contribution_m_eur": "Expenditure contribution (M EUR)",
         },
     )
+    episode_components = _view(
+        _label_regimes(data.episode_components),
+        {
+            "regime": "Regime",
+            "year": "Year",
+            "side": "Side",
+            "component": "Component",
+            "change_m_eur": "Change (M EUR)",
+            "contribution_m_eur": "Contribution (M EUR)",
+        },
+    )
+    episode_components["Side"] = episode_components["Side"].str.capitalize()
     ssf_change = _view(
         data.ss_change.loc[data.ss_change["year"].ge(2018)],
         {
@@ -521,6 +546,18 @@ def _table_files(data: ReportInputs) -> dict[str, str]:
             "the balance negatively, so the final column is minus the expenditure change; it is "
             "that column which adds to the revenue change to give the subsector's balance "
             "change.",
+        ),
+        "tab_episodecomponents.tex": latex.table(
+            episode_components,
+            caption="The three largest component movements behind each episode, for the "
+            "subsector that dominates it, ranked by the absolute size of the contribution.",
+            label="episodecomponents",
+            digits=0,
+            note="The two source families resolve the accounts at different depths, so each "
+            "sector-year uses the finer scheme it reports rather than being coarsened to a "
+            "common one: four revenue and seven expenditure components in the modern period, "
+            "current against capital in the historical one. Expenditure contributions are "
+            "negated, so a falling capital expenditure appears as a positive contribution.",
         ),
         "tab_ssfchange.tex": latex.table(
             ssf_change,
