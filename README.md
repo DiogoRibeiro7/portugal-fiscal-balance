@@ -134,16 +134,64 @@ portugal-fiscal-balance/
 ├── report/
 │   └── report.tex
 ├── scripts/
+│   ├── create_notebooks.py
 │   ├── run_pipeline.py
 │   └── run_notebooks.py
 └── tests/
 ```
 
-## Notebook design
+## Notebooks
 
-Notebooks are the visible research narrative. They do not contain the implementation of parsers, accounting calculations, statistical routines or plotting functions. Those live under `src/portugal_fiscal_balance/`.
+The notebooks are the visible research narrative and are **committed with their executed
+outputs**, including inline figures, so the whole analysis can be read on GitHub without
+installing anything.
 
-Calculated tables are always persisted to CSV as well as displayed in notebooks. This allows peer verification without reading notebook state.
+| Notebook | What it establishes |
+| --- | --- |
+| [00](notebooks/00_research_protocol.ipynb) | Accounting objects, source regimes, scope limits and raw-file hashes, fixed before any result is seen |
+| [01](notebooks/01_extract_historical_data.ipynb) | 1977–1995 extraction from the Banco de Portugal / INE long series, with an extraction identity check |
+| [02](notebooks/02_extract_modern_data.ipynb) | Modern PORDATA bridge and CFP workbooks, cross-checked against each other |
+| [03](notebooks/03_harmonize_and_validate.ipynb) | Canonical 1977–2025 panel, closure residuals, the quantified 1995 revision and the 1996–1999 component gap |
+| [04](notebooks/04_balance_decomposition.ipynb) | Long-run subsector decomposition and the Social Security offset metrics |
+| [05](notebooks/05_revenue_expenditure.ipynb) | `B = R - E` in levels and in adjacent-year changes |
+| [06](notebooks/06_year_to_year_attribution.ipynb) | Exact attribution of every annual change in the aggregate balance |
+| [07](notebooks/07_persistence.ipynb) | Sign frequencies, run lengths and empirical one-year transitions |
+| [08](notebooks/08_structural_breaks.ipynb) | Piecewise-constant mean shifts, detected separately per statistical regime |
+| [09](notebooks/09_social_security_mechanisms.ipynb) | SSF revenue composition and the separately bounded CFP budget systems |
+| [10](notebooks/10_intergovernmental_transfers.ipynb) | Mechanical transfer-reallocation sensitivity, 1977–1995 |
+| [11](notebooks/11_primary_balance.ipynb) | Primary balance reconstruction and interest by sector |
+| [12](notebooks/12_investment_diagnostic.ipynb) | GFCF sized against B.9 with an explicitly non-official diagnostic |
+| [13](notebooks/13_debt_reconciliation.ipynb) | `ΔDebt = -B + SFA` reconciliation for the modern regime |
+| [14](notebooks/14_macroeconomic_comovement.ipynb) | Descriptive HAC co-movement regressions |
+| [15](notebooks/15_build_report.ipynb) | Report generation from persisted outputs only |
+
+Every notebook follows the same contract:
+
+- a header stating its purpose, the files it reads, the files it writes and the
+  `METHODOLOGY.md` section it implements;
+- an explicit identity or tolerance check wherever one exists, printed rather than assumed;
+- a closing **Interpretation limits** section stating what the results are not;
+- links to the previous and next stage.
+
+Notebooks do not implement analysis. Parsers, accounting calculations, statistical
+routines and plotting all live under `src/portugal_fiscal_balance/`, are type-checked and
+are covered by the test suite; `tests/test_project_contract.py` enforces that no notebook
+defines a reusable function or class. Notebook figures are built by the same functions the
+pipeline uses to write `outputs/figures/`, so a chart in a notebook and the corresponding
+file on disk cannot drift apart.
+
+Calculated tables are always persisted to CSV as well as displayed, which allows peer
+verification without reading notebook state.
+
+The notebooks themselves are generated, so the narrative contract stays uniform and diffs
+stay readable:
+
+```bash
+python scripts/create_notebooks.py                # rewrite the notebooks, without outputs
+PYTHONPATH=src python scripts/run_notebooks.py    # execute them, storing outputs in place
+```
+
+`scripts/run_notebooks.py` accepts name prefixes, for example `python scripts/run_notebooks.py 04 05`.
 
 ## Reproduce
 

@@ -1,10 +1,19 @@
-.PHONY: pipeline notebooks test all clean
+.PHONY: pipeline notebooks notebooks-build lint typecheck test all clean
 
 pipeline:
 	PYTHONPATH=src python scripts/run_pipeline.py
 
+notebooks-build:
+	python scripts/create_notebooks.py
+
 notebooks:
 	PYTHONPATH=src python scripts/run_notebooks.py
+
+lint:
+	ruff check .
+
+typecheck:
+	mypy src
 
 test:
 	PYTHONPATH=src pytest

@@ -185,6 +185,8 @@ For 1978–1995, the historical workbook also permits a small SSF model using em
 - source-specific extracted files are persisted in `data/interim/`;
 - processed panels are persisted separately;
 - all calculated analysis tables are saved to CSV;
-- notebook outputs are preserved;
+- notebooks are generated from `scripts/create_notebooks.py` and committed with their
+  executed outputs, so the narrative is readable without running anything;
+- notebook figures are produced by the same functions that write `outputs/figures/`;
 - raw source SHA-256 hashes are recorded;
 - the report is generated from persisted outputs.
