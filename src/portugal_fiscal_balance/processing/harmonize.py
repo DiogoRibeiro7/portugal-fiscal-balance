@@ -20,13 +20,25 @@ def harmonize_balance_panel(
     hist = historical.loc[historical["year"].between(1977, 1994)].copy()
     hist["source_primary"] = "Banco de Portugal / INE long series"
     hist["statistical_regime"] = "historical_long_series"
+    hist["vintage_status"] = "final"
 
     mod = modern.loc[modern["year"].between(1995, 2025)].copy()
     mod = mod.merge(modern_gdp, on="year", how="left", validate="one_to_one")
     mod["source_primary"] = "INE via PORDATA balance snapshot"
     mod["statistical_regime"] = "modern_national_accounts"
+    # The publisher marks its most recent years provisional. Carrying that flag
+    # into the canonical panel keeps it available to every downstream consumer;
+    # dropping it here would silently present provisional years as settled.
+    mod["vintage_status"] = mod["status"] if "status" in mod.columns else "final"
 
-    keep = ["year", *BALANCE_COLUMNS, "nominal_gdp_m_eur", "source_primary", "statistical_regime"]
+    keep = [
+        "year",
+        *BALANCE_COLUMNS,
+        "nominal_gdp_m_eur",
+        "source_primary",
+        "statistical_regime",
+        "vintage_status",
+    ]
     panel = pd.concat([hist[keep], mod[keep]], ignore_index=True).sort_values("year")
     require_unique_years(panel, name="harmonised balance panel")
     expected = list(range(1977, 2026))

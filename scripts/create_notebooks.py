@@ -686,15 +686,71 @@ print('observations outside tolerance:', int((~checks['within_tolerance']).sum()
             ),
             (
                 "md",
+                """## 6. Identity closure is not source agreement
+
+These are two different tests and they are easy to conflate.
+
+An **identity** check asks whether the extraction is arithmetically
+self-consistent. It can close to numerical precision while both sources are wrong
+in the same way, because it never consults a second source.
+
+A **source-agreement** check asks whether two independently published sources
+report the same number for the same year. Identity closure cannot establish it.
+
+Both are collected below in one unit so they can be compared directly. The
+identities close to rounding; the largest source disagreement is a Central
+Government difference of roughly 67 M EUR in 2002.""",
+            ),
+            (
+                "code",
+                r"""from portugal_fiscal_balance.processing.validation import (
+    compare_modern_balance_sources,
+    source_validation_summary,
+)
+from portugal_fiscal_balance.analysis.debt import debt_reconciliation_table
+
+comparison = compare_modern_balance_sources(modern, cfp.general_government, cfp.subsectors)
+validation = source_validation_summary(
+    balance_panel=panel,
+    account_checks=checks,
+    debt=debt_reconciliation_table(cfp.debt),
+    source_comparison=comparison,
+    overlap=overlap,
+)
+display(validation.round(3))""",
+            ),
+            (
+                "md",
+                """## 7. Which years are still provisional?
+
+The publisher flags its most recent years as provisional and the canonical panel
+carries that flag through. These are also the years the report discusses in most
+detail, so the flag matters.""",
+            ),
+            (
+                "code",
+                r"""display(panel.groupby('vintage_status')['year'].agg(['min', 'max', 'count']))
+print(
+    'provisional years:',
+    panel.loc[panel['vintage_status'].eq('provisional'), 'year'].tolist(),
+)""",
+            ),
+            (
+                "md",
                 f"""{LIMITS_HEADING}
 
 1. **Nothing is smoothed, calibrated or chained across 1995.** The panel is a
    documented splice, not a homogeneous series.
 2. **1996-1999 subsector components are missing, not zero.** Any statistic that
-   needs them is computed on the years that exist.
+   needs them is computed on the years that exist. The canonical B.9 panel is
+   complete and is unaffected.
 3. **Closure within 2 M EUR is a rounding tolerance**, not a claim that the
    sources are internally consistent to the euro.
-4. Passing these checks establishes that the extraction is faithful. It says
+4. **Identity closure does not imply source agreement.** Section 6 reports both,
+   and neither substitutes for the other.
+5. **The most recent years are provisional** and will be revised by a later
+   vintage.
+6. Passing these checks establishes that the extraction is faithful. It says
    nothing about whether the underlying statistics are correct.""",
             ),
         ],
@@ -833,8 +889,9 @@ display(
         inputs=[
             "data/processed/subsector_accounts_1977_2025.csv",
             "outputs/tables/revenue_expenditure_change_decomposition.csv",
+            "outputs/tables/largest_balance_movements.csv",
         ],
-        outputs=["Nothing. Both tables are persisted by the pipeline."],
+        outputs=["Nothing. All three tables are persisted by the pipeline."],
         method="`METHODOLOGY.md` section 7",
         cells=[
             (
@@ -891,11 +948,50 @@ print('year gaps present:', sorted(changes['year_gap'].dropna().unique().tolist(
             ),
             (
                 "code",
-                r"""figure = figures.revenue_expenditure_changes(changes, 'social_security_funds', start_year=2010)""",
+                r"""last_year = int(changes['year'].max())
+figure = figures.revenue_expenditure_changes(
+    changes, 'social_security_funds', start_year=2010, end_year=last_year
+)""",
+            ),
+            (
+                "code",
+                r"""figure = figures.revenue_expenditure_changes(
+    changes, 'general_government', start_year=2001, end_year=last_year
+)""",
             ),
             (
                 "md",
-                """## 3. Decomposition check
+                """## 3. Which episodes were revenue-driven and which expenditure-driven?
+
+The ranked episodes come from notebook 06, which selects them on the GDP-scaled
+aggregate change. Here they are split into the revenue and expenditure movements
+that composed them.
+
+A balance improves when revenue rises faster than expenditure, so a positive
+expenditure column alongside a positive balance change means expenditure grew but
+grew less. The residual column is the gap between this account-panel measure of the
+annual change and the canonical balance-panel measure of the same change: the two
+come from different source families and are not forced to agree.""",
+            ),
+            (
+                "code",
+                r"""movements = pd.read_csv(TABLES / 'largest_balance_movements.csv')
+display(
+    movements[
+        [
+            'direction',
+            'year',
+            'account_balance_change_m_eur',
+            'revenue_change_m_eur',
+            'expenditure_change_m_eur',
+            'source_family_difference_m_eur',
+        ]
+    ].round(1)
+)""",
+            ),
+            (
+                "md",
+                """## 4. Decomposition check
 
 The residual is an arithmetic identity check on the persisted table, so anything
 other than numerical noise would indicate a defect.""",
@@ -932,8 +1028,11 @@ display(
             "the three subsectors, and distinguish the level of a balance from its "
             "contribution to an annual movement."
         ),
-        inputs=["outputs/tables/balance_change_attribution.csv"],
-        outputs=["Nothing. The attribution table is persisted by the pipeline."],
+        inputs=[
+            "outputs/tables/balance_change_attribution.csv",
+            "outputs/tables/largest_balance_movements.csv",
+        ],
+        outputs=["Nothing. Both tables are persisted by the pipeline."],
         method="`METHODOLOGY.md` section 6",
         cells=[
             (
@@ -943,7 +1042,17 @@ display(
 $$\Delta B^{GG}_t = \Delta B^{C}_t + \Delta B^{RL}_t + \Delta B^{SSF}_t.$$
 
 This holds by construction, so the table is a reallocation of an observed change
-rather than an estimate.""",
+rather than an estimate.
+
+The same change is also reported scaled by current-year GDP. Because the three
+terms then share one denominator, the scaled version decomposes exactly as well:
+
+$$\frac{\Delta B^{GG}_t}{GDP_t} = \frac{\Delta B^{C}_t}{GDP_t} + \frac{\Delta B^{RL}_t}{GDP_t} + \frac{\Delta B^{SSF}_t}{GDP_t}.$$
+
+That is **not** the change in the balance ratio, which would also move with the
+denominator and would not decompose additively. The scaling exists so that years
+can be compared in size: ranking movements on nominal euro effectively ranks them
+by how recent they are.""",
             ),
             (
                 "code",
@@ -954,14 +1063,32 @@ change_columns = [
     'central_change_m_eur',
     'regional_local_change_m_eur',
     'ssf_change_m_eur',
+    'aggregate_change_pct_gdp',
     'change_closure_error_m_eur',
 ]
-display(attribution[change_columns].tail(12).round(1))""",
+display(attribution[change_columns].tail(12).round(3))""",
             ),
-            ("code", r"""figure = figures.balance_change_attribution(attribution)"""),
             (
                 "md",
-                """## 2. The largest annual movements
+                """## 2. Both windows, drawn separately
+
+The attribution is plotted as two panels that stop either side of 1995. A single
+panel spanning the splice would place a vintage revision among the economic
+movements and give it the same visual weight. The window is written into each
+title, because a stacked bar chart gives the reader no other way to tell that
+years are missing from the ends.""",
+            ),
+            (
+                "code",
+                r"""figure = figures.balance_change_attribution(attribution, start_year=1996, end_year=2025)""",
+            ),
+            (
+                "code",
+                r"""figure = figures.balance_change_attribution(attribution, start_year=1978, end_year=1994)""",
+            ),
+            (
+                "md",
+                """## 3. Contribution shares
 
 Shares are expressed against the absolute aggregate change, so a share above one
 means a subsector moved further than the aggregate and was partly offset by
@@ -982,7 +1109,51 @@ display(largest[share_columns].head(10).round(3))""",
             ),
             (
                 "md",
-                """## 3. Closure check""",
+                """## 4. The largest improvements and deteriorations
+
+Ranked on the GDP-scaled change, which removes the recency bias of a nominal
+ranking. 1995 is excluded because the 1994-to-1995 change straddles the vintage
+splice in both panels.
+
+The revenue and expenditure columns come from the detailed account panel, a
+different source family from the canonical balance panel. The residual column is
+the gap between the two measures of the same annual change; it is carried rather
+than reconciled away.""",
+            ),
+            (
+                "code",
+                r"""movements = pd.read_csv(TABLES / 'largest_balance_movements.csv')
+display(
+    movements[
+        [
+            'direction',
+            'year',
+            'aggregate_change_pct_gdp',
+            'aggregate_change_m_eur',
+            'dominant_subsector',
+            'dominant_subsector_share',
+        ]
+    ].round(3)
+)""",
+            ),
+            (
+                "code",
+                r"""display(
+    movements[
+        [
+            'direction',
+            'year',
+            'account_balance_change_m_eur',
+            'revenue_change_m_eur',
+            'expenditure_change_m_eur',
+            'source_family_difference_m_eur',
+        ]
+    ].round(1)
+)""",
+            ),
+            (
+                "md",
+                """## 5. Closure check""",
             ),
             (
                 "code",
@@ -996,8 +1167,11 @@ print('observations:', len(attribution), 'covering', int(attribution['year'].min
 1. **Contribution is not causation.** A subsector accounting for most of an
    annual improvement has not been shown to have produced it.
 2. The 1994-to-1995 change crosses the **statistical splice** and mixes a
-   vintage revision with an economic movement.
-3. Attribution operates on **balances only**. Whether a movement came from
+   vintage revision with an economic movement. It is excluded from the ranked
+   episodes and from both figures.
+3. **The GDP-scaled change is not the change in the balance ratio.** It shares a
+   denominator so the decomposition stays exact.
+4. Attribution operates on **balances only**. Whether a movement came from
    revenue or expenditure is the subject of notebook 05.""",
             ),
         ],
@@ -1012,10 +1186,11 @@ print('observations:', len(attribution), 'covering', int(attribution['year'].min
         ),
         inputs=[
             "outputs/tables/persistence_summary.csv",
+            "outputs/tables/persistence_by_regime.csv",
             "outputs/tables/transition_probabilities.csv",
             "data/processed/fiscal_balances_1977_2025.csv",
         ],
-        outputs=["Nothing. Both summaries are persisted by the pipeline."],
+        outputs=["Nothing. All three summaries are persisted by the pipeline."],
         method="`METHODOLOGY.md` section 8",
         cells=[
             (
@@ -1033,7 +1208,36 @@ display(persistence.round(3))""",
             ("code", r"""figure = figures.balance_sign_states(pd.read_csv(PROCESSED / 'fiscal_balances_1977_2025.csv'))"""),
             (
                 "md",
-                """## 2. One-year sign transitions
+                """## 2. The pooled means describe neither regime
+
+The magnitudes above average across the 1995 splice. The two regimes differ enough
+that the pooled figure is not a good description of either one: it lands between
+them and corresponds to no observed period.
+
+Sign counts are far more robust to pooling, because a sign does not depend on the
+level convention of the vintage. Both are shown per regime below so they are read
+on one basis.
+
+Runs are deliberately not recomputed per regime. A run is a property of the
+uninterrupted series, and truncating it at a window boundary would report the
+length of the window rather than the length of the run.""",
+            ),
+            (
+                "code",
+                r"""regime_persistence = pd.read_csv(TABLES / 'persistence_by_regime.csv')
+display(regime_persistence.round(3))""",
+            ),
+            (
+                "code",
+                r"""comparison = (
+    regime_persistence.pivot(index='sector', columns='regime', values='mean_balance_pct_gdp')
+    .join(persistence.set_index('sector')['mean_balance_pct_gdp'].rename('pooled'))
+)
+display(comparison.round(3))""",
+            ),
+            (
+                "md",
+                """## 3. One-year sign transitions
 
 Each row of the persisted table is a `state -> next_state` frequency. Pivoting
 gives one transition matrix per subsector, where each row sums to one.""",
@@ -1060,7 +1264,9 @@ display(transitions.sort_values(['sector', 'state', 'next_state']).round(3))""",
    why some matrices are smaller than three by three.
 3. Sign persistence describes the **recorded series**. It is not a forecast and
    carries no implication about future balances.
-4. Runs that span 1995 also span the **statistical splice**.""",
+4. Runs that span 1995 also span the **statistical splice**.
+5. **Pooled magnitudes are reported for completeness only.** The regime split is
+   the form in which means and medians should be read.""",
             ),
         ],
     ),
@@ -1074,9 +1280,12 @@ display(transitions.sort_values(['sector', 'state', 'next_state']).round(3))""",
         ),
         inputs=[
             "outputs/tables/structural_breaks.csv",
+            "outputs/tables/structural_break_bic_ladder.csv",
+            "outputs/tables/structural_break_sensitivity.csv",
+            "outputs/tables/structural_break_stability.csv",
             "data/processed/fiscal_balances_1977_2025.csv",
         ],
-        outputs=["Nothing. The break table is persisted by the pipeline."],
+        outputs=["Nothing. All four break tables are persisted by the pipeline."],
         method="`METHODOLOGY.md` section 9",
         cells=[
             (
@@ -1126,16 +1335,69 @@ figure = figures.structural_break_segments(
             ),
             (
                 "md",
+                """## 3. How firm are those dates?
+
+With eighteen or thirty-one observations per regime, a single selected date should
+not be read as determined. Three guards are reported.
+
+**The BIC ladder.** Publishing only the selected break count hides how close the
+alternatives were. The ladder scores every admissible count so the margin is
+visible.""",
+            ),
+            (
+                "code",
+                r"""ladder = pd.read_csv(TABLES / 'structural_break_bic_ladder.csv')
+display(
+    ladder.pivot_table(
+        index=['regime', 'sector'], columns='n_breaks', values='delta_bic_vs_best'
+    ).round(2)
+)""",
+            ),
+            (
+                "md",
+                """**The sensitivity grid.** Neither tuning parameter is estimated from the data,
+so a date that survives only one of their values is a property of that choice
+rather than of the series. Detection is re-run over all twelve combinations of a
+minimum segment length in 4, 5, 6, 7 and a maximum of 1, 2 or 3 breaks.""",
+            ),
+            (
+                "code",
+                r"""sensitivity = pd.read_csv(TABLES / 'structural_break_sensitivity.csv')
+print('specifications per series:', len(sensitivity) // sensitivity.groupby(['regime', 'sector']).ngroups)
+display(
+    sensitivity.pivot_table(
+        index=['regime', 'sector'], columns=['max_breaks', 'min_segment'], values='n_breaks'
+    )
+)""",
+            ),
+            (
+                "md",
+                """**The stability summary.** `modal_break_years_share` is the fraction of grid
+cells returning exactly the modal set of dates. It is the quantity that decides
+whether a date can be stated as detected or only as a candidate.""",
+            ),
+            (
+                "code",
+                r"""stability = pd.read_csv(TABLES / 'structural_break_stability.csv')
+display(stability.round(3))""",
+            ),
+            (
+                "md",
                 f"""{LIMITS_HEADING}
 
-1. Break dates are **statistical summaries**. This notebook attaches no
-   historical cause to any of them.
+1. Break dates are **candidates, not findings**. The preferred specification
+   identifies shifts around the years listed; the share columns say how much of
+   the specification grid agrees. This notebook attaches no historical cause to
+   any of them.
 2. Detection is run **within** each regime. A shift at the 1995 boundary is
    unidentifiable here by construction, which is the intent.
 3. A **five-year minimum segment** means shifts near the end of the sample cannot
-   be detected yet.
+   be detected yet, and the sensitivity grid shows how the detected dates move
+   when that length is changed.
 4. Selecting a mean shift does **not** imply the underlying series is
-   piecewise-constant; it is the best fit within a restricted model class.""",
+   piecewise-constant; it is the best fit within a restricted model class.
+5. **BIC differences are not tests.** A small margin means the data do not
+   distinguish the alternatives, not that the selected model is rejected.""",
             ),
         ],
     ),
@@ -1151,8 +1413,10 @@ figure = figures.structural_break_segments(
             "outputs/tables/social_security_account_metrics.csv",
             "outputs/tables/social_security_system_metrics_2019_2025.csv",
             "outputs/tables/social_security_detail_metrics_2024_2025.csv",
+            "outputs/tables/ssf_accounting_boundary_comparison.csv",
+            "outputs/tables/revenue_expenditure_change_decomposition.csv",
         ],
-        outputs=["Nothing. All three tables are persisted by the pipeline."],
+        outputs=["Nothing. All of these tables are persisted by the pipeline."],
         method="`METHODOLOGY.md` section 10",
         cells=[
             (
@@ -1197,16 +1461,80 @@ display(detail.set_index('year').T)""",
             ("code", r"""figure = figures.social_security_systems(systems)"""),
             (
                 "md",
+                """Across the years the CFP publishes, the movement in the internal balances is
+concentrated in the Previdential system, while the Citizenship system stays small
+in both directions. That is a description of the published series, not an account
+of what caused it.""",
+            ),
+            (
+                "code",
+                r"""movement = systems.set_index('year')[
+    [
+        'previdential_system_balance_m_eur',
+        'citizenship_system_balance_m_eur',
+        'special_regimes_balance_m_eur',
+    ]
+]
+display(movement)
+display((movement.iloc[-1] - movement.iloc[0]).rename('change over the published years').to_frame())""",
+            ),
+            (
+                "md",
+                """## 3. Why the two boundaries must not be interchanged
+
+This is the point the two layers exist to make. The ESA 2010 Social Security Funds
+balance is the B.9 term that enters the general-government identity. The budget
+systems are a different accounting object. They are close, but the difference is
+non-zero in **every** overlapping year, which is exactly why a figure quoted from
+the budget documents cannot be substituted for the national-accounts one.
+
+The columns below are never added, netted or reconciled. The difference column
+measures how far apart they are.""",
+            ),
+            (
+                "code",
+                r"""boundary = pd.read_csv(TABLES / 'ssf_accounting_boundary_comparison.csv')
+display(boundary.round(3))
+print(
+    'difference range (M EUR):',
+    round(float(boundary['boundary_difference_m_eur'].min()), 1),
+    'to',
+    round(float(boundary['boundary_difference_m_eur'].max()), 1),
+)
+print('years where the two are equal:', int((boundary['boundary_difference_m_eur'] == 0).sum()))""",
+            ),
+            ("code", r"""figure = figures.ssf_accounting_boundary(boundary)"""),
+            (
+                "md",
+                """## 4. Contribution dynamics
+
+The change in contributions is the revenue-side mechanism behind the national-accounts
+balance. It is shown against the change in total revenue and expenditure so the
+composition of each annual movement is visible.""",
+            ),
+            (
+                "code",
+                r"""changes = pd.read_csv(TABLES / 'revenue_expenditure_change_decomposition.csv')
+figure = figures.revenue_expenditure_changes(
+    changes, 'social_security_funds', start_year=2010, end_year=int(changes['year'].max())
+)""",
+            ),
+            (
+                "md",
                 f"""{LIMITS_HEADING}
 
 1. The two layers in this notebook have **different accounting boundaries** and
-   are reported side by side, never combined.
-2. The repository does **not** subtract State transfers from the Social Security
+   are reported side by side, never combined. Section 3 quantifies the gap rather
+   than closing it.
+2. This report does **not** subtract State transfers from the Social Security
    balance and call the remainder an underlying balance. Which transfers finance
    which statutory responsibility is a legal question, not an accounting one.
 3. The contribution share is a **composition ratio**. It says nothing about the
    adequacy or sustainability of the system.
-4. Internal system tables cover **2019-2025 only**, with detail for 2024-2025.""",
+4. Internal system tables cover **2019-2025 only**, with detail for 2024-2025, so
+   the movement described above is a short window.
+5. Attributing the movement to one system is an **accounting** statement. No
+   mechanism, policy change or demographic driver is identified here.""",
             ),
         ],
     ),
@@ -1288,10 +1616,14 @@ display(
         title="11. Primary balance and interest",
         purpose=(
             "Separate interest expenditure from B.9, verify the primary-balance identity "
-            "against the published series, and compare interest burdens across sectors."
+            "against the published series, contrast headline and primary sign frequencies, "
+            "and compare interest burdens across sectors."
         ),
-        inputs=["outputs/tables/primary_balance_and_interest.csv"],
-        outputs=["Nothing. The primary-balance table is persisted by the pipeline."],
+        inputs=[
+            "outputs/tables/primary_balance_and_interest.csv",
+            "outputs/tables/primary_balance_sign_summary.csv",
+        ],
+        outputs=["Nothing. Both primary-balance tables are persisted by the pipeline."],
         method="`METHODOLOGY.md` section 12",
         cells=[
             (
@@ -1321,7 +1653,33 @@ print('max |identity error| (M EUR):', float(primary['primary_balance_identity_e
             ("code", r"""figure = figures.primary_vs_headline(primary, 'central_government')"""),
             (
                 "md",
-                """## 2. Interest across sectors
+                """## 2. The headline sign is not the primary sign
+
+Central Government records a negative B.9 in every year of the canonical panel.
+Read alone, that invites the conclusion that the subsector runs an underlying
+deficit throughout. The detailed accounts do not support it.
+
+Both statements below are descriptive and they are not in conflict: the headline
+balance is negative throughout, while the primary balance, which excludes interest
+by construction, is positive in a non-trivial minority of the observed years.
+Interest is the arithmetic that separates them.""",
+            ),
+            (
+                "code",
+                r"""signs = pd.read_csv(TABLES / 'primary_balance_sign_summary.csv')
+display(signs.round(3))""",
+            ),
+            (
+                "code",
+                r"""central_signs = signs.loc[signs['sector'].eq('central_government')].iloc[0]
+print('observed years:', int(central_signs['n_years']))
+print('headline balance negative in:', int(central_signs['headline_negative_years']))
+print('primary balance positive in:', int(central_signs['primary_positive_years']))
+print('those years:', central_signs['primary_positive_year_list'])""",
+            ),
+            (
+                "md",
+                """## 3. Interest across sectors
 
 Interest is overwhelmingly a Central Government item, which is why the primary
 and headline balances of the other subsectors nearly coincide.""",
@@ -1341,9 +1699,15 @@ and headline balances of the other subsectors nearly coincide.""",
 
 1. The primary balance **excludes interest by construction**. It is not a measure
    of discretionary policy and not a cyclically adjusted balance.
-2. Interest reflects the **debt stock and past financing conditions**, so a
+2. **A positive primary balance is not a sustainability result** and a negative
+   headline balance is not an unsustainability result. Neither says anything about
+   the debt path on its own.
+3. Interest reflects the **debt stock and past financing conditions**, so a
    primary-balance comparison across decades compares different debt structures.
-3. The identity check confirms the **arithmetic**, not the appropriateness of the
+4. The sign counts are taken over the **detailed account panel**, so the three
+   subsectors have 45 observations rather than the 49 of the canonical balance
+   panel: the 1996-1999 components are missing.
+5. The identity check confirms the **arithmetic**, not the appropriateness of the
    published interest series.""",
             ),
         ],

@@ -404,12 +404,27 @@ def offset_ratio(metrics: pd.DataFrame) -> Figure:
     return fig
 
 
-def balance_change_attribution(changes: pd.DataFrame, *, start_year: int = 2000) -> Figure:
-    """Attribute each annual change in the aggregate balance to the subsectors."""
-    frame = changes.loc[changes["year"].ge(start_year)].sort_values("year")
+def balance_change_attribution(
+    changes: pd.DataFrame,
+    *,
+    start_year: int,
+    end_year: int,
+) -> Figure:
+    """Attribute each annual change in the aggregate balance to the subsectors.
+
+    The window is a required argument and is written into the title, because a
+    stacked bar chart gives the reader no way to tell that years are missing from
+    the ends. The value plotted is the annual change scaled by current-year GDP
+    rather than the nominal change, which keeps the historical and modern windows
+    on one comparable axis; the underlying tables report million euro.
+    """
+    frame = changes.loc[changes["year"].between(start_year, end_year)].sort_values("year")
     fig, ax = _panel(
-        title="Year-to-year change in the General Government balance, by subsector",
-        ylabel="Annual change, million euro",
+        title=(
+            "Year-to-year change in the General Government balance, by subsector, "
+            f"{start_year}-{end_year}"
+        ),
+        ylabel="Annual change, % of current-year GDP",
         height=5.0,
     )
     _signed_stack(
@@ -418,24 +433,24 @@ def balance_change_attribution(changes: pd.DataFrame, *, start_year: int = 2000)
         [
             (
                 SECTOR_LABELS["central_government"],
-                frame["central_change_m_eur"].to_numpy(dtype=float),
+                frame["central_change_pct_gdp"].to_numpy(dtype=float),
                 SECTOR_COLOURS["central_government"],
             ),
             (
                 SECTOR_LABELS["regional_local_government"],
-                frame["regional_local_change_m_eur"].to_numpy(dtype=float),
+                frame["regional_local_change_pct_gdp"].to_numpy(dtype=float),
                 SECTOR_COLOURS["regional_local_government"],
             ),
             (
                 SECTOR_LABELS["social_security_funds"],
-                frame["ssf_change_m_eur"].to_numpy(dtype=float),
+                frame["ssf_change_pct_gdp"].to_numpy(dtype=float),
                 SECTOR_COLOURS["social_security_funds"],
             ),
         ],
     )
     ax.plot(
         frame["year"],
-        frame["aggregate_change_m_eur"],
+        frame["aggregate_change_pct_gdp"],
         color=INK_PRIMARY,
         linewidth=1.6,
         label="Aggregate change (identity total)",
@@ -466,12 +481,26 @@ def revenue_expenditure(accounts: pd.DataFrame, sector: str) -> Figure:
     return fig
 
 
-def revenue_expenditure_changes(changes: pd.DataFrame, sector: str, *, start_year: int = 2001) -> Figure:
-    """Show the exact decomposition of a balance change into revenue and expenditure."""
-    frame = changes.loc[changes["sector"].eq(sector) & changes["year"].ge(start_year)].sort_values("year")
+def revenue_expenditure_changes(
+    changes: pd.DataFrame,
+    sector: str,
+    *,
+    start_year: int,
+    end_year: int,
+) -> Figure:
+    """Show the exact decomposition of a balance change into revenue and expenditure.
+
+    As with the attribution chart, the window is required and appears in the
+    title: paired bars give no visual cue that the series has been truncated.
+    """
+    selected = changes["sector"].eq(sector) & changes["year"].between(start_year, end_year)
+    frame = changes.loc[selected].sort_values("year")
     label = SECTOR_LABELS.get(sector, sector.replace("_", " ").title())
     fig, ax = _panel(
-        title=f"Change in balance decomposed into revenue and expenditure: {label}",
+        title=(
+            "Change in balance decomposed into revenue and expenditure: "
+            f"{label}, {start_year}-{end_year}"
+        ),
         ylabel="Annual change, million euro",
     )
     positions = frame["year"].to_numpy(dtype=float)
@@ -682,6 +711,76 @@ def social_security_systems(systems: pd.DataFrame) -> Figure:
     )
     _zero_rule(ax)
     _legend(ax, ncol=3)
+    return fig
+
+
+def ssf_accounting_boundary(comparison: pd.DataFrame) -> Figure:
+    """Contrast the ESA 2010 Social Security balance with the budget-system total.
+
+    Two stacked panels are used on purpose. The top panel carries the two balances
+    on a shared axis, where they look almost identical; the bottom panel carries
+    the difference on its own axis, which is the quantity of interest and would be
+    invisible at the scale of the levels. Plotting the difference as a third line
+    in the top panel would hide exactly what the figure exists to show.
+    """
+    apply_house_style()
+    frame = comparison.sort_values("year")
+    fig, axes = plt.subplots(2, 1, figsize=(10.0, 5.8), sharex=True)
+    top, bottom = axes[0], axes[1]
+    # The legend sits above this panel, so the title needs the same clearance the
+    # single-panel helper gives it.
+    top.set_title(
+        "Two accounting boundaries for Social Security: national accounts and budget systems",
+        pad=30.0,
+    )
+    top.plot(
+        frame["year"],
+        frame["esa2010_ssf_balance_m_eur"],
+        color=SECTOR_COLOURS["social_security_funds"],
+        marker="o",
+        markeredgecolor=SURFACE,
+        markeredgewidth=1.2,
+        label="ESA 2010 Social Security Funds balance",
+        zorder=3,
+    )
+    top.plot(
+        frame["year"],
+        frame["budget_system_total_m_eur"],
+        color=SERIES_COLOURS[0],
+        marker="s",
+        markeredgecolor=SURFACE,
+        markeredgewidth=1.2,
+        label="CFP budget-system total",
+        zorder=3,
+    )
+    top.set_ylabel("Million euro")
+    top.axhline(0.0, color=BASELINE, linewidth=1.0, zorder=1)
+    _legend(top, ncol=2)
+    bottom.bar(
+        frame["year"].to_numpy(dtype=float),
+        frame["boundary_difference_m_eur"].to_numpy(dtype=float),
+        width=0.6,
+        color=SERIES_COLOURS[1],
+        edgecolor=SURFACE,
+        linewidth=1.2,
+        zorder=2,
+    )
+    bottom.set_ylabel("Difference, million euro")
+    bottom.set_xlabel("Year")
+    bottom.axhline(0.0, color=BASELINE, linewidth=1.0, zorder=1)
+    bottom.xaxis.set_major_locator(MaxNLocator(integer=True))
+    bottom.annotate(
+        "National accounts minus budget systems: never zero, never added together",
+        xy=(0.006, 0.94),
+        xycoords="axes fraction",
+        ha="left",
+        va="top",
+        fontsize=8.5,
+        color=INK_MUTED,
+    )
+    for ax in axes:
+        ax.grid(visible=True, axis="y")
+        ax.set_axisbelow(True)
     return fig
 
 

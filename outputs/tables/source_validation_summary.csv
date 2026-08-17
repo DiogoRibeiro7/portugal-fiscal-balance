@@ -1,0 +1,9 @@
+check,comparison,n_observations,max_abs_difference_m_eur,year_of_max
+Accounting identity,Aggregate balance minus the sum of its three subsectors,49,1,2004
+Accounting identity,Revenue minus expenditure minus the recorded balance,184,5.456968211e-12,"Central Government, 1994"
+Accounting identity,Debt change against minus the balance plus the stock-flow adjustment,108,0,2000
+Source agreement,"PORDATA bridge against the CFP workbook, General Government",31,0.498,1995
+Source agreement,"PORDATA bridge against the CFP workbook, Central Government",26,66.81149176,2002
+Source agreement,"PORDATA bridge against the CFP workbook, Regional and Local",26,0.491718925,2002
+Source agreement,"PORDATA bridge against the CFP workbook, Social Security Funds",26,0.47,2019
+Vintage revision,"1995 modern vintage against the historical vintage, four balances",4,72.46461195,1995

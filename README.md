@@ -212,8 +212,8 @@ PYTHONPATH=src pytest
 
 ## Report
 
-`scripts/run_pipeline.py` writes `report/report.tex`: a 14-page LaTeX report with 19
-captioned tables and 10 figures. It restates persisted results and introduces no new
+`scripts/run_pipeline.py` writes `report/report.tex`: a 22-page LaTeX report with 26
+captioned tables and 15 figures. It restates persisted results and introduces no new
 calculation — every number in it is read from a file under `data/processed/` or `outputs/`,
 and the appendix maps each section to the notebook that produces it and the artefact it
 reads.
@@ -223,7 +223,14 @@ subsector closure residual, the revenue-minus-expenditure identity error, and th
 reconciliation residual are printed alongside the headline balances, so a defect in
 extraction is visible on the first page. Each section closes with what its result is not.
 
-To build the PDF (requires a LaTeX installation; `report/*.pdf` is not committed):
+Three habits shape how results are stated. Magnitudes are reported per statistical regime
+rather than pooled across the 1995 splice, because the pooled mean describes neither regime.
+Break dates are reported with the share of a twelve-specification grid that agrees on them,
+and are called candidates rather than findings. And the co-movement regressions sit in an
+appendix, with their weaknesses stated, because nothing in the body depends on them.
+
+The built PDF is committed at `report/report.pdf`. To rebuild it (requires a LaTeX
+installation):
 
 ```bash
 make pdf
@@ -256,14 +263,22 @@ data/processed/macro_panel_1977_2025.csv
 
 ```text
 outputs/tables/balance_change_attribution.csv
+outputs/tables/largest_balance_movements.csv
 outputs/tables/revenue_expenditure_change_decomposition.csv
 outputs/tables/persistence_summary.csv
+outputs/tables/persistence_by_regime.csv
 outputs/tables/transition_probabilities.csv
 outputs/tables/structural_breaks.csv
+outputs/tables/structural_break_bic_ladder.csv
+outputs/tables/structural_break_sensitivity.csv
+outputs/tables/structural_break_stability.csv
 outputs/tables/social_security_account_metrics.csv
+outputs/tables/ssf_accounting_boundary_comparison.csv
 outputs/tables/primary_balance_and_interest.csv
+outputs/tables/primary_balance_sign_summary.csv
 outputs/tables/investment_diagnostic.csv
 outputs/tables/debt_stock_flow_reconciliation.csv
+outputs/tables/source_validation_summary.csv
 outputs/tables/nominal_gdp_balance_comovement.csv
 outputs/tables/historical_ssf_labour_comovement.csv
 ```

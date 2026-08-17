@@ -1,50 +1,50 @@
-year,general_government_balance_m_eur,central_government_balance_m_eur,regional_local_balance_m_eur,social_security_balance_m_eur,nominal_gdp_m_eur,source_primary,statistical_regime,general_government_balance_pct_gdp,central_government_balance_pct_gdp,regional_local_balance_pct_gdp,social_security_balance_pct_gdp,closure_error_m_eur,closure_within_tolerance,known_methodology_break
-1977,-147.8054908,-155.9932986,12.0411963,-3.853388511,3602.601334,Banco de Portugal / INE long series,historical_long_series,-4.102743465,-4.330018343,0.3342361584,-0.1069612803,-1.705302566e-13,True,False
-1978,-279.7266063,-314.1618804,1.240453622,33.19482048,4456.083151,Banco de Portugal / INE long series,historical_long_series,-6.277409932,-7.05017994,0.02783730868,0.7449326989,1.705302566e-13,True,False
-1979,-328.654052,-397.1589032,11.82680028,56.6780509,5665.868483,Banco de Portugal / INE long series,historical_long_series,-5.800594436,-7.00967388,0.2087376422,1.000341802,1.705302566e-13,True,False
-1980,-624.8773436,-630.2308367,-22.40721362,27.7607067,7363.833272,Banco de Portugal / INE long series,historical_long_series,-8.485761702,-8.558461516,-0.3042873567,0.3769871706,-2.273736754e-13,True,False
-1981,-1102.679869,-1015.533961,-70.3706218,-16.77528656,8847.305645,Banco de Portugal / INE long series,historical_long_series,-12.463454,-11.47845459,-0.795390423,-0.1896089864,-1.136868377e-12,True,False
-1982,-914.4823725,-828.5544937,-103.7977923,17.86991351,10698.31816,Banco de Portugal / INE long series,historical_long_series,-8.547907801,-7.744717267,-0.9702253268,0.1670347922,-6.821210263e-13,True,False
-1983,-917.4949761,-889.0980178,-96.05387516,67.65691683,13668.75365,Banco de Portugal / INE long series,historical_long_series,-6.712352859,-6.504601962,-0.7027259226,0.4949750254,-4.547473509e-13,True,False
-1984,-1707.653536,-1811.329632,-96.66619447,200.3422901,16785.04216,Banco de Portugal / INE long series,historical_long_series,-10.17366248,-10.79133204,-0.5759067719,1.193576329,1.818989404e-12,True,False
-1985,-2119.106493,-2153.088671,-127.7159795,161.6981574,20605.41146,Banco de Portugal / INE long series,historical_long_series,-10.28422314,-10.44914184,-0.6198176616,0.7847363677,-1.364242053e-12,True,False
-1986,-1485.619158,-1797.716503,-31.0002893,343.0976347,25181.81629,Banco de Portugal / INE long series,historical_long_series,-5.899571107,-7.13894694,-0.1231058513,1.362481684,0,True,False
-1987,-1639.7926,-1815.658264,12.73929829,163.1263655,29670.65301,Banco de Portugal / INE long series,historical_long_series,-5.526648164,-6.119374127,0.0429356856,0.5497902773,2.273736754e-13,True,False
-1988,-1123.735627,-1430.603745,75.29853054,231.5695873,35416.43021,Banco de Portugal / INE long series,historical_long_series,-3.172921778,-4.03937872,0.2126090351,0.653847906,-1.364242053e-12,True,False
-1989,-890.9146258,-1112.714857,-64.61926757,286.419499,41841.30823,Banco de Portugal / INE long series,historical_long_series,-2.129270483,-2.659369184,-0.1544389272,0.6845376283,-1.932676241e-12,True,False
-1990,-2526.252896,-2418.192656,-336.109975,228.0497351,50239.23883,Banco de Portugal / INE long series,historical_long_series,-5.028445801,-4.813354486,-0.6690188442,0.4539275285,-4.547473509e-13,True,False
-1991,-3455.08098,-3255.183508,-130.0016959,-69.89577618,57608.07092,Banco de Portugal / INE long series,historical_long_series,-5.997564099,-5.650568498,-0.2256657684,-0.1213298329,4.547473509e-13,True,False
-1992,-1908.269047,-2029.304875,-59.72107222,180.7569009,64765.86489,Banco de Portugal / INE long series,historical_long_series,-2.94641174,-3.133293871,-0.09221072291,0.2790928542,1.818989404e-12,True,False
-1993,-4129.806417,-4086.624734,-269.6651071,226.4834249,67733.29321,Banco de Portugal / INE long series,historical_long_series,-6.097158754,-6.033406233,-0.3981278546,0.3343753333,0,True,False
-1994,-4456.856276,-4071.769574,-106.7005919,-278.3861104,73437.83279,Banco de Portugal / INE long series,historical_long_series,-6.068883172,-5.544512166,-0.1452937646,-0.379077241,-3.637978807e-12,True,False
-1995,-4611,-4235,66,-442,89028.557,INE via PORDATA balance snapshot,modern_national_accounts,-5.17923704,-4.756900643,0.07413351651,-0.4964699136,0,True,True
-1996,-4470,-5091,-261,882,94351.591,INE via PORDATA balance snapshot,modern_national_accounts,-4.737598966,-5.395775467,-0.2766249061,0.9348014068,0,True,False
-1997,-3792,-4003,-413,624,102330.96,INE via PORDATA balance snapshot,modern_national_accounts,-3.705623401,-3.911817108,-0.4035924221,0.6097861292,0,True,False
-1998,-4886,-5382,412,84,111353.381,INE via PORDATA balance snapshot,modern_national_accounts,-4.387832642,-4.833261417,0.369993256,0.07543551821,0,True,False
-1999,-3626,-4079,279,174,119603.305,INE via PORDATA balance snapshot,modern_national_accounts,-3.031688798,-3.410440874,0.2332711458,0.1454809296,0,True,False
-2000,-4072,-3746,-483,157,128414.445,INE via PORDATA balance snapshot,modern_national_accounts,-3.170982828,-2.917117307,-0.3761259101,0.122260389,0,True,False
-2001,-6438,-5695,-535,-208,135775.009,INE via PORDATA balance snapshot,modern_national_accounts,-4.741667887,-4.194439052,-0.3940342217,-0.1531946133,0,True,False
-2002,-4687,-5026,-653,992,142554.263,INE via PORDATA balance snapshot,modern_national_accounts,-3.287870809,-3.525674992,-0.4580711837,0.6958753664,0,True,False
-2003,-8325,-8041,-690,406,146067.858,INE via PORDATA balance snapshot,modern_national_accounts,-5.69940582,-5.504975639,-0.4723831851,0.2779530046,0,True,False
-2004,-9443,-9227,-525,310,152248.388,INE via PORDATA balance snapshot,modern_national_accounts,-6.20236452,-6.060491097,-0.3448312372,0.2036146353,-1,True,False
-2005,-9719,-9655,-577,513,158552.704,INE via PORDATA balance snapshot,modern_national_accounts,-6.129822926,-6.089457799,-0.3639168462,0.3235517194,0,True,False
-2006,-6928,-7540,-206,817,166260.469,INE via PORDATA balance snapshot,modern_national_accounts,-4.166955646,-4.535052767,-0.1239019722,0.4913976274,1,True,False
-2007,-5045,-6000,-465,1420,175483.401,INE via PORDATA balance snapshot,modern_national_accounts,-2.874915788,-3.419126804,-0.2649823273,0.8091933436,0,True,False
-2008,-6825,-7409,-1096,1680,179102.781,INE via PORDATA balance snapshot,modern_national_accounts,-3.810661097,-4.136730853,-0.6119391301,0.9380088855,0,True,False
-2009,-17321,-16348,-1385,412,175416.437,INE via PORDATA balance snapshot,modern_national_accounts,-9.874217203,-9.319537142,-0.7895497273,0.2348696662,0,True,False
-2010,-20537,-19799,-1543,805,179860.351,INE via PORDATA balance snapshot,modern_national_accounts,-11.41830308,-11.00798474,-0.8578877954,0.447569459,0,True,False
-2011,-13624,-13862,-201,439,176318.001,INE via PORDATA balance snapshot,modern_national_accounts,-7.726947857,-7.861931239,-0.1139985701,0.2489819516,0,True,False
-2012,-10453,-11603,835,314,168538.75,INE via PORDATA balance snapshot,modern_national_accounts,-6.202134524,-6.884470189,0.4954350261,0.1863073032,1,True,False
-2013,-8898,-9555,309,348,170675.649,INE via PORDATA balance snapshot,modern_national_accounts,-5.213397489,-5.598338167,0.1810451589,0.2038955188,0,True,False
-2014,-12752,-14214,655,808,173186.662,INE via PORDATA balance snapshot,modern_national_accounts,-7.363153636,-8.2073295,0.3782046449,0.4665486306,-1,True,False
-2015,-8026,-9931,776,1129,179392.709,INE via PORDATA balance snapshot,modern_national_accounts,-4.473983388,-5.535899455,0.4325705344,0.6293455327,0,True,False
-2016,-3622,-6055,863,1570,186380.749,INE via PORDATA balance snapshot,modern_national_accounts,-1.943333751,-3.24872608,0.4630306535,0.8423616755,0,True,False
-2017,-5870,-8460,348,2243,195509.136,INE via PORDATA balance snapshot,modern_national_accounts,-3.002417237,-4.327163514,0.177996797,1.147260965,-1,True,False
-2018,-873,-3407,499,2035,204997.646,INE via PORDATA balance snapshot,modern_national_accounts,-0.4258585486,-1.661970304,0.2434174293,0.9926943259,0,True,False
-2019,249,-3331,604,2975,214489.895,INE via PORDATA balance snapshot,modern_national_accounts,0.116089385,-1.552986913,0.2815983476,1.387011728,1,True,False
-2020,-11564,-13555,-207,2198,201032.705,INE via PORDATA balance snapshot,modern_national_accounts,-5.752297866,-6.742683983,-0.1029683205,1.093354437,0,True,False
-2021,-6117,-7985,-601,2468,216493.745,INE via PORDATA balance snapshot,modern_national_accounts,-2.825485789,-3.68832827,-0.2776061729,1.139986746,1,True,False
-2022,-757,-4966,-91,4299,243957.084,INE via PORDATA balance snapshot,modern_national_accounts,-0.3103004789,-2.035603934,-0.03730164278,1.76219519,1,True,False
-2023,3030,-2447,-243,5720,270352.615,INE via PORDATA balance snapshot,modern_national_accounts,1.120758532,-0.9051142339,-0.08988261497,2.115755381,0,True,False
-2024,1863,-4424,256,6031,289784.317,INE via PORDATA balance snapshot,modern_national_accounts,0.642891934,-1.526652666,0.08834156474,2.081203035,0,True,False
-2025,2059,-5636,630,7065,306765.485,INE via PORDATA balance snapshot,modern_national_accounts,0.6711967613,-1.837234068,0.2053686059,2.303062224,0,True,False
+year,general_government_balance_m_eur,central_government_balance_m_eur,regional_local_balance_m_eur,social_security_balance_m_eur,nominal_gdp_m_eur,source_primary,statistical_regime,vintage_status,general_government_balance_pct_gdp,central_government_balance_pct_gdp,regional_local_balance_pct_gdp,social_security_balance_pct_gdp,closure_error_m_eur,closure_within_tolerance,known_methodology_break
+1977,-147.8054908,-155.9932986,12.0411963,-3.853388511,3602.601334,Banco de Portugal / INE long series,historical_long_series,final,-4.102743465,-4.330018343,0.3342361584,-0.1069612803,-1.705302566e-13,True,False
+1978,-279.7266063,-314.1618804,1.240453622,33.19482048,4456.083151,Banco de Portugal / INE long series,historical_long_series,final,-6.277409932,-7.05017994,0.02783730868,0.7449326989,1.705302566e-13,True,False
+1979,-328.654052,-397.1589032,11.82680028,56.6780509,5665.868483,Banco de Portugal / INE long series,historical_long_series,final,-5.800594436,-7.00967388,0.2087376422,1.000341802,1.705302566e-13,True,False
+1980,-624.8773436,-630.2308367,-22.40721362,27.7607067,7363.833272,Banco de Portugal / INE long series,historical_long_series,final,-8.485761702,-8.558461516,-0.3042873567,0.3769871706,-2.273736754e-13,True,False
+1981,-1102.679869,-1015.533961,-70.3706218,-16.77528656,8847.305645,Banco de Portugal / INE long series,historical_long_series,final,-12.463454,-11.47845459,-0.795390423,-0.1896089864,-1.136868377e-12,True,False
+1982,-914.4823725,-828.5544937,-103.7977923,17.86991351,10698.31816,Banco de Portugal / INE long series,historical_long_series,final,-8.547907801,-7.744717267,-0.9702253268,0.1670347922,-6.821210263e-13,True,False
+1983,-917.4949761,-889.0980178,-96.05387516,67.65691683,13668.75365,Banco de Portugal / INE long series,historical_long_series,final,-6.712352859,-6.504601962,-0.7027259226,0.4949750254,-4.547473509e-13,True,False
+1984,-1707.653536,-1811.329632,-96.66619447,200.3422901,16785.04216,Banco de Portugal / INE long series,historical_long_series,final,-10.17366248,-10.79133204,-0.5759067719,1.193576329,1.818989404e-12,True,False
+1985,-2119.106493,-2153.088671,-127.7159795,161.6981574,20605.41146,Banco de Portugal / INE long series,historical_long_series,final,-10.28422314,-10.44914184,-0.6198176616,0.7847363677,-1.364242053e-12,True,False
+1986,-1485.619158,-1797.716503,-31.0002893,343.0976347,25181.81629,Banco de Portugal / INE long series,historical_long_series,final,-5.899571107,-7.13894694,-0.1231058513,1.362481684,0,True,False
+1987,-1639.7926,-1815.658264,12.73929829,163.1263655,29670.65301,Banco de Portugal / INE long series,historical_long_series,final,-5.526648164,-6.119374127,0.0429356856,0.5497902773,2.273736754e-13,True,False
+1988,-1123.735627,-1430.603745,75.29853054,231.5695873,35416.43021,Banco de Portugal / INE long series,historical_long_series,final,-3.172921778,-4.03937872,0.2126090351,0.653847906,-1.364242053e-12,True,False
+1989,-890.9146258,-1112.714857,-64.61926757,286.419499,41841.30823,Banco de Portugal / INE long series,historical_long_series,final,-2.129270483,-2.659369184,-0.1544389272,0.6845376283,-1.932676241e-12,True,False
+1990,-2526.252896,-2418.192656,-336.109975,228.0497351,50239.23883,Banco de Portugal / INE long series,historical_long_series,final,-5.028445801,-4.813354486,-0.6690188442,0.4539275285,-4.547473509e-13,True,False
+1991,-3455.08098,-3255.183508,-130.0016959,-69.89577618,57608.07092,Banco de Portugal / INE long series,historical_long_series,final,-5.997564099,-5.650568498,-0.2256657684,-0.1213298329,4.547473509e-13,True,False
+1992,-1908.269047,-2029.304875,-59.72107222,180.7569009,64765.86489,Banco de Portugal / INE long series,historical_long_series,final,-2.94641174,-3.133293871,-0.09221072291,0.2790928542,1.818989404e-12,True,False
+1993,-4129.806417,-4086.624734,-269.6651071,226.4834249,67733.29321,Banco de Portugal / INE long series,historical_long_series,final,-6.097158754,-6.033406233,-0.3981278546,0.3343753333,0,True,False
+1994,-4456.856276,-4071.769574,-106.7005919,-278.3861104,73437.83279,Banco de Portugal / INE long series,historical_long_series,final,-6.068883172,-5.544512166,-0.1452937646,-0.379077241,-3.637978807e-12,True,False
+1995,-4611,-4235,66,-442,89028.557,INE via PORDATA balance snapshot,modern_national_accounts,final,-5.17923704,-4.756900643,0.07413351651,-0.4964699136,0,True,True
+1996,-4470,-5091,-261,882,94351.591,INE via PORDATA balance snapshot,modern_national_accounts,final,-4.737598966,-5.395775467,-0.2766249061,0.9348014068,0,True,False
+1997,-3792,-4003,-413,624,102330.96,INE via PORDATA balance snapshot,modern_national_accounts,final,-3.705623401,-3.911817108,-0.4035924221,0.6097861292,0,True,False
+1998,-4886,-5382,412,84,111353.381,INE via PORDATA balance snapshot,modern_national_accounts,final,-4.387832642,-4.833261417,0.369993256,0.07543551821,0,True,False
+1999,-3626,-4079,279,174,119603.305,INE via PORDATA balance snapshot,modern_national_accounts,final,-3.031688798,-3.410440874,0.2332711458,0.1454809296,0,True,False
+2000,-4072,-3746,-483,157,128414.445,INE via PORDATA balance snapshot,modern_national_accounts,final,-3.170982828,-2.917117307,-0.3761259101,0.122260389,0,True,False
+2001,-6438,-5695,-535,-208,135775.009,INE via PORDATA balance snapshot,modern_national_accounts,final,-4.741667887,-4.194439052,-0.3940342217,-0.1531946133,0,True,False
+2002,-4687,-5026,-653,992,142554.263,INE via PORDATA balance snapshot,modern_national_accounts,final,-3.287870809,-3.525674992,-0.4580711837,0.6958753664,0,True,False
+2003,-8325,-8041,-690,406,146067.858,INE via PORDATA balance snapshot,modern_national_accounts,final,-5.69940582,-5.504975639,-0.4723831851,0.2779530046,0,True,False
+2004,-9443,-9227,-525,310,152248.388,INE via PORDATA balance snapshot,modern_national_accounts,final,-6.20236452,-6.060491097,-0.3448312372,0.2036146353,-1,True,False
+2005,-9719,-9655,-577,513,158552.704,INE via PORDATA balance snapshot,modern_national_accounts,final,-6.129822926,-6.089457799,-0.3639168462,0.3235517194,0,True,False
+2006,-6928,-7540,-206,817,166260.469,INE via PORDATA balance snapshot,modern_national_accounts,final,-4.166955646,-4.535052767,-0.1239019722,0.4913976274,1,True,False
+2007,-5045,-6000,-465,1420,175483.401,INE via PORDATA balance snapshot,modern_national_accounts,final,-2.874915788,-3.419126804,-0.2649823273,0.8091933436,0,True,False
+2008,-6825,-7409,-1096,1680,179102.781,INE via PORDATA balance snapshot,modern_national_accounts,final,-3.810661097,-4.136730853,-0.6119391301,0.9380088855,0,True,False
+2009,-17321,-16348,-1385,412,175416.437,INE via PORDATA balance snapshot,modern_national_accounts,final,-9.874217203,-9.319537142,-0.7895497273,0.2348696662,0,True,False
+2010,-20537,-19799,-1543,805,179860.351,INE via PORDATA balance snapshot,modern_national_accounts,final,-11.41830308,-11.00798474,-0.8578877954,0.447569459,0,True,False
+2011,-13624,-13862,-201,439,176318.001,INE via PORDATA balance snapshot,modern_national_accounts,final,-7.726947857,-7.861931239,-0.1139985701,0.2489819516,0,True,False
+2012,-10453,-11603,835,314,168538.75,INE via PORDATA balance snapshot,modern_national_accounts,final,-6.202134524,-6.884470189,0.4954350261,0.1863073032,1,True,False
+2013,-8898,-9555,309,348,170675.649,INE via PORDATA balance snapshot,modern_national_accounts,final,-5.213397489,-5.598338167,0.1810451589,0.2038955188,0,True,False
+2014,-12752,-14214,655,808,173186.662,INE via PORDATA balance snapshot,modern_national_accounts,final,-7.363153636,-8.2073295,0.3782046449,0.4665486306,-1,True,False
+2015,-8026,-9931,776,1129,179392.709,INE via PORDATA balance snapshot,modern_national_accounts,final,-4.473983388,-5.535899455,0.4325705344,0.6293455327,0,True,False
+2016,-3622,-6055,863,1570,186380.749,INE via PORDATA balance snapshot,modern_national_accounts,final,-1.943333751,-3.24872608,0.4630306535,0.8423616755,0,True,False
+2017,-5870,-8460,348,2243,195509.136,INE via PORDATA balance snapshot,modern_national_accounts,final,-3.002417237,-4.327163514,0.177996797,1.147260965,-1,True,False
+2018,-873,-3407,499,2035,204997.646,INE via PORDATA balance snapshot,modern_national_accounts,final,-0.4258585486,-1.661970304,0.2434174293,0.9926943259,0,True,False
+2019,249,-3331,604,2975,214489.895,INE via PORDATA balance snapshot,modern_national_accounts,final,0.116089385,-1.552986913,0.2815983476,1.387011728,1,True,False
+2020,-11564,-13555,-207,2198,201032.705,INE via PORDATA balance snapshot,modern_national_accounts,final,-5.752297866,-6.742683983,-0.1029683205,1.093354437,0,True,False
+2021,-6117,-7985,-601,2468,216493.745,INE via PORDATA balance snapshot,modern_national_accounts,final,-2.825485789,-3.68832827,-0.2776061729,1.139986746,1,True,False
+2022,-757,-4966,-91,4299,243957.084,INE via PORDATA balance snapshot,modern_national_accounts,final,-0.3103004789,-2.035603934,-0.03730164278,1.76219519,1,True,False
+2023,3030,-2447,-243,5720,270352.615,INE via PORDATA balance snapshot,modern_national_accounts,final,1.120758532,-0.9051142339,-0.08988261497,2.115755381,0,True,False
+2024,1863,-4424,256,6031,289784.317,INE via PORDATA balance snapshot,modern_national_accounts,provisional,0.642891934,-1.526652666,0.08834156474,2.081203035,0,True,False
+2025,2059,-5636,630,7065,306765.485,INE via PORDATA balance snapshot,modern_national_accounts,provisional,0.6711967613,-1.837234068,0.2053686059,2.303062224,0,True,False

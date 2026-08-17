@@ -23,7 +23,7 @@ import pandas as pd
 import yaml
 
 from portugal_fiscal_balance.reporting import latex
-from portugal_fiscal_balance.schemas import SECTOR_LABELS
+from portugal_fiscal_balance.schemas import REGIME_TABLE_LABELS, SECTOR_LABELS
 
 TITLE = "Portugal's General-Government Balance by Subsector, 1977--2025"
 AUTHOR = "Diogo Ribeiro"
@@ -35,14 +35,20 @@ SUBJECT = (
 #: Sections of the report, the notebook that produces them and the artefact they read.
 ARTEFACT_INDEX: tuple[tuple[str, str, str], ...] = (
     ("Data, sources and validation", "03_harmonize_and_validate", "data/processed/fiscal_balances_1977_2025.csv"),
+    ("Identity and source-agreement checks", "03_harmonize_and_validate", "outputs/tables/source_validation_summary.csv"),
     ("Long-run subsector decomposition", "04_balance_decomposition", "data/processed/annual_balance_metrics_1977_2025.csv"),
     ("Year-to-year attribution", "06_year_to_year_attribution", "outputs/tables/balance_change_attribution.csv"),
+    ("Largest annual movements", "06_year_to_year_attribution", "outputs/tables/largest_balance_movements.csv"),
     ("Revenue and expenditure dynamics", "05_revenue_expenditure", "outputs/tables/revenue_expenditure_change_decomposition.csv"),
     ("Social Security Funds", "09_social_security_mechanisms", "outputs/tables/social_security_account_metrics.csv"),
+    ("Social Security accounting boundaries", "09_social_security_mechanisms", "outputs/tables/ssf_accounting_boundary_comparison.csv"),
     ("Primary balance and interest", "11_primary_balance", "outputs/tables/primary_balance_and_interest.csv"),
+    ("Primary balance sign frequencies", "11_primary_balance", "outputs/tables/primary_balance_sign_summary.csv"),
     ("Fixed-capital-formation diagnostic", "12_investment_diagnostic", "outputs/tables/investment_diagnostic.csv"),
     ("Debt and stock-flow adjustment", "13_debt_reconciliation", "outputs/tables/debt_stock_flow_reconciliation.csv"),
-    ("Persistence and structural mean shifts", "07_persistence, 08_structural_breaks", "outputs/tables/persistence_summary.csv"),
+    ("Persistence, pooled and by regime", "07_persistence", "outputs/tables/persistence_by_regime.csv"),
+    ("Structural mean shifts", "08_structural_breaks", "outputs/tables/structural_breaks.csv"),
+    ("Change-point robustness", "08_structural_breaks", "outputs/tables/structural_break_sensitivity.csv"),
     ("Descriptive macroeconomic co-movement", "14_macroeconomic_comovement", "outputs/tables/nominal_gdp_balance_comovement.csv"),
     ("Intergovernmental transfers", "10_intergovernmental_transfers", "outputs/tables/historical_transfer_reallocation_sensitivity.csv"),
 )
@@ -60,19 +66,27 @@ class ReportInputs:
     accounts: pd.DataFrame
     overlap: pd.DataFrame
     attribution: pd.DataFrame
+    movements: pd.DataFrame
     revenue_expenditure: pd.DataFrame
     recent: pd.DataFrame
     persistence: pd.DataFrame
+    regime_persistence: pd.DataFrame
     transitions: pd.DataFrame
     breaks: pd.DataFrame
+    break_ladder: pd.DataFrame
+    break_stability: pd.DataFrame
     ssf: pd.DataFrame
     ss_systems: pd.DataFrame
     ss_detail: pd.DataFrame
+    ss_boundary: pd.DataFrame
     primary: pd.DataFrame
+    primary_signs: pd.DataFrame
     investment: pd.DataFrame
     debt: pd.DataFrame
     nominal_comovement: pd.DataFrame
     labour_comovement: pd.DataFrame
+    validation_summary: pd.DataFrame
+    balances: pd.DataFrame
 
 
 def _read_version(root: Path) -> str:
@@ -108,6 +122,9 @@ def _read_sources(root: Path) -> pd.DataFrame:
             "Source": _source_label(key),
             "Institution": entry["institution"],
             "Coverage used": entry["coverage"],
+            # The vintage is the file's publication date, not its last covered
+            # year. Two files can cover 2025 and disagree about it.
+            "Vintage": entry.get("vintage", "--"),
             "SHA-256 prefix": hashes.get(entry["local_file"], "")[:12],
         }
         for key, entry in config["sources"].items()
@@ -133,19 +150,27 @@ def load(root: Path) -> ReportInputs:
         accounts=pd.read_csv(processed / "subsector_accounts_1977_2025.csv"),
         overlap=pd.read_csv(interim / "methodology_overlap_1995.csv"),
         attribution=pd.read_csv(tables / "balance_change_attribution.csv"),
+        movements=pd.read_csv(tables / "largest_balance_movements.csv"),
         revenue_expenditure=pd.read_csv(tables / "revenue_expenditure_change_decomposition.csv"),
         recent=pd.read_csv(tables / "recent_balance_decomposition_2010_2025.csv"),
         persistence=pd.read_csv(tables / "persistence_summary.csv"),
+        regime_persistence=pd.read_csv(tables / "persistence_by_regime.csv"),
         transitions=pd.read_csv(tables / "transition_probabilities.csv"),
         breaks=pd.read_csv(tables / "structural_breaks.csv"),
+        break_ladder=pd.read_csv(tables / "structural_break_bic_ladder.csv"),
+        break_stability=pd.read_csv(tables / "structural_break_stability.csv"),
         ssf=pd.read_csv(tables / "social_security_account_metrics.csv"),
         ss_systems=pd.read_csv(tables / "social_security_system_metrics_2019_2025.csv"),
         ss_detail=pd.read_csv(tables / "social_security_detail_metrics_2024_2025.csv"),
+        ss_boundary=pd.read_csv(tables / "ssf_accounting_boundary_comparison.csv"),
         primary=pd.read_csv(tables / "primary_balance_and_interest.csv"),
+        primary_signs=pd.read_csv(tables / "primary_balance_sign_summary.csv"),
         investment=pd.read_csv(tables / "investment_diagnostic.csv"),
         debt=pd.read_csv(tables / "debt_stock_flow_reconciliation.csv"),
         nominal_comovement=pd.read_csv(tables / "nominal_gdp_balance_comovement.csv"),
         labour_comovement=pd.read_csv(tables / "historical_ssf_labour_comovement.csv"),
+        validation_summary=pd.read_csv(tables / "source_validation_summary.csv"),
+        balances=pd.read_csv(processed / "fiscal_balances_1977_2025.csv"),
     )
 
 
@@ -163,6 +188,20 @@ def _label_sectors(frame: pd.DataFrame, *, column: str = "sector") -> pd.DataFra
     ordered = ordered.sort_values([column, "year"] if "year" in ordered.columns else [column])
     ordered[column] = ordered[column].map(SECTOR_LABELS).astype("string")
     return ordered
+
+
+def _sector_row(frame: pd.DataFrame, sector: str) -> pd.Series[Any]:
+    """Return the single row of a per-sector summary table describing one sector."""
+    return frame.loc[frame["sector"].eq(sector)].iloc[0]
+
+
+def _label_regimes(frame: pd.DataFrame, *, column: str = "regime") -> pd.DataFrame:
+    """Replace the regime keys with presentation labels, keeping the source order."""
+    labelled = frame.copy()
+    labelled[column] = (
+        labelled[column].map(REGIME_TABLE_LABELS).fillna(labelled[column]).astype("string")
+    )
+    return labelled
 
 
 def _latest(frame: pd.DataFrame, **filters: str) -> pd.Series[Any]:
@@ -192,6 +231,12 @@ def _abstract(data: ReportInputs) -> str:
     """Build the abstract and the reading guide."""
     validation = data.summary["balance_validation"]
     positive = [int(year) for year in data.summary["balance_summary"]["positive_aggregate_balance_years"]]
+    central_signs = _sector_row(data.primary_signs, "central_government")
+    central_persistence = _sector_row(data.persistence, "central_government")
+    ssf_persistence = _sector_row(data.persistence, "social_security_funds")
+    regime_gg = data.regime_persistence.loc[
+        data.regime_persistence["sector"].eq("general_government")
+    ].sort_values("regime")
     return rf"""\begin{{abstract}}
 \noindent
 This report decomposes Portugal's annual general-government net lending (+) / net
@@ -201,16 +246,30 @@ Security Funds (SSF), for the {validation['n_years']} years from
 empirical and accounting-focused. It covers long-run balance composition, exact
 year-to-year attribution, revenue and expenditure dynamics, sign persistence,
 conservative structural mean shifts, Social Security revenue composition and internal
-systems, primary balances and interest, public investment, debt-flow reconciliation,
-and descriptive macroeconomic co-movement.
+systems, primary balances and interest, public investment and debt-flow reconciliation.
 
 \noindent
 The central accounting identity is
 \[
 B^{{GG}}_t = B^{{C}}_t + B^{{RL}}_t + B^{{SSF}}_t,
 \]
-and it closes for every year in the panel to within rounding. The aggregate balance is
-positive in {len(positive)} of {validation['n_years']} years: {_year_list(positive)}.
+and it closes for every year in the panel to within rounding.
+
+\noindent
+The recorded pattern is the following.
+The aggregate balance is positive in {len(positive)} of {validation['n_years']} years: {_year_list(positive)}.
+The Central Government balance is negative in all
+{int(central_persistence['negative_years'])}, and the Social Security
+balance is positive in {int(ssf_persistence['positive_years'])}. In
+each of the {len(positive)} years with a positive aggregate balance the combined non-SSF
+balance is negative and the SSF balance exceeds it in absolute size. Magnitudes differ
+sharply across the 1995 statistical splice -- the aggregate balance averages
+{float(regime_gg.iloc[0]['mean_balance_pct_gdp']):.2f}\% of GDP before it and
+{float(regime_gg.iloc[1]['mean_balance_pct_gdp']):.2f}\% after -- so no level statistic is
+pooled across it. Once interest is excluded, the Central Government primary balance is
+positive in {int(central_signs['primary_positive_years'])} of the
+{int(central_signs['n_years'])} years for which the detailed accounts exist, which is why the
+permanently negative headline balance cannot be read as a permanent underlying deficit.
 
 \noindent
 No causal, normative, or policy-intent interpretation is assigned to any result. Every
@@ -336,8 +395,51 @@ def _section_data(data: ReportInputs) -> str:
     )
     coverage_figure = latex.figure(
         "10_account_coverage.png",
-        caption="Detailed account coverage by sector and statistical regime.",
+        caption="Detailed account coverage by sector and statistical regime. Each mark is a "
+        "sector-year for which revenue and expenditure components exist. The empty band at "
+        "1996--1999 is the source gap, not a rendering artefact. Sources: Banco de Portugal / "
+        "INE long series and CFP ESA 2010 workbooks.",
         label="coverage",
+    )
+    provisional = data.balances.loc[data.balances["vintage_status"].eq("provisional"), "year"]
+    provisional_years = [int(year) for year in sorted(provisional)]
+    validation = _view(
+        data.validation_summary,
+        {
+            "check": "Check",
+            "comparison": "Quantity compared",
+            "n_observations": "N",
+            "max_abs_difference_m_eur": "Largest absolute difference (M EUR)",
+            "year_of_max": "Where",
+        },
+    )
+    validation_table = latex.table(
+        validation,
+        caption="Every cross-check the pipeline runs, in one unit. Identity rows test whether "
+        "the extraction is arithmetically self-consistent; source-agreement rows test whether "
+        "two independently published sources report the same number for the same year.",
+        label="validation",
+        digits=3,
+        column_digits={"N": 0},
+        note="Identity closure does not imply source agreement: the identities close to "
+        "rounding while the largest source disagreement is a Central Government difference of "
+        "about 67 million euro. The two are different tests and neither substitutes for the "
+        "other.",
+    )
+    differences_figure = latex.figure(
+        "15_modern_source_differences.png",
+        caption="PORDATA bridge minus CFP ESA 2010 workbook, by subsector, over the years both "
+        "sources cover. Values are million euro; zero means the two sources agree exactly. The "
+        "Central Government series is the only one that departs materially from zero.",
+        label="sourcediff",
+    )
+    provisional_sentence = (
+        rf"""The {_year_list(provisional_years)} observations are flagged
+\textbf{{provisional}} by the publisher and are carried with that flag through the canonical
+panel. They are the years this report discusses most, and they are the years most likely to
+be restated: a later vintage will revise them."""
+        if provisional_years
+        else "No year in the current vintage is flagged provisional at source."
     )
     return rf"""\section{{Data, Sources and Validation}}
 \label{{sec:data}}
@@ -350,13 +452,20 @@ the balance bridge. Every workbook is parsed programmatically from the bundled f
 value is transcribed.
 
 {sources_table}
+\subsection{{Data vintage}}
+
+Every figure in this report belongs to one data vintage, recorded per source in
+{latex.ref_table('sources')}. The modern national-accounts and CFP files are the April 2026
+releases. {provisional_sentence}
+
 \subsection{{Two statistical regimes, not one series}}
 
 The statistical splice at \textbf{{1995}} is retained explicitly and nothing is smoothed,
 chained or calibrated across it. Both 1995 vintages are kept, and the revision between
 them is reported in {latex.ref_table('overlap')}. The revisions are small in level terms
-but non-zero for every subsector, which is why no model in this repository is fitted
-across the boundary.
+but non-zero for every subsector, which is why no model in this report is fitted
+across the boundary, and why no statistic that depends on the level of the balance is
+averaged across it.
 
 {overlap_table}
 \subsection{{An explicit gap, not an interpolation}}
@@ -365,10 +474,17 @@ Detailed revenue and expenditure components are available for General Government
 1977 onward without interruption, but for the three subsectors only for 1977--1995 and
 2000--{int(data.accounts['year'].max())}. The four intervening years are absent from the
 sources and are therefore absent here; {latex.ref_figure('coverage')} shows the gap
-directly.
+directly. The canonical B.9 balance panel is unaffected: it has an observation for every
+one of the {data.summary['balance_validation']['n_years']} years, and only the detailed
+components are missing. Every figure drawn from the account panel breaks its line across
+those years rather than joining 1995 to 2000.
 
 {coverage_table}
 {coverage_figure}
+\subsection{{Identity closure and source agreement are different tests}}
+
+{validation_table}
+{differences_figure}
 """
 
 
@@ -403,12 +519,8 @@ def _section_decomposition(data: ReportInputs) -> str:
             "ssf_offset_ratio": "Offset ratio",
         },
     )
-    central_negative = int(
-        data.persistence.loc[data.persistence["sector"].eq("central_government"), "negative_years"].iloc[0]
-    )
-    ssf_positive = int(
-        data.persistence.loc[data.persistence["sector"].eq("social_security_funds"), "positive_years"].iloc[0]
-    )
+    central_negative = int(_sector_row(data.persistence, "central_government")["negative_years"])
+    ssf_positive = int(_sector_row(data.persistence, "social_security_funds")["positive_years"])
     longrun_figure = latex.figure(
         "01_long_run_balances.png",
         caption="Net lending (+) / net borrowing (-) by subsector, as a share of GDP. The "
@@ -509,17 +621,60 @@ def _section_attribution(data: ReportInputs) -> str:
     )
     attribution_table = latex.table(
         view,
-        caption="The eight largest annual movements in the General Government balance, and "
-        "how they decompose across subsectors.",
+        caption="The eight largest annual movements in the General Government balance by "
+        "nominal size, and how they decompose across subsectors.",
         label="attribution",
         digits=0,
         note="Ranked by the absolute nominal change, so the modern period dominates: "
-        "nominal GDP in 2025 is orders of magnitude larger than in 1977.",
+        "nominal GDP in 2025 is orders of magnitude larger than in 1977. "
+        + latex.ref_table("movements")
+        + " ranks the same quantity scaled by GDP, which does not have that bias.",
     )
-    attribution_figure = latex.figure(
+    movements = _view(
+        data.movements,
+        {
+            "direction": "Direction",
+            "year": "Year",
+            "aggregate_change_pct_gdp": "Aggregate change (\\% GDP)",
+            "aggregate_change_m_eur": "Aggregate change (M EUR)",
+            "central_change_m_eur": "Central (M EUR)",
+            "regional_local_change_m_eur": "Regional/local (M EUR)",
+            "ssf_change_m_eur": "SSF (M EUR)",
+            "dominant_subsector": "Largest contributor",
+            "dominant_subsector_share": "Its share of the move",
+        },
+    )
+    movements["Direction"] = movements["Direction"].str.capitalize()
+    movements_table = latex.table(
+        movements,
+        caption="The five largest annual improvements and the five largest deteriorations, "
+        "ranked by the change scaled by current-year GDP, with the subsector that accounts "
+        "for most of each move.",
+        label="movements",
+        digits=0,
+        column_digits={
+            "Aggregate change (\\% GDP)": 2,
+            "Its share of the move": 2,
+        },
+        note="Scaling by current-year GDP shares one denominator across the three subsector "
+        "terms, so the decomposition stays exact; it is not the change in the balance ratio, "
+        "which would also move with the denominator. 1995 is excluded because the "
+        "1994-to-1995 change straddles the vintage splice in both panels.",
+    )
+    modern_figure = latex.figure(
         "03_balance_change_attribution.png",
-        caption="Annual change in the General Government balance, attributed to subsectors.",
-        label="attribution",
+        caption="Annual change in the General Government balance attributed to subsectors, "
+        "1996--2025, as a percentage of current-year GDP. The black line is the identity total; "
+        "a tall stack under a short line means the subsectors moved in opposite directions that "
+        "year.",
+        label="attributionmodern",
+    )
+    historical_figure = latex.figure(
+        "11_attribution_historical.png",
+        caption="The same decomposition for 1978--1994, on the same scaling. The two windows are "
+        "drawn as separate panels because a single panel spanning 1995 would place a vintage "
+        "revision among the economic movements and give it equal visual weight.",
+        label="attributionhistorical",
     )
     return rf"""\section{{Year-to-Year Attribution}}
 \label{{sec:attribution}}
@@ -528,18 +683,24 @@ The annual change in the aggregate balance decomposes exactly:
 \[
 \Delta B^{{GG}}_t = \Delta B^{{C}}_t + \Delta B^{{RL}}_t + \Delta B^{{SSF}}_t.
 \]
-The decomposition is stored for every adjacent year in
-\path{{outputs/tables/balance_change_attribution.csv}} and closes to
+The decomposition is computed for all
+\textbf{{{len(data.attribution)} adjacent-year pairs}} in the panel and closes to
 \textbf{{{data.attribution['change_closure_error_m_eur'].abs().max():.2f} M EUR}} at worst.
 It separates the \emph{{level}} of a subsector balance from its \emph{{contribution}} to an
 annual improvement or deterioration, which are distinct questions that the level series
 alone cannot answer.
 
 {attribution_table}
-{attribution_figure}
+{movements_table}
+Both windows of the decomposition are drawn below.
+{latex.ref_figure('attributionmodern')} covers 1996--2025 and
+{latex.ref_figure('attributionhistorical')} covers 1978--1994; neither crosses the 1995
+splice.
+
+{modern_figure}
+{historical_figure}
 Contribution is not causation. A subsector accounting for most of an annual improvement
-has not been shown to have produced it, and the 1994-to-1995 change mixes a vintage
-revision with an economic movement.
+has not been shown to have produced it.
 """
 
 
@@ -562,11 +723,44 @@ def _section_revenue_expenditure(data: ReportInputs) -> str:
         label="revexp",
         digits=0,
     )
+    episodes = _view(
+        data.movements,
+        {
+            "direction": "Direction",
+            "year": "Year",
+            "account_balance_change_m_eur": "Change in balance (M EUR)",
+            "revenue_change_m_eur": "From revenue (M EUR)",
+            "expenditure_change_m_eur": "From expenditure (M EUR)",
+            "source_family_difference_m_eur": "Source-family residual (M EUR)",
+        },
+    )
+    episodes["Direction"] = episodes["Direction"].str.capitalize()
+    episodes_table = latex.table(
+        episodes,
+        caption="The same ten episodes as in "
+        + latex.ref_table("movements")
+        + ", split into the revenue and expenditure movements that produced them.",
+        label="revexpepisodes",
+        digits=0,
+        note="A balance improves when revenue rises faster than expenditure, so a positive "
+        "expenditure column alongside a positive balance change means expenditure grew but grew "
+        "less. The residual column is the gap between this account-panel measure of the annual "
+        "change and the canonical balance-panel measure of the same change: the two come from "
+        "different source families and are not forced to agree.",
+    )
     revexp_figure = latex.figure(
         "04_central_revenue_expenditure.png",
-        caption="Central Government revenue, expenditure and balance as shares of GDP. The "
-        "line breaks at 1996--1999, where subsector components do not exist.",
+        caption="Central Government revenue, expenditure and balance as shares of GDP, "
+        "1977--2025. The line breaks at 1996--1999, where subsector components do not exist in "
+        "either source; the gap is left open rather than interpolated. The vertical rule marks "
+        "the 1995 splice.",
         label="revexp",
+    )
+    changes_figure = latex.figure(
+        "12_gg_revenue_expenditure_changes.png",
+        caption="The identity drawn for General Government, 2001--2025: the annual change in the "
+        "balance against the revenue and expenditure changes that compose it, in million euro.",
+        label="revexpchanges",
     )
     return rf"""\section{{Revenue and Expenditure Dynamics}}
 \label{{sec:revexp}}
@@ -576,17 +770,19 @@ For every sector-year with detailed components the balance is an identity,
 \[
 \Delta B_{{i,t}} = \Delta R_{{i,t}} - \Delta E_{{i,t}}.
 \]
-The exact annual decomposition is stored in
-\path{{outputs/tables/revenue_expenditure_change_decomposition.csv}} and reproduces the
-recorded balance change to \textbf{{{residual:.1e} M EUR}}. Source gaps are never bridged:
-no change is computed across the 1995-to-2000 discontinuity in subsector components, so
-those rows are dropped rather than interpolated.
+The decomposition reproduces the recorded balance change to
+\textbf{{{residual:.1e} M EUR}} across
+\textbf{{{len(data.revenue_expenditure)} sector-year changes}}. Source gaps are never
+bridged: no change is computed across the 1995-to-2000 discontinuity in subsector
+components, so those rows are dropped rather than interpolated.
 
 {changes_table}
+{episodes_table}
+{changes_figure}
 {revexp_figure}
 The decomposition uses totals, so a change in revenue may reflect composition shifts that
 are visible only in the component columns of the account panel. It is not decomposed into
-policy and macroeconomic parts, which would require assumptions this repository does not
+policy and macroeconomic parts, which would require assumptions this report does not
 make.
 """
 
@@ -633,6 +829,44 @@ def _section_social_security(data: ReportInputs) -> str:
         label="ssfsystems",
         digits=0,
     )
+    systems_figure = latex.figure(
+        "13_ssf_budget_systems.png",
+        caption="The CFP internal Social Security balances stacked by system, in million euro. "
+        "The rise over the period is concentrated in the Previdential system, while the "
+        "Citizenship system moves between small positive and small negative balances.",
+        label="ssfsystemsfig",
+    )
+    boundary = _view(
+        data.ss_boundary,
+        {
+            "year": "Year",
+            "esa2010_ssf_balance_m_eur": "ESA 2010 balance (M EUR)",
+            "budget_system_total_m_eur": "Budget-system total (M EUR)",
+            "boundary_difference_m_eur": "Difference (M EUR)",
+            "boundary_difference_share_esa_balance": "Difference as share of ESA balance",
+        },
+    )
+    boundary_table = latex.table(
+        boundary,
+        caption="The two accounting boundaries side by side. The columns are not added, netted "
+        "or reconciled: they are different objects, and the difference column measures how far "
+        "apart they are.",
+        label="ssfboundary",
+        digits=0,
+        column_digits={"Difference as share of ESA balance": 3},
+        note="The difference is non-zero in every overlapping year. That is the reason a "
+        "Social Security figure quoted from the budget documents cannot be substituted for the "
+        "one that enters the national-accounts identity.",
+    )
+    boundary_figure = latex.figure(
+        "14_ssf_accounting_boundary.png",
+        caption="The same comparison drawn. The upper panel carries both balances on a shared "
+        "axis, where they are nearly indistinguishable; the lower panel carries the difference "
+        "on its own axis, which is invisible at the scale of the levels.",
+        label="ssfboundaryfig",
+    )
+    latest_boundary = _latest(data.ss_boundary)
+    previdential_first = data.ss_systems.sort_values("year").iloc[0]
     return rf"""\section{{Social Security Funds: Revenue Composition and Internal Systems}}
 \label{{sec:ssf}}
 
@@ -660,11 +894,35 @@ accounts, so they are reported beside the ESA 2010 balance and never added to it
 (special regimes).
 
 {systems_table}
+{systems_figure}
+Across the years the CFP publishes, the Previdential balance moves from
+\textbf{{{latex.number(float(previdential_first['previdential_system_balance_m_eur']), 0)} M EUR}}
+in {int(previdential_first['year'])} to
+\textbf{{{latex.number(float(latest_systems['previdential_system_balance_m_eur']), 0)} M EUR}}
+in {int(latest_systems['year'])}, while the Citizenship balance stays small in both
+directions. The movement in the internal balances is therefore concentrated in one of the
+two systems. This is a description of the published series and not an account of what
+caused it.
+
 For the detailed {int(latest_detail['year'])} budget table, previdential contributions
 account for \textbf{{{latest_detail['previdential_contribution_share_revenue'] * 100:.2f}\%}}
-of previdential revenue. The repository does not subtract State transfers from the Social
-Security balance and call the remainder an underlying balance: which transfer finances
-which statutory responsibility is a legal question, not an accounting one.
+of previdential revenue. State transfers are not subtracted from the Social Security
+balance to produce an underlying balance: which transfer finances which statutory
+responsibility is a legal question, not an accounting one.
+
+\subsection{{Why the two boundaries must not be interchanged}}
+
+The two Social Security balances are close but never equal. In
+{int(latest_boundary['year'])} the ESA 2010 balance was
+\textbf{{{latex.number(float(latest_boundary['esa2010_ssf_balance_m_eur']), 0)} M EUR}}
+while the three budget systems summed to
+\textbf{{{latex.number(float(latest_boundary['budget_system_total_m_eur']), 0)} M EUR}}, a
+difference of
+\textbf{{{latex.number(float(latest_boundary['boundary_difference_m_eur']), 0)} M EUR}}. A
+difference of the same order is present in every year the two overlap.
+
+{boundary_table}
+{boundary_figure}
 """
 
 
@@ -698,9 +956,39 @@ def _section_primary(data: ReportInputs) -> str:
     primary_figure = latex.figure(
         "06_central_primary_balance.png",
         caption="Central Government headline balance, primary balance and interest "
-        "expenditure, as shares of GDP.",
+        "expenditure as shares of GDP, over every year for which interest is available. The "
+        "primary balance crosses zero repeatedly while the headline balance does not; the line "
+        "breaks at 1996--1999 where subsector components are missing.",
         label="primary",
     )
+    signs = _view(
+        _label_sectors(data.primary_signs),
+        {
+            "sector": "Sector",
+            "n_years": "N",
+            "headline_negative_years": "Headline < 0",
+            "primary_positive_years": "Primary > 0",
+            "mean_interest_pct_gdp": "Mean interest (\\% GDP)",
+            "max_interest_pct_gdp": "Peak interest (\\% GDP)",
+        },
+    )
+    signs_table = latex.table(
+        signs,
+        caption="Headline against primary balance sign frequencies, over the sector-years for "
+        "which interest expenditure is available.",
+        label="primarysigns",
+        digits=2,
+        column_digits={"N": 0, "Headline < 0": 0, "Primary > 0": 0},
+        note="The panel here is the detailed account panel, so the three subsectors have 45 "
+        "observations rather than the 49 of the canonical balance panel; the 1996--1999 "
+        "components are missing.",
+    )
+    central_signs = _sector_row(data.primary_signs, "central_government")
+    positive_primary_years = [
+        int(year)
+        for year in str(central_signs["primary_positive_year_list"]).split(";")
+        if year not in ("", "nan")
+    ]
     return rf"""\section{{Primary Balance and Interest}}
 \label{{sec:primary}}
 
@@ -716,12 +1004,33 @@ recomputed primary balance was
 \textbf{{{latex.number(float(latest_central['primary_balance_recomputed_m_eur']), 0)} M EUR}}.
 
 {primary_table}
+\subsection{{The headline sign is not the primary sign}}
+
+Central Government records a negative B.9 in every year of the canonical panel. Read alone,
+that invites the conclusion that the subsector runs an underlying deficit throughout. The
+detailed accounts do not support it. Over the
+\textbf{{{int(central_signs['n_years'])} years}} for which interest expenditure is
+available, the Central Government headline balance is negative in
+\textbf{{{int(central_signs['headline_negative_years'])}}} of them, while the primary
+balance is positive in \textbf{{{int(central_signs['primary_positive_years'])}}}:
+{_year_list(positive_primary_years)}.
+
+The two statements are both descriptive and they are not in conflict. The headline balance
+is negative throughout; the primary balance, which excludes interest by construction, is
+positive in a non-trivial minority of the observed years. Interest peaked at
+\textbf{{{central_signs['max_interest_pct_gdp']:.2f}\% of GDP}} and averaged
+\textbf{{{central_signs['mean_interest_pct_gdp']:.2f}\%}} across the panel, which is the
+arithmetic that separates them.
+
+{signs_table}
 {primary_figure}
 Interest is overwhelmingly a Central Government item, which is why the primary and
 headline balances of the other subsectors nearly coincide. The primary balance excludes
 interest by construction: it is not a measure of discretionary policy and not a
 cyclically adjusted balance, and it reflects the debt stock and financing conditions
-inherited from earlier periods.
+inherited from earlier periods. A positive primary balance is therefore not evidence of
+a sustainable position, and a negative headline balance is not evidence of an
+unsustainable one.
 """
 
 
@@ -853,7 +1162,7 @@ def _section_persistence(data: ReportInputs) -> str:
         for column in matrix.columns
     ]
     breaks = _view(
-        _label_sectors(data.breaks),
+        _label_regimes(_label_sectors(data.breaks)),
         {
             "regime": "Regime",
             "sector": "Sector",
@@ -861,15 +1170,74 @@ def _section_persistence(data: ReportInputs) -> str:
             "n_breaks": "Breaks",
             "break_years": "Break years",
             "segment_means_pct_gdp": "Segment means (\\% GDP)",
+            "bic_margin_over_next_best": "BIC margin",
         },
     )
-    breaks["Regime"] = breaks["Regime"].str.replace("_", " ", regex=False)
     for column in ("Break years", "Segment means (\\% GDP)"):
         breaks[column] = breaks[column].astype("string").str.replace(";", ", ", regex=False)
+    regime_view = _view(
+        _label_regimes(_label_sectors(data.regime_persistence)),
+        {
+            "regime": "Regime",
+            "sector": "Sector",
+            "n_years": "N",
+            "positive_years": "Positive",
+            "negative_years": "Negative",
+            "mean_balance_pct_gdp": "Mean (\\% GDP)",
+            "median_balance_pct_gdp": "Median (\\% GDP)",
+        },
+    )
+    regime_table = latex.table(
+        regime_view,
+        caption="The same sign counts and magnitudes computed inside each statistical regime "
+        "rather than pooled across both.",
+        label="persistenceregime",
+        digits=3,
+        column_digits={"N": 0, "Positive": 0, "Negative": 0},
+        note="Runs are not recomputed per regime: a run is a property of the uninterrupted "
+        "series, and truncating it at a window boundary would report the length of the window.",
+    )
+    stability = _view(
+        _label_regimes(_label_sectors(data.break_stability)),
+        {
+            "regime": "Regime",
+            "sector": "Sector",
+            "n_specifications": "Specifications",
+            "modal_n_breaks": "Modal breaks",
+            "modal_n_breaks_share": "Share at modal count",
+            # Deliberately "dates", not "years": the table renderer treats any
+            # column whose name contains "year" as an integer year label, which
+            # would print these shares as 0 and 1.
+            "modal_break_years": "Modal dates",
+            "modal_break_years_share": "Share at modal dates",
+            "n_distinct_break_year_sets": "Distinct date sets",
+        },
+    )
+    stability["Modal dates"] = (
+        stability["Modal dates"].astype("string").str.replace(";", ", ", regex=False)
+    )
+    stability_table = latex.table(
+        stability,
+        caption="Sensitivity of the detected breaks to the two tuning choices, over a grid of "
+        "twelve specifications per series: minimum segment length in 4, 5, 6, 7 crossed with a "
+        "maximum of 1, 2 or 3 breaks.",
+        label="breakstability",
+        digits=2,
+        column_digits={
+            "Specifications": 0,
+            "Modal breaks": 0,
+            "Distinct date sets": 0,
+        },
+        note="Neither tuning parameter is estimated from the data. A date that survives only "
+        "one of their values is a property of that choice, not of the series, and the share "
+        "columns are what distinguishes the two cases.",
+    )
     persistence_table = latex.table(
         persistence,
-        caption="Sign frequency, average magnitude and longest runs by subsector, over the "
-        "whole panel.",
+        caption="Sign frequency, average magnitude and longest runs by subsector, pooled over "
+        "the whole panel. The pooled means are reported for completeness only; see "
+        + latex.ref_table("persistenceregime")
+        + " for the regime split.",
         label="persistence",
         digits=3,
         column_digits={
@@ -893,11 +1261,59 @@ def _section_persistence(data: ReportInputs) -> str:
     )
     breaks_table = latex.table(
         breaks,
-        caption="Selected piecewise-constant mean shifts, by statistical regime.",
+        caption="Preferred piecewise-constant mean specification, by statistical regime. The BIC "
+        "margin is how much better the selected break count scores than the next-best count.",
         label="breaks",
         digits=3,
-        column_digits={"N": 0, "Breaks": 0},
+        column_digits={"N": 0, "Breaks": 0, "BIC margin": 2},
     )
+    # Compare the preferred specification against the modal grid outcome. Where
+    # they disagree the selected dates are an artefact of the tuning choice, and
+    # saying so is the whole point of running the grid.
+    agreement = data.breaks.merge(
+        data.break_stability[
+            [
+                "regime",
+                "sector",
+                "modal_break_years",
+                "modal_break_years_share",
+                "n_distinct_break_year_sets",
+            ]
+        ],
+        on=["regime", "sector"],
+        how="left",
+        validate="one_to_one",
+    )
+    preferred = agreement["break_years"].fillna("").astype("string")
+    modal = agreement["modal_break_years"].fillna("").astype("string")
+    agreement["matches_modal"] = preferred.eq(modal)
+    disagreeing = agreement.loc[~agreement["matches_modal"]]
+    n_series = int(len(agreement))
+    n_agree = int(agreement["matches_modal"].sum())
+    weakest = agreement.loc[agreement["modal_break_years_share"].idxmin()]
+    if disagreeing.empty:
+        disagreement_sentence = (
+            "The preferred specification returns the modal set of dates for every series, "
+            "which is the most favourable case the grid can produce."
+        )
+    else:
+        examples = ", ".join(
+            f"{SECTOR_LABELS[str(row.sector)]} in the "
+            f"{REGIME_TABLE_LABELS.get(str(row.regime), str(row.regime))} regime"
+            for row in disagreeing.itertuples(index=False)
+        )
+        disagreement_sentence = (
+            rf"""In {n_agree} of the {n_series} series the preferred specification returns the
+modal set of dates. In the remaining {n_series - n_agree} it does not: {examples}. For those
+series the selected dates follow the tuning choice rather than the series, and the modal
+column in {latex.ref_table('breakstability')} is the more reliable summary."""
+        )
+    pooled_gg = _sector_row(data.persistence, "general_government")
+    regime_gg = data.regime_persistence.loc[
+        data.regime_persistence["sector"].eq("general_government")
+    ].sort_values("regime")
+    historical_gg = float(regime_gg.iloc[0]["mean_balance_pct_gdp"])
+    modern_gg = float(regime_gg.iloc[1]["mean_balance_pct_gdp"])
     return rf"""\section{{Persistence and Structural Mean Shifts}}
 \label{{sec:persistence}}
 
@@ -911,6 +1327,22 @@ Markov model: no standard errors and no stationarity test are claimed, and a sta
 never occurs in the sample has no estimated row. Runs that span 1995 also span the
 statistical splice.
 
+\subsection{{Pooled averages describe neither regime}}
+
+The magnitudes in {latex.ref_table('persistence')} average across the 1995 splice, and the
+two regimes differ enough that the pooled figure is not a good description of either. The
+aggregate balance averages
+\textbf{{{historical_gg:.2f}\% of GDP}} over 1977--1994 and
+\textbf{{{modern_gg:.2f}\%}} over 1995--{int(data.annual['year'].max())}, against a pooled
+\textbf{{{float(pooled_gg['mean_balance_pct_gdp']):.2f}\%}} that falls between them and
+corresponds to no observed period. The regime split is therefore the form in which
+magnitudes should be read.
+
+Sign counts are far more robust to pooling, because a sign does not depend on the level
+convention of the vintage. Both are reported per regime below so they are read on one
+basis.
+
+{regime_table}
 \subsection{{Structural mean shifts}}
 
 Fewer than fifty annual observations, split across two statistical regimes, do not
@@ -922,9 +1354,29 @@ error, and BIC selection, which may select zero breaks. Detection runs separatel
 candidate economic break by construction.
 
 {breaks_table}
-The detected dates are statistical summaries. This report attaches no historical cause to
-any of them, and a five-year minimum segment means shifts near the end of the sample
-cannot be detected yet.
+\subsection{{How firm are those dates?}}
+
+With eighteen or thirty-one annual observations per regime, a single selected date should
+not be read as determined. Two guards are reported. The BIC margin in
+{latex.ref_table('breaks')} shows how decisively the selected break count beat the
+alternatives, and the grid in {latex.ref_table('breakstability')} re-runs detection across
+all twelve combinations of the two tuning parameters.
+
+{stability_table}
+{disagreement_sentence}
+
+The least stable series is
+\textbf{{{SECTOR_LABELS[str(weakest['sector'])]}}} in the
+{REGIME_TABLE_LABELS.get(str(weakest['regime']), str(weakest['regime']))} regime, where the
+modal dates hold in only
+\textbf{{{float(weakest['modal_break_years_share']) * 100:.0f}\%}} of the grid across
+\textbf{{{int(weakest['n_distinct_break_year_sets'])} distinct date sets}}.
+
+The dates are accordingly stated as candidates rather than as findings: the preferred
+specification identifies shifts around the years listed, and the share columns say how much
+of the specification grid agrees. A break year should not be quoted from this report without
+its share. This report attaches no historical cause to any of them, and a minimum segment
+length of five years means shifts near the end of the sample cannot be detected yet.
 """
 
 
@@ -978,8 +1430,18 @@ def _section_comovement(data: ReportInputs) -> str:
         digits=4,
         column_digits={"N": 0},
     )
+    labour_n = (
+        int(data.labour_comovement.iloc[0]["n"]) if not data.labour_comovement.empty else 0
+    )
+    max_r2 = float(data.nominal_comovement["r_squared"].max())
+    min_r2 = float(data.nominal_comovement["r_squared"].min())
     return rf"""\section{{Descriptive Macroeconomic Co-Movement}}
 \label{{sec:comovement}}
+
+This material is placed in an appendix rather than the body because the specification is
+weak in ways that no amount of caveat wording repairs. It is retained because the estimates
+are part of the reproducible output, not because the report rests on them. Nothing in the
+body of this report depends on anything below.
 
 The full-period specification is
 \[
@@ -992,13 +1454,38 @@ sources across the whole panel. It is deliberately not described as an output ga
 cyclical adjustment, and the regime indicator is a statistical control for the 1995
 splice rather than an estimate of a policy change.
 
+\subsection{{Why these estimates carry little weight}}
+
+Four specific problems, stated plainly.
+
+\begin{{enumerate}}
+\item \textbf{{The dependent variable and the regressor share a construction.}} The left-hand
+side carries nominal GDP in its denominator while the right-hand side is the growth rate of
+that same quantity. Part of any measured association is mechanical rather than economic, and
+the specification provides no way to separate the two parts.
+\item \textbf{{Nominal growth mixes two things.}} With
+\(g^{{nominal}} \approx g^{{real}} + \pi\), a single coefficient is asked to represent both
+real growth and inflation, which have no reason to move the balance by the same amount.
+\item \textbf{{The fit is very low and the coefficients are not significant.}} The
+\(R^2\) values span {min_r2:.2f} to {max_r2:.2f}, and no nominal-growth coefficient reaches
+conventional significance under HAC standard errors.
+\item \textbf{{The labour specification rests on {labour_n} observations.}} At that sample
+size the positive unemployment coefficient below should not be interpreted at all: trends,
+collinearity between the labour series, dynamic specification and the time-series properties
+of the variables are all unexamined, and any one of them could account for the sign.
+\end{{enumerate}}
+
+A specification with a clearer mechanism would model the Social Security contribution base
+directly, regressing the change in contributions on the change in the aggregate wage bill
+\(W_t = N_t \bar{{w}}_t\) rather than on aggregate nominal growth. That is not implemented
+here.
+
 {nominal_table}
 {labour_table}
-These regressions quantify co-movement. They are not causal estimates: no identification
-strategy is claimed, the sample is short and serially correlated, and HAC standard errors
-address the inference arithmetic rather than small-sample or specification risk. The
-labour specification rests on eighteen observations and is reported for transparency
-rather than analytical weight.
+These regressions quantify co-movement and nothing more. They are not causal estimates: no
+identification strategy is claimed, the samples are short and serially correlated, and HAC
+standard errors address the inference arithmetic rather than small-sample or specification
+risk.
 """
 
 
@@ -1032,15 +1519,30 @@ def _section_limitations() -> str:
 \begin{enumerate}
 \item \textbf{1995 is a source and methodology splice}, not an economic event. Both
 vintages are retained in \path{data/interim/methodology_overlap_1995.csv} and nothing is
-smoothed across the boundary.
+smoothed across the boundary. No level statistic is averaged across it, and no annual change
+is computed through it.
 \item \textbf{Detailed subsector accounts have no 1996--1999 observations.} No
-interpolation is performed, and no statistic is computed across the gap.
-\item \textbf{Nominal GDP growth is not an output gap.} The co-movement section must not
-be read as a cyclically adjusted balance.
+interpolation is performed, no statistic is computed across the gap, and every figure drawn
+from the account panel breaks its line there. The canonical B.9 panel is complete and is
+unaffected.
+\item \textbf{The most recent years are provisional.} They carry the publisher's flag
+through the canonical panel and will be revised by a later vintage. They are also the years
+this report discusses in most detail.
+\item \textbf{Identity closure is not source agreement.} The identities close to rounding
+while two published sources still disagree by up to about 67 million euro on the same
+subsector-year. Both tests are reported, and neither substitutes for the other.
+\item \textbf{Nominal GDP growth is not an output gap}, and the co-movement appendix must
+not be read as a cyclically adjusted balance. Its dependent variable and regressor share a
+construction, which is one of the reasons it is confined to an appendix.
 \item \textbf{Social Security national accounts and budget-system accounts have different
-boundaries.} They are never merged into a single series.
+boundaries.} They are never merged, netted or reconciled into a single series, and the
+difference between them is non-zero in every overlapping year.
 \item \textbf{The fixed-investment diagnostic is not an official balance concept.}
-\item \textbf{Structural-break dates are statistical summaries}, not causal event labels.
+\item \textbf{Structural-break dates are candidates, not findings.} They are reported with
+a BIC margin and a sensitivity grid precisely because a single selected date from eighteen or
+thirty-one observations is not determined.
+\item \textbf{A positive primary balance is not a sustainability result.} It excludes
+interest by construction and says nothing about the debt path.
 \item \textbf{Accounting contribution is not causation.} An arithmetic contribution to an
 aggregate balance is not evidence about intent or responsibility.
 \item \textbf{Identity and reconciliation residuals validate the extraction}, not the
@@ -1052,22 +1554,7 @@ relationships directly supported by the bundled data.
 
 
 def _section_reproducibility(data: ReportInputs) -> str:
-    """Build the reproducibility section and the artefact appendix."""
-    index = pd.DataFrame.from_records(
-        [
-            {"Section": section, "Notebook": notebook, "Primary artefact": artefact}
-            for section, notebook, artefact in ARTEFACT_INDEX
-        ]
-    )
-    index_table = latex.table(
-        index,
-        caption="Report sections mapped to the notebook that produces them and the primary "
-        "persisted artefact they read.",
-        label="artefacts",
-        mono_columns={"Notebook", "Primary artefact"},
-        note="Notebook names omit the \\path{notebooks/} prefix and the \\path{.ipynb} "
-        "suffix. Figures are read from \\path{outputs/figures/}.",
-    )
+    """Build the reproducibility section."""
     return rf"""\section{{Reproducibility}}
 \label{{sec:reproducibility}}
 
@@ -1084,9 +1571,27 @@ which runs the deterministic pipeline, executes the notebooks with their outputs
 place, and runs the test suite. This document is regenerated from the persisted outputs
 rather than from hard-coded conclusions, and it is built from repository version
 \textbf{{{data.version}}}.
+"""
 
-\appendix
-\section{{Artefact Index}}
+
+def _section_artefacts() -> str:
+    """Build the artefact index appendix."""
+    index = pd.DataFrame.from_records(
+        [
+            {"Section": section, "Notebook": notebook, "Primary artefact": artefact}
+            for section, notebook, artefact in ARTEFACT_INDEX
+        ]
+    )
+    index_table = latex.table(
+        index,
+        caption="Report sections mapped to the notebook that produces them and the primary "
+        "persisted artefact they read.",
+        label="artefacts",
+        mono_columns={"Notebook", "Primary artefact"},
+        note="Notebook names omit the \\path{notebooks/} prefix and the \\path{.ipynb} "
+        "suffix. Figures are read from \\path{outputs/figures/}.",
+    )
+    return rf"""\section{{Artefact Index}}
 \label{{sec:artefacts}}
 
 Each section of this report is produced by a notebook and reads a persisted artefact.
@@ -1127,10 +1632,14 @@ def render_report(root: Path) -> Path:
             _section_investment(data),
             _section_debt(data),
             _section_persistence(data),
-            _section_comovement(data),
             _section_transfers(),
             _section_limitations(),
             _section_reproducibility(data),
+            # The co-movement regressions are appendix material: the body of the
+            # report states no result that depends on them.
+            r"\appendix",
+            _section_comovement(data),
+            _section_artefacts(),
             r"\end{document}",
             "",
         ]

@@ -104,6 +104,89 @@ def test_report_declares_its_repository_version() -> None:
     assert f"Repository version {version}" in _report()
 
 
+def test_report_declares_the_provisional_years_it_relies_on() -> None:
+    """The years discussed in most detail are provisional, and must say so."""
+    panel = pd.read_csv(ROOT / "data" / "processed" / "fiscal_balances_1977_2025.csv")
+    provisional = [
+        int(year) for year in panel.loc[panel["vintage_status"].eq("provisional"), "year"]
+    ]
+    assert provisional, "The panel has no provisional years to report"
+    report = _report()
+    assert "provisional" in report.lower()
+    for year in provisional:
+        assert str(year) in report
+    assert "Data vintage" in report
+
+
+def test_weak_regressions_live_in_an_appendix_not_the_body() -> None:
+    """The co-movement estimates must not sit among the results the report stands on."""
+    report = _report()
+    appendix = report.index(r"\appendix")
+    comovement = report.index(r"\section{Descriptive Macroeconomic Co-Movement}")
+    assert comovement > appendix, "Co-movement section is still in the report body"
+    for heading in (
+        r"\section{Long-Run Subsector Decomposition}",
+        r"\section{Social Security Funds: Revenue Composition and Internal Systems}",
+        r"\section{Primary Balance and Interest}",
+        r"\section{Methodological Limitations}",
+    ):
+        assert report.index(heading) < appendix, f"{heading} was pushed into the appendix"
+
+
+def test_report_states_the_regime_split_rather_than_only_pooled_means() -> None:
+    """Pooled magnitudes describe neither regime, so both must be present."""
+    report = _report()
+    regime = pd.read_csv(ROOT / "outputs" / "tables" / "persistence_by_regime.csv")
+    aggregate = regime.loc[regime["sector"].eq("general_government")].set_index("regime")
+    for key in ("1977-1994_historical", "1995-2025_modern"):
+        value = float(aggregate.loc[key, "mean_balance_pct_gdp"])
+        assert f"{value:.2f}" in report, f"Regime mean for {key} is not restated"
+
+
+def test_report_shows_the_new_evidence_tables() -> None:
+    """Each artefact added to the pipeline must actually be shown, not just persisted."""
+    labels = set(re.findall(r"\\label\{tab:([^}]+)\}", _report()))
+    expected = {
+        "validation",
+        "movements",
+        "revexpepisodes",
+        "persistenceregime",
+        "breakstability",
+        "primarysigns",
+        "ssfboundary",
+    }
+    assert expected <= labels, f"Missing tables: {sorted(expected - labels)}"
+
+
+def test_attribution_figures_disclose_their_year_windows() -> None:
+    """A stacked bar chart cannot show that years are missing from its ends."""
+    report = _report()
+    for window in ("1996--2025", "1978--1994"):
+        assert window in report, f"Attribution window {window} is not stated"
+
+
+def test_no_unescaped_percent_signs_silently_comment_out_prose() -> None:
+    """An unescaped ``%`` starts a LaTeX comment and swallows the rest of the line.
+
+    This fails silently: the document still compiles, and text simply disappears.
+    Escaped ``\\%``, a trailing ``%`` used to suppress a line break, and a whole-line
+    comment are all legitimate; anything else is a formatting bug.
+    """
+    offenders: list[str] = []
+    for number, line in enumerate(_report().splitlines(), start=1):
+        if line.lstrip().startswith("%"):
+            continue
+        for position, character in enumerate(line):
+            if character != "%":
+                continue
+            if position > 0 and line[position - 1] == "\\":
+                continue
+            if position == len(line) - 1:
+                continue
+            offenders.append(f"line {number}: {line.strip()}")
+    assert not offenders, "Unescaped percent signs found:\n" + "\n".join(offenders)
+
+
 def test_report_has_no_unbalanced_environments() -> None:
     """Every float environment opened must be closed."""
     report = _report()

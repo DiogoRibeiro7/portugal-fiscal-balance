@@ -41,6 +41,24 @@ SECTOR_LABELS: Final[dict[str, str]] = {
     "social_security_funds": "Social Security Funds",
 }
 
+#: The two statistical regimes of the canonical panel, as closed year intervals.
+#:
+#: Any statistic whose value depends on the level of the balance -- a mean, a
+#: segment mean, a regression intercept -- must be computed inside one regime.
+#: Pooling the two mixes source vintages whose levels differ, so the pooled
+#: value describes neither. Sign frequencies are far more robust to pooling, but
+#: they are reported per regime as well so the two are read on the same basis.
+STATISTICAL_REGIMES: Final[dict[str, tuple[int, int]]] = {
+    "1977-1994_historical": (1977, 1994),
+    "1995-2025_modern": (1995, 2025),
+}
+
+#: Presentation labels for the regime keys, used by tables and figure legends.
+REGIME_TABLE_LABELS: Final[dict[str, str]] = {
+    "1977-1994_historical": "1977--1994 historical",
+    "1995-2025_modern": "1995--2025 modern",
+}
+
 ACCOUNT_METRICS: Final[tuple[str, ...]] = (
     "total_revenue_m_eur",
     "total_expenditure_m_eur",

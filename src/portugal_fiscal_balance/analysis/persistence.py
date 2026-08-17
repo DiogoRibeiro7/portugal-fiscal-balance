@@ -6,7 +6,7 @@ from typing import cast
 
 import pandas as pd
 
-from portugal_fiscal_balance.schemas import SECTOR_BALANCE_PCT_GDP
+from portugal_fiscal_balance.schemas import SECTOR_BALANCE_PCT_GDP, STATISTICAL_REGIMES
 
 SECTOR_BALANCES = SECTOR_BALANCE_PCT_GDP
 
@@ -50,6 +50,45 @@ def persistence_summary(panel: pd.DataFrame) -> pd.DataFrame:
                 "longest_negative_run": int(longest["negative"]),
             }
         )
+    return pd.DataFrame.from_records(records)
+
+
+def persistence_by_regime(panel: pd.DataFrame) -> pd.DataFrame:
+    """Split the sign and magnitude summaries by statistical regime.
+
+    :func:`persistence_summary` averages over the whole panel, which mixes the
+    historical long series with the modern national accounts. The two regimes
+    differ in level, so a pooled mean describes neither of them: the aggregate
+    balance averages -6.43% of GDP over 1977--1994 and -4.04% over 1995--2025,
+    against a pooled -4.92%. Sign counts survive pooling much better than
+    magnitudes, and both are reported here so they are read on one basis.
+
+    Runs are deliberately not recomputed per regime. A run is a property of the
+    uninterrupted series, and truncating it at an arbitrary window boundary would
+    report the length of the window rather than the length of the run.
+    """
+    records: list[dict[str, float | int | str]] = []
+    for regime, (start, end) in STATISTICAL_REGIMES.items():
+        window = panel.loc[panel["year"].between(start, end)]
+        for sector, column in SECTOR_BALANCES.items():
+            values = window[["year", column]].dropna()
+            if values.empty:
+                continue
+            records.append(
+                {
+                    "regime": regime,
+                    "sector": sector,
+                    "first_year": int(values["year"].min()),
+                    "last_year": int(values["year"].max()),
+                    "n_years": int(len(values)),
+                    "positive_years": int((values[column] > 0).sum()),
+                    "negative_years": int((values[column] < 0).sum()),
+                    "mean_balance_pct_gdp": float(values[column].mean()),
+                    "median_balance_pct_gdp": float(values[column].median()),
+                    "min_balance_pct_gdp": float(values[column].min()),
+                    "max_balance_pct_gdp": float(values[column].max()),
+                }
+            )
     return pd.DataFrame.from_records(records)
 
 

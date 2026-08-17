@@ -18,7 +18,12 @@ from portugal_fiscal_balance.analysis.balance import (  # noqa: E402
     compute_balance_metrics,
     summarize_balance_metrics,
 )
-from portugal_fiscal_balance.analysis.changepoints import structural_break_table  # noqa: E402
+from portugal_fiscal_balance.analysis.changepoints import (  # noqa: E402
+    structural_break_bic_ladder,
+    structural_break_sensitivity,
+    structural_break_stability,
+    structural_break_table,
+)
 from portugal_fiscal_balance.analysis.comovement import (  # noqa: E402
     build_macro_panel,
     historical_ssf_labour_regression,
@@ -26,21 +31,25 @@ from portugal_fiscal_balance.analysis.comovement import (  # noqa: E402
 )
 from portugal_fiscal_balance.analysis.debt import debt_reconciliation_table  # noqa: E402
 from portugal_fiscal_balance.analysis.decomposition import (  # noqa: E402
+    largest_balance_movements,
     revenue_expenditure_change_decomposition,
     year_to_year_balance_attribution,
 )
 from portugal_fiscal_balance.analysis import figures  # noqa: E402
 from portugal_fiscal_balance.analysis.persistence import (  # noqa: E402
+    persistence_by_regime,
     persistence_summary,
     transition_probabilities,
 )
 from portugal_fiscal_balance.analysis.primary_balance import (  # noqa: E402
     investment_diagnostic,
+    primary_balance_sign_summary,
     primary_balance_table,
 )
 from portugal_fiscal_balance.analysis.social_security import (  # noqa: E402
     social_security_account_metrics,
     social_security_internal_metrics,
+    ssf_accounting_boundary_comparison,
 )
 from portugal_fiscal_balance.analysis.transfers import transfer_reallocation_sensitivity  # noqa: E402
 from portugal_fiscal_balance.io import sha256_file, write_csv, write_json  # noqa: E402
@@ -60,6 +69,7 @@ from portugal_fiscal_balance.processing.harmonize import (  # noqa: E402
 )
 from portugal_fiscal_balance.processing.validation import (  # noqa: E402
     compare_modern_balance_sources,
+    source_validation_summary,
     validate_accounts,
     validate_balance_panel,
 )
@@ -132,34 +142,56 @@ def main() -> None:
     changes = year_to_year_balance_attribution(balance_panel)
     revenue_expenditure_changes = revenue_expenditure_change_decomposition(account_panel)
     persistence = persistence_summary(balance_panel)
+    regime_persistence = persistence_by_regime(balance_panel)
     transitions = transition_probabilities(balance_panel)
     breaks = structural_break_table(balance_panel)
+    break_ladder = structural_break_bic_ladder(balance_panel)
+    break_grid = structural_break_sensitivity(balance_panel)
+    break_stability = structural_break_stability(break_grid)
+    movements = largest_balance_movements(changes, revenue_expenditure_changes)
     write_csv(balance_metrics, PROCESSED / "annual_balance_metrics_1977_2025.csv")
     write_csv(changes, TABLES / "balance_change_attribution.csv")
     write_csv(revenue_expenditure_changes, TABLES / "revenue_expenditure_change_decomposition.csv")
+    write_csv(movements, TABLES / "largest_balance_movements.csv")
     write_csv(persistence, TABLES / "persistence_summary.csv")
+    write_csv(regime_persistence, TABLES / "persistence_by_regime.csv")
     write_csv(transitions, TABLES / "transition_probabilities.csv")
     write_csv(breaks, TABLES / "structural_breaks.csv")
+    write_csv(break_ladder, TABLES / "structural_break_bic_ladder.csv")
+    write_csv(break_grid, TABLES / "structural_break_sensitivity.csv")
+    write_csv(break_stability, TABLES / "structural_break_stability.csv")
 
     # 5. Mechanism diagnostics.
     primary = primary_balance_table(account_panel)
+    primary_signs = primary_balance_sign_summary(primary)
     investment = investment_diagnostic(account_panel)
     debt = debt_reconciliation_table(cfp.debt)
     ss_accounts = social_security_account_metrics(account_panel)
     ss_system_metrics, ss_detail_metrics = social_security_internal_metrics(ss_systems, ss_detail)
+    ss_boundary = ssf_accounting_boundary_comparison(balance_panel, ss_systems)
     transfer_sensitivity = transfer_reallocation_sensitivity(historical.accounts, historical.transfers)
     nominal_comovement = nominal_gdp_comovement_regressions(macro_panel)
     labour_comovement = historical_ssf_labour_regression(macro_panel)
+    validation_summary = source_validation_summary(
+        balance_panel=balance_panel,
+        account_checks=account_validation,
+        debt=debt,
+        source_comparison=source_comparison,
+        overlap=overlap,
+    )
 
     write_csv(primary, TABLES / "primary_balance_and_interest.csv")
+    write_csv(primary_signs, TABLES / "primary_balance_sign_summary.csv")
     write_csv(investment, TABLES / "investment_diagnostic.csv")
     write_csv(debt, TABLES / "debt_stock_flow_reconciliation.csv")
     write_csv(ss_accounts, TABLES / "social_security_account_metrics.csv")
     write_csv(ss_system_metrics, TABLES / "social_security_system_metrics_2019_2025.csv")
     write_csv(ss_detail_metrics, TABLES / "social_security_detail_metrics_2024_2025.csv")
+    write_csv(ss_boundary, TABLES / "ssf_accounting_boundary_comparison.csv")
     write_csv(transfer_sensitivity, TABLES / "historical_transfer_reallocation_sensitivity.csv")
     write_csv(nominal_comovement, TABLES / "nominal_gdp_balance_comovement.csv")
     write_csv(labour_comovement, TABLES / "historical_ssf_labour_comovement.csv")
+    write_csv(validation_summary, TABLES / "source_validation_summary.csv")
 
     # 6. Compact tables used directly by the report.
     recent = balance_metrics.loc[balance_metrics["year"].between(2010, 2025), [
@@ -192,10 +224,16 @@ def main() -> None:
     write_json(raw_hashes, METRICS / "raw_file_sha256.json")
 
     # 8. Figures. The notebooks display these same builders inline.
+    #
+    # The two attribution windows are drawn separately and stop either side of
+    # 1995. A single panel spanning the splice would place a vintage revision
+    # among the economic movements and give it the same visual weight.
     persisted_figures = {
         "01_long_run_balances.png": figures.balances_by_subsector(balance_metrics),
         "02_ssf_offset_ratio.png": figures.offset_ratio(balance_metrics),
-        "03_balance_change_attribution.png": figures.balance_change_attribution(changes),
+        "03_balance_change_attribution.png": figures.balance_change_attribution(
+            changes, start_year=1996, end_year=2025
+        ),
         "04_central_revenue_expenditure.png": figures.revenue_expenditure(
             account_panel, "central_government"
         ),
@@ -207,6 +245,15 @@ def main() -> None:
         "08_subsector_contributions.png": figures.subsector_contributions(balance_metrics),
         "09_balance_sign_states.png": figures.balance_sign_states(balance_panel),
         "10_account_coverage.png": figures.account_coverage(account_panel),
+        "11_attribution_historical.png": figures.balance_change_attribution(
+            changes, start_year=1978, end_year=1994
+        ),
+        "12_gg_revenue_expenditure_changes.png": figures.revenue_expenditure_changes(
+            revenue_expenditure_changes, "general_government", start_year=2001, end_year=2025
+        ),
+        "13_ssf_budget_systems.png": figures.social_security_systems(ss_system_metrics),
+        "14_ssf_accounting_boundary.png": figures.ssf_accounting_boundary(ss_boundary),
+        "15_modern_source_differences.png": figures.modern_source_differences(source_comparison),
     }
     for name, figure in persisted_figures.items():
         figures.save_figure(figure, FIGURES / name)

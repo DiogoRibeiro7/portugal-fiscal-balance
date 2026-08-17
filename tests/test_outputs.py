@@ -108,6 +108,82 @@ def test_balance_change_attribution_closes() -> None:
     assert float(attribution["change_closure_error_m_eur"].abs().max()) <= 2.0
 
 
+def test_gdp_scaled_attribution_decomposes_as_exactly_as_the_level_version() -> None:
+    """Sharing one denominator means the scaling adds no error of its own.
+
+    The scaled residual is not zero, because it inherits the level closure error
+    left by the sources' one-million-euro rounding. What must hold is that it is
+    exactly that error rescaled, and nothing more.
+
+    The tolerance is set by how the artefact is persisted, not by the arithmetic:
+    the pipeline writes CSVs at ten significant digits, so a recomputation from the
+    file agrees to about 1e-10 rather than to machine precision.
+    """
+    attribution = _read_csv(Path("outputs/tables/balance_change_attribution.csv"))
+    parts = (
+        attribution["central_change_pct_gdp"]
+        + attribution["regional_local_change_pct_gdp"]
+        + attribution["ssf_change_pct_gdp"]
+    )
+    scaled_residual = attribution["aggregate_change_pct_gdp"] - parts
+    inherited = (
+        100.0
+        * attribution["change_closure_error_m_eur"]
+        / attribution["nominal_gdp_m_eur"]
+    )
+    assert float((scaled_residual - inherited).abs().max()) < 1e-9
+    # And the inherited error stays at the rounding scale it comes from.
+    assert float(scaled_residual.abs().max()) < 1e-3
+
+
+def test_largest_movements_rank_on_gdp_scale_and_exclude_the_splice() -> None:
+    """Ranking on nominal euro would rank episodes by how recent they are."""
+    movements = _read_csv(Path("outputs/tables/largest_balance_movements.csv"))
+    assert len(movements) == 10
+    assert movements["direction"].value_counts().to_dict() == {
+        "improvement": 5,
+        "deterioration": 5,
+    }
+    assert 1995 not in movements["year"].tolist()
+
+    improvements = movements.loc[movements["direction"].eq("improvement")]
+    deteriorations = movements.loc[movements["direction"].eq("deterioration")]
+    assert (improvements["aggregate_change_pct_gdp"] > 0).all()
+    assert (deteriorations["aggregate_change_pct_gdp"] < 0).all()
+    assert improvements["aggregate_change_pct_gdp"].is_monotonic_decreasing
+    assert deteriorations["aggregate_change_pct_gdp"].is_monotonic_increasing
+
+    # Ranking on the GDP scale must actually change the selection, otherwise the
+    # scaling would be decorative.
+    attribution = _read_csv(Path("outputs/tables/balance_change_attribution.csv"))
+    nominal_top = set(
+        attribution.reindex(
+            attribution["aggregate_change_m_eur"].abs().sort_values(ascending=False).index
+        )
+        .head(10)["year"]
+        .tolist()
+    )
+    assert set(movements["year"]) != nominal_top
+
+
+def test_largest_movements_name_a_contributor_by_label_not_by_column() -> None:
+    """The dominant-contributor column feeds the report, so it must be readable."""
+    movements = _read_csv(Path("outputs/tables/largest_balance_movements.csv"))
+    assert set(movements["dominant_subsector"]) <= {
+        "Central Government",
+        "Regional and Local",
+        "Social Security Funds",
+    }
+    for row in movements.itertuples(index=False):
+        contributions = {
+            "Central Government": row.central_change_m_eur,
+            "Regional and Local": row.regional_local_change_m_eur,
+            "Social Security Funds": row.ssf_change_m_eur,
+        }
+        expected = max(contributions, key=lambda key: abs(contributions[key]))
+        assert row.dominant_subsector == expected, f"Wrong contributor for {row.year}"
+
+
 def test_revenue_expenditure_change_decomposition_closes() -> None:
     """For adjacent source years, delta balance must equal delta revenue minus delta expenditure."""
     changes = _read_csv(Path("outputs/tables/revenue_expenditure_change_decomposition.csv"))
@@ -123,6 +199,75 @@ def test_persistence_outputs_match_canonical_sign_counts() -> None:
     assert int(summary.loc["central_government", "negative_years"]) == 49
     assert int(summary.loc["social_security_funds", "positive_years"]) == 43
     assert int(summary.loc["social_security_funds", "negative_years"]) == 6
+
+
+def test_balance_panel_carries_the_publisher_provisional_flag() -> None:
+    """Provisional years must stay identifiable instead of being presented as settled."""
+    panel = _read_csv(Path("data/processed/fiscal_balances_1977_2025.csv"))
+    assert "vintage_status" in panel.columns
+    assert not panel["vintage_status"].isna().any()
+    provisional = panel.loc[panel["vintage_status"].eq("provisional"), "year"].tolist()
+    assert provisional == [2024, 2025]
+    historical = panel.loc[panel["year"].le(1994), "vintage_status"]
+    assert (historical == "final").all()
+
+
+def test_regime_persistence_splits_the_pooled_summary_without_losing_observations() -> None:
+    """Every year counted in the pooled summary must appear in exactly one regime."""
+    pooled = _read_csv(Path("outputs/tables/persistence_summary.csv")).set_index("sector")
+    regime = _read_csv(Path("outputs/tables/persistence_by_regime.csv"))
+    assert set(regime["regime"]) == {"1977-1994_historical", "1995-2025_modern"}
+    totals = regime.groupby("sector")[["n_years", "positive_years", "negative_years"]].sum()
+    for sector in totals.index:
+        for column in ("n_years", "positive_years", "negative_years"):
+            assert int(totals.loc[sector, column]) == int(pooled.loc[sector, column])
+
+
+def test_regime_means_straddle_the_pooled_mean_they_replace() -> None:
+    """The pooled mean describes neither regime, which is the reason for the split."""
+    pooled = _read_csv(Path("outputs/tables/persistence_summary.csv")).set_index("sector")
+    regime = _read_csv(Path("outputs/tables/persistence_by_regime.csv"))
+    aggregate = regime.loc[regime["sector"].eq("general_government")].set_index("regime")
+    historical = float(aggregate.loc["1977-1994_historical", "mean_balance_pct_gdp"])
+    modern = float(aggregate.loc["1995-2025_modern", "mean_balance_pct_gdp"])
+    combined = float(pooled.loc["general_government", "mean_balance_pct_gdp"])
+    assert historical < combined < modern
+    assert modern - historical > 2.0
+
+
+def test_structural_break_sensitivity_covers_the_full_tuning_grid() -> None:
+    """Twelve specifications per series, so a date cannot rest on one tuning choice."""
+    grid = _read_csv(Path("outputs/tables/structural_break_sensitivity.csv"))
+    assert sorted(grid["min_segment"].unique()) == [4, 5, 6, 7]
+    assert sorted(grid["max_breaks"].unique()) == [1, 2, 3]
+    counts = grid.groupby(["regime", "sector"]).size()
+    assert (counts == 12).all()
+    assert len(counts) == 8
+    assert (grid["n_breaks"] <= grid["max_breaks"]).all()
+
+
+def test_structural_break_bic_ladder_scores_the_zero_break_model() -> None:
+    """A selected break count is only meaningful beside the counts it beat."""
+    ladder = _read_csv(Path("outputs/tables/structural_break_bic_ladder.csv"))
+    for (regime, sector), group in ladder.groupby(["regime", "sector"]):
+        label = f"{regime}/{sector}"
+        assert 0 in group["n_breaks"].tolist(), f"No zero-break score for {label}"
+        assert int(group["selected"].sum()) == 1, f"Not exactly one selection for {label}"
+        assert float(group["delta_bic_vs_best"].min()) == 0.0
+        assert (group["delta_bic_vs_best"] >= 0.0).all()
+        selected = group.loc[group["selected"]].iloc[0]
+        assert float(selected["delta_bic_vs_best"]) == 0.0
+
+
+def test_structural_break_stability_reports_agreement_shares() -> None:
+    """Date stability has to be quantified, not asserted."""
+    stability = _read_csv(Path("outputs/tables/structural_break_stability.csv"))
+    assert len(stability) == 8
+    assert (stability["n_specifications"] == 12).all()
+    for column in ("modal_n_breaks_share", "modal_break_years_share"):
+        assert (stability[column] > 0.0).all()
+        assert (stability[column] <= 1.0).all()
+    assert (stability["n_distinct_break_year_sets"] >= 1).all()
 
 
 def test_structural_breaks_do_not_cross_known_methodology_splice() -> None:
@@ -146,6 +291,36 @@ def test_primary_balance_reconstruction_closes() -> None:
     assert float(primary["primary_balance_identity_error_m_eur"].abs().max()) < 1e-6
 
 
+def test_central_primary_balance_is_positive_in_years_the_headline_never_is() -> None:
+    """Guard the nuance: a permanently negative B.9 is not a permanent primary deficit."""
+    signs = _read_csv(Path("outputs/tables/primary_balance_sign_summary.csv")).set_index("sector")
+    central = signs.loc["central_government"]
+    assert int(central["n_years"]) == 45
+    assert int(central["headline_negative_years"]) == 45
+    assert int(central["headline_positive_years"]) == 0
+    assert int(central["primary_positive_years"]) == 15
+    years = [int(value) for value in str(central["primary_positive_year_list"]).split(";")]
+    assert len(years) == 15
+    assert years == sorted(years)
+    # The positive-primary years are not confined to the recent period, which is
+    # what makes the distinction a long-run result rather than a recent artefact.
+    assert min(years) < 1995
+    assert max(years) == 2025
+
+
+def test_primary_balance_sign_summary_agrees_with_the_underlying_panel() -> None:
+    """The summary must be derived from the persisted panel, not maintained beside it."""
+    primary = _read_csv(Path("outputs/tables/primary_balance_and_interest.csv"))
+    signs = _read_csv(Path("outputs/tables/primary_balance_sign_summary.csv")).set_index("sector")
+    for sector, group in primary.groupby("sector"):
+        row = signs.loc[sector]
+        assert int(row["n_years"]) == len(group)
+        assert int(row["primary_positive_years"]) == int(
+            (group["primary_balance_recomputed_m_eur"] > 0).sum()
+        )
+        assert int(row["headline_negative_years"]) == int((group["balance_m_eur"] < 0).sum())
+
+
 def test_debt_stock_flow_reconciliation_closes() -> None:
     """The modern debt change must reconcile with B.9 and the stock-flow adjustment."""
     debt = _read_csv(Path("outputs/tables/debt_stock_flow_reconciliation.csv"))
@@ -159,6 +334,40 @@ def test_social_security_internal_system_values_are_preserved() -> None:
     assert row["previdential_system_balance_m_eur"] == 6712
     assert row["citizenship_system_balance_m_eur"] == -55
     assert row["special_regimes_balance_m_eur"] == 0
+
+
+def test_the_two_social_security_boundaries_never_coincide() -> None:
+    """The gap is the finding: the two objects must not be used interchangeably."""
+    boundary = _read_csv(Path("outputs/tables/ssf_accounting_boundary_comparison.csv"))
+    assert not boundary.empty
+    assert boundary["boundary_difference_m_eur"].notna().all()
+    assert (boundary["boundary_difference_m_eur"].abs() > 0).all()
+    row = boundary.loc[boundary["year"].eq(2025)].iloc[0]
+    assert row["esa2010_ssf_balance_m_eur"] == 7065
+    assert row["budget_system_total_m_eur"] == 6657
+    assert row["boundary_difference_m_eur"] == 408
+    # Small relative to the balances, which is exactly why it is easy to miss.
+    assert (boundary["boundary_difference_share_esa_balance"].abs() < 0.15).all()
+
+
+def test_source_validation_summary_separates_identity_from_agreement() -> None:
+    """Both kinds of check must be present, because closure does not imply agreement."""
+    summary = _read_csv(Path("outputs/tables/source_validation_summary.csv"))
+    kinds = set(summary["check"])
+    assert {"Accounting identity", "Source agreement", "Vintage revision"} <= kinds
+
+    identities = summary.loc[summary["check"].eq("Accounting identity")]
+    assert len(identities) == 3
+    assert float(identities["max_abs_difference_m_eur"].max()) <= 2.0
+
+    agreements = summary.loc[summary["check"].eq("Source agreement")]
+    assert len(agreements) == 4
+    worst = float(agreements["max_abs_difference_m_eur"].max())
+    # The point of the table: two published sources disagree by far more than any
+    # identity residual, so identity closure cannot stand in for agreement.
+    assert worst > 10.0
+    assert worst > float(identities["max_abs_difference_m_eur"].max())
+    assert (summary["n_observations"] > 0).all()
 
 
 def test_analysis_summary_records_validation_diagnostics() -> None:

@@ -13,6 +13,7 @@
 | `closure_error_m_eur` | GG B.9 minus the sum of the three subsectors |
 | `closure_within_tolerance` | Whether absolute closure error is at most 2 M€ |
 | `statistical_regime` | Historical or modern source regime |
+| `vintage_status` | `final` or `provisional`, as flagged by the publisher. Historical years are `final`; the most recent modern years are `provisional` and will be revised |
 | `known_methodology_break` | True for 1995 |
 
 ## `data/processed/annual_balance_metrics_1977_2025.csv`
@@ -51,6 +52,100 @@ Long sector-year table. Depending on source availability it includes:
 - source and statistical regime.
 
 The table intentionally has no 1996–1999 observations for detailed Central, Regional/Local and SSF components.
+
+## `outputs/tables/balance_change_attribution.csv`
+
+One row per adjacent-year pair of the canonical panel.
+
+| Column | Definition |
+|---|---|
+| `aggregate_change_m_eur` | Annual change in the General Government balance |
+| `central_change_m_eur`, `regional_local_change_m_eur`, `ssf_change_m_eur` | The subsector changes that compose it |
+| `change_closure_error_m_eur` | Aggregate change minus the sum of the three, inheriting the sources' 1 M€ rounding |
+| `*_share_abs_aggregate_change` | Each subsector change divided by the absolute aggregate change |
+| `*_change_pct_gdp` | The same changes divided by current-year nominal GDP |
+
+The `_pct_gdp` columns share one denominator, so they decompose additively:
+\(\Delta B/GDP = \Delta B^{C}/GDP + \Delta B^{RL}/GDP + \Delta B^{SSF}/GDP\).
+This is **not** the change in the balance ratio, which would also move with the
+denominator. The scaling exists only so that years are comparable in size: ranking
+movements on nominal euro effectively ranks them by how recent they are.
+
+## `outputs/tables/largest_balance_movements.csv`
+
+The five largest annual improvements and the five largest deteriorations, ranked on
+`aggregate_change_pct_gdp`. 1995 is excluded because the 1994-to-1995 change straddles the
+vintage splice in both panels.
+
+| Column | Definition |
+|---|---|
+| `direction` | `improvement` or `deterioration` |
+| `rank` | Rank within that direction |
+| `dominant_subsector` | Subsector with the largest absolute contribution, as a readable label |
+| `dominant_subsector_share` | Its contribution divided by the absolute aggregate change |
+| `revenue_change_m_eur`, `expenditure_change_m_eur` | General Government revenue and expenditure changes, from the detailed account panel |
+| `account_balance_change_m_eur` | The balance change as measured by the account panel |
+| `source_family_difference_m_eur` | Canonical minus account-panel measure of the same change. The two source families are not forced to agree, so this residual is carried rather than reconciled |
+
+## `outputs/tables/persistence_by_regime.csv`
+
+`persistence_summary.csv` split by statistical regime. Sign counts, mean, median, minimum
+and maximum per sector and regime. Runs are deliberately **not** recomputed per regime: a
+run is a property of the uninterrupted series, and truncating it at a window boundary would
+report the length of the window.
+
+## `outputs/tables/structural_break_bic_ladder.csv`
+
+BIC of every admissible break count under the preferred specification, with
+`delta_bic_vs_best` and a `selected` flag. Publishing only the chosen count hides how close
+the alternatives were.
+
+## `outputs/tables/structural_break_sensitivity.csv`
+
+Detection re-run over the full tuning grid: `min_segment` in {4, 5, 6, 7} crossed with
+`max_breaks` in {1, 2, 3}, giving twelve specifications per regime-sector series.
+
+## `outputs/tables/structural_break_stability.csv`
+
+Summary of that grid.
+
+| Column | Definition |
+|---|---|
+| `modal_n_breaks`, `modal_n_breaks_share` | Most frequent break count and the fraction of specifications selecting it |
+| `modal_break_years`, `modal_break_years_share` | Most frequent set of dates and the fraction of specifications returning exactly it |
+| `n_distinct_break_year_sets` | How many different date sets the grid produced |
+
+`modal_break_years_share` is the quantity that decides whether a date can be stated as
+detected or only as a candidate. A break year should not be quoted without it.
+
+## `outputs/tables/primary_balance_sign_summary.csv`
+
+Headline against primary balance sign frequencies per sector, over the sector-years for
+which interest expenditure exists. `primary_positive_year_list` is a semicolon-separated
+list of the years with a positive primary balance. Central Government records a negative
+B.9 in every observed year while its primary balance is positive in a substantial minority
+of them, so the two counts must be read together.
+
+## `outputs/tables/ssf_accounting_boundary_comparison.csv`
+
+The ESA 2010 Social Security Funds balance beside the CFP budget-system total, with
+`boundary_difference_m_eur`. The two are **different accounting objects** and are never
+added, netted or reconciled. The difference is non-zero in every overlapping year, which is
+why a figure quoted from the budget documents cannot be substituted for the
+national-accounts one.
+
+## `outputs/tables/source_validation_summary.csv`
+
+Every cross-check in one unit, so two different kinds of test can be compared directly.
+
+| `check` value | Question it answers |
+|---|---|
+| `Accounting identity` | Is the extraction arithmetically self-consistent? |
+| `Source agreement` | Do two independently published sources report the same number? |
+| `Vintage revision` | How much did the 1995 restatement move? |
+
+Identity closure does not imply source agreement: the identities close to rounding while
+the largest source disagreement is a Central Government difference of about 67 M€.
 
 ## Main output metrics
 

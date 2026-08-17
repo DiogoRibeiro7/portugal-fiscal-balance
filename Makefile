@@ -9,7 +9,8 @@ notebooks-build:
 notebooks:
 	PYTHONPATH=src python scripts/run_notebooks.py
 
-# Optional: requires a LaTeX installation. report/*.pdf is not committed.
+# Requires a LaTeX installation. report/report.pdf is committed, so run this after
+# changing anything the report reads and commit the rebuilt PDF with the change.
 pdf:
 	cd report && latexmk -pdf -interaction=nonstopmode report.tex
 
