@@ -1,6 +1,6 @@
 {
-  "title": "Portugal Fiscal Balance, 1977-2025",
-  "description": "Reproducible empirical analysis of Portugal's general-government fiscal balance by subsector, 1977-2025.",
+  "title": "Portugal Fiscal Balance, 1977-2025: Reproducible Subsector Balance Analysis",
+  "description": "This software archive contains a reproducible empirical research pipeline for decomposing Portugal's annual General Government net lending (+) / net borrowing (-), B.9 in national accounts, into Central Government, Regional and Local Government, and Social Security Funds for 1977-2025. The archived repository includes source parsers, harmonisation and validation code, analysis routines, executable notebooks, retained official source files, source-specific extracted CSV files, canonical processed panels, calculated analysis tables, generated figures, raw-file SHA-256 hashes, and the generated English report. The analysis is accounting, statistical and economic in scope; it does not infer intent, assign responsibility, or attach normative conclusions to fiscal outcomes.",
   "creators": [
     {
       "name": "Ribeiro, Diogo"
@@ -12,12 +12,38 @@
     "public finance",
     "government finance",
     "general government",
+    "Central Government",
+    "Regional and Local Government",
+    "Social Security Funds",
     "national accounts",
+    "net lending",
+    "net borrowing",
+    "B.9",
+    "ESA 2010",
+    "public debt",
+    "stock-flow adjustment",
+    "macroeconomic co-movement",
     "reproducible research",
     "Python",
     "pandas",
     "Jupyter"
   ],
+  "related_identifiers": [
+    {
+      "scheme": "url",
+      "identifier": "https://github.com/DiogoRibeiro7/portugal-fiscal-balance",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    }
+  ],
+  "references": [
+    "Banco de Portugal / INE long historical series workbook used for historical sector accounts, balances, transfers, GDP and labour-market variables.",
+    "INE data distributed through PORDATA, used as the continuous modern General Government B.9 bridge from 1995 through 2025.",
+    "Portuguese Public Finance Council (CFP) ESA 2010 annual workbooks, used for modern General Government and subsector accounts, revenue and expenditure components, interest, GFCF, Maastricht debt and stock-flow adjustments.",
+    "Portuguese Public Finance Council (CFP) Social Security report underlying data, used separately for internal Social Security budget-system diagnostics."
+  ],
+  "method": "The pipeline extracts official source workbooks and CSV files into source-specific intermediate tables, constructs a canonical annual balance panel, validates the General Government subsector identity, preserves the known 1995 source overlap, and leaves the 1996-1999 detailed subsector account gap explicit rather than interpolating it. Derived outputs include year-to-year balance attribution, revenue and expenditure decomposition, sign persistence, transition probabilities, structural mean-shift summaries within separate statistical regimes, Social Security revenue and internal-system diagnostics, primary-balance reconstruction, fixed-capital-formation diagnostics, debt and stock-flow reconciliation, and descriptive nominal-GDP co-movement regressions with HAC standard errors. The final report is generated from persisted outputs rather than manually edited conclusions.",
+  "notes": "Raw source files retain the rights and terms of their respective publishers. The MIT license applies to the repository code and accompanying original documentation. The checked-in outputs are intended for reproducibility and auditability. Detailed subsector revenue and expenditure components are not interpolated for 1996-1999. Social Security national-accounts balances and Social Security budget-system tables are kept separate because their accounting boundaries differ. Structural-break dates and regression coefficients are descriptive outputs, not causal estimates.",
   "license": "mit",
   "upload_type": "software",
   "access_right": "open",

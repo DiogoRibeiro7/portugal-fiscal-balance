@@ -19,6 +19,7 @@ The repository is deliberately restricted to accounting, statistical and economi
 - Generated report: `report/report.md`
 - Contribution guide: `CONTRIBUTING.md`
 - Citation metadata: `CITATION.cff` and `.zenodo.json`
+- Release checklist: `RELEASE.md`
 
 ## Core identity
 
@@ -169,7 +170,7 @@ report/report.md
 
 ## Zenodo archiving
 
-Zenodo release metadata is defined in `.zenodo.json`. After the repository is enabled in Zenodo's GitHub integration, publishing a GitHub release will archive that release in Zenodo and assign a DOI.
+Zenodo release metadata is defined in `.zenodo.json`; this file is the source Zenodo will prefer over `CITATION.cff` when archiving GitHub releases. The release process is documented in `RELEASE.md`. After the repository is enabled in Zenodo's GitHub integration, publishing a GitHub release will archive that release in Zenodo and assign a DOI.
 
 ## Main processed datasets
 
