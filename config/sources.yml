@@ -1,0 +1,35 @@
+sources:
+  banco_portugal_long_series:
+    institution: Banco de Portugal / INE
+    coverage: 1977-1995 for the historical segment used here
+    url: https://www.bportugal.pt/sites/default/files/documents/2023-12/series-longas-para-economia-portuguesa-pos-ii-guerra-mundial.xlsx
+    local_file: data/raw/banco_portugal/series_longas_2023-12.xlsx
+    notes: Historical subsector accounts, balances, transfers, GDP and labour-market series.
+
+  pordata_balance_by_level:
+    institution: INE via PORDATA
+    coverage: 1995-2025
+    url: https://www.pordata.pt/en/portugal/general+government+net+lending+net+borrowing+by+level+of+administration-2785
+    local_file: data/raw/pordata/pordata_2785_balance_by_level_1995_2025.csv
+    notes: Continuous modern bridge for the four B.9 balances.
+
+  cfp_annual_general_government:
+    institution: Portuguese Public Finance Council (CFP)
+    coverage: 1995-2025
+    url: https://www.cfp.pt/uploads/subcanais2_ficheiros/15042026_estatfp_sec2010_anual_cfp.xlsx
+    local_file: data/raw/cfp/cfp_sec2010_annual_general_government_2026-04-15.xlsx
+    notes: ESA 2010 revenue, expenditure, balance, interest, investment, debt and stock-flow adjustment.
+
+  cfp_annual_subsectors:
+    institution: Portuguese Public Finance Council (CFP)
+    coverage: 2000-2025
+    url: https://www.cfp.pt/uploads/subcanais2_ficheiros/15042026_estatfp_sec2010_anual_subsectores_cfp.xlsx
+    local_file: data/raw/cfp/cfp_sec2010_annual_subsectors_2026-04-15.xlsx
+    notes: ESA 2010 Central, Regional/Local and Social Security Funds accounts.
+
+  cfp_social_security_detail:
+    institution: Portuguese Public Finance Council (CFP)
+    coverage: 2019-2025 systems; detailed 2024-2025 tables
+    url: https://www.cfp.pt/uploads/publicacoes_ficheiros/cfp-rel-04-2026-ds.xlsx
+    local_file: data/raw/cfp/cfp_rel_04_2026_social_security_underlying_data.xlsx
+    notes: Internal Social Security budget decomposition used separately from national accounts.

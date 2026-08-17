@@ -1,0 +1,36 @@
+{
+  "balance_summary": {
+    "analysis_end_year": 2025,
+    "analysis_start_year": 1977,
+    "latest_2025": {
+      "central_government_balance_m_eur": -5636.0,
+      "general_government_balance_m_eur": 2059.0,
+      "non_ssf_balance_m_eur": -5006.0,
+      "regional_local_balance_m_eur": 630.0,
+      "social_security_balance_m_eur": 7065.0,
+      "ssf_offset_ratio": 1.4113064322812625
+    },
+    "n_years": 49,
+    "positive_aggregate_balance_years": [
+      2019,
+      2023,
+      2024,
+      2025
+    ],
+    "positive_aggregate_with_negative_non_ssf_years": [
+      2019,
+      2023,
+      2024,
+      2025
+    ]
+  },
+  "balance_validation": {
+    "all_closures_within_2m_eur": true,
+    "max_abs_closure_error_m_eur": 1.0,
+    "n_years": 49
+  },
+  "max_abs_account_identity_error_m_eur": 5.4569682106375694e-12,
+  "max_abs_debt_reconciliation_error_m_eur": 0.0,
+  "n_account_observations": 184,
+  "n_subsector_account_gap_years_1996_1999": 4
+}

@@ -1,0 +1,5 @@
+sector,n_years,positive_years,negative_years,mean_balance_pct_gdp,median_balance_pct_gdp,longest_positive_run,longest_negative_run
+general_government,49,4,45,-4.914745047,-5.028445801,3,42
+central_government,49,0,49,-5.381265343,-5.395775467,0,49
+regional_local_government,49,18,31,-0.1568377729,-0.1239019722,8,12
+social_security_funds,49,43,6,0.6233420052,0.4949750254,24,2

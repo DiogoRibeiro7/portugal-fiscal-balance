@@ -1,0 +1,14 @@
+sector,state,next_state,n,probability
+general_government,negative,negative,43,0.9555555556
+general_government,negative,positive,2,0.04444444444
+general_government,positive,negative,1,0.3333333333
+general_government,positive,positive,2,0.6666666667
+central_government,negative,negative,48,1
+regional_local_government,negative,negative,26,0.8387096774
+regional_local_government,negative,positive,5,0.1612903226
+regional_local_government,positive,negative,5,0.2941176471
+regional_local_government,positive,positive,12,0.7058823529
+social_security_funds,negative,negative,1,0.1666666667
+social_security_funds,negative,positive,5,0.8333333333
+social_security_funds,positive,negative,4,0.09523809524
+social_security_funds,positive,positive,38,0.9047619048

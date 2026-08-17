@@ -1,0 +1,9 @@
+regime,sector,n,n_breaks,break_years,segment_means_pct_gdp,bic
+1977-1994_historical,general_government,18,1,1986,-8.0942;-4.7630,34.28519591
+1977-1994_historical,central_government,18,1,1987,-8.1056;-4.7492,29.40116835
+1977-1994_historical,regional_local_government,18,0,,-0.2750,-33.05226839
+1977-1994_historical,social_security_funds,18,0,,0.4602,-24.84673835
+1995-2025_modern,general_government,31,2,2009;2015,-4.3662;-7.9664;-1.4712,52.12460307
+1995-2025_modern,central_government,31,2,2009;2016,-4.4779;-7.7736;-2.7526,40.2755544
+1995-2025_modern,regional_local_government,31,2,2000;2011,-0.0006;-0.4598;0.1550,-72.76263043
+1995-2025_modern,social_security_funds,31,2,2016;2021,0.3522;1.0925;1.8804,-50.954493

@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "portugal-fiscal-balance"
+version = "0.2.0"
+description = "Reproducible empirical analysis of Portugal's general-government balance by subsector, 1977-2025."
+authors = ["Research repository"]
+readme = "README.md"
+packages = [{ include = "portugal_fiscal_balance", from = "src" }]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.14"
+pandas = ">=2.2,<3"
+numpy = ">=2.0,<3"
+openpyxl = ">=3.1,<4"
+matplotlib = ">=3.9,<4"
+PyYAML = ">=6,<7"
+Jinja2 = ">=3.1,<4"
+statsmodels = ">=0.14,<1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=8,<10"
+nbformat = ">=5.10,<6"
+nbclient = ">=0.10,<1"
+jupyter = ">=1,<2"
+ruff = ">=0.8,<1"
+mypy = ">=1.13,<2"
+pandas-stubs = ">=2.2,<3"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_ignores = true
+
+[build-system]
+requires = ["poetry-core>=1.9.0"]
+build-backend = "poetry.core.masonry.api"
