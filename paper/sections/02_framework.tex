@@ -1,0 +1,77 @@
+% Authored. Numbers come from generated/macros.tex.
+
+\section{Institutional and Accounting Framework}
+\label{sec:framework}
+
+\subsection{The subsectors}
+
+Under ESA 2010 the general government sector S.13 consolidates four subsectors
+\citep{eurostat_esa2010}:
+
+\begin{itemize}
+\item \textbf{S.1311, central government}, comprising all government units with a
+national sphere of competence \emph{with the exception of social security units}
+\citep{eurostat_central_glossary};
+\item \textbf{S.1312, state government}, which does not apply to Portugal;
+\item \textbf{S.1313, local government}, which in the Portuguese case is reported
+together with the autonomous regions and appears here as Regional and Local
+Government;
+\item \textbf{S.1314, social security funds}, comprising all social security units
+\emph{regardless of the level of government that operates or manages the scheme}
+\citep{eurostat_ssf_glossary}.
+\end{itemize}
+
+The two emphasised clauses matter for everything that follows, and they are the
+source of a recurring misreading.
+
+\textbf{Central Government in the national accounts is not the State in the
+budgetary sense.} The statistical subsector excludes social security units by
+definition, and it includes many entities --- public institutes, funds,
+reclassified public corporations --- that no reader of a State Budget would think of
+as the State. A statement about S.1311 is therefore not a statement about the
+\emph{Or\c{c}amento do Estado}, and the two should not be substituted for one
+another. Where this paper says Central Government it means S.1311 throughout.
+
+\textbf{The social security subsector is defined by function, not by tier.} S.1314
+collects social security units whichever level of government runs them. It is
+consequently not a level of administration sitting beneath Central Government; it
+is a functionally delimited sector alongside it.
+
+\subsection{The identity}
+
+The balancing item is B.9, net lending (+) or net borrowing (--), and it is the
+difference between total revenue and total expenditure for the sector concerned
+\citep{eurostat_gov_main}. Consolidation across subsectors means the aggregate is
+their sum:
+\begin{equation}
+\Bgg_t = \Bc_t + \Brl_t + \Bssf_t.
+\label{eq:identity}
+\end{equation}
+
+Equation~\eqref{eq:identity} is definitional. In published data it closes only to
+the rounding of the published series, and we carry that residual as a column rather
+than assume it away; over the whole panel its largest absolute value is
+\MaxClosureResidual\ million euro, which is the rounding unit of the sources.
+
+Because the subsectors are consolidated, transfers between them net out of the
+aggregate but not out of the components. A transfer from Central Government to the
+Social Security Funds worsens $\Bc$ and improves $\Bssf$ while leaving $\Bgg$
+unchanged. This is central to interpreting the composition: the \emph{location} of
+a balance within general government depends on the transfer convention, even though
+the aggregate does not. We return to this in Section~\ref{sec:robustness} and
+deliberately do not construct a transfer-adjusted balance and call it underlying.
+
+\subsection{Two things the identity cannot do}
+
+It cannot support a counterfactual. Writing
+$\Bnonssf_t = \Bc_t + \Brl_t$ and observing that $\Bssf_t > |\Bnonssf_t|$ in a
+given year says that two recorded numbers stand in a particular ratio. It does not
+say what the aggregate balance would have been had the Social Security Funds been
+organised differently, because the counterfactual would change contribution rates,
+entitlements and transfers simultaneously, and the identity contains no model of
+any of them.
+
+It cannot support an attribution of responsibility. A subsector that accounts
+arithmetically for most of an annual improvement has not been shown to have
+produced it. The decomposition is silent on intent, on policy and on causation, and
+we use the word contribution in its arithmetic sense only.

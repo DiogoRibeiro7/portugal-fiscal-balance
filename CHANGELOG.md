@@ -8,9 +8,29 @@ This project follows semantic versioning for repository releases where practical
 
 ### Added
 
+- `paper/`: a scientific manuscript, separate from the technical report. It has a research
+  question, a literature position, a stated contribution and an argument, and it carries
+  only the evidence that argument needs; the report remains the place to look for
+  everything else the pipeline computes.
+- A generated-input mechanism so the manuscript can be authored without transcribing
+  numbers. `reporting/paper.py` writes `paper/generated/macros.tex`, exposing every
+  quantity the prose may cite as a LaTeX command, plus the manuscript's tables. A sentence
+  reads `\SsfPositiveYears\ of \PanelYears\ years` rather than `43 of 49`, so a stale
+  number cannot survive in the text, and a macro that ceases to exist fails the build
+  instead of rendering as nothing. Figures are read from `outputs/figures/` rather than
+  copied, so the paper, the report and the notebooks cannot disagree about a chart.
+- `paper/references.bib`, with every entry checked at the publisher, RePEc or the issuing
+  institution rather than taken from a secondary citation.
+- `tests/test_paper.py`, enforcing the split between authored and generated content: every
+  macro the prose cites is defined, every generated macro is used, no digit-grouped money
+  value appears in authored text, and every include, figure, citation and cross-reference
+  resolves. The manuscript is also checked for a build date, which would make the
+  committed PDF change on every rebuild.
+- `make paper`.
+
 - Regime-split persistence (`persistence_by_regime.csv`). The pooled mean straddles the 1995
   splice and describes neither regime: the aggregate balance averages -6.43% of GDP over
-  1977-1994 and -4.04% over 1995-2025, against a pooled -4.92%. Sign counts are reported on
+  1977-1994 and -4.04% over 1995-2025, against a pooled -4.91%. Sign counts are reported on
   the same basis; runs are not recomputed per regime, because a run truncated at a window
   boundary reports the length of the window.
 - Change-point robustness. `structural_breaks.csv` gains a BIC margin over the next-best

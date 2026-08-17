@@ -1,0 +1,97 @@
+% Authored. Tables and numbers come from generated/.
+
+\section{Robustness and Accounting Boundaries}
+\label{sec:robustness}
+
+\subsection{The 1995 splice}
+
+The splice is the single largest threat to the level results, and it is handled by
+restriction rather than by adjustment. Both 1995 vintages are retained; the revision
+between them is non-zero for every subsector; no level statistic is averaged across
+the boundary; and no annual change is computed through it. The regime split of
+Table~\ref{tab:composition} is the form in which magnitudes are reported precisely
+because a pooled magnitude would embed the splice silently.
+
+Sign-based results are far more robust to the splice than magnitudes, since a sign
+does not depend on the level convention of a vintage. The persistence results of
+Section~\ref{sec:results} therefore carry more weight than the means beside them,
+and we have kept the two visually separate for that reason.
+
+\subsection{How firm are the change-point dates?}
+
+The piecewise-constant mean model of Section~\ref{sec:method} selects break dates,
+and a selected date reads as more determined than it is. Two guards are reported.
+
+The first is a BIC margin over the next-best break count, which says how decisively
+the selection beat its alternatives. The second is a sensitivity grid: detection
+re-run over \BreakSpecifications\ combinations of the two tuning parameters, neither
+of which is estimated from the data. A date that survives only one combination is a
+property of that choice rather than of the series.
+
+Table~\ref{tab:breakstability} reports the grid summary, and
+Appendix~\ref{sec:changepoints} the full detail.
+
+\input{generated/tab_breakstability}
+
+The grid is not a formality: it changes what may be claimed. In
+\BreakModalAgree\ of the \BreakSeries\ series the preferred specification returns the
+modal set of dates. In the remaining series it does not, and for those the selected
+dates follow the tuning choice. The least stable case is
+\WeakestBreakSector\ in the modern regime, where the modal dates hold in only
+\WeakestBreakShare\% of the grid across \WeakestBreakSets\ distinct date sets.
+
+Accordingly we describe every date as a candidate rather than a finding, and no
+break year should be quoted from this paper without its share. We also attach no
+historical cause to any of them, and note that a five-year minimum segment means a
+shift in the last four years of the sample cannot be detected at all.
+
+\subsection{Intergovernmental transfers and the location of a balance}
+
+Because the subsectors are consolidated, a transfer between them changes the
+components and not the aggregate. This makes the \emph{location} of a balance within
+general government partly a function of the transfer convention, which matters for
+interpreting composition results.
+
+The historical source tables identify current and capital transfers between public
+administrations, which supports a purely mechanical sensitivity for
+\PanelStart--1995:
+\[
+B^{sens}_{i,t} = B_{i,t} - \left(T^{received}_{i,t} - T^{paid}_{i,t}\right).
+\]
+
+We compute it and deliberately decline to label it an underlying or true balance,
+and we never use it to restate B.9. The reason is substantive rather than cautious:
+a transfer normally finances an expenditure responsibility assigned to the
+recipient, so removing the transfer while leaving the responsibility in place does
+not describe a coherent alternative arrangement. Which transfer discharges which
+statutory obligation is a legal question, not an accounting one. What the
+sensitivity quantifies is how much the recorded location of a balance depends on the
+convention --- and it is reported for that purpose only.
+
+The same reasoning is why no Social Security balance in this paper has State
+transfers netted out of it.
+
+\subsection{What the balance does not determine}
+
+Two limits on the reach of these results are worth stating explicitly, because both
+concern inferences a reader may reasonably be tempted to draw.
+
+The balance does not determine the debt path. The change in debt equals minus the
+balance plus a stock-flow adjustment that absorbs financial-asset transactions,
+valuation effects and timing differences, and in several years in these data the
+adjustment is the larger of the two terms. Whether such residuals reflect accounting
+responses to fiscal rules \citep{vonhagen2006} or are smaller and less systematic
+than that literature suggested \citep{seiferling2013} is a live question on which we
+take no position. Its relevance here is narrower: a composition result about
+balances is not a result about debt.
+
+The balance does not identify a mechanism. Nothing in this paper separates
+cyclical from discretionary movements, and no cyclical adjustment is attempted. A
+specification relating balances to nominal GDP growth is available in the
+repository and is reported there in an appendix, where its weaknesses are set out;
+it is deliberately not part of this paper's evidence, because its dependent variable
+and its regressor share a construction through nominal GDP and the fits are very
+low. A better-founded mechanism for the Social Security side would model the
+contribution base directly, regressing the change in contributions on the change in
+the aggregate wage bill $W_t = N_t \bar{w}_t$ rather than on aggregate nominal
+growth. We flag it as the natural next step and do not implement it here.

@@ -1,0 +1,99 @@
+% Authored. Tables and numbers come from generated/.
+
+\section{Data and Harmonisation}
+\label{sec:data}
+
+\subsection{Sources}
+
+The canonical balance panel takes \PanelStart--1994 from the Banco de Portugal /
+INE historical long series \citep{bportugal_series} and 1995--\PanelEnd\ from INE
+national accounts distributed through PORDATA \citep{pordata_2785}. Detailed
+revenue, expenditure, interest, investment, Maastricht debt and stock-flow data for
+the modern period come from the ESA 2010 annual workbooks published by the
+Portuguese Public Finance Council \citep{cfp_data}, which also serve as an
+independent cross-check on the balance series. Table~\ref{tab:sources} records each
+file, the coverage taken from it, its vintage and a digest of the retained copy.
+
+Every workbook is parsed programmatically from the bundled file. No value in this
+paper was transcribed by hand, including the values in this sentence: they are
+macros written by the pipeline from the persisted artefacts.
+
+\input{generated/tab_sources}
+
+\subsection{Vintage}
+
+A fiscal series has a vintage as well as a coverage, and the two are different
+things. The modern national-accounts and CFP files used here are the April 2026
+releases. Within them, \ProvisionalYears\ are flagged \textbf{provisional} by the
+publisher, and that flag is carried through the harmonisation into the canonical
+panel rather than dropped.
+
+The distinction is not pedantry in this application. The provisional years are the
+years a reader is most likely to be interested in, and they are the years most
+likely to be restated. Any statement below about \ProvisionalYears\ should be read
+as a statement about the April 2026 vintage of those years.
+
+\subsection{Two statistical regimes, not one series}
+
+The splice at \textbf{1995} separates two source families built on different
+methodologies. We retain it explicitly. Nothing is chained, smoothed, interpolated
+or calibrated across it, and two consequences are enforced throughout the paper:
+
+\begin{enumerate}
+\item no statistic whose value depends on the \emph{level} of the balance --- a
+mean, a segment mean, a regression intercept --- is computed across the boundary;
+\item no annual change is computed through it, so the 1994-to-1995 change, which
+would mix a vintage revision with an economic movement, appears nowhere in the
+results.
+\end{enumerate}
+
+1995 exists in both source families, so rather than choosing silently we keep both
+vintages and report the revision between them. The revisions are small in level
+terms but non-zero for every subsector, which is the direct evidence that the two
+regimes are not interchangeable at the level of a single year.
+
+\subsection{An explicit gap}
+
+Detailed revenue and expenditure components are available for General Government
+continuously from \PanelStart. For the three subsectors they exist for
+\PanelStart--1995 and 2000--\PanelEnd\ only. The \GapYears\ intervening years are
+absent from both source families and are therefore absent here: they are not
+imputed, no statistic is computed across them, and every figure drawn from the
+account panel breaks its line rather than joining 1995 to 2000.
+
+The gap affects the detailed components only. The canonical B.9 panel has an
+observation for every one of the \PanelYears\ years and for every subsector, which
+is why the composition results in Section~\ref{sec:results} cover the full window
+while the revenue--expenditure results do not. The detailed account panel holds
+\AccountObservations\ sector-year observations against the
+$4 \times \PanelYears$ a complete panel would have, and
+Table~\ref{tab:coverage} states the two coverages separately: reporting a single
+observation count for a panel that has two would be misleading.
+
+\input{generated/tab_coverage}
+
+\subsection{Identity closure is not source agreement}
+
+Two different validation questions are easy to conflate, and conflating them
+overstates what the checks establish.
+
+An \textbf{identity} check asks whether an extraction is arithmetically
+self-consistent: whether B.9 equals the sum of its subsectors, whether revenue
+minus expenditure reproduces the recorded balance, whether the change in debt
+reconciles with the balance and the stock-flow adjustment. Such a check can close
+to numerical precision while both sources are wrong in the same way, because it
+never consults a second source.
+
+A \textbf{source-agreement} check asks whether two independently published sources
+report the same number for the same year. Identity closure cannot establish it.
+
+Table~\ref{tab:validation} reports both in one unit. The identities close to
+\MaxClosureResidual\ million euro, the rounding of the published series. The largest
+disagreement between the PORDATA bridge and the CFP workbook is
+\MaxSourceDisagreement\ million euro, on Central Government in
+\SourceDisagreementWhere. That gap is nearly two orders of magnitude larger than any
+identity residual, which is the concrete reason for reporting the two separately:
+a paper that reported only the identity residuals would imply a precision the
+underlying statistics do not have.
+
+\input{generated/tab_validation}

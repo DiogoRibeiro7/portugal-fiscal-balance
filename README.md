@@ -58,7 +58,8 @@ data/processed/   Canonical analysis-ready panels
 outputs/tables/   Calculated tables and statistical results
 outputs/metrics/  Validation summaries and source hashes
 outputs/figures/  Figures generated from processed results
-report/           Final report generated from persisted outputs
+report/           Technical report, generated end to end from persisted outputs
+paper/            Scientific manuscript: authored prose, generated tables and numbers
 ```
 
 Raw files are retained and SHA-256 hashes are written to `outputs/metrics/raw_file_sha256.json`.
@@ -244,7 +245,38 @@ cd report && pdflatex -interaction=nonstopmode report.tex && pdflatex -interacti
 
 `tests/test_report.py` guards the report's wiring: every included figure exists, every
 persisted figure is used, every cross-reference resolves, the headline numbers match the
-panel, and no raw column identifier leaks into a table.
+panel, no raw column identifier leaks into a table, and no unescaped `%` silently comments
+out a line of prose.
+
+## Paper
+
+`paper/` holds the scientific manuscript, and it is a different product from the report.
+The report is generated end to end and carries every analysis the pipeline computes. The
+paper is authored — it has a research question, a literature position and an argument —
+and carries only the evidence that argument needs.
+
+The repository's contract still holds: no number is transcribed. The manuscript is split
+into authored prose in `paper/sections/` and generated inputs in `paper/generated/`, which
+the pipeline writes. Every quantity the prose cites is a LaTeX macro read from a persisted
+artefact, so a sentence reads
+
+```latex
+The Social Security balance is positive in \SsfPositiveYears\ of \PanelYears\ years.
+```
+
+A stale number therefore cannot survive in the text, and a macro that ceases to exist
+fails the build rather than rendering as nothing. Figures are read from
+`outputs/figures/` rather than copied, so the paper, the report and the notebooks cannot
+disagree about a chart. See [paper/README.md](paper/README.md) for the editing rules.
+
+```bash
+make pipeline    # writes paper/generated/
+make paper       # compiles paper/paper.pdf
+```
+
+`tests/test_paper.py` enforces the split: every macro the prose cites is defined, every
+generated macro is used, no digit-grouped money value appears in authored text, and every
+include, figure and citation resolves.
 
 ## Zenodo archiving
 

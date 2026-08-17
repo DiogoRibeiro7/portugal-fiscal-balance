@@ -1,0 +1,56 @@
+% Authored. Numbers come from generated/macros.tex.
+
+\section{Data and Code Availability}
+\label{sec:reproducibility}
+
+\subsection{What is archived}
+
+The accompanying repository retains the raw source workbooks as downloaded, a
+SHA-256 digest of each, the source-specific intermediate extractions, the canonical
+processed panels, every calculated analysis table, the figures, and the executed
+notebooks with their outputs stored in place. No stage of the chain from a published
+workbook to a number in this paper is missing.
+
+\subsection{How this paper relates to the technical report}
+
+The repository contains two documents and they have different jobs.
+
+The technical report is generated end to end: its prose is a thin restatement of the
+persisted artefacts, it carries every analysis the pipeline computes, and no part of
+it is authored by hand. It is the place to look for material this paper omits ---
+the fixed-capital-formation diagnostic, the debt and stock-flow reconciliation, the
+full transition matrices, the intergovernmental-transfer sensitivity and the
+descriptive macroeconomic co-movement.
+
+This paper is authored. Its argument, its structure and its prose are written, and
+it carries only the evidence that argument needs.
+
+What the two share is the arithmetic. Every table in this paper is written by the
+pipeline from a persisted artefact, and every number in its prose is a LaTeX macro
+generated from one. A sentence here cannot hold a value the data no longer support:
+if an artefact changes, the macro changes with it, and a macro that ceases to exist
+fails the build rather than rendering silently as nothing. The authored text lives in
+\path{paper/sections/}; the generated inputs live in \path{paper/generated/} and are
+never edited by hand.
+
+\subsection{Reproduction}
+
+\begin{verbatim}
+poetry install
+make all          # pipeline, notebooks, tests
+make paper        # this document
+\end{verbatim}
+
+The pipeline is deterministic: the same bundled inputs produce the same outputs, and
+the outputs are committed, so a reader can check a number without running anything.
+
+\subsection{Known limitations of the archive}
+
+The bundled sources are a single vintage. \ProvisionalYears\ are provisional at
+source and a later vintage will restate them; reproducing this paper against newer
+files will therefore reproduce the method but not necessarily every figure. The
+vintage of each retained file is recorded in Table~\ref{tab:sources} for that reason.
+
+The \GapYears\ missing years of subsector detailed accounts, 1996--1999, are absent
+from both source families. They are not imputed here and cannot be recovered from the
+bundled data.

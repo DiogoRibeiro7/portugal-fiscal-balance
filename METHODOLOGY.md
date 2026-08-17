@@ -141,7 +141,7 @@ Each annual balance is classified by sign. The repository reports:
 `persistence_summary.csv` pools the whole panel; `persistence_by_regime.csv` splits it at
 the 1995 splice. The split is the form in which magnitudes should be read, because the two
 regimes differ enough that the pooled mean describes neither: the aggregate balance averages
-−6.43% of GDP over 1977–1994 and −4.04% over 1995–2025, against a pooled −4.92% that
+−6.43% of GDP over 1977–1994 and −4.04% over 1995–2025, against a pooled −4.91% that
 corresponds to no observed period.
 
 Sign counts are far more robust to pooling, since a sign does not depend on the level
@@ -315,3 +315,22 @@ directly, regressing the change in contributions on the change in the aggregate 
 - raw source SHA-256 hashes are recorded;
 - the report is generated from persisted outputs, and its appendix maps every section to
   the notebook that produces it and the artefact it reads.
+
+### 16.1 Two documents, one arithmetic
+
+`report/report.tex` is generated end to end: its prose is a thin restatement of the
+artefacts and no part of it is authored. It carries every analysis the pipeline computes.
+
+`paper/paper.tex` is authored. It has a research question, a literature position and an
+argument, and carries only the evidence that argument needs.
+
+The no-transcription rule holds for both, by different means. The report satisfies it by
+being generated. The manuscript is split: authored prose in `paper/sections/`, generated
+inputs in `paper/generated/`. Every quantity the prose cites is a LaTeX macro written by
+`reporting/paper.py` from a persisted artefact, so a sentence cannot hold a value the data
+no longer support, and a macro that ceases to exist fails the build rather than rendering
+as nothing. `tests/test_paper.py` enforces the boundary in both directions: undefined
+macros fail, unused macros fail, and a digit-grouped money value in authored text fails.
+
+Figures are not duplicated. Both documents set `\graphicspath` to `outputs/figures/`, so a
+chart cannot differ between them.

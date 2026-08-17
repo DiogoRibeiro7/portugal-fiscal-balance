@@ -1,4 +1,4 @@
-.PHONY: pipeline notebooks notebooks-build pdf lint typecheck test all clean
+.PHONY: pipeline notebooks notebooks-build pdf paper lint typecheck test all clean
 
 pipeline:
 	PYTHONPATH=src python scripts/run_pipeline.py
@@ -13,6 +13,11 @@ notebooks:
 # changing anything the report reads and commit the rebuilt PDF with the change.
 pdf:
 	cd report && latexmk -pdf -interaction=nonstopmode report.tex
+
+# The manuscript. Needs paper/generated/, which `make pipeline` writes, and runs
+# bibtex for the bibliography. paper/paper.pdf is committed like report.pdf.
+paper:
+	cd paper && latexmk -pdf -interaction=nonstopmode paper.tex
 
 lint:
 	ruff check .

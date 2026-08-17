@@ -1,0 +1,114 @@
+% Authored. Numbers come from generated/macros.tex.
+
+\section{Empirical Framework}
+\label{sec:method}
+
+Every quantity in this section is an accounting transformation of published data.
+Nothing is estimated except the piecewise means of Section~\ref{sec:robustness},
+which are reported with their sensitivity.
+
+\subsection{Level decomposition}
+
+The identity of Equation~\eqref{eq:identity} is applied year by year. Balances are
+expressed both in million euro and as a share of contemporaneous nominal GDP, the
+latter for comparability across five decades of nominal growth.
+
+\subsection{Dynamic attribution}
+
+Differencing the identity attributes each annual change to the subsectors:
+\begin{equation}
+\Delta \Bgg_t = \Delta \Bc_t + \Delta \Brl_t + \Delta \Bssf_t.
+\label{eq:change}
+\end{equation}
+
+This separates the \emph{level} of a subsector balance from its \emph{contribution
+to a movement}, which are distinct and which the level series alone cannot
+distinguish: a subsector can be in persistent surplus and still account for a
+deterioration.
+
+Ranking episodes on nominal euro would rank them by how recent they are, since
+nominal GDP in \PanelEnd\ is orders of magnitude above \PanelStart. We therefore
+also report each term scaled by current-year GDP:
+\begin{equation}
+\frac{\Delta \Bgg_t}{GDP_t}
+= \frac{\Delta \Bc_t}{GDP_t}
++ \frac{\Delta \Brl_t}{GDP_t}
++ \frac{\Delta \Bssf_t}{GDP_t}.
+\label{eq:scaled}
+\end{equation}
+
+Because the four terms share one denominator, Equation~\eqref{eq:scaled} decomposes
+exactly, and its residual is Equation~\eqref{eq:change}'s residual rescaled and
+nothing more. It is emphatically \textbf{not} the change in the balance ratio,
+$\Delta(\Bgg_t/GDP_t)$, which also moves with the denominator and does not
+decompose additively. We use the scaled form for ranking and comparison and the
+level form for magnitudes.
+
+\subsection{Revenue and expenditure attribution}
+
+For each sector-year with detailed components the balance is an identity,
+$B_{i,t} = R_{i,t} - E_{i,t}$, and so is its change:
+\begin{equation}
+\Delta B_{i,t} = \Delta R_{i,t} - \Delta E_{i,t}.
+\label{eq:revexp}
+\end{equation}
+
+Changes are computed only between adjacent years inside a continuous source block,
+so no change spans the 1995-to-2000 subsector gap. A caution on reading
+Equation~\eqref{eq:revexp}: a balance improves when revenue rises faster than
+expenditure, so a positive expenditure term alongside an improving balance means
+expenditure grew but grew less. It is not decomposed into policy and macroeconomic
+components, which would require assumptions this paper does not make.
+
+Equations~\eqref{eq:change} and~\eqref{eq:revexp} are computed on different source
+families --- the canonical balance panel and the detailed account panel. They
+therefore measure the same annual change slightly differently, and we carry the
+residual between them as its own column rather than reconciling it away.
+
+\subsection{Offset metric}
+
+Writing the combined non-Social-Security balance as
+$\Bnonssf_t = \Bc_t + \Brl_t$, the offset ratio is defined only when the signs make
+the comparison meaningful, that is when $\Bnonssf_t < 0$ and $\Bssf_t > 0$:
+\begin{equation}
+O_t = \frac{\Bssf_t}{\left|\Bnonssf_t\right|}.
+\label{eq:offset}
+\end{equation}
+
+$O_t = 1$ means the positive Social Security balance is exactly the size of the
+negative non-Social-Security balance. The ratio compares two recorded numbers. It
+is left undefined, and missing, in every year where the sign condition fails, and
+it is not a counterfactual: see Section~\ref{sec:framework}.
+
+\subsection{Persistence}
+
+Each annual balance is classified by sign. We report, per subsector, the frequency
+of each sign, the mean and median balance ratio, the longest unbroken run of each
+sign, and the empirical one-year sign transition frequencies.
+
+Two conventions follow from the 1995 splice. Magnitudes are computed inside each
+regime, because a mean that averages two vintages with different levels describes
+neither. Runs are \emph{not} recomputed per regime: a run is a property of the
+uninterrupted series, and truncating it at a window boundary would report the
+length of the window rather than the length of the run. Transition frequencies are
+empirical frequencies over the transitions actually observed, not a fitted Markov
+model: no standard errors and no stationarity test are claimed, and a state that
+never occurs has no estimated row.
+
+\subsection{Piecewise-constant mean shifts}
+
+Fewer than fifty annual observations split across two regimes do not support a
+flexible change-point model. The specification is deliberately restrictive: a
+piecewise-constant mean with at most two breaks per regime, a minimum segment
+length of five years, exact dynamic-programming minimisation of within-segment
+squared error, and BIC selection, which may return zero breaks. Segment means and
+break locations are both counted as free parameters, which penalises an extra break
+twice and makes the model less willing to claim one. Detection runs separately
+inside \PanelStart--1994 and 1995--\PanelEnd, so the known splice cannot be selected
+as an economic break.
+
+Because a single selected date from eighteen or thirty-one observations is not
+determined by the data, we report it with a BIC margin over the next-best break
+count and with a sensitivity grid over the two tuning parameters. The results are
+in Section~\ref{sec:robustness} and Appendix~\ref{sec:changepoints}, and the dates
+are described as candidates throughout.

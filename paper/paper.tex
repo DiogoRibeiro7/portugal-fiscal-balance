@@ -1,0 +1,103 @@
+% The scientific manuscript.
+%
+% This file and everything under sections/ is authored by hand. Everything under
+% generated/ is written by the pipeline from persisted artefacts and must not be
+% edited: see paper/README.md for the division of labour and the reason for it.
+%
+% Numbers in the prose are LaTeX macros defined in generated/macros.tex, so a
+% sentence cannot hold a value that the data no longer supports.
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[round]{natbib}
+\usepackage{hyperref}
+
+\definecolor{paperlink}{HTML}{1C5CAB}
+
+% \path breaks with stretchable glue by default, which opens visible gaps inside
+% a path set in justified text.
+\setlength{\Urlmuskip}{0mu plus 0mu}
+
+\hypersetup{
+  pdftitle={The Subsector Composition of Portugal's General-Government Balance, 1977--2025},
+  pdfauthor={Diogo Ribeiro},
+  pdfsubject={Long-run accounting decomposition of Portuguese general-government net lending and net borrowing by institutional subsector},
+  colorlinks=true,
+  linkcolor=paperlink,
+  urlcolor=paperlink,
+  citecolor=paperlink
+}
+
+% Figures are the same files the report and the notebooks show. They are not
+% copied into paper/, so a figure cannot drift between the two documents.
+\graphicspath{{../outputs/figures/}}
+
+\captionsetup{
+  font=small,
+  labelfont=bf,
+  justification=raggedright,
+  singlelinecheck=false,
+  skip=6pt
+}
+
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.15}
+\setlist[enumerate]{itemsep=2pt, topsep=4pt}
+\setlist[itemize]{itemsep=2pt, topsep=4pt}
+
+% Shrink a table to the text width only when it would otherwise overflow, so a
+% narrow table keeps the body font size instead of being stretched.
+\newcommand{\fitwidth}[1]{%
+  \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{#1}%
+}
+
+% Subsector shorthands, so the identity is written the same way everywhere.
+\newcommand{\Bgg}{B^{GG}}
+\newcommand{\Bc}{B^{C}}
+\newcommand{\Brl}{B^{RL}}
+\newcommand{\Bssf}{B^{SSF}}
+\newcommand{\Bnonssf}{B^{nonSSF}}
+
+\input{generated/macros}
+
+\title{The Subsector Composition of Portugal's\\General-Government Balance, \PanelStart--\PanelEnd}
+\author{Diogo Ribeiro}
+% Not \today: the pipeline is deterministic and the PDF is committed, so the
+% document must not change when it is rebuilt from unchanged inputs.
+\date{Working paper --- repository version \RepositoryVersion}
+
+\begin{document}
+\maketitle
+
+\input{sections/00_abstract}
+
+\tableofcontents
+
+\input{sections/01_introduction}
+\input{sections/02_framework}
+\input{sections/03_data}
+\input{sections/04_method}
+\input{sections/05_results}
+\input{sections/06_robustness}
+\input{sections/07_conclusion}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\appendix
+\input{sections/A1_changepoints}
+\input{sections/A2_reproducibility}
+
+\end{document}

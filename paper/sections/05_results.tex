@@ -1,0 +1,260 @@
+% Authored. Tables and numbers come from generated/.
+
+\section{Results}
+\label{sec:results}
+
+\subsection{Long-run composition}
+
+Figure~\ref{fig:longrun} plots the four balance ratios over the full window. The
+visual impression is of two series that track each other closely and two that stay
+near zero: General Government and Central Government are nearly indistinguishable
+for long stretches, while Regional and Local Government and the Social Security
+Funds move in a narrow band.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{01_long_run_balances.png}
+\caption{Net lending (+) and net borrowing (--) by subsector, \PanelStart--\PanelEnd,
+as a percentage of nominal GDP. The vertical rule marks the 1995 source splice; the
+series either side of it come from different source families and are not chained.
+Sources: Banco de Portugal / INE long series and INE via PORDATA.}
+\label{fig:longrun}
+\end{figure}
+
+That closeness is itself the first result. It says the aggregate balance has been
+predominantly a Central Government quantity in level terms, which is what makes the
+recent divergence at the right-hand edge of the figure notable rather than routine.
+
+Figure~\ref{fig:contributions} draws the identity directly, stacking the signed
+subsector contributions against the aggregate total. Where a tall stack sits under a
+shallow line, the subsectors moved in opposite directions and offset one another.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{08_subsector_contributions.png}
+\caption{The identity of Equation~\eqref{eq:identity} drawn: signed subsector
+contributions stacked against the General Government total, as a percentage of GDP.
+Positive and negative contributions stack away from zero independently, so the
+visible column height equals the arithmetic sum of the layers.}
+\label{fig:contributions}
+\end{figure}
+
+\subsection{Persistence, and why magnitudes are regime-specific}
+
+Table~\ref{tab:composition} reports sign frequencies and magnitudes inside each
+statistical regime.
+
+\input{generated/tab_composition}
+
+Three patterns are stable across both regimes. The Central Government balance is
+negative in every observation of the panel, all \CentralNegativeYears\ of them. The
+Social Security balance is positive in \SsfPositiveYears\ of \PanelYears, negative
+in \SsfNegativeYears, with a longest unbroken positive run of
+\SsfLongestPositiveRun\ years. Regional and Local Government is the only subsector
+that changes sign with any regularity, positive in \RegionalPositiveYears\ years,
+and it is small in both directions.
+
+Magnitudes, by contrast, are strongly regime-dependent, and this is the reason the
+table is split. The aggregate balance averages \GgMeanHistorical\% of GDP over
+\PanelStart--1994 and \GgMeanModern\% over 1995--\PanelEnd. A pooled mean of
+\GgMeanPooled\% falls between the two and corresponds to no period in the data.
+Central Government moves from \CentralMeanHistorical\% to \CentralMeanModern\% and
+the Social Security Funds from \SsfMeanHistorical\% to \SsfMeanModern\%.
+
+Sign counts survive pooling far better than magnitudes, because a sign does not
+depend on the level convention of a vintage. That asymmetry is why we pool the
+counts in the discussion above and never pool the means.
+
+\subsection{The years with a positive aggregate balance}
+
+The aggregate balance is positive in \NumPositiveYears\ of \PanelYears\ years:
+\PositiveYearList. Table~\ref{tab:positive} gives the composition of each.
+
+\input{generated/tab_positive}
+
+The composition is the same in all \NumPositiveYears. The combined
+non-Social-Security balance is negative, the Social Security balance is positive,
+and the latter exceeds the former in absolute size --- which is precisely the
+condition under which the offset ratio of Equation~\eqref{eq:offset} is defined and
+exceeds one. In \LatestYear\ the identity reads
+\[
+\LatestGg = \LatestCentral + \LatestRegional + \LatestSsf \quad \text{M EUR},
+\]
+with a combined non-Social-Security balance of \LatestNonSsf\ million euro and an
+offset ratio of \LatestOffset. In ratio terms the aggregate balance was
+\LatestGgPct\% of GDP against a Social Security balance of \LatestSsfPct\%.
+
+Figure~\ref{fig:offset} plots the ratio over the years in which it is defined.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{02_ssf_offset_ratio.png}
+\caption{The offset ratio of Equation~\eqref{eq:offset}, for the years in which its
+sign condition holds. The reference line at one marks the level at which the Social
+Security balance equals the non-Social-Security shortfall. The ratio relates two
+recorded quantities and is not a counterfactual.}
+\label{fig:offset}
+\end{figure}
+
+We restate the caution of Section~\ref{sec:framework} because this is the result
+most exposed to over-reading. That the ratio exceeds one in \LatestYear\ is a
+statement about the relative size of two published numbers. It is not a statement
+that the aggregate balance would have been negative under a different institutional
+arrangement, and the identity contains nothing that could support such a statement.
+
+\subsection{Annual movements}
+
+Figures~\ref{fig:attributionmodern} and~\ref{fig:attributionhistorical} attribute
+each annual change to the subsectors, on the GDP scaling of
+Equation~\eqref{eq:scaled}. The two windows are drawn as separate panels and neither
+crosses 1995: a single panel spanning the splice would place a vintage revision
+among the economic movements and give it the same visual weight.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{03_balance_change_attribution.png}
+\caption{Annual change in the General Government balance attributed to subsectors,
+1996--\PanelEnd, as a percentage of current-year GDP. The black line is the identity
+total.}
+\label{fig:attributionmodern}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{11_attribution_historical.png}
+\caption{The same decomposition for 1978--1994, on the same scaling. The windows are
+plotted separately because no change is computed through the 1995 splice.}
+\label{fig:attributionhistorical}
+\end{figure}
+
+Table~\ref{tab:movements} ranks the \MovementsPerDirection\ largest improvements and
+the \MovementsPerDirection\ largest deteriorations on that scaling, and attributes
+each to a subsector and then to the revenue and expenditure movements behind it.
+
+\input{generated/tab_movements}
+
+The scaling changes what the ranking shows, which is the point of using it.
+\HistoricalEpisodes\ of the ten episodes fall in the historical regime --- episodes
+that a nominal ranking places nowhere near the top, because the euro amounts
+involved are small relative to modern GDP. The largest single improvement is
+\TopImprovementYear\ at \TopImprovementPct\ percentage points of GDP and the largest
+deterioration is \TopDeteriorationYear\ at \TopDeteriorationPct.
+
+Central Government accounts for the largest share of every one of the ten episodes.
+Given that it also carries the level of the aggregate balance
+(Section~\ref{sec:results}), this is less surprising than it first appears, and it
+is worth stating what it does not mean: the subsector accounting arithmetically for
+a movement has not been shown to have produced it.
+
+\subsection{Social Security mechanisms}
+
+We now turn to the second research question. Two distinct layers have to be kept
+apart, and the value of the exercise lies in the separation.
+
+\paragraph{The national-accounts layer.} The ESA 2010 Social Security Funds sector
+is the entity that appears in Equation~\eqref{eq:identity}. In \LatestYear\ social
+contributions were \ContributionSharePct\% of its total revenue.
+Figure~\ref{fig:ssfshare} plots that share over the panel.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{05_ssf_contribution_share.png}
+\caption{Social contributions as a share of total Social Security Funds revenue.
+The line breaks at 1996--1999, where subsector components do not exist in either
+source family.}
+\label{fig:ssfshare}
+\end{figure}
+
+\paragraph{The budget-execution layer.} The CFP publishes the system decomposed into
+the Previdential system, the Social Protection of Citizenship system and special
+regimes. These are budget-execution aggregates on a different accounting boundary.
+Figure~\ref{fig:ssfsystems} shows them.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{13_ssf_budget_systems.png}
+\caption{CFP internal Social Security balances by system, in million euro. The
+movement over the published window is concentrated in the Previdential system.}
+\label{fig:ssfsystems}
+\end{figure}
+
+The movement is concentrated in one system. The Previdential balance goes from
+\PrevidentialFirst\ million euro in \PrevidentialFirstYear\ to
+\PrevidentialLatest\ million in \LatestYear, while the Citizenship balance stays
+small in both directions, standing at \CitizenshipLatest\ million in \LatestYear.
+Since contributions are the dominant revenue item of the Previdential system, and
+since the contribution share of national-accounts revenue rose over the same years,
+the two layers are telling a consistent story about where the movement sits. Neither
+identifies why it happened, and we do not speculate: a contributory balance moves
+with employment, wages, contribution rates, entitlement rules and demographics
+simultaneously, and separating them needs a model this paper does not build.
+
+\paragraph{Why the two layers must not be interchanged.} This is a methodological
+result, and it is the one we would most want a reader to carry away.
+Table~\ref{tab:ssfboundary} places the two side by side.
+
+\input{generated/tab_ssfboundary}
+
+In \LatestYear\ the ESA 2010 balance was \SsfEsaLatest\ million euro while the three
+budget systems summed to \SsfBudgetLatest\ million, a difference of
+\SsfBoundaryLatest\ million. Across the \SsfBoundaryYears\ overlapping years the
+difference ranges from \SsfBoundaryMin\ to \SsfBoundaryMax\ million euro. It is
+never zero.
+
+Figure~\ref{fig:ssfboundary} makes the scale problem visible: on a shared axis the
+two series are nearly identical, and the difference is only legible on an axis of
+its own.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{14_ssf_accounting_boundary.png}
+\caption{The two Social Security accounting boundaries. Upper panel: both balances
+on a shared axis, where they are almost indistinguishable. Lower panel: the
+difference on its own axis. The two are never added, netted or reconciled here.}
+\label{fig:ssfboundary}
+\end{figure}
+
+The consequence is practical. A Social Security figure quoted from the budget
+documents is not the figure that enters the national-accounts identity, and
+substituting one for the other introduces an error of a few hundred million euro
+without any signal that it has happened. We therefore report both and add neither.
+
+\subsection{Primary balance: the headline sign is not the underlying sign}
+
+The Central Government balance is negative in all \CentralNegativeYears\ years of
+the panel. Read alone, that invites a strong conclusion: that the subsector runs an
+underlying deficit throughout. The detailed accounts do not support it.
+
+The primary balance is reconstructed as $PB_{i,t} = B_{i,t} + I_{i,t}$, where $I$ is
+interest expenditure, and checked against the published primary-balance row.
+Table~\ref{tab:primarysigns} contrasts the two sign frequencies.
+
+\input{generated/tab_primarysigns}
+
+Over the \PrimaryObservedYears\ years for which interest expenditure is published,
+the Central Government headline balance is negative in
+\PrimaryHeadlineNegative\ --- all of them --- while the primary balance is positive
+in \PrimaryPositiveYears: \PrimaryPositiveList. Those years are not confined to the
+recent period; they run from \PrimaryPositiveFirst\ to \PrimaryPositiveLast. Interest
+averaged \InterestMeanPct\% of GDP over the panel and peaked at
+\InterestPeakPct\%, and that is the arithmetic separating the two series.
+Figure~\ref{fig:primary} shows the primary balance crossing zero repeatedly while the
+headline balance never does.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{06_central_primary_balance.png}
+\caption{Central Government headline balance, primary balance and interest
+expenditure, as shares of GDP. The primary balance crosses zero repeatedly; the
+headline balance does not. The line breaks at 1996--1999.}
+\label{fig:primary}
+\end{figure}
+
+Both statements are descriptive and they do not conflict. The correct summary is
+that the Central Government B.9 is negative throughout the panel \emph{and} that its
+primary balance is positive in a non-trivial minority of the observed years.
+
+The symmetric caution applies. A positive primary balance is not a sustainability
+result: it excludes interest by construction and therefore says nothing about the
+debt path, which depends on the interest burden it removes. Neither series, on its
+own, licenses a conclusion about sustainability.

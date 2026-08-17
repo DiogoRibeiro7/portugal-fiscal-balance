@@ -73,6 +73,7 @@ from portugal_fiscal_balance.processing.validation import (  # noqa: E402
     validate_accounts,
     validate_balance_panel,
 )
+from portugal_fiscal_balance.reporting.paper import render_paper_inputs  # noqa: E402
 from portugal_fiscal_balance.reporting.render import render_report  # noqa: E402
 from portugal_fiscal_balance.sources.banco_portugal import extract_long_series  # noqa: E402
 from portugal_fiscal_balance.sources.cfp import (  # noqa: E402
@@ -258,14 +259,18 @@ def main() -> None:
     for name, figure in persisted_figures.items():
         figures.save_figure(figure, FIGURES / name)
 
-    # 9. Report generated only from persisted results.
+    # 9. Report generated only from persisted results, then the manuscript's
+    #    generated inputs. The report is generated end to end; the manuscript has
+    #    authored prose, so only its tables and its numeric macros come from here.
     render_report(ROOT)
+    paper_inputs = render_paper_inputs(ROOT)
 
     print("Pipeline complete")
     print(f"Balance observations: {len(balance_panel)}")
     print(f"Account observations: {len(account_panel)}")
     print(f"Positive aggregate balance years: {balance_summary['positive_aggregate_balance_years']}")
     print(f"Report: {ROOT / 'report' / 'report.tex'}")
+    print(f"Paper generated inputs: {len(paper_inputs)} files in paper/generated/")
 
 
 if __name__ == "__main__":

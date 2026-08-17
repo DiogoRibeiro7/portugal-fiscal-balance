@@ -1,0 +1,70 @@
+% Authored. Numbers come from generated/macros.tex.
+
+\section{Change-Point Sensitivity in Full}
+\label{sec:changepoints}
+
+Section~\ref{sec:robustness} summarises the sensitivity of the piecewise-constant
+mean shifts. This appendix records the specification and the full grid, so the
+summary can be checked rather than taken.
+
+\subsection{Specification}
+
+For a balance ratio $y_1,\dots,y_n$ inside one statistical regime, the model
+partitions the index range into $k+1$ contiguous segments and fits a constant to
+each. The partition minimises total within-segment squared error,
+\[
+\min_{0 = b_0 < b_1 < \cdots < b_k < b_{k+1} = n}
+\ \sum_{j=0}^{k} \sum_{t = b_j + 1}^{b_{j+1}} \left(y_t - \bar{y}_{[b_j, b_{j+1}]}\right)^2,
+\]
+solved exactly by dynamic programming rather than by a greedy or binary-segmentation
+heuristic. Selection over $k$ uses
+\[
+\mathrm{BIC}(k) = n \log\!\left(\frac{\mathrm{RSS}(k)}{n}\right) + (2k+1)\log n,
+\]
+where the parameter count $2k+1$ charges for $k+1$ segment means and $k$ break
+locations. Charging for the locations is the conservative choice: it penalises an
+additional break twice and makes the model less willing to claim one. Zero breaks is
+always admissible.
+
+Two tuning parameters are not estimated: the minimum segment length and the maximum
+number of breaks. The baseline sets them to five years and two breaks per regime.
+
+\subsection{The grid}
+
+Detection is re-run over the product of
+
+\[
+\text{minimum segment} \in \{4, 5, 6, 7\}
+\quad \text{and} \quad
+\text{maximum breaks} \in \{1, 2, 3\},
+\]
+
+giving \BreakSpecifications\ specifications for each of the \BreakSeries\
+regime-subsector series. Three quantities are persisted for each series: the modal
+number of breaks and the share of the grid selecting it, the modal set of dates and
+the share of the grid returning exactly that set, and the number of distinct date
+sets the grid produced.
+
+The last of these is the most informative single number. A series whose grid returns
+one date set is telling us something about the series; a series whose grid returns
+six is telling us about the tuning parameters.
+
+\subsection{Reading the result}
+
+\BreakModalAgree\ of \BreakSeries\ series have a preferred specification that agrees
+with the modal grid outcome. Where the two disagree, the modal column is the more
+reliable summary and the preferred date should not be quoted alone. The least stable
+series is \WeakestBreakSector\ in the modern regime, at
+\WeakestBreakShare\% modal agreement across \WeakestBreakSets\ distinct date sets.
+
+Two further limits apply regardless of the grid. A minimum segment length of five
+years means a shift within the last four years of the sample is undetectable by
+construction. And selecting a mean shift does not imply the series is
+piecewise-constant; it is the best fit inside a restricted model class, chosen
+because the sample is too short to support a richer one.
+
+The full per-specification grid, the BIC ladder over admissible break counts and the
+stability summary are persisted as
+\path{outputs/tables/structural_break_sensitivity.csv},
+\path{outputs/tables/structural_break_bic_ladder.csv} and
+\path{outputs/tables/structural_break_stability.csv}.

@@ -1,0 +1,193 @@
+% Authored. Numbers come from generated/macros.tex.
+
+\section{Introduction}
+\label{sec:introduction}
+
+A country's fiscal position is normally reported as one number. Portugal recorded a
+general-government balance of \LatestGg\ million euro in \LatestYear, or
+\LatestGgPct\% of GDP, and it is that figure which enters fiscal rules, credit
+assessments and public debate.
+
+The number is an aggregate of institutionally distinct parts. Under ESA 2010 the
+general government sector S.13 is the consolidation of central government
+(S.1311), state government (S.1312), local government (S.1313) and social security
+funds (S.1314) \citep{eurostat_esa2010}. These are not administrative
+subdivisions of one budget. They have different revenue bases --- general taxation
+in one case, earmarked social contributions in another --- different expenditure
+mandates, and different legal constraints on borrowing. Their balances are
+therefore determined by different things, and there is no reason to expect them to
+move together.
+
+Aggregation hides that. In \LatestYear\ Portugal's positive aggregate balance was
+the sum of a Central Government balance of \LatestCentral\ million euro, a Regional
+and Local balance of \LatestRegional\ million, and a Social Security Funds balance
+of \LatestSsf\ million. The headline figure and the composition behind it support
+quite different descriptions of the same year, and only the headline figure is
+routinely reported.
+
+\subsection{Research questions}
+
+This paper addresses two questions.
+
+\begin{enumerate}
+\item \textbf{How has Portugal's general-government balance been composed across
+institutional subsectors since \PanelStart, and how persistent are the
+contributions of Central Government, Regional and Local Government, and Social
+Security Funds?}
+\item \textbf{What accounting mechanisms account for the changing contribution of
+the Social Security Funds, particularly in the recent period?}
+\end{enumerate}
+
+Both are descriptive questions about recorded quantities, and we answer them as
+such. The central object is an accounting identity,
+\[
+\Bgg_t = \Bc_t + \Brl_t + \Bssf_t,
+\]
+which holds by construction. Decomposing it reallocates an observed number; it
+estimates nothing and identifies nothing. We are explicit about this throughout,
+because the decomposition invites a counterfactual reading --- that the aggregate
+balance would have been different under a different institutional arrangement ---
+which the identity cannot support.
+
+\subsection{Related work and where this paper sits}
+
+Three strands of existing work bear on these questions, and each leaves a
+different part of them open.
+
+The first is the statistical framework itself. ESA 2010 defines the subsectors and
+requires member states to report deficit and debt for each of them, and Eurostat
+and the ECB publish the resulting series
+\citep{eurostat_esa2010,eurostat_ssf_glossary,eurostat_gov_main,ecb_gfs}. The
+composition of the aggregate balance is therefore not hidden: it is published. What
+the framework provides is a definition and a data supply, not an analysis of how a
+particular country's composition has behaved over time.
+
+The second is the literature on Portuguese fiscal sustainability, which works
+predominantly at the aggregate level and over long horizons.
+\citet{marinheiro2006} tests the sustainability of Portuguese fiscal policy on more
+than a century of annual data, using stationarity and cointegration tests on
+aggregate revenue, expenditure and debt. That question --- whether the aggregate
+path satisfies a solvency condition --- is a different question from ours, and it is
+answered without decomposing the aggregate.
+
+The third concerns Portuguese Social Security financing specifically.
+\citet{cardoso2019} examines the equity and sustainability of the system's
+financing, noting that social-protection entitlements follow a dynamic that at
+times diverges from the cyclical path of the revenue that funds them; the
+Portuguese Public Finance Council has also examined the Social Security Financial
+Stabilisation Fund in the same context \citep{cfp_fefss}. This literature is
+concerned with the system's own finances and its long-run adequacy, rather than
+with the arithmetic by which that system's balance enters the national aggregate.
+
+A fourth strand is relevant less as a precedent than as a caution. Work on
+stock-flow adjustments has shown that the reported balance is an incomplete account
+of what happens to debt: \citet{vonhagen2006} find that debt accumulates by more
+than accumulated deficits and read the residual as evidence of accounting responses
+to fiscal rules, while \citet{seiferling2013} argues on integrated public-finance
+data that the residuals are smaller than previously assumed and are not well
+explained by fiscal transparency. We take no position in that debate. We take from
+it the discipline that a balance is a recorded accounting quantity whose relation
+to anything else has to be demonstrated rather than assumed --- which is why this
+paper stops at the accounting and says so.
+
+To our knowledge no study assembles and analyses the subsector composition of the
+Portuguese general-government balance systematically over a window of this length.
+We state that as a gap in the work we have found rather than as a claim of
+priority: the underlying series are published, and any competent user of the
+Eurostat or CFP data could construct parts of what follows. The contribution is in
+the assembly, the harmonisation, the discipline applied to the resulting statistics
+and the reproducibility of the whole, not in access to anything unavailable.
+
+\subsection{Contribution}
+
+We make six contributions.
+
+\begin{enumerate}
+\item \textbf{A harmonised long-run panel.} An annual panel of net lending and net
+borrowing for General Government and its three subsectors covering
+\PanelStart--\PanelEnd, built by splicing the Banco de Portugal / INE historical
+long series to the modern national accounts. The \textbf{1995} methodological
+boundary is retained as a documented splice, both vintages of the overlapping year
+are kept, and nothing is chained, smoothed or calibrated across it.
+
+\item \textbf{An exact decomposition, in levels and in changes.} The aggregate
+balance and each of its annual changes are decomposed into subsector components
+that close to the sources' rounding. Changes are additionally reported scaled by
+current-year GDP, which makes episodes forty years apart comparable without
+turning the decomposition into a ratio that no longer adds up.
+
+\item \textbf{Persistence stated per statistical regime.} Sign frequencies, run
+lengths and one-year sign transitions, with magnitudes computed inside each regime
+rather than pooled across the splice. Pooling is not a presentational choice here:
+the aggregate balance averages \GgMeanHistorical\% of GDP before 1995 and
+\GgMeanModern\% after, and the pooled \GgMeanPooled\% describes neither period.
+
+\item \textbf{Attribution of the largest episodes to revenue and expenditure.} The
+largest annual improvements and deteriorations, each attributed to a subsector and
+then to the revenue and expenditure movements that composed it.
+
+\item \textbf{Two Social Security boundaries, separated and quantified.} The
+ESA 2010 Social Security Funds sector and the budget-execution systems published by
+the CFP are different accounting objects. We report them side by side, never add
+them, and measure the gap between them --- which is non-zero in every one of the
+\SsfBoundaryYears\ years they overlap.
+
+\item \textbf{A validation layer that separates two different tests.} Identity
+closure asks whether an extraction is arithmetically self-consistent; source
+agreement asks whether two independently published sources report the same number.
+The first cannot establish the second. Here the identities close to
+\MaxClosureResidual\ million euro while two published sources still disagree by
+\MaxSourceDisagreement\ million euro on one subsector-year.
+\end{enumerate}
+
+\subsection{Principal findings}
+
+The composition is asymmetric and it is stable. Over \PanelYears\ years the
+aggregate balance is positive in \NumPositiveYears\
+(\PositiveYearList). The Central Government balance is negative in all
+\CentralNegativeYears\ observations. The Social Security balance is positive in
+\SsfPositiveYears, with a longest unbroken run of \SsfLongestPositiveRun\ years.
+Regional and Local Government is the only subsector that changes sign with any
+regularity, and it is small in both directions.
+
+In each of the \NumPositiveYears\ years with a positive aggregate balance, the
+combined non-Social-Security balance is negative and the Social Security balance
+exceeds it in absolute size. In \LatestYear\ the non-Social-Security balance was
+\LatestNonSsf\ million euro against a Social Security balance of \LatestSsf\
+million, an offset ratio of \LatestOffset. This is an arithmetic relation between
+two recorded numbers and we do not present it as anything else.
+
+Magnitudes are regime-dependent and must be read that way. The Central Government
+balance averages \CentralMeanHistorical\% of GDP over \PanelStart--1994 and
+\CentralMeanModern\% over 1995--\PanelEnd; the Social Security balance rises from
+\SsfMeanHistorical\% to \SsfMeanModern\%.
+
+The headline sign is not the underlying sign. Central Government records a negative
+balance in every year of the panel, but its primary balance --- the balance
+excluding interest --- is positive in \PrimaryPositiveYears\ of the
+\PrimaryObservedYears\ years for which the detailed accounts exist, from
+\PrimaryPositiveFirst\ to \PrimaryPositiveLast. Interest averaged
+\InterestMeanPct\% of GDP over that panel and peaked at \InterestPeakPct\%. Both
+statements are descriptive and they are not in conflict; interest is the arithmetic
+that separates them. A conclusion that Central Government runs a permanent
+underlying deficit does not follow from the headline series.
+
+Finally, the recent movement in the Social Security position is concentrated in one
+of the two internal budget systems. The Previdential balance moves from
+\PrevidentialFirst\ million euro in \PrevidentialFirstYear\ to
+\PrevidentialLatest\ million in \LatestYear, while the Citizenship balance stays
+small in both directions and stands at \CitizenshipLatest\ million. That is a
+description of the published series and not an account of what caused it.
+
+\subsection{Roadmap}
+
+Section~\ref{sec:framework} defines the institutional and accounting objects, and
+in particular why Central Government is not a synonym for the State in the
+budgetary sense. Section~\ref{sec:data} describes the sources, the harmonisation,
+the 1995 splice, the vintages and the cross-source validation.
+Section~\ref{sec:method} states the decompositions and the persistence measures.
+Section~\ref{sec:results} presents the results. Section~\ref{sec:robustness} sets
+out the accounting boundaries and the robustness of the weaker statistics.
+Section~\ref{sec:conclusion} concludes with what the evidence does and does not
+establish. Appendix~\ref{sec:changepoints} reports the change-point sensitivity in
+full and Appendix~\ref{sec:reproducibility} the reproduction path.
