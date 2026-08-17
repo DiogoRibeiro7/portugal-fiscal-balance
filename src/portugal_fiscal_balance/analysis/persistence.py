@@ -6,12 +6,9 @@ from typing import cast
 
 import pandas as pd
 
-SECTOR_BALANCES = {
-    "general_government": "general_government_balance_pct_gdp",
-    "central_government": "central_government_balance_pct_gdp",
-    "regional_local_government": "regional_local_balance_pct_gdp",
-    "social_security_funds": "social_security_balance_pct_gdp",
-}
+from portugal_fiscal_balance.schemas import SECTOR_BALANCE_PCT_GDP
+
+SECTOR_BALANCES = SECTOR_BALANCE_PCT_GDP
 
 
 def _state(value: float) -> str:

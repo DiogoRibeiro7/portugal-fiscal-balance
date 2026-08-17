@@ -27,6 +27,20 @@ BALANCE_COLUMNS: Final[tuple[str, ...]] = (
     "social_security_balance_m_eur",
 )
 
+SECTOR_BALANCE_PCT_GDP: Final[dict[str, str]] = {
+    "general_government": "general_government_balance_pct_gdp",
+    "central_government": "central_government_balance_pct_gdp",
+    "regional_local_government": "regional_local_balance_pct_gdp",
+    "social_security_funds": "social_security_balance_pct_gdp",
+}
+
+SECTOR_LABELS: Final[dict[str, str]] = {
+    "general_government": "General Government",
+    "central_government": "Central Government",
+    "regional_local_government": "Regional and Local",
+    "social_security_funds": "Social Security Funds",
+}
+
 ACCOUNT_METRICS: Final[tuple[str, ...]] = (
     "total_revenue_m_eur",
     "total_expenditure_m_eur",

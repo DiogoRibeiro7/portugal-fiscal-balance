@@ -8,11 +8,13 @@ from typing import TypedDict
 import numpy as np
 import pandas as pd
 
-BALANCE_SERIES = {
-    "general_government": "general_government_balance_pct_gdp",
-    "central_government": "central_government_balance_pct_gdp",
-    "regional_local_government": "regional_local_balance_pct_gdp",
-    "social_security_funds": "social_security_balance_pct_gdp",
+from portugal_fiscal_balance.schemas import SECTOR_BALANCE_PCT_GDP
+
+BALANCE_SERIES = SECTOR_BALANCE_PCT_GDP
+
+REGIMES: dict[str, tuple[int, int]] = {
+    "1977-1994_historical": (1977, 1994),
+    "1995-2025_modern": (1995, 2025),
 }
 
 
@@ -107,11 +109,7 @@ def detect_mean_breaks(
 def structural_break_table(panel: pd.DataFrame) -> pd.DataFrame:
     """Detect breaks separately inside the historical and modern statistical regimes."""
     records: list[dict[str, object]] = []
-    regimes = {
-        "1977-1994_historical": (1977, 1994),
-        "1995-2025_modern": (1995, 2025),
-    }
-    for regime, (start, end) in regimes.items():
+    for regime, (start, end) in REGIMES.items():
         sub = panel.loc[panel["year"].between(start, end)].sort_values("year")
         for sector, column in BALANCE_SERIES.items():
             clean = sub[["year", column]].dropna()

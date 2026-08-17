@@ -29,15 +29,7 @@ from portugal_fiscal_balance.analysis.decomposition import (  # noqa: E402
     revenue_expenditure_change_decomposition,
     year_to_year_balance_attribution,
 )
-from portugal_fiscal_balance.analysis.figures import (  # noqa: E402
-    plot_balance_change_attribution,
-    plot_debt_reconciliation,
-    plot_long_run_balances,
-    plot_offset_ratio,
-    plot_primary_vs_headline,
-    plot_revenue_expenditure,
-    plot_social_security_contributions,
-)
+from portugal_fiscal_balance.analysis import figures  # noqa: E402
 from portugal_fiscal_balance.analysis.persistence import (  # noqa: E402
     persistence_summary,
     transition_probabilities,
@@ -193,20 +185,31 @@ def main() -> None:
     }
     write_json(analysis_diagnostics, METRICS / "analysis_summary.json")
     raw_hashes = {
-        str(path.relative_to(ROOT)): sha256_file(path)
+        path.relative_to(ROOT).as_posix(): sha256_file(path)
         for path in sorted(RAW.rglob("*"))
         if path.is_file()
     }
     write_json(raw_hashes, METRICS / "raw_file_sha256.json")
 
-    # 8. Figures.
-    plot_long_run_balances(balance_metrics, FIGURES / "01_long_run_balances.png")
-    plot_offset_ratio(balance_metrics, FIGURES / "02_ssf_offset_ratio.png")
-    plot_balance_change_attribution(changes, FIGURES / "03_balance_change_attribution.png")
-    plot_revenue_expenditure(account_panel, "central_government", FIGURES / "04_central_revenue_expenditure.png")
-    plot_social_security_contributions(ss_accounts, FIGURES / "05_ssf_contribution_share.png")
-    plot_primary_vs_headline(primary, "central_government", FIGURES / "06_central_primary_balance.png")
-    plot_debt_reconciliation(debt, FIGURES / "07_general_government_debt.png")
+    # 8. Figures. The notebooks display these same builders inline.
+    persisted_figures = {
+        "01_long_run_balances.png": figures.balances_by_subsector(balance_metrics),
+        "02_ssf_offset_ratio.png": figures.offset_ratio(balance_metrics),
+        "03_balance_change_attribution.png": figures.balance_change_attribution(changes),
+        "04_central_revenue_expenditure.png": figures.revenue_expenditure(
+            account_panel, "central_government"
+        ),
+        "05_ssf_contribution_share.png": figures.social_security_contribution_share(ss_accounts),
+        "06_central_primary_balance.png": figures.primary_vs_headline(
+            primary, "central_government"
+        ),
+        "07_general_government_debt.png": figures.debt_and_stock_flow(debt),
+        "08_subsector_contributions.png": figures.subsector_contributions(balance_metrics),
+        "09_balance_sign_states.png": figures.balance_sign_states(balance_panel),
+        "10_account_coverage.png": figures.account_coverage(account_panel),
+    }
+    for name, figure in persisted_figures.items():
+        figures.save_figure(figure, FIGURES / name)
 
     # 9. Report generated only from persisted results.
     render_report(ROOT)

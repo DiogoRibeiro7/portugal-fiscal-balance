@@ -5,12 +5,9 @@ from __future__ import annotations
 import pandas as pd
 import statsmodels.api as sm
 
-BALANCE_COLUMNS = {
-    "general_government": "general_government_balance_pct_gdp",
-    "central_government": "central_government_balance_pct_gdp",
-    "regional_local_government": "regional_local_balance_pct_gdp",
-    "social_security_funds": "social_security_balance_pct_gdp",
-}
+from portugal_fiscal_balance.schemas import SECTOR_BALANCE_PCT_GDP
+
+BALANCE_COLUMNS = SECTOR_BALANCE_PCT_GDP
 
 
 def build_macro_panel(balance_panel: pd.DataFrame, historical_macro: pd.DataFrame) -> pd.DataFrame:
