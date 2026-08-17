@@ -1,0 +1,28 @@
+name: Source-data issue
+description: Report a problem with source coverage, extraction or raw data provenance.
+title: "[source-data]: "
+labels:
+  - source-data
+  - data
+body:
+  - type: textarea
+    id: source
+    attributes:
+      label: Source or dataset
+      description: Which source file, table or year range is affected?
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: Issue
+      description: Describe the source-data problem.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Link or describe the official source evidence.
+    validations:
+      required: false

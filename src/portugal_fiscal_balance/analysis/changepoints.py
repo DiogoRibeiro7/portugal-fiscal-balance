@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from typing import TypedDict
 
 import numpy as np
 import pandas as pd
@@ -13,6 +14,14 @@ BALANCE_SERIES = {
     "regional_local_government": "regional_local_balance_pct_gdp",
     "social_security_funds": "social_security_balance_pct_gdp",
 }
+
+
+class BreakResult(TypedDict):
+    n: int
+    n_breaks: int
+    break_years: list[int]
+    bic: float
+    segment_means: list[float]
 
 
 def _segment_sse(y: np.ndarray, start: int, end: int) -> float:
@@ -28,7 +37,7 @@ def detect_mean_breaks(
     *,
     max_breaks: int = 2,
     min_segment: int = 5,
-) -> dict[str, object]:
+) -> BreakResult:
     """Select piecewise-constant mean breaks by dynamic programming and BIC.
 
     This intentionally modest model is appropriate for short annual series. It is not

@@ -1,5 +1,9 @@
 # Portugal Fiscal Balance, 1977–2025
 
+[![CI](https://github.com/DiogoRibeiro7/portugal-fiscal-balance/actions/workflows/ci.yml/badge.svg)](https://github.com/DiogoRibeiro7/portugal-fiscal-balance/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
+
 A reproducible empirical repository for analysing how Portugal's General Government balance is formed across:
 
 - Central Government;
@@ -7,6 +11,14 @@ A reproducible empirical repository for analysing how Portugal's General Governm
 - Social Security Funds.
 
 The repository is deliberately restricted to accounting, statistical and economic analysis. It does not infer intent, assign responsibility, or attach normative conclusions to fiscal outcomes.
+
+## Project resources
+
+- Methodology: `METHODOLOGY.md`
+- Data dictionary: `DATA_DICTIONARY.md`
+- Generated report: `report/report.md`
+- Contribution guide: `CONTRIBUTING.md`
+- Citation metadata: `CITATION.cff` and `.zenodo.json`
 
 ## Core identity
 

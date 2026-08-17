@@ -36,7 +36,7 @@ def revenue_expenditure_change_decomposition(accounts: pd.DataFrame) -> pd.DataF
     if missing:
         raise ValueError(f"accounts missing columns: {missing}")
     records: list[pd.DataFrame] = []
-    for sector, group in accounts.groupby("sector", sort=False):
+    for _sector, group in accounts.groupby("sector", sort=False):
         data = group.sort_values("year").copy()
         data["year_gap"] = data["year"].diff()
         data["revenue_change_m_eur"] = data["total_revenue_m_eur"].diff()

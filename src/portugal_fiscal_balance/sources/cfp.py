@@ -275,16 +275,16 @@ def extract_social_security_detail(workbook_path: Path) -> tuple[pd.DataFrame, p
     }
     detail_records: list[dict[str, float | int]] = []
     for year, col in ((2024, 4), (2025, 5)):
-        record: dict[str, float | int] = {"year": year}
+        base_detail_record: dict[str, float | int] = {"year": year}
         for output, label in q1_metrics.items():
             value = q1.cell(row_by_label(q1, label), col).value
             if isinstance(value, (int, float)):
-                record[output] = float(value)
-        detail_records.append(record)
+                base_detail_record[output] = float(value)
+        detail_records.append(base_detail_record)
 
     q2 = workbook["Quadro 2"]
     for year, col in ((2024, 3), (2025, 6)):
-        record = next(item for item in detail_records if item["year"] == year)
+        detail_record = next(item for item in detail_records if item["year"] == year)
         row_map = {
             "previdential_revenue_m_eur": 8,
             "previdential_contributions_m_eur": 9,
@@ -299,7 +299,7 @@ def extract_social_security_detail(workbook_path: Path) -> tuple[pd.DataFrame, p
         for output, row in row_map.items():
             value = q2.cell(row, col).value
             if isinstance(value, (int, float)):
-                record[output] = float(value)
+                detail_record[output] = float(value)
 
     detail = pd.DataFrame.from_records(detail_records)
     system_balances["source"] = "CFP Social Security 2025 report underlying data"

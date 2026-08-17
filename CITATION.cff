@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite it using the metadata from this file."
+title: "Portugal Fiscal Balance, 1977-2025"
+type: software
+authors:
+  - family-names: Ribeiro
+    given-names: Diogo
+repository-code: "https://github.com/DiogoRibeiro7/portugal-fiscal-balance"
+abstract: "Reproducible empirical analysis of Portugal's general-government fiscal balance by subsector, 1977-2025."
+keywords:
+  - Portugal
+  - fiscal policy
+  - public finance
+  - government finance
+  - national accounts
+  - reproducible research
+license: MIT
+version: 0.2.0
+date-released: "2026-08-17"

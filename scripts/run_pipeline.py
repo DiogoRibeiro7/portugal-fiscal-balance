@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 """Run the complete deterministic extraction, processing and analysis pipeline."""
 
+# ruff: noqa: E402,I001
+
 from __future__ import annotations
 
 import sys
@@ -11,8 +13,6 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
-
-import pandas as pd  # noqa: E402
 
 from portugal_fiscal_balance.analysis.balance import (  # noqa: E402
     compute_balance_metrics,

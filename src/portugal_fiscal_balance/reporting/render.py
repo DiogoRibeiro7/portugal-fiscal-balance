@@ -4,11 +4,12 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 
 
-def _fmt(value: object, digits: int = 2) -> str:
+def _fmt(value: Any, digits: int = 2) -> str:
     if pd.isna(value):
         return ""
     if isinstance(value, bool):

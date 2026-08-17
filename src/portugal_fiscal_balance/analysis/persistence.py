@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import cast
+
 import pandas as pd
 
 SECTOR_BALANCES = {
@@ -66,5 +68,9 @@ def transition_probabilities(panel: pd.DataFrame) -> pd.DataFrame:
         totals = counts.groupby("state")["n"].transform("sum")
         counts["probability"] = counts["n"] / totals
         counts["sector"] = sector
-        records.extend(counts[["sector", "state", "next_state", "n", "probability"]].to_dict("records"))
+        transition_records = cast(
+            list[dict[str, float | int | str]],
+            counts[["sector", "state", "next_state", "n", "probability"]].to_dict("records"),
+        )
+        records.extend(transition_records)
     return pd.DataFrame.from_records(records)

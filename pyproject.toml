@@ -1,20 +1,43 @@
-[tool.poetry]
+[project]
 name = "portugal-fiscal-balance"
 version = "0.2.0"
 description = "Reproducible empirical analysis of Portugal's general-government balance by subsector, 1977-2025."
-authors = ["Research repository"]
+authors = [{ name = "Diogo Ribeiro", email = "diogo_dj@hotmail.com" }]
+license = "MIT"
 readme = "README.md"
-packages = [{ include = "portugal_fiscal_balance", from = "src" }]
+requires-python = ">=3.11,<3.14"
+keywords = [
+  "portugal",
+  "fiscal-policy",
+  "public-finance",
+  "government-finance",
+  "reproducible-research",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = [
+  "pandas>=2.2,<3",
+  "numpy>=2.0,<3",
+  "openpyxl>=3.1,<4",
+  "matplotlib>=3.9,<4",
+  "PyYAML>=6,<7",
+  "Jinja2>=3.1,<4",
+  "statsmodels>=0.14,<1",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.11,<3.14"
-pandas = ">=2.2,<3"
-numpy = ">=2.0,<3"
-openpyxl = ">=3.1,<4"
-matplotlib = ">=3.9,<4"
-PyYAML = ">=6,<7"
-Jinja2 = ">=3.1,<4"
-statsmodels = ">=0.14,<1"
+[project.urls]
+Homepage = "https://github.com/DiogoRibeiro7/portugal-fiscal-balance"
+Repository = "https://github.com/DiogoRibeiro7/portugal-fiscal-balance"
+Issues = "https://github.com/DiogoRibeiro7/portugal-fiscal-balance/issues"
+
+[tool.poetry]
+packages = [{ include = "portugal_fiscal_balance", from = "src" }]
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=8,<10"
@@ -33,14 +56,20 @@ addopts = "-q"
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+extend-exclude = ["notebooks"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501"]
 
 [tool.mypy]
 python_version = "3.11"
 strict = true
 warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["openpyxl.*", "statsmodels.*"]
+ignore_missing_imports = true
 
 [build-system]
 requires = ["poetry-core>=1.9.0"]
