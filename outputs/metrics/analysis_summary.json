@@ -2,13 +2,14 @@
   "balance_summary": {
     "analysis_end_year": 2025,
     "analysis_start_year": 1977,
-    "latest_2025": {
+    "latest_year": {
       "central_government_balance_m_eur": -5636.0,
       "general_government_balance_m_eur": 2059.0,
       "non_ssf_balance_m_eur": -5006.0,
       "regional_local_balance_m_eur": 630.0,
       "social_security_balance_m_eur": 7065.0,
-      "ssf_offset_ratio": 1.4113064322812625
+      "ssf_offset_ratio": 1.4113064322812625,
+      "year": 2025
     },
     "n_years": 49,
     "positive_aggregate_balance_years": [

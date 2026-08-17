@@ -802,7 +802,13 @@ display(annual[rolling].tail(10).round(3))""",
                 r"""import json
 
 summary = json.loads((METRICS / 'analysis_summary.json').read_text(encoding='utf-8'))
-display(pd.Series(summary['balance_summary']['latest_2025'], name='2025').to_frame().round(3))""",
+latest = summary['balance_summary']['latest_year']
+print('latest year in the panel:', latest['year'])
+display(
+    pd.Series({key: value for key, value in latest.items() if key != 'year'}, name=str(latest['year']))
+    .to_frame()
+    .round(3)
+)""",
             ),
             (
                 "md",
@@ -1592,7 +1598,7 @@ makes the report checkable without running any code.""",
 
 report_path = render_report(ROOT)
 text = report_path.read_text(encoding='utf-8')
-print('written:', report_path.relative_to(ROOT))
+print('written:', report_path.relative_to(ROOT).as_posix())
 print('size:', f'{len(text) / 1024:.1f} kB')
 print('lines:', len(text.splitlines()))""",
             ),

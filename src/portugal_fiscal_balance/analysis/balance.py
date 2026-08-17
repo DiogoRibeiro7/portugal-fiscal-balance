@@ -63,14 +63,17 @@ def summarize_balance_metrics(annual: pd.DataFrame) -> dict[str, Any]:
     """Create a compact JSON-serialisable summary."""
     surplus = annual.loc[annual["aggregate_balance_positive"]]
     offset = annual.loc[annual["positive_aggregate_with_negative_non_ssf_balance"]]
-    latest = annual.loc[annual["year"].eq(2025)].iloc[0]
+    # The final year is read from the panel rather than pinned, so a later data
+    # vintage extends the summary instead of breaking it.
+    latest = annual.loc[annual["year"].idxmax()]
     return {
         "analysis_start_year": int(annual["year"].min()),
         "analysis_end_year": int(annual["year"].max()),
         "n_years": int(len(annual)),
         "positive_aggregate_balance_years": [int(v) for v in surplus["year"]],
         "positive_aggregate_with_negative_non_ssf_years": [int(v) for v in offset["year"]],
-        "latest_2025": {
+        "latest_year": {
+            "year": int(latest["year"]),
             "general_government_balance_m_eur": float(latest["general_government_balance_m_eur"]),
             "central_government_balance_m_eur": float(latest["central_government_balance_m_eur"]),
             "regional_local_balance_m_eur": float(latest["regional_local_balance_m_eur"]),

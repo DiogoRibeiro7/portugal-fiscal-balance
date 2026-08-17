@@ -189,4 +189,5 @@ For 1978–1995, the historical workbook also permits a small SSF model using em
   executed outputs, so the narrative is readable without running anything;
 - notebook figures are produced by the same functions that write `outputs/figures/`;
 - raw source SHA-256 hashes are recorded;
-- the report is generated from persisted outputs.
+- the report is generated from persisted outputs, and its appendix maps every section to
+  the notebook that produces it and the artefact it reads.

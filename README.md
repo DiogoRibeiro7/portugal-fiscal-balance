@@ -210,11 +210,34 @@ PYTHONPATH=src python scripts/run_notebooks.py
 PYTHONPATH=src pytest
 ```
 
-The final report is written to:
+## Report
 
-```text
-report/report.tex
+`scripts/run_pipeline.py` writes `report/report.tex`: a 14-page LaTeX report with 19
+captioned tables and 10 figures. It restates persisted results and introduces no new
+calculation — every number in it is read from a file under `data/processed/` or `outputs/`,
+and the appendix maps each section to the notebook that produces it and the artefact it
+reads.
+
+The document opens with a results-at-a-glance table that doubles as an audit trail: the
+subsector closure residual, the revenue-minus-expenditure identity error, and the debt
+reconciliation residual are printed alongside the headline balances, so a defect in
+extraction is visible on the first page. Each section closes with what its result is not.
+
+To build the PDF (requires a LaTeX installation; `report/*.pdf` is not committed):
+
+```bash
+make pdf
 ```
+
+or directly, running twice so the table of contents and cross-references resolve:
+
+```bash
+cd report && pdflatex -interaction=nonstopmode report.tex && pdflatex -interaction=nonstopmode report.tex
+```
+
+`tests/test_report.py` guards the report's wiring: every included figure exists, every
+persisted figure is used, every cross-reference resolves, the headline numbers match the
+panel, and no raw column identifier leaks into a table.
 
 ## Zenodo archiving
 

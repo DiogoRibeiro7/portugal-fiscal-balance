@@ -1,4 +1,4 @@
-.PHONY: pipeline notebooks notebooks-build lint typecheck test all clean
+.PHONY: pipeline notebooks notebooks-build pdf lint typecheck test all clean
 
 pipeline:
 	PYTHONPATH=src python scripts/run_pipeline.py
@@ -8,6 +8,10 @@ notebooks-build:
 
 notebooks:
 	PYTHONPATH=src python scripts/run_notebooks.py
+
+# Optional: requires a LaTeX installation. report/*.pdf is not committed.
+pdf:
+	cd report && latexmk -pdf -interaction=nonstopmode report.tex
 
 lint:
 	ruff check .

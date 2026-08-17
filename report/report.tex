@@ -1,322 +1,893 @@
-\documentclass[11pt]{article}
+\documentclass[11pt,a4paper]{article}
+
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{booktabs}
 \usepackage{graphicx}
-\usepackage{geometry}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{xcolor}
 \usepackage{hyperref}
-\geometry{margin=1in}
+
+\definecolor{reportlink}{HTML}{1C5CAB}
+
+% File paths are typeset with \path. Its default break glue is stretchable, which
+% opens visible gaps inside a path in justified text; remove the stretch.
+\setlength{\Urlmuskip}{0mu plus 0mu}
+
+\hypersetup{
+  pdftitle={Portugal's General-Government Balance by Subsector, 1977--2025},
+  pdfauthor={Diogo Ribeiro},
+  pdfsubject={Accounting decomposition of Portugal's general-government net lending and net borrowing by subsector},
+  colorlinks=true,
+  linkcolor=reportlink,
+  urlcolor=reportlink,
+  citecolor=reportlink
+}
+
 \graphicspath{{../outputs/figures/}}
+
+\captionsetup{
+  font=small,
+  labelfont=bf,
+  justification=raggedright,
+  singlelinecheck=false,
+  skip=6pt
+}
+
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.15}
+\setlist[enumerate]{itemsep=2pt, topsep=4pt}
+\setlist[itemize]{itemsep=2pt, topsep=4pt}
+
+% Shrink a table to the text width only if it would otherwise overflow, so that
+% narrow tables are not stretched away from the body font size.
+\newcommand{\fitwidth}[1]{%
+  \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{#1}%
+}
 
 \title{Portugal's General-Government Balance by Subsector, 1977--2025}
 \author{Diogo Ribeiro}
-\date{}
+\date{Repository version 0.2.0}
 
 \begin{document}
 \maketitle
+\begin{abstract}
+\noindent
+This report decomposes Portugal's annual general-government net lending (+) / net
+borrowing (-) into Central Government, Regional and Local Government, and Social
+Security Funds (SSF), for the 49 years from
+1977 to 2025. The analysis is
+empirical and accounting-focused. It covers long-run balance composition, exact
+year-to-year attribution, revenue and expenditure dynamics, sign persistence,
+conservative structural mean shifts, Social Security revenue composition and internal
+systems, primary balances and interest, public investment, debt-flow reconciliation,
+and descriptive macroeconomic co-movement.
 
-\section*{Abstract}
-
-This report decomposes Portugal's annual general-government net lending (+) / net borrowing (-) into Central Government, Regional and Local Government, and Social Security Funds (SSF). The analysis is empirical and accounting-focused. It studies long-run balance composition, year-to-year attribution, revenue and expenditure dynamics, persistence, structural mean shifts, Social Security revenue composition, primary balances, public investment, debt-flow reconciliation, and descriptive macroeconomic co-movement.
-
+\noindent
 The central accounting identity is
-
 \[
-B^{GG}_t = B^{C}_t + B^{RL}_t + B^{SSF}_t.
+B^{GG}_t = B^{C}_t + B^{RL}_t + B^{SSF}_t,
 \]
+and it closes for every year in the panel to within rounding. The aggregate balance is
+positive in 4 of 49 years: 2019, 2023, 2024 and 2025.
 
-No causal, normative, or policy-intent interpretation is assigned to this identity.
+\noindent
+No causal, normative, or policy-intent interpretation is assigned to any result. Every
+figure and table in this report is generated from a persisted artefact listed in
+Appendix~\ref{sec:artefacts}; no value is transcribed by hand.
+\end{abstract}
 
-\section{Data and Reproducibility}
+\tableofcontents
 
-The balance panel covers \textbf{1977--2025}, or \textbf{49 annual observations}. Historical data come from the Banco de Portugal / INE long series. The continuous modern balance bridge uses INE data distributed through PORDATA, while the CFP ESA 2010 workbooks provide modern revenue, expenditure, interest, investment, debt and stock-flow data.
+\section{Results at a Glance}
+\label{sec:glance}
 
-The known statistical splice at \textbf{1995} is retained explicitly. No smoothing is applied across it. Detailed subsector revenue/expenditure accounts are available for 1977--1995 in the historical source and 2000--2025 in the modern CFP source; \textbf{1996--1999 are therefore left missing rather than imputed}.
+\begin{table}[htbp]
+\centering
+\caption{Headline quantities, each read from a persisted artefact.}
+\label{tab:glance}
+\small
+\fitwidth{%
+\begin{tabular}{@{}ll@{}}
+\toprule
+Quantity & Value \\
+\midrule
+Panel coverage & 1977--2025 \\
+Annual observations & 49 \\
+Sector-year detailed account observations & 184 \\
+Years with a positive aggregate balance & 4 \\
+General Government balance, 2025 & 2,059 M EUR (0.67\% GDP) \\
+Combined non-SSF balance, 2025 & -5,006 M EUR (-1.63\% GDP) \\
+Social Security Funds balance, 2025 & 7,065 M EUR (2.30\% GDP) \\
+Maximum absolute subsector closure residual & 1.00 M EUR \\
+Maximum absolute account identity error & 5.46e-12 M EUR \\
+Maximum absolute debt reconciliation residual & 0.00e+00 M EUR \\
+Subsector account years left un-imputed & 4 (1996--1999) \\
+\bottomrule
+\end{tabular}%
+}
+\par\smallskip
+\begin{minipage}{\linewidth}\footnotesize\itshape Residual quantities are validation checks on the extraction and the accounting identities, not economic results.\end{minipage}
+\end{table}
 
-\begin{center}
-\resizebox{\linewidth}{!}{%
+The three residual rows are the report's own audit trail. The subsector identity closes
+to within the one-million-euro rounding of the published sources; revenue minus
+expenditure reproduces the recorded balance to numerical precision; and the modern debt
+change reconciles exactly with the balance and the stock-flow adjustment. A change in
+any of those rows would indicate a defect in extraction rather than a finding.
+
+\section{Data, Sources and Validation}
+\label{sec:data}
+
+The canonical balance panel takes 1977--1994 from the Banco de Portugal / INE historical
+long series and 1995--2025 from INE data distributed through
+PORDATA. The CFP ESA 2010 workbooks supply modern revenue, expenditure, interest,
+investment, Maastricht debt and stock-flow data, and act as an independent cross-check on
+the balance bridge. Every workbook is parsed programmatically from the bundled file; no
+value is transcribed.
+
+\begin{table}[htbp]
+\centering
+\caption{Bundled sources, the coverage used from each, and the first twelve hexadecimal digits of the SHA-256 digest of the retained file.}
+\label{tab:sources}
+\small
+\fitwidth{%
 \begin{tabular}{@{}llll@{}}
 \toprule
-Sector & First year & Last year & Observations \\
+Source & Institution & Coverage used & SHA-256 prefix \\
 \midrule
-central\_government & 1977 & 2025 & 45 \\
-general\_government & 1977 & 2025 & 49 \\
-regional\_local\_government & 1977 & 2025 & 45 \\
-social\_security\_funds & 1977 & 2025 & 45 \\
+Banco Portugal Long Series & Banco de Portugal / INE & 1977-1995 for the historical segment used here & d3570ea90f78 \\
+PORDATA Balance By Level & INE via PORDATA & 1995-2025 & 2a5d54649041 \\
+CFP Annual General Government & Portuguese Public Finance Council (CFP) & 1995-2025 & 8f6b5a2916a4 \\
+CFP Annual Subsectors & Portuguese Public Finance Council (CFP) & 2000-2025 & 4d9e1b07cd38 \\
+CFP Social Security Detail & Portuguese Public Finance Council (CFP) & 2019-2025 systems; detailed 2024-2025 tables & d9f28e424ab6 \\
 \bottomrule
 \end{tabular}%
 }
-\end{center}
+\par\smallskip
+\begin{minipage}{\linewidth}\footnotesize\itshape Download URLs and local paths are recorded in \path{config/sources.yml}; full digests for every bundled file are in \path{outputs/metrics/raw_file_sha256.json}.\end{minipage}
+\end{table}
 
-The maximum absolute subsector closure error in the canonical balance panel is \textbf{1.00 M EUR}. The maximum revenue-minus-expenditure account identity error is \textbf{0.000000 M EUR}. The modern debt-flow reconciliation closes with a maximum absolute error of \textbf{0.000000 M EUR}.
+\subsection{Two statistical regimes, not one series}
+
+The statistical splice at \textbf{1995} is retained explicitly and nothing is smoothed,
+chained or calibrated across it. Both 1995 vintages are kept, and the revision between
+them is reported in Table~\ref{tab:overlap}. The revisions are small in level terms
+but non-zero for every subsector, which is why no model in this repository is fitted
+across the boundary.
+
+\begin{table}[htbp]
+\centering
+\caption{The 1995 overlap. Both vintages are retained; the canonical panel uses the modern one.}
+\label{tab:overlap}
+\small
+\fitwidth{%
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Balance & Historical vintage (M EUR) & Modern vintage (M EUR) & Revision (M EUR) \\
+\midrule
+General Government & -4,557.7 & -4,611.0 & -53.3 \\
+Central Government & -4,220.7 & -4,235.0 & -14.3 \\
+Regional and Local & 32.6 & 66.0 & 33.4 \\
+Social Security Funds & -369.5 & -442.0 & -72.5 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{An explicit gap, not an interpolation}
+
+Detailed revenue and expenditure components are available for General Government from
+1977 onward without interruption, but for the three subsectors only for 1977--1995 and
+2000--2025. The four intervening years are absent from the
+sources and are therefore absent here; Figure~\ref{fig:coverage} shows the gap
+directly.
+
+\begin{table}[htbp]
+\centering
+\caption{Coverage of the detailed account panel. The absent years are the 1996--1999 subsector components, which are missing from both sources and are not imputed.}
+\label{tab:coverage}
+\small
+\fitwidth{%
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Sector & First year & Last year & Observations & Years absent \\
+\midrule
+General Government & 1977 & 2025 & 49 & 0 \\
+Central Government & 1977 & 2025 & 45 & 4 \\
+Regional and Local & 1977 & 2025 & 45 & 4 \\
+Social Security Funds & 1977 & 2025 & 45 & 4 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\linewidth]{10_account_coverage.png}
+\caption{Detailed account coverage by sector and statistical regime.}
+\label{fig:coverage}
+\end{figure}
+
 
 \section{Long-Run Subsector Decomposition}
+\label{sec:decomposition}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{01_long_run_balances.png}
-\caption{Long-run balances by subsector.}
+\includegraphics[width=1\linewidth]{01_long_run_balances.png}
+\caption{Net lending (+) / net borrowing (-) by subsector, as a share of GDP. The vertical rule marks the 1995 source splice.}
+\label{fig:longrun}
 \end{figure}
 
-Across the full 1977--2025 balance panel, the aggregate General Government balance is positive in \textbf{4 years: 2019, 2023, 2024, 2025}. The table below reports sign persistence and balance magnitudes by subsector.
+Over the full panel the aggregate balance is positive in 4 years:
+\textbf{2019, 2023, 2024 and 2025}. The Central Government balance is negative in
+\textbf{49 of 49 observations},
+while the Social Security balance is positive in \textbf{43 observations}
+(Table~\ref{tab:persistence} reports the full sign frequencies). These are
+descriptive frequencies. They are not counterfactual statements about what the aggregate
+balance would have been under a different institutional arrangement.
 
-\begin{center}
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{@{}llllllll@{}}
-\toprule
-Sector & N & Positive years & Negative years & Mean (\% GDP) & Median (\% GDP) & Longest positive run & Longest negative run \\
-\midrule
-general\_government & 49 & 4 & 45 & -4.915 & -5.028 & 3 & 42 \\
-central\_government & 49 & 0 & 49 & -5.381 & -5.396 & 0 & 49 \\
-regional\_local\_government & 49 & 18 & 31 & -0.157 & -0.124 & 8 & 12 \\
-social\_security\_funds & 49 & 43 & 6 & 0.623 & 0.495 & 24 & 2 \\
-\bottomrule
-\end{tabular}%
-}
-\end{center}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\linewidth]{08_subsector_contributions.png}
+\caption{The identity drawn: signed subsector contributions stacked against the General Government total. A tall column under a shallow line means the subsectors offset one another that year.}
+\label{fig:contributions}
+\end{figure}
 
-The Central Government balance is negative in \textbf{49 of 49 observations} in the canonical balance series. By contrast, SSF has a positive balance in \textbf{43 observations}. These are descriptive frequencies, not counterfactual statements about what the aggregate balance would have been under a different institutional arrangement.
+\subsection{Offset metrics}
 
-\subsection{Positive Aggregate-Balance Years}
-
-\begin{center}
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{@{}lllllll@{}}
-\toprule
-Year & GG balance (M EUR) & Central (M EUR) & Regional/local (M EUR) & SSF (M EUR) & Non-SSF (M EUR) & SSF offset ratio \\
-\midrule
-2019 & 249.000 & -3,331.000 & 604.000 & 2,975.000 & -2,727.000 & 1.091 \\
-2023 & 3,030.000 & -2,447.000 & -243.000 & 5,720.000 & -2,690.000 & 2.126 \\
-2024 & 1,863.000 & -4,424.000 & 256.000 & 6,031.000 & -4,168.000 & 1.447 \\
-2025 & 2,059.000 & -5,636.000 & 630.000 & 7,065.000 & -5,006.000 & 1.411 \\
-\bottomrule
-\end{tabular}%
-}
-\end{center}
-
-In 2025, the identity is
-
+Writing the combined non-Social-Security balance as
+\(B^{nonSSF}_t = B^{C}_t + B^{RL}_t\), the offset ratio is defined, whenever
+\(B^{nonSSF}_t < 0\) and \(B^{SSF}_t > 0\), as
 \[
-2059
-=
--5636
-+
-630
-+
-7065
-\quad \text{M EUR}.
+O_t = \frac{B^{SSF}_t}{\left|B^{nonSSF}_t\right|}.
 \]
+\(O_t = 1\) means the positive Social Security balance is exactly the size of the negative
+non-SSF balance. The ratio compares two recorded numbers. It is not a counterfactual, and
+it does not describe what either balance would be under different institutional
+arrangements. It is undefined, and left missing, whenever the signs do not make the
+comparison meaningful.
 
-The combined non-SSF balance is \textbf{-5006 M EUR}, while the SSF offset ratio is \textbf{1.411}. The ratio is defined as SSF balance divided by the absolute value of the negative non-SSF balance whenever those signs make the ratio meaningful.
+In 2025 the identity reads
+\[
+2,059 = -5,636 + 630 + 7,065
+\quad \text{M EUR},
+\]
+with a combined non-SSF balance of
+\textbf{-5,006 M EUR} and an offset ratio
+of \textbf{1.411}.
+
+\begin{table}[htbp]
+\centering
+\caption{Years with a positive aggregate balance.}
+\label{tab:positive}
+\small
+\fitwidth{%
+\begin{tabular}{@{}rrrrrrr@{}}
+\toprule
+Year & GG (M EUR) & Central (M EUR) & Regional/local (M EUR) & SSF (M EUR) & Non-SSF (M EUR) & Offset ratio \\
+\midrule
+2019 & 249 & -3,331 & 604 & 2,975 & -2,727 & 1.091 \\
+2023 & 3,030 & -2,447 & -243 & 5,720 & -2,690 & 2.126 \\
+2024 & 1,863 & -4,424 & 256 & 6,031 & -4,168 & 1.447 \\
+2025 & 2,059 & -5,636 & 630 & 7,065 & -5,006 & 1.411 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Subsector decomposition of the recent period.}
+\label{tab:recent}
+\small
+\fitwidth{%
+\begin{tabular}{@{}rrrrrrr@{}}
+\toprule
+Year & GG (M EUR) & Central (M EUR) & Regional/local (M EUR) & SSF (M EUR) & Non-SSF (M EUR) & Offset ratio \\
+\midrule
+2010 & -20,537 & -19,799 & -1,543 & 805 & -21,342 & 0.038 \\
+2011 & -13,624 & -13,862 & -201 & 439 & -14,063 & 0.031 \\
+2012 & -10,453 & -11,603 & 835 & 314 & -10,768 & 0.029 \\
+2013 & -8,898 & -9,555 & 309 & 348 & -9,246 & 0.038 \\
+2014 & -12,752 & -14,214 & 655 & 808 & -13,559 & 0.060 \\
+2015 & -8,026 & -9,931 & 776 & 1,129 & -9,155 & 0.123 \\
+2016 & -3,622 & -6,055 & 863 & 1,570 & -5,192 & 0.302 \\
+2017 & -5,870 & -8,460 & 348 & 2,243 & -8,112 & 0.277 \\
+2018 & -873 & -3,407 & 499 & 2,035 & -2,908 & 0.700 \\
+2019 & 249 & -3,331 & 604 & 2,975 & -2,727 & 1.091 \\
+2020 & -11,564 & -13,555 & -207 & 2,198 & -13,762 & 0.160 \\
+2021 & -6,117 & -7,985 & -601 & 2,468 & -8,586 & 0.287 \\
+2022 & -757 & -4,966 & -91 & 4,299 & -5,057 & 0.850 \\
+2023 & 3,030 & -2,447 & -243 & 5,720 & -2,690 & 2.126 \\
+2024 & 1,863 & -4,424 & 256 & 6,031 & -4,168 & 1.447 \\
+2025 & 2,059 & -5,636 & 630 & 7,065 & -5,006 & 1.411 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{02_ssf_offset_ratio.png}
-\caption{Social Security Funds offset ratio.}
+\includegraphics[width=1\linewidth]{02_ssf_offset_ratio.png}
+\caption{Social Security Funds offset ratio for the years in which it is defined.}
+\label{fig:offset}
 \end{figure}
+
 
 \section{Year-to-Year Attribution}
+\label{sec:attribution}
 
-The annual change in the aggregate balance can be written exactly as
-
+The annual change in the aggregate balance decomposes exactly:
 \[
-\Delta B^{GG}_t
-=
-\Delta B^{C}_t
-+
-\Delta B^{RL}_t
-+
-\Delta B^{SSF}_t.
+\Delta B^{GG}_t = \Delta B^{C}_t + \Delta B^{RL}_t + \Delta B^{SSF}_t.
 \]
+The decomposition is stored for every adjacent year in
+\path{outputs/tables/balance_change_attribution.csv} and closes to
+\textbf{1.00 M EUR} at worst.
+It separates the \emph{level} of a subsector balance from its \emph{contribution} to an
+annual improvement or deterioration, which are distinct questions that the level series
+alone cannot answer.
 
-The repository stores this decomposition for every adjacent year in \path{outputs/tables/balance_change_attribution.csv}. This distinguishes the level of a subsector balance from its contribution to an annual improvement or deterioration.
+\begin{table}[htbp]
+\centering
+\caption{The eight largest annual movements in the General Government balance, and how they decompose across subsectors.}
+\label{tab:attribution}
+\small
+\fitwidth{%
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+Year & Aggregate change (M EUR) & Central (M EUR) & Regional/local (M EUR) & SSF (M EUR) \\
+\midrule
+2009 & -10,496 & -8,939 & -289 & -1,268 \\
+2011 & 6,913 & 5,937 & 1,342 & -366 \\
+2015 & 4,726 & 4,283 & 121 & 321 \\
+2016 & 4,404 & 3,876 & 87 & 441 \\
+2018 & 4,997 & 5,053 & 151 & -208 \\
+2020 & -11,813 & -10,224 & -811 & -777 \\
+2021 & 5,447 & 5,570 & -394 & 270 \\
+2022 & 5,360 & 3,019 & 510 & 1,831 \\
+\bottomrule
+\end{tabular}%
+}
+\par\smallskip
+\begin{minipage}{\linewidth}\footnotesize\itshape Ranked by the absolute nominal change, so the modern period dominates: nominal GDP in 2025 is orders of magnitude larger than in 1977.\end{minipage}
+\end{table}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{03_balance_change_attribution.png}
-\caption{Annual balance-change attribution.}
+\includegraphics[width=1\linewidth]{03_balance_change_attribution.png}
+\caption{Annual change in the General Government balance, attributed to subsectors.}
+\label{fig:attribution}
 \end{figure}
 
+Contribution is not causation. A subsector accounting for most of an annual improvement
+has not been shown to have produced it, and the 1994-to-1995 change mixes a vintage
+revision with an economic movement.
+
 \section{Revenue and Expenditure Dynamics}
+\label{sec:revexp}
 
-For every sector-year with detailed accounts, the balance is decomposed as
-
-\[
-B_{i,t} = R_{i,t} - E_{i,t},
-\]
-
-and therefore
-
+For every sector-year with detailed components the balance is an identity,
+\(B_{i,t} = R_{i,t} - E_{i,t}\), and therefore so is its change,
 \[
 \Delta B_{i,t} = \Delta R_{i,t} - \Delta E_{i,t}.
 \]
+The exact annual decomposition is stored in
+\path{outputs/tables/revenue_expenditure_change_decomposition.csv} and reproduces the
+recorded balance change to \textbf{5.5e-12 M EUR}. Source gaps are never bridged:
+no change is computed across the 1995-to-2000 discontinuity in subsector components, so
+those rows are dropped rather than interpolated.
 
-The exact annual decomposition is stored in \path{outputs/tables/revenue_expenditure_change_decomposition.csv}. Source gaps are not bridged when calculating changes.
+\begin{table}[htbp]
+\centering
+\caption{Recent General Government balance changes, decomposed into revenue and expenditure changes.}
+\label{tab:revexp}
+\small
+\fitwidth{%
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+Year & Change in revenue (M EUR) & Change in expenditure (M EUR) & Change in balance (M EUR) \\
+\midrule
+2018 & 4,794 & -203 & 4,997 \\
+2019 & 3,513 & 2,391 & 1,122 \\
+2020 & -4,176 & 7,636 & -11,813 \\
+2021 & 9,188 & 3,742 & 5,447 \\
+2022 & 9,898 & 4,539 & 5,360 \\
+2023 & 10,394 & 6,607 & 3,787 \\
+2024 & 7,997 & 9,164 & -1,167 \\
+2025 & 8,332 & 8,136 & 196 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{04_central_revenue_expenditure.png}
-\caption{Central Government revenue and expenditure.}
+\includegraphics[width=1\linewidth]{04_central_revenue_expenditure.png}
+\caption{Central Government revenue, expenditure and balance as shares of GDP. The line breaks at 1996--1999, where subsector components do not exist.}
+\label{fig:revexp}
 \end{figure}
+
+The decomposition uses totals, so a change in revenue may reflect composition shifts that
+are visible only in the component columns of the account panel. It is not decomposed into
+policy and macroeconomic parts, which would require assumptions this repository does not
+make.
 
 \section{Social Security Funds: Revenue Composition and Internal Systems}
+\label{sec:ssf}
 
-The long-run SSF account series contains total revenue, total expenditure and social contributions. In 2025, social contributions were \textbf{67.07\% of total SSF revenue} in the ESA 2010 account table.
+\subsection{National-accounts view}
+
+The ESA 2010 Social Security Funds sector is the entity that appears in the B.9 identity.
+In 2025, social contributions were
+\textbf{67.07\%} of total SSF
+revenue in the account table.
+
+\begin{table}[htbp]
+\centering
+\caption{Social Security Funds revenue composition, most recent years.}
+\label{tab:ssfcomposition}
+\small
+\fitwidth{%
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+Year & Revenue (\% GDP) & Contributions (\% GDP) & Expenditure (\% GDP) & Contribution share \\
+\midrule
+2020 & 15.58 & 9.37 & 14.49 & 0.602 \\
+2021 & 14.92 & 9.36 & 13.78 & 0.628 \\
+2022 & 14.23 & 9.25 & 12.47 & 0.650 \\
+2023 & 14.01 & 9.38 & 11.89 & 0.670 \\
+2024 & 14.41 & 9.64 & 12.33 & 0.669 \\
+2025 & 14.77 & 9.91 & 12.47 & 0.671 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{05_ssf_contribution_share.png}
-\caption{Social Security Funds contribution share.}
+\includegraphics[width=1\linewidth]{05_ssf_contribution_share.png}
+\caption{Social contributions as a share of total Social Security Funds revenue.}
+\label{fig:ssfshare}
 \end{figure}
 
-The CFP's separate Social Security budget tables provide a second, non-interchangeable view of the system. In 2025, the reported internal balances were:
+\subsection{A different boundary: the CFP budget systems}
 
-\begin{itemize}
-\item Previdential system: \textbf{6712 M EUR};
-\item Social Protection of Citizenship system: \textbf{-55 M EUR};
-\item Special regimes: \textbf{0 M EUR}.
-\end{itemize}
+The CFP's Social Security report decomposes the system into the Previdential system, the
+Social Protection of Citizenship system, and special regimes. These are
+budget-execution aggregates with a different accounting boundary from the national
+accounts, so they are reported beside the ESA 2010 balance and never added to it. In
+2025 the reported internal balances were
+\textbf{6,712 M EUR}
+(Previdential),
+\textbf{-55 M EUR}
+(Citizenship) and
+\textbf{0 M EUR}
+(special regimes).
 
-For the detailed 2025 budget table, previdential contributions account for \textbf{92.27\%} of previdential revenue. These budget-system figures are analysed separately from the national-accounts SSF balance because the accounting boundaries differ.
+\begin{table}[htbp]
+\centering
+\caption{CFP Social Security budget systems: internal balances.}
+\label{tab:ssfsystems}
+\small
+\fitwidth{%
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+Year & Previdential (M EUR) & Citizenship (M EUR) & Special regimes (M EUR) \\
+\midrule
+2019 & 2,333 & 443 & 0 \\
+2020 & 1,649 & 423 & 0 \\
+2021 & 1,695 & 653 & 0 \\
+2022 & 4,172 & -110 & 0 \\
+2023 & 5,485 & 1 & 0 \\
+2024 & 5,840 & -245 & 0 \\
+2025 & 6,712 & -55 & 0 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+For the detailed 2025 budget table, previdential contributions
+account for \textbf{92.27\%}
+of previdential revenue. The repository does not subtract State transfers from the Social
+Security balance and call the remainder an underlying balance: which transfer finances
+which statutory responsibility is a legal question, not an accounting one.
 
 \section{Primary Balance and Interest}
+\label{sec:primary}
 
-The primary balance is reconstructed as
+The primary balance is reconstructed as \(PB_{i,t} = B_{i,t} + I_{i,t}\), where
+\(I\) is interest expenditure, and then checked against the published primary-balance
+row. The identity holds to \textbf{0.0e+00 M EUR}, so the separation of interest
+from the remaining balance is arithmetic rather than estimated.
 
-\[
-PB_{i,t} = B_{i,t} + I_{i,t},
-\]
+For Central Government in 2025 the headline balance was
+\textbf{-5,636 M EUR}, interest expenditure
+was \textbf{6,364 M EUR}, and the
+recomputed primary balance was
+\textbf{728 M EUR}.
 
-where \(I\) is interest expenditure. For Central Government in 2025, the headline balance was \textbf{-5636 M EUR}, interest expenditure was \textbf{6364 M EUR}, and the recomputed primary balance was \textbf{728 M EUR}.
+\begin{table}[htbp]
+\centering
+\caption{Central Government headline balance, interest and primary balance.}
+\label{tab:primary}
+\small
+\fitwidth{%
+\begin{tabular}{@{}rrrrrr@{}}
+\toprule
+Year & Balance (M EUR) & Interest (M EUR) & Primary balance (M EUR) & Interest (\% GDP) & Primary balance (\% GDP) \\
+\midrule
+2018 & -3,407 & 7,101 & 3,694 & 3.46 & 1.80 \\
+2019 & -3,331 & 6,516 & 3,185 & 3.04 & 1.48 \\
+2020 & -13,555 & 5,963 & -7,592 & 2.97 & -3.78 \\
+2021 & -7,985 & 5,358 & -2,627 & 2.47 & -1.21 \\
+2022 & -4,966 & 4,878 & -88 & 2.00 & -0.04 \\
+2023 & -2,447 & 5,797 & 3,349 & 2.14 & 1.24 \\
+2024 & -4,424 & 6,281 & 1,857 & 2.17 & 0.64 \\
+2025 & -5,636 & 6,364 & 728 & 2.07 & 0.24 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{06_central_primary_balance.png}
-\caption{Central Government headline and primary balances.}
+\includegraphics[width=1\linewidth]{06_central_primary_balance.png}
+\caption{Central Government headline balance, primary balance and interest expenditure, as shares of GDP.}
+\label{fig:primary}
 \end{figure}
 
-This decomposition isolates the accounting contribution of interest from the remainder of the balance. It is used only to separate interest expenditure from the remaining accounting balance.
+Interest is overwhelmingly a Central Government item, which is why the primary and
+headline balances of the other subsectors nearly coincide. The primary balance excludes
+interest by construction: it is not a measure of discretionary policy and not a
+cyclically adjusted balance, and it reflects the debt stock and financing conditions
+inherited from earlier periods.
 
-\section{Fixed-Capital Formation Diagnostic}
+\section{Fixed-Capital-Formation Diagnostic}
+\label{sec:investment}
 
-The repository reports an explicitly non-official diagnostic
-
+The repository reports an explicitly non-official diagnostic,
 \[
-B^{before\ GFCF}_{i,t} = B_{i,t} + GFCF_{i,t}.
+B^{before\ GFCF}_{i,t} = B_{i,t} + GFCF_{i,t},
 \]
+which answers one narrow question: how large is public investment relative to the
+recorded balance? It is not a golden-rule balance, not a structural balance, and not any
+published indicator; no fiscal rule in this report is evaluated against it.
 
-For Central Government in 2025, GFCF was \textbf{4828 M EUR}, and the analytical balance before GFCF was \textbf{-808 M EUR}. This does not redefine the official fiscal balance; it only quantifies the scale of fixed-capital formation relative to B.9.
+\begin{table}[htbp]
+\centering
+\caption{Fixed-capital-formation diagnostic by sector, 2025.}
+\label{tab:investment}
+\small
+\fitwidth{%
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Sector & Balance (M EUR) & GFCF (M EUR) & Balance before GFCF (M EUR) & GFCF (\% GDP) \\
+\midrule
+General Government & 2,059 & 9,167 & 11,226 & 2.99 \\
+Central Government & -5,636 & 4,828 & -808 & 1.57 \\
+Regional and Local & 630 & 4,236 & 4,866 & 1.38 \\
+Social Security Funds & 7,065 & 102 & 7,167 & 0.03 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Two caveats attach to the diagnostic. GFCF is gross, so no consumption of fixed capital
+is netted off and the measure overstates the change in the public capital stock. And
+investment is lumpy: a single-year ratio can be dominated by one project or one
+reclassification.
 
 \section{Debt and Stock-Flow Adjustment}
+\label{sec:debt}
 
-Debt dynamics need not equal minus the annual B.9 balance. The modern CFP tables allow the reconciliation
-
+Debt dynamics are not the mirror image of the annual balance. The modern CFP tables
+support the reconciliation
 \[
 \Delta Debt_t = -B_t + SFA_t,
 \]
+where the stock-flow adjustment absorbs everything that changes debt without passing
+through the balance: financial-asset transactions, valuation effects, timing differences
+and statistical adjustments. The reconciliation closes to
+\textbf{0.0e+00 M EUR}.
 
-where \(SFA\) is the stock-flow adjustment. In 2025, General Government Maastricht debt was \textbf{89.67\% of GDP}, and the stock-flow adjustment was \textbf{2.03\% of GDP}.
+In 2025, General Government Maastricht debt was
+\textbf{89.67\% of GDP} and the stock-flow adjustment was
+\textbf{2.03\% of GDP}. In several years
+the adjustment is the larger of the two terms, which is the reason for running the
+reconciliation at all.
+
+\begin{table}[htbp]
+\centering
+\caption{General Government debt and stock-flow adjustment, most recent years.}
+\label{tab:debt}
+\small
+\fitwidth{%
+\begin{tabular}{@{}rrrrrr@{}}
+\toprule
+Year & Balance (M EUR) & Change in debt (M EUR) & Stock-flow adj. (M EUR) & Debt (\% GDP) & Stock-flow adj. (\% GDP) \\
+\midrule
+2016 & -3,622 & 9,449 & 5,827 & 131.18 & 3.13 \\
+2017 & -5,870 & 1,904 & -3,966 & 126.03 & -2.03 \\
+2018 & -873 & 1,879 & 1,006 & 121.11 & 0.49 \\
+2019 & 249 & 766 & 1,015 & 116.11 & 0.47 \\
+2020 & -11,564 & 20,534 & 8,970 & 134.10 & 4.46 \\
+2021 & -6,117 & -1,389 & -7,506 & 123.88 & -3.47 \\
+2022 & -757 & 3,169 & 2,412 & 111.23 & 0.99 \\
+2023 & 3,030 & -9,469 & -6,439 & 96.87 & -2.38 \\
+2024 & 1,863 & 9,013 & 10,875 & 93.48 & 3.75 \\
+2025 & 2,059 & 4,161 & 6,219 & 89.67 & 2.03 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=\linewidth]{07_general_government_debt.png}
-\caption{General Government debt and stock-flow adjustment.}
+\includegraphics[width=1\linewidth]{07_general_government_debt.png}
+\caption{General Government Maastricht debt and stock-flow adjustment.}
+\label{fig:debt}
 \end{figure}
 
+The stock-flow adjustment is a residual category, not a behavioural variable: a large
+value is a signal to consult the source documentation, not an anomaly in itself. The debt
+ratio also moves with nominal GDP, so a falling ratio does not imply falling debt.
+
 \section{Persistence and Structural Mean Shifts}
+\label{sec:persistence}
 
-Structural mean-shift detection is performed separately inside the 1977--1994 historical regime and the 1995--2025 modern regime. This prevents the known 1995 statistical splice from being mistaken for an economic break. A conservative piecewise-constant model with at most two breaks and a minimum five-year segment is selected by BIC.
+\subsection{Sign frequencies and runs}
 
-\begin{center}
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{@{}lllll@{}}
+\begin{table}[htbp]
+\centering
+\caption{Sign frequency, average magnitude and longest runs by subsector, over the whole panel.}
+\label{tab:persistence}
+\small
+\fitwidth{%
+\begin{tabular}{@{}lrrrrrrr@{}}
 \toprule
-regime & sector & n\_breaks & break\_years & segment\_means\_pct\_gdp \\
+Sector & N & Positive & Negative & Mean (\% GDP) & Median (\% GDP) & Longest + run & Longest - run \\
 \midrule
-1977-1994\_historical & general\_government & 1 & 1986 & -8.0942;-4.7630 \\
-1977-1994\_historical & central\_government & 1 & 1987 & -8.1056;-4.7492 \\
-1977-1994\_historical & regional\_local\_government & 0 &  & -0.2750 \\
-1977-1994\_historical & social\_security\_funds & 0 &  & 0.4602 \\
-1995-2025\_modern & general\_government & 2 & 2009;2015 & -4.3662;-7.9664;-1.4712 \\
-1995-2025\_modern & central\_government & 2 & 2009;2016 & -4.4779;-7.7736;-2.7526 \\
-1995-2025\_modern & regional\_local\_government & 2 & 2000;2011 & -0.0006;-0.4598;0.1550 \\
-1995-2025\_modern & social\_security\_funds & 2 & 2016;2021 & 0.3522;1.0925;1.8804 \\
+General Government & 49 & 4 & 45 & -4.915 & -5.028 & 3 & 42 \\
+Central Government & 49 & 0 & 49 & -5.381 & -5.396 & 0 & 49 \\
+Regional and Local & 49 & 18 & 31 & -0.157 & -0.124 & 8 & 12 \\
+Social Security Funds & 49 & 43 & 6 & 0.623 & 0.495 & 24 & 2 \\
 \bottomrule
 \end{tabular}%
 }
-\end{center}
+\end{table}
 
-The detected dates are descriptive model outputs. The repository does not assign historical causes to them automatically.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\linewidth]{09_balance_sign_states.png}
+\caption{Sign of the annual balance by subsector and year.}
+\label{fig:signs}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Empirical one-year sign transition frequencies. Rows sum to one.}
+\label{tab:transitions}
+\small
+\fitwidth{%
+\begin{tabular}{@{}llrr@{}}
+\toprule
+Sector & From & To negative & To positive \\
+\midrule
+General Government & negative & 0.956 & 0.044 \\
+General Government & positive & 0.333 & 0.667 \\
+Central Government & negative & 1.000 & 0.000 \\
+Regional and Local & negative & 0.839 & 0.161 \\
+Regional and Local & positive & 0.294 & 0.706 \\
+Social Security Funds & negative & 0.167 & 0.833 \\
+Social Security Funds & positive & 0.095 & 0.905 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+These are empirical frequencies over the transitions actually observed, not a fitted
+Markov model: no standard errors and no stationarity test are claimed, and a state that
+never occurs in the sample has no estimated row. Runs that span 1995 also span the
+statistical splice.
+
+\subsection{Structural mean shifts}
+
+Fewer than fifty annual observations, split across two statistical regimes, do not
+support a flexible change-point model. The specification is therefore deliberately
+modest: a piecewise-constant mean with at most two breaks per regime, a minimum segment
+length of five years, exact dynamic-programming minimisation of within-segment squared
+error, and BIC selection, which may select zero breaks. Detection runs separately on
+1977--1994 and 1995--2025, so the known splice is not a
+candidate economic break by construction.
+
+\begin{table}[htbp]
+\centering
+\caption{Selected piecewise-constant mean shifts, by statistical regime.}
+\label{tab:breaks}
+\small
+\fitwidth{%
+\begin{tabular}{@{}llrrll@{}}
+\toprule
+Regime & Sector & N & Breaks & Break years & Segment means (\% GDP) \\
+\midrule
+1977-1994 historical & General Government & 18 & 1 & 1986 & -8.0942, -4.7630 \\
+1995-2025 modern & General Government & 31 & 2 & 2009, 2015 & -4.3662, -7.9664, -1.4712 \\
+1977-1994 historical & Central Government & 18 & 1 & 1987 & -8.1056, -4.7492 \\
+1995-2025 modern & Central Government & 31 & 2 & 2009, 2016 & -4.4779, -7.7736, -2.7526 \\
+1977-1994 historical & Regional and Local & 18 & 0 & -- & -0.2750 \\
+1995-2025 modern & Regional and Local & 31 & 2 & 2000, 2011 & -0.0006, -0.4598, 0.1550 \\
+1977-1994 historical & Social Security Funds & 18 & 0 & -- & 0.4602 \\
+1995-2025 modern & Social Security Funds & 31 & 2 & 2016, 2021 & 0.3522, 1.0925, 1.8804 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+The detected dates are statistical summaries. This report attaches no historical cause to
+any of them, and a five-year minimum segment means shifts near the end of the sample
+cannot be detected yet.
 
 \section{Descriptive Macroeconomic Co-Movement}
+\label{sec:comovement}
 
-The full-period macroeconomic regression uses \textbf{nominal GDP growth}, because that variable can be reconstructed consistently from the bundled sources across 1977--2025. It is deliberately not described as an output gap or as a structural cyclical adjustment. HAC standard errors are used.
+The full-period specification is
+\[
+B_{i,t}/GDP_t = \alpha_i + \beta_i g^{nominal}_t + \gamma_i I(t \ge 1995) +
+\epsilon_{i,t},
+\]
+estimated with HAC standard errors. Nominal GDP growth is used because it is the one
+macroeconomic variable that can be reconstructed on a consistent basis from the bundled
+sources across the whole panel. It is deliberately not described as an output gap or as a
+cyclical adjustment, and the regime indicator is a statistical control for the 1995
+splice rather than an estimate of a policy change.
 
-\begin{center}
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{@{}lllllll@{}}
+\begin{table}[htbp]
+\centering
+\caption{Descriptive co-movement of subsector balance ratios with nominal GDP growth, HAC standard errors.}
+\label{tab:comovement}
+\small
+\fitwidth{%
+\begin{tabular}{@{}lrrrrrr@{}}
 \toprule
-sector & n & r\_squared & nominal\_gdp\_growth\_coef & nominal\_gdp\_growth\_se\_hac & nominal\_gdp\_growth\_pvalue\_hac & modern\_regime\_coef \\
+Sector & N & $R^2$ & Growth coef. & HAC s.e. & HAC $p$ & Regime coef. \\
 \midrule
-general\_government & 48 & 0.1751 & 7.7012 & 8.8215 & 0.3827 & 3.6653 \\
-central\_government & 48 & 0.1634 & 5.5312 & 7.6465 & 0.4695 & 2.8982 \\
-regional\_local\_government & 48 & 0.0807 & -0.0090 & 0.8348 & 0.9914 & 0.2213 \\
-social\_security\_funds & 48 & 0.0707 & 2.1789 & 2.0029 & 0.2766 & 0.5458 \\
+General Government & 48 & 0.1751 & 7.7012 & 8.8215 & 0.3827 & 3.6653 \\
+Central Government & 48 & 0.1634 & 5.5312 & 7.6465 & 0.4695 & 2.8982 \\
+Regional and Local & 48 & 0.0807 & -0.0090 & 0.8348 & 0.9914 & 0.2213 \\
+Social Security Funds & 48 & 0.0707 & 2.1789 & 2.0029 & 0.2766 & 0.5458 \\
 \bottomrule
 \end{tabular}%
 }
-\end{center}
+\end{table}
 
-For 1978--1995 only, the historical Banco de Portugal / INE workbook also permits a small SSF model using employment growth and the unemployment rate:
-
-\begin{center}
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{@{}llllllll@{}}
+\begin{table}[htbp]
+\centering
+\caption{Historical Social Security co-movement with the labour market, 1978--1995, over 18 annual observations.}
+\label{tab:labour}
+\small
+\fitwidth{%
+\begin{tabular}{@{}lr@{}}
 \toprule
-n & r\_squared & employment\_growth\_coef & employment\_growth\_se\_hac & employment\_growth\_pvalue\_hac & unemployment\_rate\_coef & unemployment\_rate\_se\_hac & unemployment\_rate\_pvalue\_hac \\
+Quantity & Estimate \\
 \midrule
-18 & 0.2494 & 9.7252 & 5.2069 & 0.0618 & 20.2847 & 8.5997 & 0.0183 \\
+R-squared & 0.2494 \\
+Employment growth coefficient & 9.7252 \\
+Employment growth, HAC standard error & 5.2069 \\
+Employment growth, HAC p-value & 0.0618 \\
+Unemployment rate coefficient & 20.2847 \\
+Unemployment rate, HAC standard error & 8.5997 \\
+Unemployment rate, HAC p-value & 0.0183 \\
 \bottomrule
 \end{tabular}%
 }
-\end{center}
+\end{table}
 
-These regressions quantify co-movement. They are not causal estimates.
+These regressions quantify co-movement. They are not causal estimates: no identification
+strategy is claimed, the sample is short and serially correlated, and HAC standard errors
+address the inference arithmetic rather than small-sample or specification risk. The
+labour specification rests on eighteen observations and is reported for transparency
+rather than analytical weight.
 
 \section{Intergovernmental Transfers}
+\label{sec:transfers}
 
-Historical source tables identify current and capital transfers received and paid between public administrations. The repository computes a mechanical transfer-reallocation sensitivity:
-
+Historical source tables identify current and capital transfers received and paid between
+public administrations, which supports a mechanical sensitivity for 1977--1995:
 \[
-B^{sens}_{i,t}
-=
-B_{i,t}-(T^{received}_{i,t}-T^{paid}_{i,t}).
+B^{sens}_{i,t} = B_{i,t} - \left(T^{received}_{i,t} - T^{paid}_{i,t}\right).
 \]
+The result is stored in
+\path{outputs/tables/historical_transfer_reallocation_sensitivity.csv}.
 
-This is intentionally not labelled an underlying or true balance. Removing a transfer while leaving the associated expenditure responsibility unchanged would generally not define a meaningful counterfactual.
+It is deliberately not labelled an underlying or true balance, and it is never used to
+restate B.9 anywhere in this repository. A transfer normally finances an expenditure
+responsibility assigned to the recipient, so removing the transfer while leaving the
+responsibility in place does not describe a coherent alternative arrangement. What the
+sensitivity quantifies is how much the recorded \emph{location} of a balance depends on
+the transfer convention.
 
 \section{Methodological Limitations}
+\label{sec:limitations}
 
 \begin{enumerate}
-\item \textbf{1995 is a known source/methodology splice.} Both historical and modern 1995 values are retained in \path{data/interim/methodology_overlap_1995.csv}.
-\item \textbf{Detailed subsector accounts have a 1996--1999 gap.} No interpolation is performed.
-\item \textbf{Nominal GDP growth is not an output gap.} The full-period co-movement analysis should not be read as a cyclically adjusted balance.
-\item \textbf{Social Security national accounts and budget-system accounts have different boundaries.} They are never merged into one balance series.
+\item \textbf{1995 is a source and methodology splice}, not an economic event. Both
+vintages are retained in \path{data/interim/methodology_overlap_1995.csv} and nothing is
+smoothed across the boundary.
+\item \textbf{Detailed subsector accounts have no 1996--1999 observations.} No
+interpolation is performed, and no statistic is computed across the gap.
+\item \textbf{Nominal GDP growth is not an output gap.} The co-movement section must not
+be read as a cyclically adjusted balance.
+\item \textbf{Social Security national accounts and budget-system accounts have different
+boundaries.} They are never merged into a single series.
 \item \textbf{The fixed-investment diagnostic is not an official balance concept.}
-\item \textbf{Structural-break dates are statistical summaries, not causal event labels.}
-\item \textbf{All interpretation is restricted to accounting, statistical and economic relationships directly supported by the data.}
+\item \textbf{Structural-break dates are statistical summaries}, not causal event labels.
+\item \textbf{Accounting contribution is not causation.} An arithmetic contribution to an
+aggregate balance is not evidence about intent or responsibility.
+\item \textbf{Identity and reconciliation residuals validate the extraction}, not the
+underlying official statistics.
+\item All interpretation is restricted to accounting, statistical and economic
+relationships directly supported by the bundled data.
 \end{enumerate}
 
 \section{Reproducibility}
+\label{sec:reproducibility}
 
-The repository preserves raw source workbooks, source-specific intermediate CSVs, canonical processed datasets, analysis tables, figures, executed notebooks and SHA-256 hashes of every bundled raw file. The default execution is:
+The repository preserves the raw source workbooks, source-specific intermediate CSVs, the
+canonical processed panels, every calculated analysis table, the figures, the executed
+notebooks and a SHA-256 digest of each bundled raw file. The default rebuild is
 
 \begin{verbatim}
 poetry install
 make all
 \end{verbatim}
 
-The final report is regenerated from persisted analysis outputs rather than from hard-coded conclusions.
+which runs the deterministic pipeline, executes the notebooks with their outputs stored in
+place, and runs the test suite. This document is regenerated from the persisted outputs
+rather than from hard-coded conclusions, and it is built from repository version
+\textbf{0.2.0}.
+
+\appendix
+\section{Artefact Index}
+\label{sec:artefacts}
+
+Each section of this report is produced by a notebook and reads a persisted artefact.
+
+\begin{table}[htbp]
+\centering
+\caption{Report sections mapped to the notebook that produces them and the primary persisted artefact they read.}
+\label{tab:artefacts}
+\small
+\fitwidth{%
+\begin{tabular}{@{}lll@{}}
+\toprule
+Section & Notebook & Primary artefact \\
+\midrule
+Data, sources and validation & \texttt{03\_harmonize\_and\_validate} & \texttt{data/processed/fiscal\_balances\_1977\_2025.csv} \\
+Long-run subsector decomposition & \texttt{04\_balance\_decomposition} & \texttt{data/processed/annual\_balance\_metrics\_1977\_2025.csv} \\
+Year-to-year attribution & \texttt{06\_year\_to\_year\_attribution} & \texttt{outputs/tables/balance\_change\_attribution.csv} \\
+Revenue and expenditure dynamics & \texttt{05\_revenue\_expenditure} & \texttt{outputs/tables/revenue\_expenditure\_change\_decomposition.csv} \\
+Social Security Funds & \texttt{09\_social\_security\_mechanisms} & \texttt{outputs/tables/social\_security\_account\_metrics.csv} \\
+Primary balance and interest & \texttt{11\_primary\_balance} & \texttt{outputs/tables/primary\_balance\_and\_interest.csv} \\
+Fixed-capital-formation diagnostic & \texttt{12\_investment\_diagnostic} & \texttt{outputs/tables/investment\_diagnostic.csv} \\
+Debt and stock-flow adjustment & \texttt{13\_debt\_reconciliation} & \texttt{outputs/tables/debt\_stock\_flow\_reconciliation.csv} \\
+Persistence and structural mean shifts & \texttt{07\_persistence, 08\_structural\_breaks} & \texttt{outputs/tables/persistence\_summary.csv} \\
+Descriptive macroeconomic co-movement & \texttt{14\_macroeconomic\_comovement} & \texttt{outputs/tables/nominal\_gdp\_balance\_comovement.csv} \\
+Intergovernmental transfers & \texttt{10\_intergovernmental\_transfers} & \texttt{outputs/tables/historical\_transfer\_reallocation\_sensitivity.csv} \\
+\bottomrule
+\end{tabular}%
+}
+\par\smallskip
+\begin{minipage}{\linewidth}\footnotesize\itshape Notebook names omit the \path{notebooks/} prefix and the \path{.ipynb} suffix. Figures are read from \path{outputs/figures/}.\end{minipage}
+\end{table}
+
 
 \end{document}
