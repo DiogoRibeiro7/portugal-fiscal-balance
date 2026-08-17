@@ -3,7 +3,9 @@
   "description": "This software archive contains a reproducible empirical research pipeline for decomposing Portugal's annual General Government net lending (+) / net borrowing (-), B.9 in national accounts, into Central Government, Regional and Local Government, and Social Security Funds for 1977-2025. The archived repository includes source parsers, harmonisation and validation code, analysis routines, executable notebooks, retained official source files, source-specific extracted CSV files, canonical processed panels, calculated analysis tables, generated figures, raw-file SHA-256 hashes, and the generated English report. The analysis is accounting, statistical and economic in scope; it does not infer intent, assign responsibility, or attach normative conclusions to fiscal outcomes.",
   "creators": [
     {
-      "name": "Ribeiro, Diogo"
+      "name": "Ribeiro, Diogo",
+      "affiliation": "School of Media Arts and Design, Polytechnic of Porto, Portugal",
+      "orcid": "0009-0001-2022-7072"
     }
   ],
   "keywords": [
