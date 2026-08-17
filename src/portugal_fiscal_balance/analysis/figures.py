@@ -23,7 +23,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from pathlib import Path
-from typing import Final, Literal
+from typing import Any, Final, Literal, cast
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -129,7 +129,7 @@ def apply_house_style() -> None:
     Builders call this themselves, so a notebook figure is identical to the
     persisted one even if the notebook never sets any Matplotlib option.
     """
-    plt.rcParams.update(HOUSE_STYLE)
+    plt.rcParams.update(cast(Any, HOUSE_STYLE))
 
 
 def save_figure(fig: Figure, path: Path, *, dpi: int = 180) -> None:
@@ -574,16 +574,25 @@ def structural_break_segments(panel: pd.DataFrame, breaks: pd.DataFrame, *, sect
     means = [float(value) for value in str(row["segment_means_pct_gdp"]).split(";")]
     boundaries = [start, *break_years, end + 1]
     for index, mean in enumerate(means):
-        label_kwargs = {"label": "Segment mean"} if index == 0 else {}
-        ax.hlines(
-            mean,
-            boundaries[index] - 0.5,
-            boundaries[index + 1] - 0.5,
-            color=INK_PRIMARY,
-            linewidth=1.8,
-            zorder=4,
-            **label_kwargs,
-        )
+        if index == 0:
+            ax.hlines(
+                mean,
+                boundaries[index] - 0.5,
+                boundaries[index + 1] - 0.5,
+                color=INK_PRIMARY,
+                linewidth=1.8,
+                zorder=4,
+                label="Segment mean",
+            )
+        else:
+            ax.hlines(
+                mean,
+                boundaries[index] - 0.5,
+                boundaries[index + 1] - 0.5,
+                color=INK_PRIMARY,
+                linewidth=1.8,
+                zorder=4,
+            )
     for year in break_years:
         ax.axvline(year - 0.5, color=INK_MUTED, linewidth=1.0, zorder=1)
         ax.annotate(
