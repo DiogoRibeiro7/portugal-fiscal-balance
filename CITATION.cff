@@ -6,14 +6,19 @@ authors:
   - family-names: Ribeiro
     given-names: Diogo
 repository-code: "https://github.com/DiogoRibeiro7/portugal-fiscal-balance"
-abstract: "Reproducible empirical analysis of Portugal's general-government fiscal balance by subsector, 1977-2025."
+abstract: "Reproducible empirical analysis of Portugal's general-government fiscal balance by subsector, 1977-2025. Decomposes the ESA 2010 B.9 aggregate into Central Government, Regional and Local Government and Social Security Funds, attributes each annual movement to the accounts that produced it, relates Social Security contributions to the employee wage bill that is their reference base, and locates the Portuguese composition within 28 European reporters. Ships both a generated technical report and an authored manuscript, neither containing a hand-transcribed number."
 keywords:
   - Portugal
   - fiscal policy
   - public finance
   - government finance
   - national accounts
+  - social security funds
+  - accounting decomposition
+  - social contributions
+  - wage bill
+  - European comparison
   - reproducible research
 license: MIT
-version: 0.2.0
-date-released: "2026-08-17"
+version: 0.3.0
+date-released: "2026-08-18"

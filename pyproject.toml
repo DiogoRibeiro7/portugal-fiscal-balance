@@ -1,6 +1,6 @@
 [project]
 name = "portugal-fiscal-balance"
-version = "0.2.0"
+version = "0.3.0"
 description = "Reproducible empirical analysis of Portugal's general-government balance by subsector, 1977-2025."
 authors = [{ name = "Diogo Ribeiro", email = "diogo_dj@hotmail.com" }]
 license = "MIT"

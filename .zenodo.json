@@ -1,6 +1,6 @@
 {
   "title": "Portugal Fiscal Balance, 1977-2025: Reproducible Subsector Balance Analysis",
-  "description": "This software archive contains a reproducible empirical research pipeline for decomposing Portugal's annual General Government net lending (+) / net borrowing (-), B.9 in national accounts, into Central Government, Regional and Local Government, and Social Security Funds for 1977-2025. The archived repository includes source parsers, harmonisation and validation code, analysis routines, executable notebooks, retained official source files, source-specific extracted CSV files, canonical processed panels, calculated analysis tables, generated figures, raw-file SHA-256 hashes, and the generated English report. The analysis is accounting, statistical and economic in scope; it does not infer intent, assign responsibility, or attach normative conclusions to fiscal outcomes.",
+  "description": "This archive contains a reproducible empirical research pipeline and two documents built from it, decomposing Portugal's annual General Government net lending (+) / net borrowing (-), B.9 in national accounts, into Central Government, Regional and Local Government and Social Security Funds for 1977-2025. Beyond the level decomposition, each annual movement is attributed hierarchically to a subsector, to that subsector's revenue and expenditure, and to the components of those accounts; Social Security contributions are related to the aggregate employee wage bill that serves as their principal observable reference base; and the same definitions are applied to 28 European reporters so that the Portuguese composition can be located in a distribution rather than described in isolation. The archive includes source parsers, harmonisation and validation code, analysis routines, executable notebooks, retained official source files, source-specific extracted CSV files, canonical processed panels, calculated analysis tables, generated figures, raw-file SHA-256 hashes, a generated technical report and an authored scientific manuscript. No number in either document is transcribed by hand: the report is generated end to end, and the manuscript cites every quantity through a LaTeX macro written by the pipeline, so a macro that ceases to exist fails the build rather than rendering silently. The analysis is accounting, statistical and economic in scope; it does not infer intent, assign responsibility, or attach normative conclusions to fiscal outcomes.",
   "creators": [
     {
       "name": "Ribeiro, Diogo",
@@ -22,12 +22,19 @@
     "net borrowing",
     "B.9",
     "ESA 2010",
+    "accounting decomposition",
+    "social contributions",
+    "wage bill",
+    "primary balance",
     "public debt",
     "stock-flow adjustment",
-    "macroeconomic co-movement",
+    "structural breaks",
+    "European comparison",
+    "Eurostat",
     "reproducible research",
     "Python",
     "pandas",
+    "LaTeX",
     "Jupyter"
   ],
   "related_identifiers": [
@@ -42,10 +49,13 @@
     "Banco de Portugal / INE long historical series workbook used for historical sector accounts, balances, transfers, GDP and labour-market variables.",
     "INE data distributed through PORDATA, used as the continuous modern General Government B.9 bridge from 1995 through 2025.",
     "Portuguese Public Finance Council (CFP) ESA 2010 annual workbooks, used for modern General Government and subsector accounts, revenue and expenditure components, interest, GFCF, Maastricht debt and stock-flow adjustments.",
-    "Portuguese Public Finance Council (CFP) Social Security report underlying data, used separately for internal Social Security budget-system diagnostics."
+    "Portuguese Public Finance Council (CFP) Social Security report underlying data, used separately for internal Social Security budget-system diagnostics.",
+    "Eurostat gov_10a_main, net lending and net borrowing by general-government subsector for EU and EFTA reporters, 1995-2025, used for the European benchmark and as an independent check on the Portuguese extraction.",
+    "INE national accounts wages and salaries (D.11) and compensation of employees (D.1), taken through the Eurostat dissemination API. D.11 supplies the contribution-base denominator; D.1 is reported for comparison but not used as the base, because it already contains employers' social contributions.",
+    "INE national accounts employees and total employment, domestic concept, taken through the Eurostat dissemination API, used to split the wage bill into employment and average wages."
   ],
-  "method": "The pipeline extracts official source workbooks and CSV files into source-specific intermediate tables, constructs a canonical annual balance panel, validates the General Government subsector identity, preserves the known 1995 source overlap, and leaves the 1996-1999 detailed subsector account gap explicit rather than interpolating it. Derived outputs include year-to-year balance attribution, revenue and expenditure decomposition, sign persistence, transition probabilities, structural mean-shift summaries within separate statistical regimes, Social Security revenue and internal-system diagnostics, primary-balance reconstruction, fixed-capital-formation diagnostics, debt and stock-flow reconciliation, and descriptive nominal-GDP co-movement regressions with HAC standard errors. The final report is generated from persisted outputs rather than manually edited conclusions.",
-  "notes": "Raw source files retain the rights and terms of their respective publishers. The MIT license applies to the repository code and accompanying original documentation. The checked-in outputs are intended for reproducibility and auditability. Detailed subsector revenue and expenditure components are not interpolated for 1996-1999. Social Security national-accounts balances and Social Security budget-system tables are kept separate because their accounting boundaries differ. Structural-break dates and regression coefficients are descriptive outputs, not causal estimates.",
+  "method": "The pipeline extracts official source workbooks and CSV files into source-specific intermediate tables, constructs a canonical annual balance panel, validates the General Government subsector identity, preserves the known 1995 source overlap, and leaves the 1996-1999 detailed subsector account gap explicit rather than interpolating it. Two statistical regimes are carried throughout: no statistic depending on the level of a balance is computed across the 1995 splice, and no annual change is computed through it. Derived outputs include year-to-year balance attribution scaled by current-year GDP, a hierarchical revenue, expenditure and component decomposition of the largest episodes within each regime, sign persistence and transition probabilities, structural mean-shift detection by exact dynamic programming with a BIC-style penalty and a full sensitivity grid over its two tuning parameters, an account-level decomposition of the annual change in the Social Security balance, an exact three-term decomposition of the change in social contributions into a wage-bill component, a contributions-to-wage-bill ratio component and their interaction with a symmetric alternative reported alongside, primary-balance reconstruction, fixed-capital-formation diagnostics, debt and stock-flow reconciliation, descriptive co-movement regressions with HAC standard errors, and a cross-country benchmark over 28 reporters. Identity closure and source agreement are reported separately, because an extraction can be arithmetically self-consistent while two published sources disagree. Both documents are generated from persisted outputs rather than manually edited conclusions, and are byte-reproducible.",
+  "notes": "Raw source files retain the rights and terms of their respective publishers. The MIT license applies to the repository code and accompanying original documentation. The checked-in outputs are intended for reproducibility and auditability. Detailed subsector revenue and expenditure components are not interpolated for 1996-1999. Social Security national-accounts balances and Social Security budget-system tables are kept separate because their accounting boundaries differ, and are never added or reconciled. The employee wage bill is a reference base for social contributions and not the integral base of the levy, since recorded contributions include imputed amounts and bases the wage bill does not measure; the contributions-to-wage-bill ratio is consequently not a statutory rate. Magnitudes are regime-specific and must not be pooled across the 1995 splice. Structural-break dates are reported as candidates with their sensitivity, and regression coefficients are descriptive outputs, not causal estimates. The cross-country benchmark is a distribution, not a test: it holds no institutional feature constant. The bundled sources are a single vintage and the two most recent years are provisional at source.",
   "license": "mit",
   "upload_type": "software",
   "access_right": "open",
