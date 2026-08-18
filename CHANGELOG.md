@@ -4,6 +4,29 @@ All notable changes to this repository will be documented in this file.
 
 This project follows semantic versioning for repository releases where practical.
 
+## [Unreleased]
+
+### Changed
+
+- **CI no longer compiles LaTeX.** The job installed a full texlive toolchain on every
+  push, which put a large download from an apt mirror on the critical path of every
+  commit. It kept CI red for nineteen consecutive commits on a missing `lmodern.sty`,
+  and then hung for twenty-three minutes on the install step during the 0.3.0 release.
+  A permanently red pipeline is worse than no pipeline, because it trains you to ignore
+  it: the missing `types-PyYAML` stub went unnoticed for those same nineteen commits for
+  exactly that reason. Everything that tests code now finishes in under a minute.
+- What the job checked was not worthless, so it moved rather than disappearing.
+  `make docs-check` hashes the committed PDFs, rebuilds both from scratch and fails if
+  either hash moved, which is what keeps the pdfTeX metadata suppression honest. It is
+  now a documented release gate in `RELEASE.md`, run where the compile was happening
+  anyway. `make docs` builds both documents in one step.
+- The structural checks the LaTeX job duplicated are unaffected: `tests/test_paper.py`
+  and `tests/test_report.py` still verify that every macro resolves, every citation has
+  an entry, every figure exists, every cross-reference resolves and no unescaped `%`
+  silently comments out a line. What is given up is catching a missing LaTeX package or
+  a BibTeX error without compiling, and compiling locally is required anyway because
+  both PDFs are tracked.
+
 ## [0.3.0] - 2026-08-18
 
 This release turns a reproducible pipeline into a reproducible *argument*. It adds a
