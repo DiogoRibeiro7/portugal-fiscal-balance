@@ -282,6 +282,12 @@ the exact table by exactly half the interaction.
 
 ## `outputs/tables/contribution_wage_bill_regression.csv`
 
+Two rows. `gap_bridged` is False for the reported specification, which drops the pair
+straddling the 1995-to-2000 subsector gap, and True for the diagnostic that keeps it. The
+diagnostic exists so the cost of bridging is a persisted number rather than an assertion:
+one of its observations treats a five-year movement as annual, and that single pair moves
+the slope from 0.248 to 0.133 and the R-squared from 0.926 to 0.396. It is never a result.
+
 The change in contributions regressed on the change in the wage bill, HAC standard errors.
 `coef_minus_mean_ratio` is the slope less the mean contributions-to-wage-bill ratio. The
 identity delivers a slope equal to the mean ratio only if `\Delta\tau` and the

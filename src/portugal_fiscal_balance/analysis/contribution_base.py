@@ -204,25 +204,36 @@ def contribution_wage_bill_regression(panel: pd.DataFrame) -> pd.DataFrame:
     Both variables are first differences of levels in the same unit, so the slope
     reads directly as euro of contributions per euro of wage bill. No causal claim
     attaches to it.
-    """
-    data = panel[["year", "contributions_m_eur", "wage_bill_m_eur"]].copy()
-    data["contributions_change"] = data["contributions_m_eur"].diff()
-    data["wage_bill_change"] = data["wage_bill_m_eur"].diff()
-    # No change is estimated across the 1995-to-2000 source gap.
-    data = data.loc[data["year"].diff().eq(1.0)]
-    data = data.dropna(subset=["contributions_change", "wage_bill_change"])
-    if len(data) < 10:
-        return pd.DataFrame()
 
-    design = sm.add_constant(data[["wage_bill_change"]])
-    model = sm.OLS(data["contributions_change"], design).fit(
-        cov_type="HAC", cov_kwds={"maxlags": 2}
-    )
+    Two rows are returned. ``gap_bridged`` is False for the reported specification,
+    which drops the pair straddling the 1995-to-2000 subsector gap, and True for the
+    diagnostic that keeps it. The second exists only to put a number on what the
+    first avoids.
+    """
+    prepared = panel[["year", "contributions_m_eur", "wage_bill_m_eur"]].copy()
+    prepared["contributions_change"] = prepared["contributions_m_eur"].diff()
+    prepared["wage_bill_change"] = prepared["wage_bill_m_eur"].diff()
+    prepared["adjacent"] = prepared["year"].diff().eq(1.0)
+
     mean_rate = float(panel["contributions_to_wage_bill_ratio"].mean())
-    slope = float(model.params["wage_bill_change"])
-    return pd.DataFrame.from_records(
-        [
+    rows = []
+    # The bridged variant exists so the cost of ignoring the gap is a persisted
+    # number rather than an assertion. It is a diagnostic, never a result: one of
+    # its observations treats a five-year movement as annual.
+    for gap_bridged in (False, True):
+        data = prepared if gap_bridged else prepared.loc[prepared["adjacent"]]
+        data = data.dropna(subset=["contributions_change", "wage_bill_change"])
+        if len(data) < 10:
+            continue
+
+        design = sm.add_constant(data[["wage_bill_change"]])
+        model = sm.OLS(data["contributions_change"], design).fit(
+            cov_type="HAC", cov_kwds={"maxlags": 2}
+        )
+        slope = float(model.params["wage_bill_change"])
+        rows.append(
             {
+                "gap_bridged": gap_bridged,
                 "n": int(model.nobs),
                 "first_year": int(data["year"].min()),
                 "last_year": int(data["year"].max()),
@@ -234,5 +245,7 @@ def contribution_wage_bill_regression(panel: pd.DataFrame) -> pd.DataFrame:
                 "mean_ratio": mean_rate,
                 "coef_minus_mean_ratio": slope - mean_rate,
             }
-        ]
-    )
+        )
+    if not rows:
+        return pd.DataFrame()
+    return pd.DataFrame.from_records(rows)

@@ -178,7 +178,10 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
     # Contribution base: the wage bill behind the contributions.
     base_latest = _latest(data.base_decomposition)
     base_panel_latest = _latest(data.base_panel)
-    base_regression = data.base_regression.iloc[0]
+    regressions = data.base_regression
+    base_regression = regressions.loc[~regressions["gap_bridged"]].iloc[0]
+    bridged_regression = regressions.loc[regressions["gap_bridged"]].iloc[0]
+    gdp_r_squared = data.nominal_comovement["r_squared"]
 
     # Statistics that depend on the level of a balance are computed inside each
     # regime, the same rule the magnitudes follow. Splitting them here strengthens the
@@ -206,6 +209,8 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
     symmetric_window = symmetric.loc[symmetric["year"].ge(2022)]
     symmetric_recent = symmetric_window["wage_bill_share_of_change"]
 
+    vintages = data.sources["Vintage"].astype("string")
+    vintages = vintages.loc[vintages.ne("--")].str.slice(0, 7)
     floor_sensitivity = data.offset_floor_sensitivity
     surplus_composition = data.surplus_composition
 
@@ -361,6 +366,31 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
         "WageBillSlopeSe": _ratio(base_regression["wage_bill_se_hac"], 3),
         "WageBillRSquared": _ratio(base_regression["r_squared"], 3),
         "WageBillObservations": str(int(base_regression["n"])),
+        "RatioMeanWindow": (
+            f"{int(base_regression['first_year'])}--{int(base_regression['last_year'])}"
+        ),
+        # The diagnostic that keeps the pair straddling the subsector gap. Reported
+        # so the cost of ignoring the gap is a number rather than an assertion.
+        "WageBillSlopeBridged": _ratio(bridged_regression["wage_bill_coef"], 3),
+        "WageBillRSquaredBridged": _ratio(bridged_regression["r_squared"], 3),
+        # The nominal-GDP specification this one is compared against.
+        "GdpRSquaredLow": _ratio(float(gdp_r_squared.min()), 3),
+        "GdpRSquaredHigh": _ratio(float(gdp_r_squared.max()), 3),
+        "GdpRSquaredSeries": str(int(len(gdp_r_squared))),
+        # The window each primary-balance regime label actually covers. A source
+        # family does not span the same years in every sector, so the window is read
+        # off the artefact rather than inferred from its name.
+        "HistoricalPrimaryWindow": (
+            f"{int(historical_primary['first_year'])}--{int(historical_primary['last_year'])}"
+        ),
+        "ModernPrimaryWindow": (
+            f"{int(modern_primary['first_year'])}--{int(modern_primary['last_year'])}"
+        ),
+        # Vintages: the bundled files do not share one, and the paper must not say
+        # they do.
+        "VintageEarliest": str(vintages.min()),
+        "VintageLatest": str(vintages.max()),
+        "SourceCount": str(int(len(data.sources))),
         # Benchmark sensitivities.
         "OffsetFloorLow": _ratio(floor_sensitivity["floor_pct_gdp"].min(), 2),
         "OffsetFloorHigh": _ratio(floor_sensitivity["floor_pct_gdp"].max(), 2),

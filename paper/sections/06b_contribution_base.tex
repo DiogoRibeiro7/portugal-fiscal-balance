@@ -51,8 +51,8 @@ contributions and would place part of the numerator inside the denominator.
 not a statutory contribution rate. Its numerator contains revenue raised on bases its
 denominator does not measure, so it moves with coverage, compliance and composition as
 well as with legislated rates. It stands at \RatioLatest\ in \BaseYear\ against a panel
-mean of \RatioMean, both well below the headline levy, which is itself a sign that the
-two are not the same object. A movement in $\tau$ is therefore a residual to be named,
+mean of \RatioMean\ over \RatioMeanWindow, both well below the headline levy, which is
+itself a sign that the two are not the same object. A movement in $\tau$ is therefore a residual to be named,
 not a policy change to be inferred.
 
 \subsection{What moved contributions}
@@ -124,21 +124,27 @@ Regressing the annual change in contributions on the annual change in the wage b
 standard error of \WageBillSlopeSe\ and an $R^2$ of \WageBillRSquared. Three things are
 worth noting about that.
 
-The slope is close to the average contributions-to-wage-bill ratio of \RatioMean.
+The slope is close to the average contributions-to-wage-bill ratio of \RatioMean\
+over the same window.
 That is consistent with a comparatively stable ratio component over the sample, but it is
 not implied by the identity: Equation~\eqref{eq:contributionbase} would deliver
 $\beta = \bar{\tau}$ only if $\Delta\tau$ and the interaction term were uncorrelated with
 $\Delta W$, which nothing here establishes. The agreement is therefore a descriptive fact
 about this sample rather than an arithmetic necessity.
 
-The fit is an order of magnitude tighter than the nominal-GDP regressions, whose $R^2$
-values span 0.07 to 0.18. That difference is the substantive argument for the
-specification, not a claim about its sophistication.
+The fit is several times tighter than the nominal-GDP specification discussed in
+Section~\ref{sec:robustness}, whose $R^2$ across \GdpRSquaredSeries\ series runs from
+\GdpRSquaredLow\ to \GdpRSquaredHigh\ against \WageBillRSquared\ here. That comparison is
+the reason for reporting this specification at all, and it is a comparison of fit rather
+than a claim that either identifies anything.
 
 And no changes are computed across the 1995-to-2000 gap in subsector accounts. That
-matters more than it sounds: bridging the gap treats a five-year movement as annual, and
-doing so drives the slope to 0.13 and the $R^2$ to 0.40. A single contaminated
-observation was enough to destroy the relationship.
+matters more than it sounds, and the cost is measured rather than asserted: the same
+regression run with the straddling pair kept treats a five-year movement as annual, and
+returns a slope of \WageBillSlopeBridged\ and an $R^2$ of \WageBillRSquaredBridged. Both
+specifications are persisted, the bridged one flagged as a diagnostic. One contaminated
+observation in \WageBillObservations\ was enough to destroy the relationship, which is
+the clearest argument in this paper for not bridging the gap anywhere else either.
 
 \subsection{A symmetric alternative}
 

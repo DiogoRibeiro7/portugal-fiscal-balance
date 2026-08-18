@@ -690,14 +690,34 @@ def test_contribution_base_uses_wages_rather_than_total_compensation() -> None:
 def test_wage_bill_regression_recovers_the_effective_ratio() -> None:
     """The slope should land near the ratio the accounting implies."""
     regression = _read_csv(Path("outputs/tables/contribution_wage_bill_regression.csv"))
-    assert len(regression) == 1
-    row = regression.iloc[0]
+    assert set(regression["gap_bridged"]) == {False, True}
+    row = regression.loc[~regression["gap_bridged"]].iloc[0]
     assert row["n"] >= 20
     assert abs(row["coef_minus_mean_ratio"]) < 0.10
-    # Comfortably tighter than the nominal-GDP specification it replaces, whose fits
-    # span 0.07 to 0.18.
-    assert row["r_squared"] > 0.5
+    # Comfortably tighter than the nominal-GDP specification it is compared against.
+    gdp = _read_csv(Path("outputs/tables/nominal_gdp_balance_comovement.csv"))
+    assert row["r_squared"] > 3.0 * gdp["r_squared"].max()
     assert row["wage_bill_pvalue_hac"] < 0.05
+
+
+def test_bridging_the_subsector_gap_destroys_the_wage_bill_relationship() -> None:
+    """The reason for the gap guard is persisted rather than asserted in prose.
+
+    One of the bridged specification's observations treats a five-year movement as
+    annual. That single contaminated pair is enough to move the slope far from the
+    mean ratio and to collapse the fit, which is why the reported specification
+    drops it and why no change is computed through the gap anywhere else.
+    """
+    regression = _read_csv(Path("outputs/tables/contribution_wage_bill_regression.csv"))
+    reported = regression.loc[~regression["gap_bridged"]].iloc[0]
+    bridged = regression.loc[regression["gap_bridged"]].iloc[0]
+
+    assert bridged["n"] == reported["n"] + 1, "The bridged variant adds exactly one pair"
+    assert bridged["first_year"] < reported["first_year"]
+    assert bridged["r_squared"] < 0.5 * reported["r_squared"]
+    assert abs(bridged["coef_minus_mean_ratio"]) > abs(reported["coef_minus_mean_ratio"])
+    # And it stops being distinguishable from noise at conventional levels.
+    assert bridged["wage_bill_pvalue_hac"] > 0.05
 
 
 def test_state_tier_is_required_of_countries_that_operate_one() -> None:

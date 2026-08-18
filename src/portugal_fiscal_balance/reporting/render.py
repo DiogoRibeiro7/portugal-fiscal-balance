@@ -23,7 +23,11 @@ import pandas as pd
 import yaml
 
 from portugal_fiscal_balance.reporting import latex
-from portugal_fiscal_balance.schemas import REGIME_TABLE_LABELS, SECTOR_LABELS
+from portugal_fiscal_balance.schemas import (
+    REGIME_TABLE_LABELS,
+    SECTOR_LABELS,
+    SOURCE_FAMILY_LABELS,
+)
 
 TITLE = "Portugal's General-Government Balance by Subsector, 1977--2025"
 AUTHOR = "Diogo Ribeiro"
@@ -224,6 +228,18 @@ def _label_sectors(frame: pd.DataFrame, *, column: str = "sector") -> pd.DataFra
 def _sector_row(frame: pd.DataFrame, sector: str) -> pd.Series[Any]:
     """Return the single row of a per-sector summary table describing one sector."""
     return frame.loc[frame["sector"].eq(sector)].iloc[0]
+
+
+def _label_source_families(frame: pd.DataFrame) -> pd.DataFrame:
+    """Label the source-family key, which is not a window and never gets one."""
+    labelled = frame.copy()
+    labelled["statistical_regime"] = (
+        labelled["statistical_regime"]
+        .map(SOURCE_FAMILY_LABELS)
+        .fillna(labelled["statistical_regime"])
+        .astype("string")
+    )
+    return labelled
 
 
 def _label_regimes(frame: pd.DataFrame, *, column: str = "regime") -> pd.DataFrame:
@@ -1096,12 +1112,12 @@ def _section_primary(data: ReportInputs) -> str:
         "components are missing.",
     )
     regime_signs = _view(
-        _label_regimes(
-            _label_sectors(data.primary_signs_by_regime), column="statistical_regime"
-        ),
+        _label_source_families(_label_sectors(data.primary_signs_by_regime)),
         {
-            "statistical_regime": "Regime",
+            "statistical_regime": "Source family",
             "sector": "Sector",
+            "first_year": "First year",
+            "last_year": "Last year",
             "n_years": "N",
             "headline_negative_years": "Headline < 0",
             "primary_positive_years": "Primary > 0",
@@ -1111,15 +1127,17 @@ def _section_primary(data: ReportInputs) -> str:
     )
     regime_signs_table = latex.table(
         regime_signs,
-        caption="The same frequencies inside each statistical regime. The counts may be "
+        caption="The same frequencies inside each source family. The counts may be "
         "pooled; the interest magnitudes may not.",
         label="primarysignsregime",
         digits=2,
         column_digits={"N": 0, "Headline < 0": 0, "Primary > 0": 0},
-        note="Interest is a magnitude and the two regimes differ materially in it, so the "
-        "pooled means of Table~\\ref{tab:primarysigns} describe the historical regime better "
-        "than the modern one. The sign counts are reported pooled and split because the "
-        "classification survives the splice where the magnitudes do not.",
+        note="The first and last year are printed because a source family does not span "
+        "the same years in every sector: General Government carries detailed accounts "
+        "continuously, while the three subsectors carry them for 1977--1995 and "
+        "2000--2025 only. Interest is a magnitude and the families differ materially in "
+        "it, so it must not be pooled; the sign counts are reported both ways because "
+        "the classification survives the splice where the magnitudes do not.",
     )
     central_signs = _sector_row(data.primary_signs, "central_government")
     positive_primary_years = [
@@ -1161,10 +1179,12 @@ positive in a non-trivial minority of the observed years. Interest peaked at
 arithmetic that separates them.
 
 {signs_table}
-Those statistics pool across the 1995 splice. The sign counts survive that, because a
+Those statistics pool the two source families. The sign counts survive that, because a
 classification is not a magnitude, but the interest means do not: interest is a magnitude
-and the two regimes differ materially in it. Both are therefore reported by regime as
-well.
+and the two families differ materially in it. Both are therefore reported by family as
+well, with the years each family spans in that sector printed alongside, since the three
+subsectors carry detailed accounts for 1977--1995 and 2000--2025 while General Government
+carries them continuously.
 
 {regime_signs_table}
 {primary_figure}
@@ -1627,10 +1647,11 @@ collinearity between the labour series, dynamic specification and the time-serie
 of the variables are all unexamined, and any one of them could account for the sign.
 \end{{enumerate}}
 
-A specification with a clearer mechanism would model the Social Security contribution base
-directly, regressing the change in contributions on the change in the aggregate wage bill
-\(W_t = N_t \bar{{w}}_t\) rather than on aggregate nominal growth. That is not implemented
-here.
+The contribution-base section of this report takes that narrower route for Social
+Security contributions, relating their change to the change in the aggregate employee wage
+bill \(W_t = N_t \bar{{w}}_t\). That exercise is reported separately because it uses a
+quantity closer to the contribution base, while the specification below remains a weak
+aggregate co-movement diagnostic.
 
 {nominal_table}
 {labour_table}
@@ -1719,7 +1740,7 @@ def _section_contribution_base(data: ReportInputs) -> str:
     )
     regression_note = ""
     if not data.base_regression.empty:
-        row = data.base_regression.iloc[0]
+        row = data.base_regression.loc[~data.base_regression["gap_bridged"]].iloc[0]
         regression_note = (
             r"\subsection{A companion regression}"
             "\n\n"
@@ -1996,11 +2017,13 @@ notebooks and a SHA-256 digest of each bundled raw file. The default rebuild is
 \begin{{verbatim}}
 poetry install
 make all
+make pdf
 \end{{verbatim}}
 
 which runs the deterministic pipeline, executes the notebooks with their outputs stored in
-place, and runs the test suite. This document is regenerated from the persisted outputs
-rather than from hard-coded conclusions, and it is built from repository version
+place, runs the test suite and rebuilds the committed PDF. This document is regenerated
+from the persisted outputs rather than from hard-coded conclusions, and it is built from
+repository version
 \textbf{{{data.version}}}.
 """
 

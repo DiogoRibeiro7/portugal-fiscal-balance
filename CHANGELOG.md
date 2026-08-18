@@ -8,6 +8,48 @@ This project follows semantic versioning for repository releases where practical
 
 ### Fixed
 
+- **A table stated year ranges that were false for six of its eight rows.** The regime
+  split is keyed two ways in the pipeline: by the window it covers, and by the source
+  family that produced it. Labelling the source-family key with a fixed window was wrong,
+  because a family does not span the same years in every sector -- General Government
+  carries detailed accounts continuously, while the three subsectors carry them for
+  1977-1995 and 2000-2025 only. The label is now the family, and the first and last year
+  are printed beside it from the artefact.
+- The same error had reached the prose. The abstract, the introduction, the results and
+  the conclusion described the Central Government primary-balance windows as "before the
+  1995 splice" and "after it" when they are 1977-1995 and 2000-2025. Both windows are now
+  macros read off the artefact, and the text says why they are not the regime boundary.
+- **"The pattern across the recent years is the same in each: contributions are the
+  largest positive term and social transfers the largest negative one."** 2020 contradicts
+  both halves in the very table the sentence cites: other revenue rose 2,197 M EUR against
+  311 M EUR of contributions, and other expenditure fell further than social transfers.
+  The claim is now scoped and the exception named.
+- **The pooled interest mean was said to describe the historical regime better than the
+  modern one.** It is the other way round: 4.17% of GDP sits 1.35 points from the
+  historical 5.52% and 0.98 from the modern 3.19%. The text now says it lies between them
+  and describes neither, which was the point being made.
+- **Four data values were typed by hand into the manuscript**, against the repository's
+  central contract. The nominal-GDP fits and the bridged-gap diagnostic are now computed,
+  persisted and cited as macros. `contribution_wage_bill_regression.csv` gains a
+  `gap_bridged` column and a second row: keeping the pair that straddles the 1995-to-2000
+  subsector gap moves the slope from 0.248 to 0.133, collapses the fit from 0.926 to
+  0.396 and takes the coefficient past conventional significance. That was the argument
+  for the gap guard, and it is now a persisted number with a test on it rather than a
+  sentence.
+- **An internal contradiction about the nominal-GDP specification.** Section 6 said it was
+  "deliberately not part of this paper's evidence"; the contribution-base section then
+  cited its R-squared values as the comparison justifying the new specification. It is now
+  admitted for exactly that one purpose, and the purpose is stated.
+- "An order of magnitude tighter" appeared twice and was wrong both times: 0.926 against a
+  highest comparator of 0.175 is roughly five times, not ten.
+- The vintage paragraph said the bundled files "are the April 2026 releases". They are not:
+  the eight sources range from 2023-12 to 2026-08. The range is now a macro and the text
+  points at the per-file table.
+- `RatioMean` was described as a panel mean; it is the mean over the regression window.
+  The window is now named.
+
+### Fixed
+
 - **A conflation of two identities.** The conclusion, the changelog and the data
   dictionary all described the employment and average-wage terms as sitting "within" the
   wage-bill component of the contribution change. They do not: they sum to the change in

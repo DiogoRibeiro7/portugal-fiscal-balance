@@ -55,14 +55,20 @@ STATISTICAL_REGIMES: Final[dict[str, tuple[int, int]]] = {
 
 #: Presentation labels for the regime keys, used by tables and figure legends.
 #:
-#: The same split is keyed two ways across the pipeline: by the window it covers
-#: and by the source family that produced it. Both reach presentation tables, so
-#: both are labelled here rather than falling through to a raw key.
 REGIME_TABLE_LABELS: Final[dict[str, str]] = {
     "1977-1994_historical": "1977--1994 historical",
     "1995-2025_modern": "1995--2025 modern",
-    "historical_long_series": "1977--1994 historical",
-    "esa2010_modern": "1995--2025 modern",
+}
+
+#: Labels for the *source family* that produced a row, which is a different key
+#: from the regime windows above and must not be given a window label. The three
+#: subsectors carry detailed accounts for 1977--1995 and 2000--2025, while
+#: General Government carries them continuously, so one family spans different
+#: years in different sectors. Any table using these labels must print the
+#: first and last year alongside them.
+SOURCE_FAMILY_LABELS: Final[dict[str, str]] = {
+    "historical_long_series": "Historical long series",
+    "esa2010_modern": "ESA 2010 modern",
 }
 
 ACCOUNT_METRICS: Final[tuple[str, ...]] = (
