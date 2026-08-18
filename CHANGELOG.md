@@ -18,14 +18,15 @@ This project follows semantic versioning for repository releases where practical
 
 - **The contribution base.** Social Security contributions are now related to the wage bill
   they are levied on, which is what takes the Social Security results from an accounting
-  location to a named quantity outside the fiscal accounts. Writing the effective ratio as
-  tau = C/W, the change in contributions decomposes exactly into a base effect, a rate effect
-  and their interaction, and the wage bill decomposes again into employment and average
-  wages. Both close to numerical precision; the interaction terms are carried rather than
+  location to a named quantity outside the fiscal accounts. Writing the
+  contributions-to-wage-bill ratio as tau = C/W, the change in contributions decomposes
+  exactly into a wage-bill component, a ratio component and their interaction, and the wage
+  bill decomposes again into employment and average wages. Both close to numerical precision; the interaction terms are carried rather than
   dropped or shared, because either would make the decomposition inexact.
-- Of the 2,468 M EUR rise in contributions in 2025, 1,870 M EUR came from the wage bill and
-  560 M EUR from the effective ratio; within the base, 4,842 M EUR came from higher average
-  wages against 2,253 M EUR from more employees. The crises are where the mechanism is
+- Of the 2,468 M EUR rise in contributions in 2025, 1,870 M EUR is the wage-bill component,
+  560 M EUR the ratio component and 38 M EUR their interaction; within the wage-bill
+  component, 4,842 M EUR came from higher average wages against 2,253 M EUR from more
+  employees, with 102 M EUR of interaction. The crises are where the mechanism is
   clearest: in the austerity years employment and wages fall together, while in 2020 they
   move in opposite directions, leaving the wage bill flat and contributions rising on the
   ratio alone.
@@ -36,7 +37,7 @@ This project follows semantic versioning for repository releases where practical
   social contributions and would place part of the numerator inside the denominator.
 - The companion regression the review asked for: the change in contributions on the change
   in the wage bill, over 25 adjacent-year pairs, with a slope of 0.248 against a mean
-  effective ratio of 0.221 and an R-squared of 0.926. The regressor is the base the levy
+  contributions-to-wage-bill ratio of 0.221 and an R-squared of 0.926. The regressor is the base the levy
   actually falls on rather than an aggregate that merely correlates with the balance, which
   is the substantive difference from the nominal-GDP specification whose fits span 0.07 to
   0.18.
