@@ -81,7 +81,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
             latexmk texlive-latex-recommended texlive-latex-extra \
-            texlive-fonts-recommended texlive-bibtex-extra biber
+            texlive-fonts-recommended texlive-bibtex-extra biber lmodern
 
       - name: Build the technical report
         run: latexmk -pdf -interaction=nonstopmode -halt-on-error -cd report/report.tex

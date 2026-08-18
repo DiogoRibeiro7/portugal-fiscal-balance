@@ -47,6 +47,9 @@ jupyter = ">=1,<2"
 ruff = ">=0.8,<1"
 mypy = ">=1.13,<2"
 pandas-stubs = ">=2.2,<3"
+# render.py reads config/sources.yml. Without the stub, mypy fails in CI while
+# passing locally wherever the stub happens to be installed.
+types-PyYAML = ">=6,<7"
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
