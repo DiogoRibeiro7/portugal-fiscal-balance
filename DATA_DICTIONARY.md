@@ -239,7 +239,7 @@ Social Security contributions joined to the national-accounts wage bill.
 | `compensation_of_employees_m_eur` | Compensation of employees (D.1), retained for comparison but **not** used as the base: it contains employers' social contributions |
 | `employees_k`, `employment_k` | Employees and total employment, domestic concept, thousands |
 | `average_wage_eur` | Wage bill divided by employees |
-| `effective_contribution_rate` | Contributions divided by the wage bill. An effective ratio between two published aggregates, **not** a statutory rate: it moves with coverage, compliance and composition as well as with legislated rates |
+| `contributions_to_wage_bill_ratio` | Contributions divided by the wage bill. An effective ratio between two published aggregates, **not** a statutory rate: it moves with coverage, compliance and composition as well as with legislated rates |
 
 ## `outputs/tables/contribution_change_decomposition.csv`
 
@@ -248,7 +248,7 @@ The annual change in contributions split by two nested exact identities:
 \[\Delta C = 	au_{t-1}\Delta W + W_{t-1}\Delta	au + \Delta W\Delta	au,\qquad
 \Delta W = ar w_{t-1}\Delta N + N_{t-1}\Deltaar w + \Delta N\Deltaar w.\]
 
-`from_wage_bill_m_eur` and `from_effective_rate_m_eur` are the base and rate effects;
+`from_wage_bill_m_eur` and `from_ratio_m_eur` are the base and rate effects;
 `from_employment_m_eur` and `from_average_wage_m_eur` split the base effect again. The
 interaction columns are carried rather than dropped, and the closure columns exist to
 demonstrate exactness. No change is computed across the 1995-to-2000 source gap.
@@ -256,7 +256,7 @@ demonstrate exactness. No change is computed across the 1995-to-2000 source gap.
 ## `outputs/tables/contribution_wage_bill_regression.csv`
 
 The change in contributions regressed on the change in the wage bill, HAC standard errors.
-`coef_minus_mean_rate` is the slope less the mean effective ratio: the accounting predicts
+`coef_minus_mean_ratio` is the slope less the mean effective ratio: the accounting predicts
 they should be close, and they are.
 
 ## Main output metrics

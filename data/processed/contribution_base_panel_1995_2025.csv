@@ -1,4 +1,4 @@
-year,wage_bill_m_eur,compensation_of_employees_m_eur,employees_k,employment_k,contributions_m_eur,nominal_gdp_m_eur,average_wage_eur,effective_contribution_rate,wage_bill_pct_gdp,contributions_pct_gdp
+year,wage_bill_m_eur,compensation_of_employees_m_eur,employees_k,employment_k,contributions_m_eur,nominal_gdp_m_eur,average_wage_eur,contributions_to_wage_bill_ratio,wage_bill_pct_gdp,contributions_pct_gdp
 1995,34189.2,42592,3592.31,4528.98,8904.270708,79373.07522,9517.330075,0.2604410372,43.07405238,11.21825088
 2000,49476.1,61820.4,4028.61,5041.86,8844.914,128414.445,12281.18383,0.1787714472,38.52845371,6.887787429
 2001,52505.1,65394.8,4090.76,5130.09,9641.545,135775.009,12835.04777,0.1836306378,38.67066582,7.101119028

@@ -8,6 +8,14 @@ This project follows semantic versioning for repository releases where practical
 
 ### Added
 
+- Two benchmark sensitivities, because both conclusions they support rested on a
+  researcher's choice. Sweeping the offset denominator floor from 0.25% to 1.00% of GDP
+  moves Portugal's percentile only between 50 and 57, so the "ordinary offset magnitude"
+  reading is not an artefact of where the floor sits. And weighting the surplus-year
+  composition by country rather than by country-year gives a median of 25% against the
+  pooled 27%, with Portugal at the 95th percentile on both: a reporter with two dozen
+  surplus years no longer outweighs one with three.
+
 - **The contribution base.** Social Security contributions are now related to the wage bill
   they are levied on, which is what takes the Social Security results from an accounting
   location to a named quantity outside the fiscal accounts. Writing the effective ratio as
@@ -118,6 +126,35 @@ This project follows semantic versioning for repository releases where practical
   it answers the question that section raises.
 
 ### Fixed
+
+- The subsector-contributions caption in the manuscript still claimed the visible column
+  height equals the arithmetic sum of the layers. It does not: positive and negative
+  components stack away from zero independently, so the visible span is the sum of the
+  *absolute* contributions and the General Government line is the algebraic sum. The
+  report had been corrected earlier; the paper had not.
+- Two passages in the results section had been overtaken by later work. One said
+  separating the drivers of a contributory balance "requires a model of the contribution
+  base that this paper does not build", which the contribution-base section now builds.
+  The other asserted that a sign "does not depend on the level convention of a vintage",
+  which is false in general; the data section already had the correct empirical version
+  and the results section now points at it.
+- The introduction announced six contributions and listed nine. Regrouped into four,
+  which reads as a stronger claim than nine fragments.
+- tau is no longer called an effective *rate*, in prose or in column names. It is a
+  contributions-to-wage-bill ratio, and calling the second term a "rate effect" invited
+  reading a movement in it as a change in the statutory levy. The decomposition now has
+  a wage-bill component, a ratio component and an interaction.
+- The contribution-base narrative stated two of three terms. Both interaction terms are
+  now given: a paper that insists its decomposition is exact should not present a
+  two-term version of a three-term identity.
+- The regression interpretation was too strong. A slope near the mean ratio is
+  consistent with a stable ratio component; it is not implied by the identity, which
+  would require the ratio and interaction terms to be uncorrelated with the wage-bill
+  change.
+- The European benchmark treated a missing S.1312 as a zero contribution even for
+  countries that operate a state tier, while still marking the year complete. No such
+  country-year exists in the current vintage, so no published result changes, but the
+  contract was wrong and is now enforced and tested.
 
 - The subsector-contributions figure caption claimed the visible column height equals the
   arithmetic sum of the layers. It does not: positive and negative components stack away from

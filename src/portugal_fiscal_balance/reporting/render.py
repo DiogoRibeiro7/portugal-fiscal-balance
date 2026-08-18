@@ -99,6 +99,8 @@ class ReportInputs:
     benchmark_panel: pd.DataFrame
     benchmark_summary: pd.DataFrame
     benchmark_position: pd.DataFrame
+    offset_floor_sensitivity: pd.DataFrame
+    surplus_composition: pd.DataFrame
 
 
 def _read_version(root: Path) -> str:
@@ -192,6 +194,8 @@ def load(root: Path) -> ReportInputs:
         benchmark_panel=pd.read_csv(processed / "european_subsector_panel_1995_2025.csv"),
         benchmark_summary=pd.read_csv(tables / "european_benchmark_summary.csv"),
         benchmark_position=pd.read_csv(tables / "european_benchmark_position.csv"),
+        offset_floor_sensitivity=pd.read_csv(tables / "european_offset_floor_sensitivity.csv"),
+        surplus_composition=pd.read_csv(tables / "european_surplus_composition.csv"),
     )
 
 
@@ -1611,8 +1615,8 @@ def _section_contribution_base(data: ReportInputs) -> str:
             "year": "Year",
             "contributions_change_m_eur": "Change in contributions (M EUR)",
             "from_wage_bill_m_eur": "From the wage bill (M EUR)",
-            "from_effective_rate_m_eur": "From the effective rate (M EUR)",
-            "rate_base_interaction_m_eur": "Interaction (M EUR)",
+            "from_ratio_m_eur": "From the effective rate (M EUR)",
+            "wage_bill_ratio_interaction_m_eur": "Interaction (M EUR)",
         },
     )
     split = _view(
@@ -1662,7 +1666,7 @@ def _section_contribution_base(data: ReportInputs) -> str:
             f"\n{row['wage_bill_se_hac']:.3f} and an "
             rf"\(R^2\) of \textbf{{{row['r_squared']:.3f}}}."
             "\nThe slope sits close to the mean effective ratio of "
-            f"{row['mean_effective_rate']:.3f}, which is what the\n"
+            f"{row['mean_ratio']:.3f}, which is what the\n"
             "accounting predicts, and the fit is far tighter than the nominal-GDP specification\n"
             r"in Appendix~\ref{sec:comovement}: the regressor here is the base the levy actually"
             "\nfalls on rather than an aggregate that merely correlates with it. It remains a\n"
@@ -1689,9 +1693,9 @@ def _section_contribution_base(data: ReportInputs) -> str:
         "\ncontributions include imputed contributions and bases other than employee wages, so\n"
         "the ratio moves with coverage and composition as well as with legislated rates. It\n"
         "stands at "
-        rf"\textbf{{{panel_latest['effective_contribution_rate']:.3f}}}"
+        rf"\textbf{{{panel_latest['contributions_to_wage_bill_ratio']:.3f}}}"
         f" in {int(panel_latest['year'])} against "
-        rf"\textbf{{{panel_first['effective_contribution_rate']:.3f}}}"
+        rf"\textbf{{{panel_first['contributions_to_wage_bill_ratio']:.3f}}}"
         f" in {int(panel_first['year'])}.\n\n"
         f"{decomposition_table}"
         f"In {int(latest['year'])} contributions rose by "
@@ -1699,7 +1703,7 @@ def _section_contribution_base(data: ReportInputs) -> str:
         "\nof which "
         rf"\textbf{{{latex.number(float(latest['from_wage_bill_m_eur']), 0)} M EUR}}"
         " came from\nthe wage bill and "
-        rf"\textbf{{{latex.number(float(latest['from_effective_rate_m_eur']), 0)} M EUR}}"
+        rf"\textbf{{{latex.number(float(latest['from_ratio_m_eur']), 0)} M EUR}}"
         " from the\neffective ratio. The base effect splits again.\n\n"
         f"{split_table}"
         f"{figure}"

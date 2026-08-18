@@ -38,8 +38,10 @@ shallow line, the subsectors moved in opposite directions and offset one another
 \includegraphics[width=\linewidth]{08_subsector_contributions.png}
 \caption{The identity of Equation~\eqref{eq:identity} drawn: signed subsector
 contributions stacked against the General Government total, as a percentage of GDP.
-Positive and negative contributions stack away from zero independently, so the
-visible column height equals the arithmetic sum of the layers.}
+Positive and negative components are stacked separately from zero, and the General
+Government line gives their algebraic sum. The total visible span of a column is
+therefore the sum of the absolute contributions, not the aggregate balance; a tall
+span under a shallow line means the subsectors offset one another that year.}
 \label{fig:contributions}
 \end{figure}
 
@@ -65,9 +67,11 @@ table is split. The aggregate balance averages \GgMeanHistorical\% of GDP over
 Central Government moves from \CentralMeanHistorical\% to \CentralMeanModern\% and
 the Social Security Funds from \SsfMeanHistorical\% to \SsfMeanModern\%.
 
-Sign counts survive pooling far better than magnitudes, because a sign does not
-depend on the level convention of a vintage. That asymmetry is why we pool the
-counts in the discussion above and never pool the means.
+Sign counts survive pooling far better than magnitudes. That is an empirical claim
+about this panel rather than a general property: a revision can in principle move a
+small balance across zero, and Section~\ref{sec:data} checks whether it does here.
+Across both retained source overlaps the sign classifications are unchanged, which is
+why we pool the counts in the discussion above and never pool the means.
 
 \subsection{The years with a positive aggregate balance}
 
@@ -252,11 +256,12 @@ national-accounts boundary rather than the budget one, so the two are not the sa
 arithmetic; the agreement in direction and in the dominant term is nevertheless a
 useful external check.
 
-What the decomposition does not do is explain the movement. A contributory balance
-responds to employment, wages, contribution rates, entitlement rules and demographics
-at once, and separating those requires a model of the contribution base that this
-paper does not build. Section~\ref{sec:robustness} says what such a specification
-would look like.
+What this decomposition does not do is relate the movement to anything outside the
+fiscal accounts. It says which account moved, not what the account moved with.
+Section~\ref{sec:contributionbase} takes that step, relating contributions to the wage
+bill they are levied on. Even there the account remains descriptive: a contributory
+balance responds to employment, wages, contribution rates, entitlement rules and
+demographics at once, and none of those is identified.
 
 \paragraph{The budget-execution layer.} The CFP publishes the system decomposed into
 the Previdential system, the Social Protection of Citizenship system and special

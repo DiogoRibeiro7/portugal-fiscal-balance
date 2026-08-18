@@ -647,8 +647,8 @@ def test_contribution_decomposition_is_exact_on_both_levels() -> None:
 
     contributions = (
         frame["from_wage_bill_m_eur"]
-        + frame["from_effective_rate_m_eur"]
-        + frame["rate_base_interaction_m_eur"]
+        + frame["from_ratio_m_eur"]
+        + frame["wage_bill_ratio_interaction_m_eur"]
     )
     assert np.allclose(contributions, frame["contributions_change_m_eur"])
 
@@ -682,9 +682,9 @@ def test_contribution_base_uses_wages_rather_than_total_compensation() -> None:
     assert "wage_bill_m_eur" in panel.columns
     assert (panel["wage_bill_m_eur"] < panel["compensation_of_employees_m_eur"]).all()
     implied = panel["contributions_m_eur"] / panel["wage_bill_m_eur"]
-    assert np.allclose(implied, panel["effective_contribution_rate"])
+    assert np.allclose(implied, panel["contributions_to_wage_bill_ratio"])
     # An effective ratio, not a statutory rate: it sits well below the headline levy.
-    assert panel["effective_contribution_rate"].between(0.10, 0.40).all()
+    assert panel["contributions_to_wage_bill_ratio"].between(0.10, 0.40).all()
 
 
 def test_wage_bill_regression_recovers_the_effective_ratio() -> None:
@@ -693,8 +693,63 @@ def test_wage_bill_regression_recovers_the_effective_ratio() -> None:
     assert len(regression) == 1
     row = regression.iloc[0]
     assert row["n"] >= 20
-    assert abs(row["coef_minus_mean_rate"]) < 0.10
+    assert abs(row["coef_minus_mean_ratio"]) < 0.10
     # Comfortably tighter than the nominal-GDP specification it replaces, whose fits
     # span 0.07 to 0.18.
     assert row["r_squared"] > 0.5
     assert row["wage_bill_pvalue_hac"] < 0.05
+
+
+def test_state_tier_is_required_of_countries_that_operate_one() -> None:
+    """A missing S.1312 is benign only where the tier does not exist.
+
+    For a country that does operate one, an absent observation is an unknown value,
+    and summing it as zero while still calling the year complete would understate
+    that country's non-Social-Security deficit without any signal.
+    """
+    panel = _read_csv(Path("data/processed/european_subsector_panel_1995_2025.csv"))
+    assert "state_tier_expected" in panel.columns
+
+    expected = panel.loc[panel["state_tier_expected"]]
+    assert not expected.empty, "No reporter is recorded as operating a state tier"
+    assert set(expected["country"]) >= {"DE", "ES", "AT", "BE"}
+
+    unresolved = expected.loc[expected["state_government_mio_nac"].isna() & expected["complete"]]
+    assert unresolved.empty, (
+        "Country-years marked complete while a state tier they operate is missing: "
+        f"{unresolved[['country', 'year']].to_dict('records')}"
+    )
+    # Portugal has no such tier, so its years must not be held to the requirement.
+    portugal = panel.loc[panel["country"].eq("PT")]
+    assert not portugal["state_tier_expected"].any()
+    assert portugal["complete"].all()
+
+
+def test_offset_position_survives_the_denominator_floor() -> None:
+    """The floor is a researcher's choice, so the conclusion must not hinge on it."""
+    sensitivity = _read_csv(Path("outputs/tables/european_offset_floor_sensitivity.csv"))
+    assert len(sensitivity) >= 4
+    assert sensitivity["floor_pct_gdp"].is_monotonic_increasing
+    # A higher floor discards more country-years, by construction.
+    assert sensitivity["n_defined_country_years"].is_monotonic_decreasing
+    # Portugal stays mid-distribution throughout; a swing would mean the "ordinary"
+    # reading was an artefact of where the floor was set.
+    spread = sensitivity["percentile"].max() - sensitivity["percentile"].min()
+    assert spread < 20.0, f"Portugal's percentile moves {spread:.0f} points with the floor"
+    assert sensitivity["percentile"].between(25.0, 75.0).all()
+
+
+def test_surplus_composition_agrees_under_both_weightings() -> None:
+    """Pooling by country-year lets long surplus runs dominate; check the alternative."""
+    composition = _read_csv(Path("outputs/tables/european_surplus_composition.csv"))
+    assert len(composition) == 1
+    row = composition.iloc[0]
+    assert row["pooled_offsetting_years"] < row["pooled_surplus_years"]
+    # The two weightings answer different questions and need not agree exactly, but a
+    # large divergence would mean the pooled figure is driven by a few long runs.
+    assert abs(row["pooled_share"] - row["country_weighted_median"]) < 0.15
+    assert row["country_weighted_lower_quartile"] <= row["country_weighted_median"]
+    assert row["country_weighted_median"] <= row["country_weighted_upper_quartile"]
+    # Portugal is at the top of the distribution on both readings.
+    assert row["country_share"] == 1.0
+    assert row["country_percentile"] > 90.0

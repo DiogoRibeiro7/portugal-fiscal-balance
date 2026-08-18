@@ -92,7 +92,19 @@ def european_subsector_panel(long: pd.DataFrame) -> pd.DataFrame:
         .rename("sectors_reported")
     )
     panel = panel.join(counts)
-    panel["complete"] = panel["sectors_reported"].eq(len(REQUIRED_SECTORS))
+
+    # A missing state tier is only benign when the country has no such tier. For a
+    # country that does operate one, an absent S.1312 observation is an unknown value,
+    # and the sum above would silently treat it as zero while the year still counted as
+    # complete. Requiring the tier wherever the country ever reports it closes that gap.
+    country_reports_state_tier = (
+        values["state_government"].notna().groupby(level="country").transform("any")
+    )
+    state_tier_available = (~country_reports_state_tier) | values["state_government"].notna()
+    panel["state_tier_expected"] = country_reports_state_tier
+    panel["complete"] = (
+        panel["sectors_reported"].eq(len(REQUIRED_SECTORS)) & state_tier_available
+    )
 
     panel["aggregate_positive"] = panel["general_government_mio_nac"].gt(0)
     panel["non_ssf_negative"] = panel["non_ssf_mio_nac"].lt(0)
@@ -196,3 +208,94 @@ def portugal_benchmark_position(summary: pd.DataFrame, *, country: str = "PT") -
             }
         )
     return pd.DataFrame.from_records(records)
+
+
+#: Denominator floors swept when testing how far the offset comparison depends on
+#: the one this analysis adopts.
+OFFSET_FLOOR_GRID: Final[tuple[float, ...]] = (0.25, 0.50, 0.75, 1.00)
+
+
+def offset_floor_sensitivity(
+    panel: pd.DataFrame,
+    *,
+    country: str = "PT",
+    floors: tuple[float, ...] = OFFSET_FLOOR_GRID,
+    min_years: int = 15,
+) -> pd.DataFrame:
+    """Re-derive the offset comparison at several denominator floors.
+
+    The floor keeps a near-zero denominator from manufacturing a large ratio, but its
+    value is a choice rather than a property of the data. If Portugal's position moves
+    with the floor, the position is an artefact of the choice; if it does not, the
+    conclusion is that much firmer. Reporting the sweep is the only way a reader can
+    tell which case holds.
+    """
+    records: list[dict[str, float | int]] = []
+    for floor in floors:
+        recomputed = panel.copy()
+        defined = (
+            recomputed["non_ssf_negative"]
+            & recomputed["ssf_positive"]
+            & recomputed["non_ssf_pct_gdp"].abs().ge(floor)
+        )
+        recomputed["offset_ratio"] = np.where(
+            defined,
+            recomputed["social_security_mio_nac"] / recomputed["non_ssf_mio_nac"].abs(),
+            np.nan,
+        )
+        summary = european_benchmark_summary(recomputed, min_years=min_years)
+        medians = summary["median_offset_ratio"]
+        target = summary.loc[summary["country"].eq(country)]
+        value = float(target["median_offset_ratio"].iloc[0]) if len(target) else np.nan
+        records.append(
+            {
+                "floor_pct_gdp": float(floor),
+                "n_defined_country_years": int(recomputed["offset_ratio"].notna().sum()),
+                "n_countries": int(medians.notna().sum()),
+                "country_median_offset": value,
+                "cross_country_median": float(medians.median()),
+                "percentile": _percentile(medians, value),
+            }
+        )
+    return pd.DataFrame.from_records(records)
+
+
+def surplus_composition_by_country(
+    summary: pd.DataFrame, *, country: str = "PT"
+) -> pd.DataFrame:
+    """Weight the surplus-year composition by country rather than by country-year.
+
+    Pooling every surplus country-year lets a reporter with twenty-four surplus years
+    outweigh one with three. The country-weighted view asks a different and equally
+    reasonable question: of a country's own surplus years, what share pair with a
+    negative non-Social-Security balance? Both are reported, because they can disagree
+    and neither is the obviously correct weighting.
+    """
+    with_surplus = summary.loc[summary["n_aggregate_positive"].gt(0)].copy()
+    with_surplus["share_offsetting"] = (
+        with_surplus["n_aggregate_positive_with_negative_non_ssf"]
+        / with_surplus["n_aggregate_positive"]
+    )
+    shares = with_surplus["share_offsetting"]
+    pooled_total = int(with_surplus["n_aggregate_positive"].sum())
+    pooled_offsetting = int(
+        with_surplus["n_aggregate_positive_with_negative_non_ssf"].sum()
+    )
+    target = with_surplus.loc[with_surplus["country"].eq(country)]
+    value = float(target["share_offsetting"].iloc[0]) if len(target) else np.nan
+    return pd.DataFrame.from_records(
+        [
+            {
+                "n_countries_with_surplus": int(len(with_surplus)),
+                "pooled_surplus_years": pooled_total,
+                "pooled_offsetting_years": pooled_offsetting,
+                "pooled_share": float(pooled_offsetting / pooled_total),
+                "country_share": value,
+                "country_weighted_median": float(shares.median()),
+                "country_weighted_lower_quartile": float(shares.quantile(0.25)),
+                "country_weighted_upper_quartile": float(shares.quantile(0.75)),
+                "country_percentile": _percentile(shares, value),
+                "n_countries_all_offsetting": int((shares >= 1.0).sum()),
+            }
+        ]
+    )

@@ -173,6 +173,9 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
     base_panel_latest = _latest(data.base_panel)
     base_regression = data.base_regression.iloc[0]
 
+    floor_sensitivity = data.offset_floor_sensitivity
+    surplus_composition = data.surplus_composition
+
     # European benchmark. The structural comparison is the share of a country's
     # aggregate-surplus years in which the non-Social-Security balance was negative:
     # the direct cross-country analogue of this paper's headline composition.
@@ -294,16 +297,27 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
         "BaseYear": str(int(base_latest["year"])),
         "BaseContributionsChange": _money(base_latest["contributions_change_m_eur"]),
         "BaseFromWageBill": _money(base_latest["from_wage_bill_m_eur"]),
-        "BaseFromRate": _money(base_latest["from_effective_rate_m_eur"]),
+        "BaseFromRate": _money(base_latest["from_ratio_m_eur"]),
         "BaseWageBillChange": _money(base_latest["wage_bill_change_m_eur"]),
         "BaseFromEmployment": _money(base_latest["from_employment_m_eur"]),
         "BaseFromAverageWage": _money(base_latest["from_average_wage_m_eur"]),
-        "EffectiveRateLatest": _ratio(base_panel_latest["effective_contribution_rate"], 3),
-        "EffectiveRateMean": _ratio(base_regression["mean_effective_rate"], 3),
+        "BaseRatioInteraction": _money(base_latest["wage_bill_ratio_interaction_m_eur"]),
+        "BaseWageInteraction": _money(base_latest["employment_wage_interaction_m_eur"]),
+        "EffectiveRateLatest": _ratio(base_panel_latest["contributions_to_wage_bill_ratio"], 3),
+        "EffectiveRateMean": _ratio(base_regression["mean_ratio"], 3),
         "WageBillSlope": _ratio(base_regression["wage_bill_coef"], 3),
         "WageBillSlopeSe": _ratio(base_regression["wage_bill_se_hac"], 3),
         "WageBillRSquared": _ratio(base_regression["r_squared"], 3),
         "WageBillObservations": str(int(base_regression["n"])),
+        # Benchmark sensitivities.
+        "OffsetFloorLow": _ratio(floor_sensitivity["floor_pct_gdp"].min(), 2),
+        "OffsetFloorHigh": _ratio(floor_sensitivity["floor_pct_gdp"].max(), 2),
+        "OffsetPercentileLow": _ratio(floor_sensitivity["percentile"].min(), 0),
+        "OffsetPercentileHigh": _ratio(floor_sensitivity["percentile"].max(), 0),
+        "SurplusCountryMedian": _ratio(100.0 * float(surplus_composition["country_weighted_median"].iloc[0]), 0),
+        "SurplusCountryLowerQuartile": _ratio(100.0 * float(surplus_composition["country_weighted_lower_quartile"].iloc[0]), 0),
+        "SurplusCountryUpperQuartile": _ratio(100.0 * float(surplus_composition["country_weighted_upper_quartile"].iloc[0]), 0),
+        "SurplusCountryPercentile": _ratio(float(surplus_composition["country_percentile"].iloc[0]), 0),
         # European benchmark.
         "BenchmarkCountries": str(int(len(summary))),
         "BenchmarkStart": str(int(summary["first_year"].min())),
@@ -433,7 +447,7 @@ def _table_files(data: ReportInputs) -> dict[str, str]:
             "year": "Year",
             "contributions_change_m_eur": "$\Delta$ contributions",
             "from_wage_bill_m_eur": "From wage bill",
-            "from_effective_rate_m_eur": "From rate",
+            "from_ratio_m_eur": "From rate",
             "wage_bill_change_m_eur": "$\Delta$ wage bill",
             "from_employment_m_eur": "From employment",
             "from_average_wage_m_eur": "From average wage",

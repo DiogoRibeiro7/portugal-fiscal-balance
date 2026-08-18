@@ -11,13 +11,15 @@ natural base is the aggregate wage bill of the economy,
     W = N * wbar,
 
 where ``N`` is employees and ``wbar`` average wages per employee. Writing the
-effective ratio of contributions to that base as ``tau = C / W`` gives an exact
-decomposition of the change in contributions into a base effect and a rate effect,
-and a further split of the base effect into employment and average wages.
+contributions-to-wage-bill ratio as ``tau = C / W`` gives an exact decomposition of
+the change in contributions into a wage-bill component, a ratio component and their
+interaction, and a further split of the wage-bill component into employment and
+average wages.
 
 Two cautions apply throughout, and both concern what ``tau`` is not.
 
-It is **not a statutory contribution rate.** National-accounts social contributions
+It is **not a statutory contribution rate**, which is why it is never called a rate
+here. National-accounts social contributions
 received by the Social Security Funds include imputed contributions and contributions
 from bases other than employee wages, notably the self-employed. The ratio is an
 effective ratio between two published aggregates, and it moves with coverage,
@@ -49,7 +51,7 @@ def contribution_base_panel(accounts: pd.DataFrame, base: pd.DataFrame) -> pd.Da
     panel = base.merge(contributions, on="year", how="inner", validate="one_to_one")
     panel = panel.rename(columns={BASE_COLUMN: "wage_bill_m_eur"})
     panel["average_wage_eur"] = 1e3 * panel["wage_bill_m_eur"] / panel["employees_k"]
-    panel["effective_contribution_rate"] = (
+    panel["contributions_to_wage_bill_ratio"] = (
         panel["contributions_m_eur"] / panel["wage_bill_m_eur"]
     )
     panel["wage_bill_pct_gdp"] = 100.0 * panel["wage_bill_m_eur"] / panel["nominal_gdp_m_eur"]
@@ -90,7 +92,7 @@ def _exact_product_decomposition(
 
 
 def contribution_change_decomposition(panel: pd.DataFrame) -> pd.DataFrame:
-    """Decompose the annual change in contributions into base and rate effects.
+    """Decompose the annual change in contributions into wage-bill and ratio components.
 
     Two nested exact decompositions. Contributions are the product of the effective
     ratio and the wage bill, so
@@ -106,13 +108,13 @@ def contribution_change_decomposition(panel: pd.DataFrame) -> pd.DataFrame:
     frame = panel.sort_values("year").reset_index(drop=True)
 
     contributions = _exact_product_decomposition(
-        frame, "effective_contribution_rate", "wage_bill_m_eur", "contributions"
+        frame, "contributions_to_wage_bill_ratio", "wage_bill_m_eur", "contributions"
     ).rename(
         columns={
             "contributions_change": "contributions_change_m_eur",
-            "contributions_from_left": "from_effective_rate_m_eur",
+            "contributions_from_left": "from_ratio_m_eur",
             "contributions_from_right": "from_wage_bill_m_eur",
-            "contributions_interaction": "rate_base_interaction_m_eur",
+            "contributions_interaction": "wage_bill_ratio_interaction_m_eur",
             "contributions_closure_error": "contributions_closure_error_m_eur",
         }
     )
@@ -134,7 +136,7 @@ def contribution_change_decomposition(panel: pd.DataFrame) -> pd.DataFrame:
 
     merged = contributions.merge(wage_bill, on="year", how="inner", validate="one_to_one")
     merged = merged.merge(
-        frame[["year", "contributions_m_eur", "wage_bill_m_eur", "effective_contribution_rate"]],
+        frame[["year", "contributions_m_eur", "wage_bill_m_eur", "contributions_to_wage_bill_ratio"]],
         on="year",
         how="left",
     )
@@ -153,8 +155,9 @@ def contribution_wage_bill_regression(panel: pd.DataFrame) -> pd.DataFrame:
     This is the specification the review named, reported as a companion to the
     decomposition rather than as a substitute for it. Its merit over the earlier
     nominal-GDP regression is that the regressor is the base the levy actually falls
-    on: a coefficient near the effective ratio is what the accounting predicts, and a
-    coefficient far from it would be informative.
+    on. A slope near the average contributions-to-wage-bill ratio is what a broadly
+    stable ratio would produce; it does not follow from the identity, because the ratio
+    and interaction terms could co-move with the wage-bill change.
 
     Both variables are first differences of levels in the same unit, so the slope
     reads directly as euro of contributions per euro of wage bill. No causal claim
@@ -173,7 +176,7 @@ def contribution_wage_bill_regression(panel: pd.DataFrame) -> pd.DataFrame:
     model = sm.OLS(data["contributions_change"], design).fit(
         cov_type="HAC", cov_kwds={"maxlags": 2}
     )
-    mean_rate = float(panel["effective_contribution_rate"].mean())
+    mean_rate = float(panel["contributions_to_wage_bill_ratio"].mean())
     slope = float(model.params["wage_bill_change"])
     return pd.DataFrame.from_records(
         [
@@ -186,8 +189,8 @@ def contribution_wage_bill_regression(panel: pd.DataFrame) -> pd.DataFrame:
                 "wage_bill_se_hac": float(model.bse["wage_bill_change"]),
                 "wage_bill_pvalue_hac": float(model.pvalues["wage_bill_change"]),
                 "intercept_m_eur": float(model.params["const"]),
-                "mean_effective_rate": mean_rate,
-                "coef_minus_mean_rate": slope - mean_rate,
+                "mean_ratio": mean_rate,
+                "coef_minus_mean_ratio": slope - mean_rate,
             }
         ]
     )

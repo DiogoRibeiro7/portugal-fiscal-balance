@@ -81,6 +81,13 @@ typical year the Portuguese Social Security surplus offsets no more of the
 non-Social-Security deficit than elsewhere. What distinguishes Portugal is the recent
 years, in which the ratio exceeds one, not the central tendency.
 
+That conclusion rests on the denominator floor, which is a choice rather than a property
+of the data, so it is worth checking whether the conclusion survives other choices.
+Sweeping the floor from \OffsetFloorLow\ to \OffsetFloorHigh\ percent of GDP moves
+Portugal's percentile only between \OffsetPercentileLow\ and \OffsetPercentileHigh: the
+position stays near the middle of the distribution throughout. Had the percentile moved
+sharply with the floor, the finding would have been an artefact of where we set it.
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{17_european_benchmark.png}
@@ -118,6 +125,15 @@ Portugal is the exception in the strict sense. Of the \CountriesWithSurplus\ rep
 \CountriesAllOffsetting\ record a negative non-Social-Security balance in \emph{every}
 one of their aggregate-surplus years, and Portugal is among them, at
 \PtSurplusOffsetting\ of \PtSurplusYears.
+
+The pooled figure weights by country-year, so a reporter with two dozen surplus years
+counts for more than one with three. Weighting by country instead asks a different and
+equally reasonable question --- of a country's own surplus years, what share pair with a
+negative non-Social-Security balance? --- and the two agree: the country-weighted median
+is \SurplusCountryMedian\%, with quartiles at \SurplusCountryLowerQuartile\% and
+\SurplusCountryUpperQuartile\%, against the pooled \SurplusOffsettingShare\%. Portugal
+sits at the \SurplusCountryPercentile th percentile of that distribution. Because the two
+weightings can disagree and neither is obviously correct, both are reported.
 
 That result needs its sample stated plainly alongside it. Portugal has only
 \PtSurplusYears\ surplus years, so ``all of them'' is four observations, and several

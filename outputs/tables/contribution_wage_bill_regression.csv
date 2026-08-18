@@ -1,2 +1,2 @@
-n,first_year,last_year,r_squared,wage_bill_coef,wage_bill_se_hac,wage_bill_pvalue_hac,intercept_m_eur,mean_effective_rate,coef_minus_mean_rate
+n,first_year,last_year,r_squared,wage_bill_coef,wage_bill_se_hac,wage_bill_pvalue_hac,intercept_m_eur,mean_ratio,coef_minus_mean_ratio
 25,2001,2025,0.9261569211,0.2479815249,0.02219434311,5.516592676e-29,215.3946813,0.2211576314,0.02682389348

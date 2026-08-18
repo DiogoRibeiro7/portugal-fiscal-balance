@@ -1261,8 +1261,8 @@ def contribution_base_decomposition(decomposition: pd.DataFrame) -> Figure:
     """Show what moved Social Security contributions, and what moved their base.
 
     Two stacked panels rather than one. The upper panel splits the change in
-    contributions into a base effect and a rate effect; the lower splits that base
-    effect again into employment and average wages. Drawing them together on one axis
+    contributions into a wage-bill component and a ratio component; the lower splits that
+    wage-bill component again into employment and average wages. Drawing them together on one axis
     would double-count, because the wage-bill bar in the upper panel is the sum of the
     two bars below it.
     """
@@ -1273,7 +1273,7 @@ def contribution_base_decomposition(decomposition: pd.DataFrame) -> Figure:
     top, bottom = axes[0], axes[1]
 
     top.set_title(
-        "Change in social contributions: the base effect and the rate effect",
+        "Change in social contributions: the wage-bill and ratio components",
         pad=30.0,
     )
     _signed_stack(
@@ -1281,8 +1281,8 @@ def contribution_base_decomposition(decomposition: pd.DataFrame) -> Figure:
         years,
         [
             ("From the wage bill", frame["from_wage_bill_m_eur"].to_numpy(dtype=float), SERIES_COLOURS[2]),
-            ("From the effective rate", frame["from_effective_rate_m_eur"].to_numpy(dtype=float), SERIES_COLOURS[1]),
-            ("Interaction", frame["rate_base_interaction_m_eur"].to_numpy(dtype=float), SERIES_COLOURS[4]),
+            ("From the contributions-to-wage-bill ratio", frame["from_ratio_m_eur"].to_numpy(dtype=float), SERIES_COLOURS[1]),
+            ("Interaction", frame["wage_bill_ratio_interaction_m_eur"].to_numpy(dtype=float), SERIES_COLOURS[4]),
         ],
     )
     top.plot(

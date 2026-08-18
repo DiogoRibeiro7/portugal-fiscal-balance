@@ -132,57 +132,42 @@ reproducibility of the whole.
 
 \subsection{Contribution}
 
-We make six contributions.
+We make four contributions.
 
 \begin{enumerate}
-\item \textbf{A harmonised long-run panel.} An annual panel of net lending and net
-borrowing for General Government and its three subsectors covering
-\PanelStart--\PanelEnd, built by splicing the Banco de Portugal / INE historical
-long series to the modern national accounts. The \textbf{1995} methodological
-boundary is retained as a documented splice, both vintages of the overlapping year
-are kept, and nothing is chained, smoothed or calibrated across it.
+\item \textbf{A harmonised long-run panel, and a validation layer that says what it is
+worth.} An annual panel of net lending and net borrowing for General Government and its
+three subsectors covering \PanelStart--\PanelEnd, built by splicing the Banco de
+Portugal / INE historical long series to the modern national accounts. The
+\textbf{1995} methodological boundary is retained as a documented splice, both vintages
+of the overlapping year are kept, and nothing is chained, smoothed or calibrated across
+it. Alongside it we separate two checks that are routinely conflated: identity closure
+asks whether an extraction is arithmetically self-consistent, source agreement asks
+whether two independently published sources report the same number, and the first cannot
+establish the second. Here the identities close to \MaxClosureResidual\ million euro
+while two published sources still disagree by \MaxSourceDisagreement\ million on one
+subsector-year.
 
-\item \textbf{An exact decomposition, in levels and in changes.} The aggregate
-balance and each of its annual changes are decomposed into subsector components
-that close to the sources' rounding. Changes are additionally reported scaled by
-current-year GDP, which makes episodes forty years apart comparable without
-turning the decomposition into a ratio that no longer adds up.
+\item \textbf{An exact decomposition of the balance and of its movements, at three
+levels.} The aggregate balance and each of its annual changes decompose into subsector
+components that close to the sources' rounding, with changes additionally scaled by
+current-year GDP so that episodes forty years apart are comparable without turning the
+decomposition into a ratio that no longer adds up. The largest episodes are then
+attributed hierarchically: to a subsector, to that same subsector's revenue and
+expenditure, and to the components of those accounts. Persistence is reported alongside,
+with magnitudes computed inside each statistical regime rather than pooled across the
+splice --- not a presentational choice, since the aggregate balance averages
+\GgMeanHistorical\% of GDP before 1995 and \GgMeanModern\% after, and the pooled
+\GgMeanPooled\% describes neither period.
 
-\item \textbf{Persistence stated per statistical regime.} Sign frequencies, run
-lengths and one-year sign transitions, with magnitudes computed inside each regime
-rather than pooled across the splice. Pooling is not a presentational choice here:
-the aggregate balance averages \GgMeanHistorical\% of GDP before 1995 and
-\GgMeanModern\% after, and the pooled \GgMeanPooled\% describes neither period.
-
-\item \textbf{Hierarchical attribution of the largest episodes.} The largest annual
-movements inside each regime, each attributed to a subsector and then --- for that
-same subsector, not for the aggregate --- to its own revenue and expenditure
-movements.
-
-\item \textbf{A decomposition of the Social Security balance change.} Each annual
-change in the Social Security balance split into the account movements that produced
-it: contributions, other revenue, social transfers and other expenditure, each
-carrying the sign with which it enters the balance so that the four terms add to the
-change.
-
-\item \textbf{Two Social Security boundaries, separated and quantified.} The
-ESA 2010 Social Security Funds sector and the budget-execution systems published by
-the CFP are different accounting objects. We report them side by side, never add
-them, and measure the gap between them --- which is non-zero in every one of the
-\SsfBoundaryYears\ years they overlap.
-
-\item \textbf{A validation layer that separates two different tests.} Identity
-closure asks whether an extraction is arithmetically self-consistent; source
-agreement asks whether two independently published sources report the same number.
-The first cannot establish the second. Here the identities close to
-\MaxClosureResidual\ million euro while two published sources still disagree by
-\MaxSourceDisagreement\ million euro on one subsector-year.
-
-\item \textbf{A contribution base for the Social Security results.} An exact
-decomposition of the change in contributions into the movement of the wage bill and the
-movement of the effective ratio, and of the wage bill into employment and average wages.
-This is what takes the Social Security findings from an accounting location to a named
-quantity outside the fiscal accounts.
+\item \textbf{Social Security: two accounting boundaries, and a contribution base.} The
+ESA 2010 Social Security Funds sector and the budget-execution systems published by the
+CFP are different accounting objects; we report them side by side, never add them, and
+measure the gap, which is non-zero in every one of the \SsfBoundaryYears\ years they
+overlap. Within the national-accounts sector, each annual balance change splits into the
+account movements that produced it, and those contributions are then related to the wage
+bill the levy is actually applied to. That last step is what takes the Social Security
+findings from an accounting location to a named quantity outside the fiscal accounts.
 
 \item \textbf{A European benchmark.} The same definitions applied to
 \BenchmarkCountries\ reporters over \BenchmarkStart--\BenchmarkEnd, which is what turns

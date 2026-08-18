@@ -21,7 +21,9 @@ from portugal_fiscal_balance.analysis.balance import (  # noqa: E402
 from portugal_fiscal_balance.analysis.benchmark import (  # noqa: E402
     european_benchmark_summary,
     european_subsector_panel,
+    offset_floor_sensitivity,
     portugal_benchmark_position,
+    surplus_composition_by_country,
 )
 from portugal_fiscal_balance.analysis.contribution_base import (  # noqa: E402
     contribution_base_panel,
@@ -244,6 +246,14 @@ def main() -> None:
     write_csv(benchmark_panel, PROCESSED / "european_subsector_panel_1995_2025.csv")
     write_csv(benchmark_summary, TABLES / "european_benchmark_summary.csv")
     write_csv(benchmark_position, TABLES / "european_benchmark_position.csv")
+    write_csv(
+        offset_floor_sensitivity(benchmark_panel),
+        TABLES / "european_offset_floor_sensitivity.csv",
+    )
+    write_csv(
+        surplus_composition_by_country(benchmark_summary),
+        TABLES / "european_surplus_composition.csv",
+    )
 
     # 6. Compact tables used directly by the report.
     recent = balance_metrics.loc[balance_metrics["year"].between(2010, 2025), [

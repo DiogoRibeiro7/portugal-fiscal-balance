@@ -1514,8 +1514,8 @@ composition as well as with legislated rates.""",
                 r"""base = pd.read_csv(PROCESSED / 'contribution_base_panel_1995_2025.csv')
 decomposition = pd.read_csv(TABLES / 'contribution_change_decomposition.csv')
 print('effective ratio, first and last:',
-      round(float(base['effective_contribution_rate'].iloc[0]), 3),
-      round(float(base['effective_contribution_rate'].iloc[-1]), 3))
+      round(float(base['contributions_to_wage_bill_ratio'].iloc[0]), 3),
+      round(float(base['contributions_to_wage_bill_ratio'].iloc[-1]), 3))
 print('max |contributions closure|:', float(decomposition['contributions_closure_error_m_eur'].abs().max()))
 print('max |wage bill closure|   :', float(decomposition['wage_bill_closure_error_m_eur'].abs().max()))
 display(
@@ -1524,7 +1524,7 @@ display(
             'year',
             'contributions_change_m_eur',
             'from_wage_bill_m_eur',
-            'from_effective_rate_m_eur',
+            'from_ratio_m_eur',
             'from_employment_m_eur',
             'from_average_wage_m_eur',
         ]

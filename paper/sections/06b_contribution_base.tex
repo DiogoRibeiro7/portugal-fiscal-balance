@@ -12,18 +12,22 @@ mechanism. This section supplies the link to something outside the accounts.
 
 Contributions are levied on wages, so the natural base is the aggregate wage bill of the
 economy, $W_t = N_t \bar{w}_t$, with $N$ employees and $\bar{w}$ the average wage per
-employee. Writing the effective ratio of contributions to that base as
-$\tau_t = C_t / W_t$, the change in contributions decomposes exactly:
+employee. Writing the contributions-to-wage-bill ratio as $\tau_t = C_t / W_t$, the
+change in contributions decomposes exactly:
 \begin{equation}
-\Delta C_t = \underbrace{\tau_{t-1} \Delta W_t}_{\text{base effect}}
-+ \underbrace{W_{t-1} \Delta \tau_t}_{\text{rate effect}}
+\Delta C_t = \underbrace{\tau_{t-1} \Delta W_t}_{\text{wage-bill component}}
++ \underbrace{W_{t-1} \Delta \tau_t}_{\text{ratio component}}
 + \underbrace{\Delta W_t \Delta \tau_t}_{\text{interaction}}.
 \label{eq:contributionbase}
 \end{equation}
-The base effect splits again by the same identity, into an employment effect and an
-average-wage effect. Both decompositions are exact. The interaction term is carried
-rather than dropped or shared between the factors, because either would make the
+The wage-bill component splits again by the same identity, into an employment component
+and an average-wage component. Both decompositions are exact. The interaction term is
+carried rather than dropped or shared between the factors, because either would make the
 decomposition inexact while looking tidier.
+
+We call $\tau$ a ratio and never a rate, deliberately. ``Rate effect'' would invite the
+reading that a movement in $\tau$ reflects a change in the statutory levy, and the next
+paragraph explains why that reading would be wrong.
 
 The wage bill and the employee count are the Portuguese national accounts compiled by
 Statistics Portugal, taken from the harmonised dissemination of those accounts
@@ -34,20 +38,33 @@ contributions and would place part of the numerator inside the denominator.
 \paragraph{What $\tau$ is not.} It is not a statutory contribution rate.
 National-accounts social contributions received by the Social Security Funds include
 imputed contributions and contributions on bases other than employee wages, notably the
-self-employed. The ratio is an effective ratio between two published aggregates, and it
-moves with coverage, compliance and composition as well as with legislated rates. It
-stands at \EffectiveRateLatest\ in \BaseYear\ against a panel mean of
-\EffectiveRateMean.
+self-employed. It is a ratio between two published aggregates, and it moves with
+coverage, compliance and composition as well as with legislated rates. It stands at
+\EffectiveRateLatest\ in \BaseYear\ against a panel mean of \EffectiveRateMean, both
+well below the headline levy, which is itself a sign that the two are not the same
+object.
 
 \subsection{What moved contributions}
 
 \input{generated/tab_contributionbase}
 
-In \BaseYear\ contributions rose by \BaseContributionsChange\ million euro. Of that,
-\BaseFromWageBill\ million came from the wage bill and \BaseFromRate\ million from the
-effective ratio: the base did most of the work, but not all of it. The wage bill itself
-rose by \BaseWageBillChange\ million, of which \BaseFromEmployment\ million came from
-more employees and \BaseFromAverageWage\ million from higher average wages.
+In \BaseYear\ contributions rose by \BaseContributionsChange\ million euro, which
+decomposes as
+\[
+\BaseContributionsChange = \underbrace{\BaseFromWageBill}_{\text{wage bill}}
++ \underbrace{\BaseFromRate}_{\text{ratio}}
++ \underbrace{\BaseRatioInteraction}_{\text{interaction}}.
+\]
+The wage bill did most of the work, but not all of it. The wage bill itself rose by
+\BaseWageBillChange\ million, and that splits the same way:
+\[
+\BaseWageBillChange = \underbrace{\BaseFromEmployment}_{\text{employees}}
++ \underbrace{\BaseFromAverageWage}_{\text{average wage}}
++ \underbrace{\BaseWageInteraction}_{\text{interaction}}.
+\]
+The interaction terms are small here, but they are stated rather than absorbed: a paper
+that insists the decomposition is exact should not present a two-term version of a
+three-term identity.
 
 Figure~\ref{fig:contributionbase} shows both decompositions over the modern period, and
 the two crises are where the mechanism is clearest. In the austerity years the wage bill
@@ -79,10 +96,12 @@ Regressing the annual change in contributions on the annual change in the wage b
 standard error of \WageBillSlopeSe\ and an $R^2$ of \WageBillRSquared. Three things are
 worth noting about that.
 
-The slope is close to the mean effective ratio of \EffectiveRateMean, which is what the
-accounting predicts: an extra euro of wage bill should carry roughly $\tau$ euro of
-contributions. A slope far from $\tau$ would have been the informative result, and it is
-not what the data show.
+The slope is close to the average contributions-to-wage-bill ratio of \EffectiveRateMean.
+That is consistent with a comparatively stable ratio component over the sample, but it is
+not implied by the identity: Equation~\eqref{eq:contributionbase} would deliver
+$\beta = \bar{\tau}$ only if $\Delta\tau$ and the interaction term were uncorrelated with
+$\Delta W$, which nothing here establishes. The agreement is therefore a descriptive fact
+about this sample rather than an arithmetic necessity.
 
 The fit is an order of magnitude tighter than the nominal-GDP regressions, whose $R^2$
 values span 0.07 to 0.18. That difference is the substantive argument for the

@@ -1,4 +1,4 @@
-year,contributions_change_m_eur,from_effective_rate_m_eur,from_wage_bill_m_eur,rate_base_interaction_m_eur,contributions_closure_error_m_eur,wage_bill_change_m_eur,from_employment_m_eur,from_average_wage_m_eur,employment_wage_interaction_m_eur,wage_bill_closure_error_m_eur,contributions_m_eur,wage_bill_m_eur,effective_contribution_rate,year_gap
+year,contributions_change_m_eur,from_ratio_m_eur,from_wage_bill_m_eur,wage_bill_ratio_interaction_m_eur,contributions_closure_error_m_eur,wage_bill_change_m_eur,from_employment_m_eur,from_average_wage_m_eur,employment_wage_interaction_m_eur,wage_bill_closure_error_m_eur,contributions_m_eur,wage_bill_m_eur,contributions_to_wage_bill_ratio,year_gap
 2001,796.631,240.4137981,541.4987136,14.71848821,-6.821210263e-13,3029,763.2755752,2231.301781,34.42264347,-1.364242053e-12,9641.545,52505.1,0.1836306378,1
 2002,508.393,80.23198151,424.6274868,3.533531677,4.547473509e-13,2312.4,540.7405624,1753.599433,18.06000453,-2.728484105e-12,10149.938,54817.5,0.1851587176,1
 2003,95.085,-120.3183156,217.9873582,-2.584042559,-1.705302566e-13,1177.3,-592.6230555,1789.266524,-19.34346869,0,10245.023,55994.8,0.1829638288,1
