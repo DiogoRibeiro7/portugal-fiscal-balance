@@ -46,6 +46,29 @@ sources:
       Portuguese rows agree with the domestic panel to rounding, which makes this an
       independent check on the extraction as well as a comparison set.
 
+  ine_wage_bill:
+    institution: Statistics Portugal (INE) via Eurostat
+    coverage: 1995-2025, total economy
+    vintage: 2026-08-17
+    url: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nama_10_a10/A.CP_MEUR.TOTAL.D1+D11.PT?format=SDMX-CSV&startPeriod=1995
+    local_file: data/raw/eurostat/eurostat_nama_10_a10_wage_bill_pt_2026-08-17.csv
+    notes: >-
+      Wages and salaries (D.11) and compensation of employees (D.1) for the total
+      economy. These are the Portuguese national accounts compiled by INE and
+      transmitted to Eurostat; the Eurostat endpoint is used because it is versioned
+      and programmatically stable, not because the compiler differs.
+
+  ine_employment:
+    institution: Statistics Portugal (INE) via Eurostat
+    coverage: 1995-2025, total economy
+    vintage: 2026-08-17
+    url: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nama_10_a10_e/A.THS_PER.TOTAL.SAL_DC+EMP_DC.PT?format=SDMX-CSV&startPeriod=1995
+    local_file: data/raw/eurostat/eurostat_nama_10_a10_e_employment_pt_2026-08-17.csv
+    notes: >-
+      Employees and total employment, domestic concept, in thousands of persons.
+      Employees are the head count behind the wage bill, so the two files together
+      give the contribution base and its split into employment and average wages.
+
   cfp_social_security_detail:
     institution: Portuguese Public Finance Council (CFP)
     coverage: 2019-2025 systems; detailed 2024-2025 tables

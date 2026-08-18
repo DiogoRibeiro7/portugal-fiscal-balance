@@ -636,3 +636,65 @@ def test_raw_file_hash_manifest_is_nonempty() -> None:
         hashes = json.load(handle)
     assert len(hashes) >= 5
     assert all(len(value) == 64 for value in hashes.values())
+
+
+def test_contribution_decomposition_is_exact_on_both_levels() -> None:
+    """Both nested product decompositions must close by construction."""
+    frame = _read_csv(Path("outputs/tables/contribution_change_decomposition.csv"))
+    assert not frame.empty
+    assert float(frame["contributions_closure_error_m_eur"].abs().max()) < 1e-6
+    assert float(frame["wage_bill_closure_error_m_eur"].abs().max()) < 1e-6
+
+    contributions = (
+        frame["from_wage_bill_m_eur"]
+        + frame["from_effective_rate_m_eur"]
+        + frame["rate_base_interaction_m_eur"]
+    )
+    assert np.allclose(contributions, frame["contributions_change_m_eur"])
+
+    wage_bill = (
+        frame["from_employment_m_eur"]
+        + frame["from_average_wage_m_eur"]
+        + frame["employment_wage_interaction_m_eur"]
+    )
+    assert np.allclose(wage_bill, frame["wage_bill_change_m_eur"])
+
+
+def test_no_contribution_change_bridges_the_subsector_source_gap() -> None:
+    """Differencing 1995 against 2000 would present five years of growth as one.
+
+    This is not hypothetical: bridging the gap moves the wage-bill regression slope
+    from 0.25 to 0.13 and its fit from 0.93 to 0.40, on one contaminated observation.
+    """
+    frame = _read_csv(Path("outputs/tables/contribution_change_decomposition.csv"))
+    years = frame["year"].tolist()
+    assert 2000 not in years, "A five-year change was computed as annual"
+    assert years == list(range(min(years), max(years) + 1)), "Years are not contiguous"
+
+
+def test_contribution_base_uses_wages_rather_than_total_compensation() -> None:
+    """Compensation of employees contains employers' contributions.
+
+    Using it as the base would place part of the numerator inside the denominator and
+    depress the effective ratio, so the panel must carry the narrower measure.
+    """
+    panel = _read_csv(Path("data/processed/contribution_base_panel_1995_2025.csv"))
+    assert "wage_bill_m_eur" in panel.columns
+    assert (panel["wage_bill_m_eur"] < panel["compensation_of_employees_m_eur"]).all()
+    implied = panel["contributions_m_eur"] / panel["wage_bill_m_eur"]
+    assert np.allclose(implied, panel["effective_contribution_rate"])
+    # An effective ratio, not a statutory rate: it sits well below the headline levy.
+    assert panel["effective_contribution_rate"].between(0.10, 0.40).all()
+
+
+def test_wage_bill_regression_recovers_the_effective_ratio() -> None:
+    """The slope should land near the ratio the accounting implies."""
+    regression = _read_csv(Path("outputs/tables/contribution_wage_bill_regression.csv"))
+    assert len(regression) == 1
+    row = regression.iloc[0]
+    assert row["n"] >= 20
+    assert abs(row["coef_minus_mean_rate"]) < 0.10
+    # Comfortably tighter than the nominal-GDP specification it replaces, whose fits
+    # span 0.07 to 0.18.
+    assert row["r_squared"] > 0.5
+    assert row["wage_bill_pvalue_hac"] < 0.05

@@ -45,6 +45,7 @@ from portugal_fiscal_balance.reporting.render import (  # noqa: PLC2701
     _label_sectors,
     _latest,
     _sector_row,
+    _tail_years,
     _view,
     load,
 )
@@ -167,6 +168,11 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
     improvement_component = _leading_component(int(top_improvement["year"]))
     deterioration_component = _leading_component(int(top_deterioration["year"]))
 
+    # Contribution base: the wage bill behind the contributions.
+    base_latest = _latest(data.base_decomposition)
+    base_panel_latest = _latest(data.base_panel)
+    base_regression = data.base_regression.iloc[0]
+
     # European benchmark. The structural comparison is the share of a country's
     # aggregate-surplus years in which the non-Social-Security balance was negative:
     # the direct cross-country analogue of this paper's headline composition.
@@ -284,6 +290,20 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
         "SsfChangeOtherExpenditure": _money(
             ssf_change_latest["other_expenditure_contribution_m_eur"]
         ),
+        # Contribution base.
+        "BaseYear": str(int(base_latest["year"])),
+        "BaseContributionsChange": _money(base_latest["contributions_change_m_eur"]),
+        "BaseFromWageBill": _money(base_latest["from_wage_bill_m_eur"]),
+        "BaseFromRate": _money(base_latest["from_effective_rate_m_eur"]),
+        "BaseWageBillChange": _money(base_latest["wage_bill_change_m_eur"]),
+        "BaseFromEmployment": _money(base_latest["from_employment_m_eur"]),
+        "BaseFromAverageWage": _money(base_latest["from_average_wage_m_eur"]),
+        "EffectiveRateLatest": _ratio(base_panel_latest["effective_contribution_rate"], 3),
+        "EffectiveRateMean": _ratio(base_regression["mean_effective_rate"], 3),
+        "WageBillSlope": _ratio(base_regression["wage_bill_coef"], 3),
+        "WageBillSlopeSe": _ratio(base_regression["wage_bill_se_hac"], 3),
+        "WageBillRSquared": _ratio(base_regression["r_squared"], 3),
+        "WageBillObservations": str(int(base_regression["n"])),
         # European benchmark.
         "BenchmarkCountries": str(int(len(summary))),
         "BenchmarkStart": str(int(summary["first_year"].min())),
@@ -407,6 +427,18 @@ def _table_files(data: ReportInputs) -> dict[str, str]:
         },
     )
     episode_components["Side"] = episode_components["Side"].str.capitalize()
+    contribution_view = _view(
+        _tail_years(data.base_decomposition, 8),
+        {
+            "year": "Year",
+            "contributions_change_m_eur": "$\Delta$ contributions",
+            "from_wage_bill_m_eur": "From wage bill",
+            "from_effective_rate_m_eur": "From rate",
+            "wage_bill_change_m_eur": "$\Delta$ wage bill",
+            "from_employment_m_eur": "From employment",
+            "from_average_wage_m_eur": "From average wage",
+        },
+    )
     ssf_change = _view(
         data.ss_change.loc[data.ss_change["year"].ge(2018)],
         {
@@ -558,6 +590,16 @@ def _table_files(data: ReportInputs) -> dict[str, str]:
             "common one: four revenue and seven expenditure components in the modern period, "
             "current against capital in the historical one. Expenditure contributions are "
             "negated, so a falling capital expenditure appears as a positive contribution.",
+        ),
+        "tab_contributionbase.tex": latex.table(
+            contribution_view,
+            caption="The annual change in Social Security contributions, split into the "
+            "movement of the wage bill and the movement of the effective ratio, and the wage "
+            "bill split again into employment and average wages.",
+            label="contributionbase",
+            digits=0,
+            note="The interaction terms are carried rather than dropped or shared between the "
+            "factors, because either would make the decomposition inexact.",
         ),
         "tab_ssfchange.tex": latex.table(
             ssf_change,

@@ -50,6 +50,7 @@ ARTEFACT_INDEX: tuple[tuple[str, str, str], ...] = (
     ("Persistence, pooled and by regime", "07_persistence", "outputs/tables/persistence_by_regime.csv"),
     ("Structural mean shifts", "08_structural_breaks", "outputs/tables/structural_breaks.csv"),
     ("Change-point robustness", "08_structural_breaks", "outputs/tables/structural_break_sensitivity.csv"),
+    ("Contribution base", "09_social_security_mechanisms", "outputs/tables/contribution_change_decomposition.csv"),
     ("European benchmark", "16_european_benchmark", "outputs/tables/european_benchmark_summary.csv"),
     ("Descriptive macroeconomic co-movement", "14_macroeconomic_comovement", "outputs/tables/nominal_gdp_balance_comovement.csv"),
     ("Intergovernmental transfers", "10_intergovernmental_transfers", "outputs/tables/historical_transfer_reallocation_sensitivity.csv"),
@@ -92,6 +93,9 @@ class ReportInputs:
     labour_comovement: pd.DataFrame
     validation_summary: pd.DataFrame
     balances: pd.DataFrame
+    base_panel: pd.DataFrame
+    base_decomposition: pd.DataFrame
+    base_regression: pd.DataFrame
     benchmark_panel: pd.DataFrame
     benchmark_summary: pd.DataFrame
     benchmark_position: pd.DataFrame
@@ -182,6 +186,9 @@ def load(root: Path) -> ReportInputs:
         labour_comovement=pd.read_csv(tables / "historical_ssf_labour_comovement.csv"),
         validation_summary=pd.read_csv(tables / "source_validation_summary.csv"),
         balances=pd.read_csv(processed / "fiscal_balances_1977_2025.csv"),
+        base_panel=pd.read_csv(processed / "contribution_base_panel_1995_2025.csv"),
+        base_decomposition=pd.read_csv(tables / "contribution_change_decomposition.csv"),
+        base_regression=pd.read_csv(tables / "contribution_wage_bill_regression.csv"),
         benchmark_panel=pd.read_csv(processed / "european_subsector_panel_1995_2025.csv"),
         benchmark_summary=pd.read_csv(tables / "european_benchmark_summary.csv"),
         benchmark_position=pd.read_csv(tables / "european_benchmark_position.csv"),
@@ -1584,6 +1591,117 @@ risk.
 """
 
 
+def _section_contribution_base(data: ReportInputs) -> str:
+    """Build the contribution-base section."""
+    decomposition = data.base_decomposition
+    latest = _latest(decomposition)
+    panel_latest = _latest(data.base_panel)
+    panel_first = data.base_panel.sort_values("year").iloc[0]
+    view = _view(
+        _tail_years(decomposition, 8),
+        {
+            "year": "Year",
+            "contributions_change_m_eur": "Change in contributions (M EUR)",
+            "from_wage_bill_m_eur": "From the wage bill (M EUR)",
+            "from_effective_rate_m_eur": "From the effective rate (M EUR)",
+            "rate_base_interaction_m_eur": "Interaction (M EUR)",
+        },
+    )
+    split = _view(
+        _tail_years(decomposition, 8),
+        {
+            "year": "Year",
+            "wage_bill_change_m_eur": "Change in the wage bill (M EUR)",
+            "from_employment_m_eur": "From employment (M EUR)",
+            "from_average_wage_m_eur": "From average wages (M EUR)",
+            "employment_wage_interaction_m_eur": "Interaction (M EUR)",
+        },
+    )
+    residual = float(decomposition["contributions_closure_error_m_eur"].abs().max())
+    decomposition_table = latex.table(
+        view,
+        caption="The annual change in Social Security contributions, split into the movement "
+        "of the wage bill and the movement of the effective ratio between them.",
+        label="contributionbase",
+        digits=0,
+        note="The interaction term is carried rather than dropped or shared between the two "
+        f"effects, because either would make the decomposition inexact. It closes to {residual:.1e} "
+        "M EUR.",
+    )
+    split_table = latex.table(
+        split,
+        caption="And what moved the wage bill: the number of employees against the average "
+        "wage per employee.",
+        label="wagebillsplit",
+        digits=0,
+    )
+    figure = latex.figure(
+        "19_contribution_base.png",
+        caption="Contributions and their base. Upper panel: the change in contributions split "
+        "into a base effect and a rate effect. Lower panel: the change in the wage bill split "
+        "into employment and average wages.",
+        label="contributionbasefig",
+    )
+    regression_note = ""
+    if not data.base_regression.empty:
+        row = data.base_regression.iloc[0]
+        regression_note = (
+            r"\subsection{A companion regression}"
+            "\n\n"
+            f"Regressing the annual change in contributions on the annual change in the wage\n"
+            f"bill over {int(row['n'])} adjacent-year pairs gives a slope of\n"
+            rf"\textbf{{{row['wage_bill_coef']:.3f}}} with a HAC standard error of"
+            f"\n{row['wage_bill_se_hac']:.3f} and an "
+            rf"\(R^2\) of \textbf{{{row['r_squared']:.3f}}}."
+            "\nThe slope sits close to the mean effective ratio of "
+            f"{row['mean_effective_rate']:.3f}, which is what the\n"
+            "accounting predicts, and the fit is far tighter than the nominal-GDP specification\n"
+            r"in Appendix~\ref{sec:comovement}: the regressor here is the base the levy actually"
+            "\nfalls on rather than an aggregate that merely correlates with it. It remains a\n"
+            "descriptive statistic and no identification is claimed.\n"
+        )
+    return (
+        r"\section{The Contribution Base}"
+        "\n"
+        r"\label{sec:contributionbase}"
+        "\n\n"
+        "The Social Security results so far locate a movement inside the fiscal accounts. They\n"
+        "do not relate it to anything outside them. Contributions are levied on wages, so the\n"
+        "natural base is the aggregate wage bill "
+        r"\(W_t = N_t \bar{w}_t\), with \(N\) employees"
+        "\nand "
+        r"\(\bar{w}\) the average wage. Writing the effective ratio as \(\tau_t = C_t / W_t\),"
+        "\nthe change in contributions decomposes exactly:\n"
+        r"\[\Delta C_t = \tau_{t-1} \Delta W_t + W_{t-1} \Delta \tau_t"
+        r" + \Delta W_t \Delta \tau_t.\]"
+        "\n\n"
+        "The wage bill and employment come from the Portuguese national accounts compiled by\n"
+        "INE. "
+        r"\(\tau\) is \emph{not} a statutory contribution rate: national-accounts"
+        "\ncontributions include imputed contributions and bases other than employee wages, so\n"
+        "the ratio moves with coverage and composition as well as with legislated rates. It\n"
+        "stands at "
+        rf"\textbf{{{panel_latest['effective_contribution_rate']:.3f}}}"
+        f" in {int(panel_latest['year'])} against "
+        rf"\textbf{{{panel_first['effective_contribution_rate']:.3f}}}"
+        f" in {int(panel_first['year'])}.\n\n"
+        f"{decomposition_table}"
+        f"In {int(latest['year'])} contributions rose by "
+        rf"\textbf{{{latex.number(float(latest['contributions_change_m_eur']), 0)} M EUR}},"
+        "\nof which "
+        rf"\textbf{{{latex.number(float(latest['from_wage_bill_m_eur']), 0)} M EUR}}"
+        " came from\nthe wage bill and "
+        rf"\textbf{{{latex.number(float(latest['from_effective_rate_m_eur']), 0)} M EUR}}"
+        " from the\neffective ratio. The base effect splits again.\n\n"
+        f"{split_table}"
+        f"{figure}"
+        f"{regression_note}"
+        "\nThe decomposition is exact and descriptive. It does not establish that the wage bill\n"
+        "produced the movement in contributions, and it identifies nothing about why employment\n"
+        "or wages moved.\n"
+    )
+
+
 def _section_benchmark(data: ReportInputs) -> str:
     """Build the European benchmark section."""
     summary = data.benchmark_summary
@@ -1852,6 +1970,7 @@ def render_report(root: Path) -> Path:
             _section_investment(data),
             _section_debt(data),
             _section_persistence(data),
+            _section_contribution_base(data),
             _section_benchmark(data),
             _section_transfers(),
             _section_limitations(),

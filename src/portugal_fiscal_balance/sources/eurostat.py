@@ -85,3 +85,46 @@ def extract_subsector_balances(path: Path) -> pd.DataFrame:
 
     ordered = ["country", "year", "sector", "balance_mio_nac", "balance_pct_gdp", "flag"]
     return wide[ordered].sort_values(["country", "year", "sector"]).reset_index(drop=True)
+
+
+#: National-accounts items used to build the Social Security contribution base.
+#: These are the Portuguese national accounts compiled by Statistics Portugal (INE)
+#: and disseminated through Eurostat, which is why they are read here rather than
+#: from a second national source: the API is versioned, stable and already used.
+CONTRIBUTION_BASE_ITEMS: Final[dict[str, str]] = {
+    "D11": "wages_and_salaries_m_eur",
+    "D1": "compensation_of_employees_m_eur",
+    "SAL_DC": "employees_k",
+    "EMP_DC": "employment_k",
+}
+
+
+def extract_contribution_base(wage_path: Path, employment_path: Path) -> pd.DataFrame:
+    """Read the wage-bill and employment snapshots into one annual panel.
+
+    Two datasets are needed because Eurostat splits value and volume: the wage bill
+    comes from the income side of the industry accounts and the head counts from the
+    employment accounts. They share a dimension layout, so the parsing is common.
+    """
+    frames = []
+    for path in (wage_path, employment_path):
+        frame = pd.read_csv(path)
+        required = ["na_item", "geo", "TIME_PERIOD", "OBS_VALUE"]
+        missing = [column for column in required if column not in frame.columns]
+        if missing:
+            raise ValueError(f"{path.name} is missing columns: {missing}")
+        frames.append(frame)
+
+    long = pd.concat(frames, ignore_index=True)
+    long = long.loc[long["na_item"].isin(CONTRIBUTION_BASE_ITEMS)]
+    long = long.rename(columns={"TIME_PERIOD": "year"})
+    long["year"] = long["year"].astype(int)
+
+    wide = long.pivot_table(index="year", columns="na_item", values="OBS_VALUE").reset_index()
+    wide = wide.rename(columns=CONTRIBUTION_BASE_ITEMS)
+    for column in CONTRIBUTION_BASE_ITEMS.values():
+        if column not in wide.columns:
+            raise ValueError(f"Contribution-base panel is missing {column}")
+
+    ordered = ["year", *CONTRIBUTION_BASE_ITEMS.values()]
+    return wide[ordered].sort_values("year").reset_index(drop=True)

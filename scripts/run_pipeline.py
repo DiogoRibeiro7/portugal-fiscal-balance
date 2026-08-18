@@ -23,6 +23,11 @@ from portugal_fiscal_balance.analysis.benchmark import (  # noqa: E402
     european_subsector_panel,
     portugal_benchmark_position,
 )
+from portugal_fiscal_balance.analysis.contribution_base import (  # noqa: E402
+    contribution_base_panel,
+    contribution_change_decomposition,
+    contribution_wage_bill_regression,
+)
 from portugal_fiscal_balance.analysis.changepoints import (  # noqa: E402
     structural_break_bic_ladder,
     structural_break_sensitivity,
@@ -88,7 +93,10 @@ from portugal_fiscal_balance.sources.cfp import (  # noqa: E402
     extract_cfp_annual,
     extract_social_security_detail,
 )
-from portugal_fiscal_balance.sources.eurostat import extract_subsector_balances  # noqa: E402
+from portugal_fiscal_balance.sources.eurostat import (  # noqa: E402
+    extract_contribution_base,
+    extract_subsector_balances,
+)
 from portugal_fiscal_balance.sources.pordata import load_balance_snapshot  # noqa: E402
 
 warnings.filterwarnings("ignore", category=UserWarning, module="openpyxl")
@@ -204,6 +212,21 @@ def main() -> None:
     write_csv(ss_detail_metrics, TABLES / "social_security_detail_metrics_2024_2025.csv")
     write_csv(ss_boundary, TABLES / "ssf_accounting_boundary_comparison.csv")
     write_csv(ss_change, TABLES / "ssf_balance_change_decomposition.csv")
+
+    # 5c. The contribution base. Every other Social Security result locates a
+    #     movement inside the fiscal accounts; this one relates it to the wage
+    #     bill the levy actually falls on.
+    contribution_base = extract_contribution_base(
+        RAW / "eurostat" / "eurostat_nama_10_a10_wage_bill_pt_2026-08-17.csv",
+        RAW / "eurostat" / "eurostat_nama_10_a10_e_employment_pt_2026-08-17.csv",
+    )
+    base_panel = contribution_base_panel(account_panel, contribution_base)
+    base_decomposition = contribution_change_decomposition(base_panel)
+    base_regression = contribution_wage_bill_regression(base_panel)
+    write_csv(contribution_base, INTERIM / "ine_contribution_base_1995_2025.csv")
+    write_csv(base_panel, PROCESSED / "contribution_base_panel_1995_2025.csv")
+    write_csv(base_decomposition, TABLES / "contribution_change_decomposition.csv")
+    write_csv(base_regression, TABLES / "contribution_wage_bill_regression.csv")
     write_csv(transfer_sensitivity, TABLES / "historical_transfer_reallocation_sensitivity.csv")
     write_csv(nominal_comovement, TABLES / "nominal_gdp_balance_comovement.csv")
     write_csv(labour_comovement, TABLES / "historical_ssf_labour_comovement.csv")
@@ -287,6 +310,9 @@ def main() -> None:
             ss_change, start_year=2001, end_year=int(ss_change["year"].max())
         ),
         "17_european_benchmark.png": figures.european_benchmark(benchmark_summary),
+        "19_contribution_base.png": figures.contribution_base_decomposition(
+            base_decomposition
+        ),
         "18_european_offset_distribution.png": figures.european_offset_distribution(
             benchmark_panel
         ),

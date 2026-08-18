@@ -1257,6 +1257,82 @@ def account_coverage(accounts: pd.DataFrame) -> Figure:
     return fig
 
 
+def contribution_base_decomposition(decomposition: pd.DataFrame) -> Figure:
+    """Show what moved Social Security contributions, and what moved their base.
+
+    Two stacked panels rather than one. The upper panel splits the change in
+    contributions into a base effect and a rate effect; the lower splits that base
+    effect again into employment and average wages. Drawing them together on one axis
+    would double-count, because the wage-bill bar in the upper panel is the sum of the
+    two bars below it.
+    """
+    apply_house_style()
+    frame = decomposition.sort_values("year")
+    years = frame["year"].to_numpy(dtype=float)
+    fig, axes = plt.subplots(2, 1, figsize=(10.0, 6.4), sharex=True)
+    top, bottom = axes[0], axes[1]
+
+    top.set_title(
+        "Change in social contributions: the base effect and the rate effect",
+        pad=30.0,
+    )
+    _signed_stack(
+        top,
+        years,
+        [
+            ("From the wage bill", frame["from_wage_bill_m_eur"].to_numpy(dtype=float), SERIES_COLOURS[2]),
+            ("From the effective rate", frame["from_effective_rate_m_eur"].to_numpy(dtype=float), SERIES_COLOURS[1]),
+            ("Interaction", frame["rate_base_interaction_m_eur"].to_numpy(dtype=float), SERIES_COLOURS[4]),
+        ],
+    )
+    top.plot(
+        years,
+        frame["contributions_change_m_eur"],
+        color=INK_PRIMARY,
+        linewidth=1.6,
+        label="Change in contributions",
+        zorder=4,
+    )
+    top.set_ylabel("Million euro")
+    top.axhline(0.0, color=BASELINE, linewidth=1.0, zorder=1)
+    _legend(top, ncol=4)
+
+    # The legend sits above this panel too, so the title needs the same clearance
+    # the single-panel helper gives it.
+    bottom.set_title(
+        "And what moved the wage bill: employment against average wages",
+        pad=30.0,
+        fontsize=11.0,
+    )
+    _signed_stack(
+        bottom,
+        years,
+        [
+            ("From employment", frame["from_employment_m_eur"].to_numpy(dtype=float), SERIES_COLOURS[0]),
+            ("From average wages", frame["from_average_wage_m_eur"].to_numpy(dtype=float), SERIES_COLOURS[3]),
+            ("Interaction", frame["employment_wage_interaction_m_eur"].to_numpy(dtype=float), SERIES_COLOURS[4]),
+        ],
+    )
+    bottom.plot(
+        years,
+        frame["wage_bill_change_m_eur"],
+        color=INK_PRIMARY,
+        linewidth=1.6,
+        label="Change in the wage bill",
+        zorder=4,
+    )
+    bottom.set_ylabel("Million euro")
+    bottom.set_xlabel("Year")
+    bottom.axhline(0.0, color=BASELINE, linewidth=1.0, zorder=1)
+    bottom.xaxis.set_major_locator(MaxNLocator(integer=True))
+    _legend(bottom, ncol=4)
+
+    for ax in axes:
+        ax.grid(visible=True, axis="y")
+        ax.set_axisbelow(True)
+    return fig
+
+
 def european_benchmark(summary: pd.DataFrame, *, highlight: str = "PT") -> Figure:
     """Place one country in the cross-country distribution of two sign frequencies.
 

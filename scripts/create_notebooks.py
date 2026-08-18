@@ -1492,7 +1492,61 @@ display((movement.iloc[-1] - movement.iloc[0]).rename('change over the published
             ),
             (
                 "md",
-                """## 3. Why the two boundaries must not be interchanged
+                """## 3. The contribution base
+
+The decomposition above locates the movement inside the fiscal accounts. It does not
+relate it to anything outside them. Contributions are levied on wages, so the natural
+base is the aggregate wage bill of the economy, and the change in contributions splits
+exactly into a base effect and a rate effect:
+
+$$\Delta C_t = \tau_{t-1}\,\Delta W_t + W_{t-1}\,\Delta \tau_t + \Delta W_t\,\Delta \tau_t,
+\qquad \tau_t = C_t / W_t.$$
+
+The wage bill splits again into employees and the average wage per employee. Both
+decompositions are exact; the interaction terms are carried rather than dropped.
+
+`tau` is **not** a statutory rate. National-accounts contributions include imputed
+contributions and bases other than employee wages, so it moves with coverage and
+composition as well as with legislated rates.""",
+            ),
+            (
+                "code",
+                r"""base = pd.read_csv(PROCESSED / 'contribution_base_panel_1995_2025.csv')
+decomposition = pd.read_csv(TABLES / 'contribution_change_decomposition.csv')
+print('effective ratio, first and last:',
+      round(float(base['effective_contribution_rate'].iloc[0]), 3),
+      round(float(base['effective_contribution_rate'].iloc[-1]), 3))
+print('max |contributions closure|:', float(decomposition['contributions_closure_error_m_eur'].abs().max()))
+print('max |wage bill closure|   :', float(decomposition['wage_bill_closure_error_m_eur'].abs().max()))
+display(
+    decomposition[
+        [
+            'year',
+            'contributions_change_m_eur',
+            'from_wage_bill_m_eur',
+            'from_effective_rate_m_eur',
+            'from_employment_m_eur',
+            'from_average_wage_m_eur',
+        ]
+    ].tail(8).round(1)
+)""",
+            ),
+            ("code", r"""figure = figures.contribution_base_decomposition(decomposition)"""),
+            (
+                "md",
+                """No change is computed across the 1995-to-2000 gap in subsector accounts. That is not
+a formality: bridging it treats five years of wage-bill growth as one year, which moves
+the regression slope below from 0.25 to 0.13 and its fit from 0.93 to 0.40 on a single
+contaminated observation.""",
+            ),
+            (
+                "code",
+                r"""regression = pd.read_csv(TABLES / 'contribution_wage_bill_regression.csv')
+display(regression.round(4))""",
+            ),
+            (
+                "md",
+                """## 4. Why the two boundaries must not be interchanged
 
 This is the point the two layers exist to make. The ESA 2010 Social Security Funds
 balance is the B.9 term that enters the general-government identity. The budget
@@ -1518,7 +1572,7 @@ print('years where the two are equal:', int((boundary['boundary_difference_m_eur
             ("code", r"""figure = figures.ssf_accounting_boundary(boundary)"""),
             (
                 "md",
-                """## 4. Contribution dynamics
+                """## 5. Contribution dynamics
 
 The change in contributions is the revenue-side mechanism behind the national-accounts
 balance. It is shown against the change in total revenue and expenditure so the

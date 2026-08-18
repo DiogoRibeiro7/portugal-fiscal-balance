@@ -1,0 +1,107 @@
+% Authored. Tables and numbers come from generated/.
+
+\section{The Contribution Base}
+\label{sec:contributionbase}
+
+Every Social Security result to this point is internal to the fiscal accounts.
+Section~\ref{sec:results} establishes that contributions are the largest positive term
+in the recent balance changes, and stops there: an accounting location, not an economic
+mechanism. This section supplies the link to something outside the accounts.
+
+\subsection{The base and the ratio}
+
+Contributions are levied on wages, so the natural base is the aggregate wage bill of the
+economy, $W_t = N_t \bar{w}_t$, with $N$ employees and $\bar{w}$ the average wage per
+employee. Writing the effective ratio of contributions to that base as
+$\tau_t = C_t / W_t$, the change in contributions decomposes exactly:
+\begin{equation}
+\Delta C_t = \underbrace{\tau_{t-1} \Delta W_t}_{\text{base effect}}
++ \underbrace{W_{t-1} \Delta \tau_t}_{\text{rate effect}}
++ \underbrace{\Delta W_t \Delta \tau_t}_{\text{interaction}}.
+\label{eq:contributionbase}
+\end{equation}
+The base effect splits again by the same identity, into an employment effect and an
+average-wage effect. Both decompositions are exact. The interaction term is carried
+rather than dropped or shared between the factors, because either would make the
+decomposition inexact while looking tidier.
+
+The wage bill and the employee count are the Portuguese national accounts compiled by
+Statistics Portugal, taken from the harmonised dissemination of those accounts
+\citep{ine_wage_bill,ine_employment}. We use wages and salaries (D.11) rather than
+compensation of employees (D.1), because D.1 already includes employers' social
+contributions and would place part of the numerator inside the denominator.
+
+\paragraph{What $\tau$ is not.} It is not a statutory contribution rate.
+National-accounts social contributions received by the Social Security Funds include
+imputed contributions and contributions on bases other than employee wages, notably the
+self-employed. The ratio is an effective ratio between two published aggregates, and it
+moves with coverage, compliance and composition as well as with legislated rates. It
+stands at \EffectiveRateLatest\ in \BaseYear\ against a panel mean of
+\EffectiveRateMean.
+
+\subsection{What moved contributions}
+
+\input{generated/tab_contributionbase}
+
+In \BaseYear\ contributions rose by \BaseContributionsChange\ million euro. Of that,
+\BaseFromWageBill\ million came from the wage bill and \BaseFromRate\ million from the
+effective ratio: the base did most of the work, but not all of it. The wage bill itself
+rose by \BaseWageBillChange\ million, of which \BaseFromEmployment\ million came from
+more employees and \BaseFromAverageWage\ million from higher average wages.
+
+Figure~\ref{fig:contributionbase} shows both decompositions over the modern period, and
+the two crises are where the mechanism is clearest. In the austerity years the wage bill
+contracts on both margins at once, employment and wages falling together. In 2020 the
+two margins move in opposite directions --- employment falls while average wages rise ---
+so the wage bill is almost flat and contributions rise anyway, on the ratio rather than
+the base. Recent years are the reverse of austerity: the base grows strongly, and average
+wages contribute more than employment.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{19_contribution_base.png}
+\caption{Contributions and their base, 2001--\PanelEnd, in million euro. Upper panel: the
+change in contributions split into a base effect and a rate effect. Lower panel: the
+change in the wage bill split into employment and average wages. Both decompositions are
+exact; the black line is the identity total in each.}
+\label{fig:contributionbase}
+\end{figure}
+
+\subsection{A companion regression}
+
+Section~\ref{sec:robustness} sets out why the nominal-GDP specification carries no weight,
+and one of its faults was that the regressor was an aggregate that merely correlates with
+the balance rather than the base a levy falls on. That fault is repairable, and repairing
+it is the point of this specification.
+
+Regressing the annual change in contributions on the annual change in the wage bill over
+\WageBillObservations\ adjacent-year pairs gives a slope of \WageBillSlope\ with a HAC
+standard error of \WageBillSlopeSe\ and an $R^2$ of \WageBillRSquared. Three things are
+worth noting about that.
+
+The slope is close to the mean effective ratio of \EffectiveRateMean, which is what the
+accounting predicts: an extra euro of wage bill should carry roughly $\tau$ euro of
+contributions. A slope far from $\tau$ would have been the informative result, and it is
+not what the data show.
+
+The fit is an order of magnitude tighter than the nominal-GDP regressions, whose $R^2$
+values span 0.07 to 0.18. That difference is the substantive argument for the
+specification, not a claim about its sophistication.
+
+And no changes are computed across the 1995-to-2000 gap in subsector accounts. That
+matters more than it sounds: bridging the gap treats a five-year movement as annual, and
+doing so drives the slope to 0.13 and the $R^2$ to 0.40. A single contaminated
+observation was enough to destroy the relationship.
+
+\subsection{What this does and does not establish}
+
+The decomposition of Equation~\eqref{eq:contributionbase} is exact and descriptive. It
+partitions a recorded movement; it does not show that the wage bill produced it, and it
+says nothing about why employment or wages moved. The regression quantifies a
+co-movement between two first differences and claims no identification.
+
+What it does establish is that the recent growth in Social Security contributions is
+overwhelmingly a base phenomenon rather than a rate phenomenon, and that within the base
+it has lately been driven more by wages per employee than by the number of employees.
+That is a mechanism in the accounting sense: it names the quantity whose movement the
+contributions followed. It is not a causal account of why that quantity moved.

@@ -161,6 +161,8 @@ PORDATA Balance By Level & INE via PORDATA & 1995-2025 & 2026-04 & 2a5d54649041 
 CFP Annual General Government & Portuguese Public Finance Council (CFP) & 1995-2025 & 2026-04-15 & 8f6b5a2916a4 \\
 CFP Annual Subsectors & Portuguese Public Finance Council (CFP) & 2000-2025 & 2026-04-15 & 4d9e1b07cd38 \\
 Eurostat Subsector Balances & Eurostat & 1995-2025, EU and EFTA reporters, B9 by subsector & 2026-07-21 & cf4c9408c237 \\
+INE Wage Bill & Statistics Portugal (INE) via Eurostat & 1995-2025, total economy & 2026-08-17 & e925c41100d8 \\
+INE Employment & Statistics Portugal (INE) via Eurostat & 1995-2025, total economy & 2026-08-17 & 7595dfe29633 \\
 CFP Social Security Detail & Portuguese Public Finance Council (CFP) & 2019-2025 systems; detailed 2024-2025 tables & 2026-04 & d9f28e424ab6 \\
 \bottomrule
 \end{tabular}%
@@ -1151,6 +1153,95 @@ of the specification grid agrees. A break year should not be quoted from this re
 its share. This report attaches no historical cause to any of them, and a minimum segment
 length of five years means shifts near the end of the sample cannot be detected yet.
 
+\section{The Contribution Base}
+\label{sec:contributionbase}
+
+The Social Security results so far locate a movement inside the fiscal accounts. They
+do not relate it to anything outside them. Contributions are levied on wages, so the
+natural base is the aggregate wage bill \(W_t = N_t \bar{w}_t\), with \(N\) employees
+and \(\bar{w}\) the average wage. Writing the effective ratio as \(\tau_t = C_t / W_t\),
+the change in contributions decomposes exactly:
+\[\Delta C_t = \tau_{t-1} \Delta W_t + W_{t-1} \Delta \tau_t + \Delta W_t \Delta \tau_t.\]
+
+The wage bill and employment come from the Portuguese national accounts compiled by
+INE. \(\tau\) is \emph{not} a statutory contribution rate: national-accounts
+contributions include imputed contributions and bases other than employee wages, so
+the ratio moves with coverage and composition as well as with legislated rates. It
+stands at \textbf{0.265} in 2025 against \textbf{0.260} in 1995.
+
+\begin{table}[htbp]
+\centering
+\caption{The annual change in Social Security contributions, split into the movement of the wage bill and the movement of the effective ratio between them.}
+\label{tab:contributionbase}
+\small
+\fitwidth{%
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+Year & Change in contributions (M EUR) & From the wage bill (M EUR) & From the effective rate (M EUR) & Interaction (M EUR) \\
+\midrule
+2018 & 1,166 & 947 & 206 & 12 \\
+2019 & 1,484 & 1,014 & 443 & 26 \\
+2020 & 311 & 28 & 283 & 0 \\
+2021 & 1,430 & 1,268 & 152 & 10 \\
+2022 & 2,289 & 2,110 & 163 & 17 \\
+2023 & 2,806 & 2,685 & 107 & 13 \\
+2024 & 2,557 & 2,056 & 463 & 38 \\
+2025 & 2,468 & 1,870 & 560 & 38 \\
+\bottomrule
+\end{tabular}%
+}
+\par\smallskip
+\begin{minipage}{\linewidth}\footnotesize\itshape The interaction term is carried rather than dropped or shared between the two effects, because either would make the decomposition inexact. It closes to 3.2e-12 M EUR.\end{minipage}
+\end{table}
+In 2025 contributions rose by \textbf{2,468 M EUR},
+of which \textbf{1,870 M EUR} came from
+the wage bill and \textbf{560 M EUR} from the
+effective ratio. The base effect splits again.
+
+\begin{table}[htbp]
+\centering
+\caption{And what moved the wage bill: the number of employees against the average wage per employee.}
+\label{tab:wagebillsplit}
+\small
+\fitwidth{%
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+Year & Change in the wage bill (M EUR) & From employment (M EUR) & From average wages (M EUR) & Interaction (M EUR) \\
+\midrule
+2018 & 3,998 & 1,423 & 2,521 & 54 \\
+2019 & 4,225 & 478 & 3,722 & 25 \\
+2020 & 116 & -1,400 & 1,544 & -29 \\
+2021 & 5,071 & 852 & 4,172 & 47 \\
+2022 & 8,372 & 2,985 & 5,194 & 193 \\
+2023 & 10,572 & 2,000 & 8,383 & 189 \\
+2024 & 8,058 & 992 & 6,996 & 70 \\
+2025 & 7,196 & 2,253 & 4,842 & 102 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\linewidth]{19_contribution_base.png}
+\caption{Contributions and their base. Upper panel: the change in contributions split into a base effect and a rate effect. Lower panel: the change in the wage bill split into employment and average wages.}
+\label{fig:contributionbasefig}
+\end{figure}
+\subsection{A companion regression}
+
+Regressing the annual change in contributions on the annual change in the wage
+bill over 25 adjacent-year pairs gives a slope of
+\textbf{0.248} with a HAC standard error of
+0.022 and an \(R^2\) of \textbf{0.926}.
+The slope sits close to the mean effective ratio of 0.221, which is what the
+accounting predicts, and the fit is far tighter than the nominal-GDP specification
+in Appendix~\ref{sec:comovement}: the regressor here is the base the levy actually
+falls on rather than an aggregate that merely correlates with it. It remains a
+descriptive statistic and no identification is claimed.
+
+The decomposition is exact and descriptive. It does not establish that the wage bill
+produced the movement in contributions, and it identifies nothing about why employment
+or wages moved.
+
 \section{European Benchmark}
 \label{sec:benchmark}
 
@@ -1474,6 +1565,7 @@ Debt and stock-flow adjustment & \texttt{13\_debt\_reconciliation} & \texttt{out
 Persistence, pooled and by regime & \texttt{07\_persistence} & \texttt{outputs/tables/persistence\_by\_regime.csv} \\
 Structural mean shifts & \texttt{08\_structural\_breaks} & \texttt{outputs/tables/structural\_breaks.csv} \\
 Change-point robustness & \texttt{08\_structural\_breaks} & \texttt{outputs/tables/structural\_break\_sensitivity.csv} \\
+Contribution base & \texttt{09\_social\_security\_mechanisms} & \texttt{outputs/tables/contribution\_change\_decomposition.csv} \\
 European benchmark & \texttt{16\_european\_benchmark} & \texttt{outputs/tables/european\_benchmark\_summary.csv} \\
 Descriptive macroeconomic co-movement & \texttt{14\_macroeconomic\_comovement} & \texttt{outputs/tables/nominal\_gdp\_balance\_comovement.csv} \\
 Intergovernmental transfers & \texttt{10\_intergovernmental\_transfers} & \texttt{outputs/tables/historical\_transfer\_reallocation\_sensitivity.csv} \\

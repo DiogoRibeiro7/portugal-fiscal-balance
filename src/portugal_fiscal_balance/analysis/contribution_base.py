@@ -1,0 +1,193 @@
+"""The contribution base: relating Social Security contributions to the wage bill.
+
+Every earlier decomposition in this repository is internal to the fiscal accounts.
+They establish that social contributions are the largest positive term in the recent
+Social Security balance changes, and they stop there: an accounting location, not an
+economic mechanism.
+
+This module supplies the missing link. Contributions are levied on wages, so the
+natural base is the aggregate wage bill of the economy,
+
+    W = N * wbar,
+
+where ``N`` is employees and ``wbar`` average wages per employee. Writing the
+effective ratio of contributions to that base as ``tau = C / W`` gives an exact
+decomposition of the change in contributions into a base effect and a rate effect,
+and a further split of the base effect into employment and average wages.
+
+Two cautions apply throughout, and both concern what ``tau`` is not.
+
+It is **not a statutory contribution rate.** National-accounts social contributions
+received by the Social Security Funds include imputed contributions and contributions
+from bases other than employee wages, notably the self-employed. The ratio is an
+effective ratio between two published aggregates, and it moves with coverage,
+compliance and composition as well as with legislated rates.
+
+It is **not causal.** A decomposition that assigns part of a movement to the wage bill
+has not shown that the wage bill produced it; the accounting holds by construction.
+"""
+
+from __future__ import annotations
+
+import pandas as pd
+import statsmodels.api as sm
+
+#: The wage-bill measure used as the contribution base. Wages and salaries (D.11)
+#: rather than compensation of employees (D.1), because D.1 already contains
+#: employers' social contributions: using it would place part of the numerator
+#: inside the denominator.
+BASE_COLUMN: str = "wages_and_salaries_m_eur"
+
+
+def contribution_base_panel(accounts: pd.DataFrame, base: pd.DataFrame) -> pd.DataFrame:
+    """Join Social Security contributions to the national-accounts wage bill."""
+    contributions = accounts.loc[
+        accounts["sector"].eq("social_security_funds"),
+        ["year", "social_contributions_m_eur", "nominal_gdp_m_eur"],
+    ].rename(columns={"social_contributions_m_eur": "contributions_m_eur"})
+
+    panel = base.merge(contributions, on="year", how="inner", validate="one_to_one")
+    panel = panel.rename(columns={BASE_COLUMN: "wage_bill_m_eur"})
+    panel["average_wage_eur"] = 1e3 * panel["wage_bill_m_eur"] / panel["employees_k"]
+    panel["effective_contribution_rate"] = (
+        panel["contributions_m_eur"] / panel["wage_bill_m_eur"]
+    )
+    panel["wage_bill_pct_gdp"] = 100.0 * panel["wage_bill_m_eur"] / panel["nominal_gdp_m_eur"]
+    panel["contributions_pct_gdp"] = (
+        100.0 * panel["contributions_m_eur"] / panel["nominal_gdp_m_eur"]
+    )
+    return panel.sort_values("year").reset_index(drop=True)
+
+
+def _exact_product_decomposition(
+    frame: pd.DataFrame, left: str, right: str, prefix: str
+) -> pd.DataFrame:
+    """Split the change in a product into its two factor effects and their interaction.
+
+    For ``P = L * R`` the change decomposes without residual as
+
+        dP = R_{t-1} dL + L_{t-1} dR + dL dR,
+
+    which is an identity rather than an approximation. The interaction term is carried
+    explicitly instead of being dropped or shared between the factors, since either of
+    those would make the decomposition inexact while looking tidier.
+    """
+    out = pd.DataFrame({"year": frame["year"]})
+    change_left = frame[left].diff()
+    change_right = frame[right].diff()
+    lagged_left = frame[left].shift()
+    lagged_right = frame[right].shift()
+    out[f"{prefix}_change"] = frame[left].mul(frame[right]).diff()
+    out[f"{prefix}_from_left"] = lagged_right * change_left
+    out[f"{prefix}_from_right"] = lagged_left * change_right
+    out[f"{prefix}_interaction"] = change_left * change_right
+    out[f"{prefix}_closure_error"] = out[f"{prefix}_change"] - (
+        out[f"{prefix}_from_left"]
+        + out[f"{prefix}_from_right"]
+        + out[f"{prefix}_interaction"]
+    )
+    return out
+
+
+def contribution_change_decomposition(panel: pd.DataFrame) -> pd.DataFrame:
+    """Decompose the annual change in contributions into base and rate effects.
+
+    Two nested exact decompositions. Contributions are the product of the effective
+    ratio and the wage bill, so
+
+        dC = tau_{t-1} dW + W_{t-1} dtau + dW dtau,
+
+    and the wage bill is itself the product of employees and average wages, so the
+    base effect splits again into an employment effect and an average-wage effect.
+
+    Both close by construction. The residual columns exist to demonstrate that, not to
+    absorb anything.
+    """
+    frame = panel.sort_values("year").reset_index(drop=True)
+
+    contributions = _exact_product_decomposition(
+        frame, "effective_contribution_rate", "wage_bill_m_eur", "contributions"
+    ).rename(
+        columns={
+            "contributions_change": "contributions_change_m_eur",
+            "contributions_from_left": "from_effective_rate_m_eur",
+            "contributions_from_right": "from_wage_bill_m_eur",
+            "contributions_interaction": "rate_base_interaction_m_eur",
+            "contributions_closure_error": "contributions_closure_error_m_eur",
+        }
+    )
+
+    # Employees are in thousands and the average wage in euro, so their product needs
+    # scaling before it is comparable with a million-euro wage bill.
+    scaled = frame.assign(average_wage_m_eur_per_k=frame["average_wage_eur"] / 1e3)
+    wage_bill = _exact_product_decomposition(
+        scaled, "employees_k", "average_wage_m_eur_per_k", "wage_bill"
+    ).rename(
+        columns={
+            "wage_bill_change": "wage_bill_change_m_eur",
+            "wage_bill_from_left": "from_employment_m_eur",
+            "wage_bill_from_right": "from_average_wage_m_eur",
+            "wage_bill_interaction": "employment_wage_interaction_m_eur",
+            "wage_bill_closure_error": "wage_bill_closure_error_m_eur",
+        }
+    )
+
+    merged = contributions.merge(wage_bill, on="year", how="inner", validate="one_to_one")
+    merged = merged.merge(
+        frame[["year", "contributions_m_eur", "wage_bill_m_eur", "effective_contribution_rate"]],
+        on="year",
+        how="left",
+    )
+    # The account panel has no 1996-1999 subsector components, so this panel jumps
+    # from 1995 to 2000. Differencing across that jump would present a five-year
+    # movement as an annual one, which is the error the rest of the analysis refuses
+    # everywhere else.
+    merged["year_gap"] = merged["year"].diff()
+    merged = merged.loc[merged["year_gap"].eq(1.0)]
+    return merged.dropna(subset=["contributions_change_m_eur"]).reset_index(drop=True)
+
+
+def contribution_wage_bill_regression(panel: pd.DataFrame) -> pd.DataFrame:
+    """Regress the change in contributions on the change in the wage bill.
+
+    This is the specification the review named, reported as a companion to the
+    decomposition rather than as a substitute for it. Its merit over the earlier
+    nominal-GDP regression is that the regressor is the base the levy actually falls
+    on: a coefficient near the effective ratio is what the accounting predicts, and a
+    coefficient far from it would be informative.
+
+    Both variables are first differences of levels in the same unit, so the slope
+    reads directly as euro of contributions per euro of wage bill. No causal claim
+    attaches to it.
+    """
+    data = panel[["year", "contributions_m_eur", "wage_bill_m_eur"]].copy()
+    data["contributions_change"] = data["contributions_m_eur"].diff()
+    data["wage_bill_change"] = data["wage_bill_m_eur"].diff()
+    # No change is estimated across the 1995-to-2000 source gap.
+    data = data.loc[data["year"].diff().eq(1.0)]
+    data = data.dropna(subset=["contributions_change", "wage_bill_change"])
+    if len(data) < 10:
+        return pd.DataFrame()
+
+    design = sm.add_constant(data[["wage_bill_change"]])
+    model = sm.OLS(data["contributions_change"], design).fit(
+        cov_type="HAC", cov_kwds={"maxlags": 2}
+    )
+    mean_rate = float(panel["effective_contribution_rate"].mean())
+    slope = float(model.params["wage_bill_change"])
+    return pd.DataFrame.from_records(
+        [
+            {
+                "n": int(model.nobs),
+                "first_year": int(data["year"].min()),
+                "last_year": int(data["year"].max()),
+                "r_squared": float(model.rsquared),
+                "wage_bill_coef": slope,
+                "wage_bill_se_hac": float(model.bse["wage_bill_change"]),
+                "wage_bill_pvalue_hac": float(model.pvalues["wage_bill_change"]),
+                "intercept_m_eur": float(model.params["const"]),
+                "mean_effective_rate": mean_rate,
+                "coef_minus_mean_rate": slope - mean_rate,
+            }
+        ]
+    )
