@@ -128,6 +128,15 @@ This project follows semantic versioning for repository releases where practical
 
 ### Fixed
 
+- The committed PDFs were not byte-reproducible. pdfTeX stamps each build with a
+  creation date, a modification date and a random file identifier, so two builds from
+  identical inputs differed as files while being identical as documents. Every rebuild
+  therefore dirtied the working tree and quietly falsified the claim that the pipeline
+  is deterministic. Both preambles now suppress that metadata, and CI rebuilds the
+  documents and requires the hashes to match, so the claim is enforced rather than
+  asserted. This was found by testing the determinism claim rather than trusting it: a
+  rerun of the pipeline left the tree dirty in exactly one file.
+
 - The subsector-contributions caption in the manuscript still claimed the visible column
   height equals the arithmetic sum of the layers. It does not: positive and negative
   components stack away from zero independently, so the visible span is the sum of the

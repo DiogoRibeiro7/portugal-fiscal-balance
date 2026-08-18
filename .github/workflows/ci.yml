@@ -103,6 +103,27 @@ jobs:
           done
           exit $status
 
+      # The documents claim to be deterministic outputs of a deterministic pipeline,
+      # and the committed PDFs are only meaningful if that holds. pdfTeX defaults to
+      # stamping each build with timestamps and a random identifier, which the
+      # preambles suppress; this step is what keeps that suppression working.
+      - name: Rebuild and require byte-identical PDFs
+        run: |
+          for doc in report paper; do
+            sha256sum "$doc/$doc.pdf" > "/tmp/$doc.before"
+          done
+          latexmk -pdf -interaction=nonstopmode -halt-on-error -g -cd report/report.tex
+          latexmk -pdf -interaction=nonstopmode -halt-on-error -g -cd paper/paper.tex
+          status=0
+          for doc in report paper; do
+            if ! sha256sum -c "/tmp/$doc.before" --quiet; then
+              echo "$doc.pdf is not reproducible: a rebuild from identical inputs differs."
+              echo "Check that the preamble still suppresses pdfTeX metadata."
+              status=1
+            fi
+          done
+          exit $status
+
       - name: Upload the built PDFs
         if: always()
         uses: actions/upload-artifact@v4

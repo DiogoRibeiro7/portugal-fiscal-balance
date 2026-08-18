@@ -14,6 +14,30 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 
+% Reproducible output. pdfTeX otherwise stamps every build with a creation date, a
+% modification date and a random file identifier, so two builds from identical inputs
+% differ as files while being identical as documents. That makes the committed PDF
+% churn on every rebuild and quietly falsifies the claim that the pipeline is
+% deterministic. Suppressing this metadata is the same decision as declining to put
+% \today on the title page.
+%
+% Three primitives are needed and they are not interchangeable: suppressoptionalinfo
+% drops the identifier and the banner, pdfinfoomitdate drops the two timestamps, and
+% pdftrailerid clears the trailer. Each is guarded, so an engine without it still
+% builds.
+\ifdefined\pdfvariable
+  \pdfvariable suppressoptionalinfo \numexpr 1+2+16+32+64+512\relax
+\fi
+\ifdefined\pdfinfoomitdate
+  \pdfinfoomitdate=1
+\fi
+\ifdefined\pdftrailerid
+  \pdftrailerid{}
+\fi
+\ifdefined\pdfsuppressptexinfo
+  \pdfsuppressptexinfo=-1
+\fi
+
 \definecolor{reportlink}{HTML}{1C5CAB}
 
 % File paths are typeset with \path. Its default break glue is stretchable, which
