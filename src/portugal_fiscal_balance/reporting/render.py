@@ -1164,7 +1164,12 @@ def _section_investment(data: ReportInputs) -> str:
     return rf"""\section{{Fixed-Capital-Formation Diagnostic}}
 \label{{sec:investment}}
 
-The repository reports an explicitly non-official diagnostic,
+This appendix reports a quantity that is not an official balance concept. It is retained
+because the pipeline computes it and because the question it answers is a reasonable one
+to ask; it is here rather than in the body because no result above depends on it, and
+because a non-official indicator sitting among B.9 results invites being read as one.
+
+The diagnostic is
 \[
 B^{{before\ GFCF}}_{{i,t}} = B_{{i,t}} + GFCF_{{i,t}},
 \]
@@ -1215,8 +1220,11 @@ def _section_debt(data: ReportInputs) -> str:
     return rf"""\section{{Debt and Stock-Flow Adjustment}}
 \label{{sec:debt}}
 
-Debt dynamics are not the mirror image of the annual balance. The modern CFP tables
-support the reconciliation
+Debt dynamics are a different subject from balance composition, which is why this is an
+appendix. It belongs in the document because it establishes a limit on everything in the
+body: a result about the composition of a balance is not a result about debt.
+
+The modern CFP tables support the reconciliation
 \[
 \Delta Debt_t = -B_t + SFA_t,
 \]
@@ -1832,6 +1840,12 @@ def _section_transfers() -> str:
     return r"""\section{Intergovernmental Transfers}
 \label{sec:transfers}
 
+This appendix quantifies a convention rather than reporting a result. Because the
+subsectors are consolidated, a transfer between them changes the components and not the
+aggregate, so the recorded \emph{location} of a balance depends partly on the transfer
+convention. That bears on how the composition results in the body should be read, which is
+why it is documented; it is not itself one of those results.
+
 Historical source tables identify current and capital transfers received and paid between
 public administrations, which supports a mechanical sensitivity for 1977--1995:
 \[
@@ -1966,18 +1980,23 @@ def render_report(root: Path) -> Path:
             _section_attribution(data),
             _section_revenue_expenditure(data),
             _section_social_security(data),
-            _section_primary(data),
-            _section_investment(data),
-            _section_debt(data),
-            _section_persistence(data),
             _section_contribution_base(data),
+            _section_primary(data),
+            _section_persistence(data),
             _section_benchmark(data),
-            _section_transfers(),
             _section_limitations(),
             _section_reproducibility(data),
-            # The co-movement regressions are appendix material: the body of the
-            # report states no result that depends on them.
+            # Everything below answers a question adjacent to the one this report
+            # asks. The fixed-capital diagnostic is not an official balance concept;
+            # debt dynamics are a different subject from balance composition; the
+            # transfer sensitivity is a convention check rather than a result; and
+            # the co-movement regressions are too weak to carry weight. Each is
+            # retained in full because the pipeline computes it, and each is placed
+            # here because no result in the body depends on it.
             r"\appendix",
+            _section_investment(data),
+            _section_debt(data),
+            _section_transfers(),
             _section_comovement(data),
             _section_artefacts(),
             r"\end{document}",

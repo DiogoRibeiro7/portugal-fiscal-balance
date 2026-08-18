@@ -105,6 +105,18 @@ This project follows semantic versioning for repository releases where practical
   committed PDF change on every rebuild.
 - `make paper`.
 
+### Changed
+
+- The report body now carries the composition argument and nothing else. The
+  fixed-capital-formation diagnostic, the debt and stock-flow reconciliation and the
+  intergovernmental-transfer sensitivity move to appendices, joining the co-movement
+  regressions. Each answers a question adjacent to the report's own — a non-official
+  indicator, a different subject, a convention check — and each is retained in full,
+  with a stated reason for being where it is. Placing a non-official indicator among
+  B.9 results invites it being read as one.
+- The contribution base is placed immediately after the Social Security section, since
+  it answers the question that section raises.
+
 ### Fixed
 
 - The subsector-contributions figure caption claimed the visible column height equals the

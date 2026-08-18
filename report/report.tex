@@ -790,6 +790,95 @@ Year & ESA 2010 balance (M EUR) & Budget-system total (M EUR) & Difference (M EU
 \end{figure}
 
 
+\section{The Contribution Base}
+\label{sec:contributionbase}
+
+The Social Security results so far locate a movement inside the fiscal accounts. They
+do not relate it to anything outside them. Contributions are levied on wages, so the
+natural base is the aggregate wage bill \(W_t = N_t \bar{w}_t\), with \(N\) employees
+and \(\bar{w}\) the average wage. Writing the effective ratio as \(\tau_t = C_t / W_t\),
+the change in contributions decomposes exactly:
+\[\Delta C_t = \tau_{t-1} \Delta W_t + W_{t-1} \Delta \tau_t + \Delta W_t \Delta \tau_t.\]
+
+The wage bill and employment come from the Portuguese national accounts compiled by
+INE. \(\tau\) is \emph{not} a statutory contribution rate: national-accounts
+contributions include imputed contributions and bases other than employee wages, so
+the ratio moves with coverage and composition as well as with legislated rates. It
+stands at \textbf{0.265} in 2025 against \textbf{0.260} in 1995.
+
+\begin{table}[htbp]
+\centering
+\caption{The annual change in Social Security contributions, split into the movement of the wage bill and the movement of the effective ratio between them.}
+\label{tab:contributionbase}
+\small
+\fitwidth{%
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+Year & Change in contributions (M EUR) & From the wage bill (M EUR) & From the effective rate (M EUR) & Interaction (M EUR) \\
+\midrule
+2018 & 1,166 & 947 & 206 & 12 \\
+2019 & 1,484 & 1,014 & 443 & 26 \\
+2020 & 311 & 28 & 283 & 0 \\
+2021 & 1,430 & 1,268 & 152 & 10 \\
+2022 & 2,289 & 2,110 & 163 & 17 \\
+2023 & 2,806 & 2,685 & 107 & 13 \\
+2024 & 2,557 & 2,056 & 463 & 38 \\
+2025 & 2,468 & 1,870 & 560 & 38 \\
+\bottomrule
+\end{tabular}%
+}
+\par\smallskip
+\begin{minipage}{\linewidth}\footnotesize\itshape The interaction term is carried rather than dropped or shared between the two effects, because either would make the decomposition inexact. It closes to 3.2e-12 M EUR.\end{minipage}
+\end{table}
+In 2025 contributions rose by \textbf{2,468 M EUR},
+of which \textbf{1,870 M EUR} came from
+the wage bill and \textbf{560 M EUR} from the
+effective ratio. The base effect splits again.
+
+\begin{table}[htbp]
+\centering
+\caption{And what moved the wage bill: the number of employees against the average wage per employee.}
+\label{tab:wagebillsplit}
+\small
+\fitwidth{%
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+Year & Change in the wage bill (M EUR) & From employment (M EUR) & From average wages (M EUR) & Interaction (M EUR) \\
+\midrule
+2018 & 3,998 & 1,423 & 2,521 & 54 \\
+2019 & 4,225 & 478 & 3,722 & 25 \\
+2020 & 116 & -1,400 & 1,544 & -29 \\
+2021 & 5,071 & 852 & 4,172 & 47 \\
+2022 & 8,372 & 2,985 & 5,194 & 193 \\
+2023 & 10,572 & 2,000 & 8,383 & 189 \\
+2024 & 8,058 & 992 & 6,996 & 70 \\
+2025 & 7,196 & 2,253 & 4,842 & 102 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\linewidth]{19_contribution_base.png}
+\caption{Contributions and their base. Upper panel: the change in contributions split into a base effect and a rate effect. Lower panel: the change in the wage bill split into employment and average wages.}
+\label{fig:contributionbasefig}
+\end{figure}
+\subsection{A companion regression}
+
+Regressing the annual change in contributions on the annual change in the wage
+bill over 25 adjacent-year pairs gives a slope of
+\textbf{0.248} with a HAC standard error of
+0.022 and an \(R^2\) of \textbf{0.926}.
+The slope sits close to the mean effective ratio of 0.221, which is what the
+accounting predicts, and the fit is far tighter than the nominal-GDP specification
+in Appendix~\ref{sec:comovement}: the regressor here is the base the levy actually
+falls on rather than an aggregate that merely correlates with it. It remains a
+descriptive statistic and no identification is claimed.
+
+The decomposition is exact and descriptive. It does not establish that the wage bill
+produced the movement in contributions, and it identifies nothing about why employment
+or wages moved.
+
 \section{Primary Balance and Interest}
 \label{sec:primary}
 
@@ -880,96 +969,6 @@ cyclically adjusted balance, and it reflects the debt stock and financing condit
 inherited from earlier periods. A positive primary balance is therefore not evidence of
 a sustainable position, and a negative headline balance is not evidence of an
 unsustainable one.
-
-\section{Fixed-Capital-Formation Diagnostic}
-\label{sec:investment}
-
-The repository reports an explicitly non-official diagnostic,
-\[
-B^{before\ GFCF}_{i,t} = B_{i,t} + GFCF_{i,t},
-\]
-which answers one narrow question: how large is public investment relative to the
-recorded balance? It is not a golden-rule balance, not a structural balance, and not any
-published indicator; no fiscal rule in this report is evaluated against it.
-
-\begin{table}[htbp]
-\centering
-\caption{Fixed-capital-formation diagnostic by sector, 2025.}
-\label{tab:investment}
-\small
-\fitwidth{%
-\begin{tabular}{@{}lrrrr@{}}
-\toprule
-Sector & Balance (M EUR) & GFCF (M EUR) & Balance before GFCF (M EUR) & GFCF (\% GDP) \\
-\midrule
-General Government & 2,059 & 9,167 & 11,226 & 2.99 \\
-Central Government & -5,636 & 4,828 & -808 & 1.57 \\
-Regional and Local & 630 & 4,236 & 4,866 & 1.38 \\
-Social Security Funds & 7,065 & 102 & 7,167 & 0.03 \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
-
-Two caveats attach to the diagnostic. GFCF is gross, so no consumption of fixed capital
-is netted off and the measure overstates the change in the public capital stock. And
-investment is lumpy: a single-year ratio can be dominated by one project or one
-reclassification.
-
-\section{Debt and Stock-Flow Adjustment}
-\label{sec:debt}
-
-Debt dynamics are not the mirror image of the annual balance. The modern CFP tables
-support the reconciliation
-\[
-\Delta Debt_t = -B_t + SFA_t,
-\]
-where the stock-flow adjustment absorbs everything that changes debt without passing
-through the balance: financial-asset transactions, valuation effects, timing differences
-and statistical adjustments. The reconciliation closes to
-\textbf{0.0e+00 M EUR}.
-
-In 2025, General Government Maastricht debt was
-\textbf{89.67\% of GDP} and the stock-flow adjustment was
-\textbf{2.03\% of GDP}. In several years
-the adjustment is the larger of the two terms, which is the reason for running the
-reconciliation at all.
-
-\begin{table}[htbp]
-\centering
-\caption{General Government debt and stock-flow adjustment, most recent years.}
-\label{tab:debt}
-\small
-\fitwidth{%
-\begin{tabular}{@{}rrrrrr@{}}
-\toprule
-Year & Balance (M EUR) & Change in debt (M EUR) & Stock-flow adj. (M EUR) & Debt (\% GDP) & Stock-flow adj. (\% GDP) \\
-\midrule
-2016 & -3,622 & 9,449 & 5,827 & 131.18 & 3.13 \\
-2017 & -5,870 & 1,904 & -3,966 & 126.03 & -2.03 \\
-2018 & -873 & 1,879 & 1,006 & 121.11 & 0.49 \\
-2019 & 249 & 766 & 1,015 & 116.11 & 0.47 \\
-2020 & -11,564 & 20,534 & 8,970 & 134.10 & 4.46 \\
-2021 & -6,117 & -1,389 & -7,506 & 123.88 & -3.47 \\
-2022 & -757 & 3,169 & 2,412 & 111.23 & 0.99 \\
-2023 & 3,030 & -9,469 & -6,439 & 96.87 & -2.38 \\
-2024 & 1,863 & 9,013 & 10,875 & 93.48 & 3.75 \\
-2025 & 2,059 & 4,161 & 6,219 & 89.67 & 2.03 \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=1\linewidth]{07_general_government_debt.png}
-\caption{General Government Maastricht debt and stock-flow adjustment.}
-\label{fig:debt}
-\end{figure}
-
-The stock-flow adjustment is a residual category, not a behavioural variable: a large
-value is a signal to consult the source documentation, not an anomaly in itself. The debt
-ratio also moves with nominal GDP, so a falling ratio does not imply falling debt.
 
 \section{Persistence and Structural Mean Shifts}
 \label{sec:persistence}
@@ -1153,95 +1152,6 @@ of the specification grid agrees. A break year should not be quoted from this re
 its share. This report attaches no historical cause to any of them, and a minimum segment
 length of five years means shifts near the end of the sample cannot be detected yet.
 
-\section{The Contribution Base}
-\label{sec:contributionbase}
-
-The Social Security results so far locate a movement inside the fiscal accounts. They
-do not relate it to anything outside them. Contributions are levied on wages, so the
-natural base is the aggregate wage bill \(W_t = N_t \bar{w}_t\), with \(N\) employees
-and \(\bar{w}\) the average wage. Writing the effective ratio as \(\tau_t = C_t / W_t\),
-the change in contributions decomposes exactly:
-\[\Delta C_t = \tau_{t-1} \Delta W_t + W_{t-1} \Delta \tau_t + \Delta W_t \Delta \tau_t.\]
-
-The wage bill and employment come from the Portuguese national accounts compiled by
-INE. \(\tau\) is \emph{not} a statutory contribution rate: national-accounts
-contributions include imputed contributions and bases other than employee wages, so
-the ratio moves with coverage and composition as well as with legislated rates. It
-stands at \textbf{0.265} in 2025 against \textbf{0.260} in 1995.
-
-\begin{table}[htbp]
-\centering
-\caption{The annual change in Social Security contributions, split into the movement of the wage bill and the movement of the effective ratio between them.}
-\label{tab:contributionbase}
-\small
-\fitwidth{%
-\begin{tabular}{@{}rrrrr@{}}
-\toprule
-Year & Change in contributions (M EUR) & From the wage bill (M EUR) & From the effective rate (M EUR) & Interaction (M EUR) \\
-\midrule
-2018 & 1,166 & 947 & 206 & 12 \\
-2019 & 1,484 & 1,014 & 443 & 26 \\
-2020 & 311 & 28 & 283 & 0 \\
-2021 & 1,430 & 1,268 & 152 & 10 \\
-2022 & 2,289 & 2,110 & 163 & 17 \\
-2023 & 2,806 & 2,685 & 107 & 13 \\
-2024 & 2,557 & 2,056 & 463 & 38 \\
-2025 & 2,468 & 1,870 & 560 & 38 \\
-\bottomrule
-\end{tabular}%
-}
-\par\smallskip
-\begin{minipage}{\linewidth}\footnotesize\itshape The interaction term is carried rather than dropped or shared between the two effects, because either would make the decomposition inexact. It closes to 3.2e-12 M EUR.\end{minipage}
-\end{table}
-In 2025 contributions rose by \textbf{2,468 M EUR},
-of which \textbf{1,870 M EUR} came from
-the wage bill and \textbf{560 M EUR} from the
-effective ratio. The base effect splits again.
-
-\begin{table}[htbp]
-\centering
-\caption{And what moved the wage bill: the number of employees against the average wage per employee.}
-\label{tab:wagebillsplit}
-\small
-\fitwidth{%
-\begin{tabular}{@{}rrrrr@{}}
-\toprule
-Year & Change in the wage bill (M EUR) & From employment (M EUR) & From average wages (M EUR) & Interaction (M EUR) \\
-\midrule
-2018 & 3,998 & 1,423 & 2,521 & 54 \\
-2019 & 4,225 & 478 & 3,722 & 25 \\
-2020 & 116 & -1,400 & 1,544 & -29 \\
-2021 & 5,071 & 852 & 4,172 & 47 \\
-2022 & 8,372 & 2,985 & 5,194 & 193 \\
-2023 & 10,572 & 2,000 & 8,383 & 189 \\
-2024 & 8,058 & 992 & 6,996 & 70 \\
-2025 & 7,196 & 2,253 & 4,842 & 102 \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=1\linewidth]{19_contribution_base.png}
-\caption{Contributions and their base. Upper panel: the change in contributions split into a base effect and a rate effect. Lower panel: the change in the wage bill split into employment and average wages.}
-\label{fig:contributionbasefig}
-\end{figure}
-\subsection{A companion regression}
-
-Regressing the annual change in contributions on the annual change in the wage
-bill over 25 adjacent-year pairs gives a slope of
-\textbf{0.248} with a HAC standard error of
-0.022 and an \(R^2\) of \textbf{0.926}.
-The slope sits close to the mean effective ratio of 0.221, which is what the
-accounting predicts, and the fit is far tighter than the nominal-GDP specification
-in Appendix~\ref{sec:comovement}: the regressor here is the base the levy actually
-falls on rather than an aggregate that merely correlates with it. It remains a
-descriptive statistic and no identification is claimed.
-
-The decomposition is exact and descriptive. It does not establish that the wage bill
-produced the movement in contributions, and it identifies nothing about why employment
-or wages moved.
-
 \section{European Benchmark}
 \label{sec:benchmark}
 
@@ -1369,24 +1279,6 @@ This is a distribution, not a test. Reporters differ in whether they operate a s
 in how contributory schemes are assigned between tiers, in pension-system maturity and in
 how transfers are routed, and none of that is held constant here.
 
-\section{Intergovernmental Transfers}
-\label{sec:transfers}
-
-Historical source tables identify current and capital transfers received and paid between
-public administrations, which supports a mechanical sensitivity for 1977--1995:
-\[
-B^{sens}_{i,t} = B_{i,t} - \left(T^{received}_{i,t} - T^{paid}_{i,t}\right).
-\]
-The result is stored in
-\path{outputs/tables/historical_transfer_reallocation_sensitivity.csv}.
-
-It is deliberately not labelled an underlying or true balance, and it is never used to
-restate B.9 anywhere in this repository. A transfer normally finances an expenditure
-responsibility assigned to the recipient, so removing the transfer while leaving the
-responsibility in place does not describe a coherent alternative arrangement. What the
-sensitivity quantifies is how much the recorded \emph{location} of a balance depends on
-the transfer convention.
-
 \section{Methodological Limitations}
 \label{sec:limitations}
 
@@ -1443,6 +1335,128 @@ rather than from hard-coded conclusions, and it is built from repository version
 \textbf{0.2.0}.
 
 \appendix
+\section{Fixed-Capital-Formation Diagnostic}
+\label{sec:investment}
+
+This appendix reports a quantity that is not an official balance concept. It is retained
+because the pipeline computes it and because the question it answers is a reasonable one
+to ask; it is here rather than in the body because no result above depends on it, and
+because a non-official indicator sitting among B.9 results invites being read as one.
+
+The diagnostic is
+\[
+B^{before\ GFCF}_{i,t} = B_{i,t} + GFCF_{i,t},
+\]
+which answers one narrow question: how large is public investment relative to the
+recorded balance? It is not a golden-rule balance, not a structural balance, and not any
+published indicator; no fiscal rule in this report is evaluated against it.
+
+\begin{table}[htbp]
+\centering
+\caption{Fixed-capital-formation diagnostic by sector, 2025.}
+\label{tab:investment}
+\small
+\fitwidth{%
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Sector & Balance (M EUR) & GFCF (M EUR) & Balance before GFCF (M EUR) & GFCF (\% GDP) \\
+\midrule
+General Government & 2,059 & 9,167 & 11,226 & 2.99 \\
+Central Government & -5,636 & 4,828 & -808 & 1.57 \\
+Regional and Local & 630 & 4,236 & 4,866 & 1.38 \\
+Social Security Funds & 7,065 & 102 & 7,167 & 0.03 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Two caveats attach to the diagnostic. GFCF is gross, so no consumption of fixed capital
+is netted off and the measure overstates the change in the public capital stock. And
+investment is lumpy: a single-year ratio can be dominated by one project or one
+reclassification.
+
+\section{Debt and Stock-Flow Adjustment}
+\label{sec:debt}
+
+Debt dynamics are a different subject from balance composition, which is why this is an
+appendix. It belongs in the document because it establishes a limit on everything in the
+body: a result about the composition of a balance is not a result about debt.
+
+The modern CFP tables support the reconciliation
+\[
+\Delta Debt_t = -B_t + SFA_t,
+\]
+where the stock-flow adjustment absorbs everything that changes debt without passing
+through the balance: financial-asset transactions, valuation effects, timing differences
+and statistical adjustments. The reconciliation closes to
+\textbf{0.0e+00 M EUR}.
+
+In 2025, General Government Maastricht debt was
+\textbf{89.67\% of GDP} and the stock-flow adjustment was
+\textbf{2.03\% of GDP}. In several years
+the adjustment is the larger of the two terms, which is the reason for running the
+reconciliation at all.
+
+\begin{table}[htbp]
+\centering
+\caption{General Government debt and stock-flow adjustment, most recent years.}
+\label{tab:debt}
+\small
+\fitwidth{%
+\begin{tabular}{@{}rrrrrr@{}}
+\toprule
+Year & Balance (M EUR) & Change in debt (M EUR) & Stock-flow adj. (M EUR) & Debt (\% GDP) & Stock-flow adj. (\% GDP) \\
+\midrule
+2016 & -3,622 & 9,449 & 5,827 & 131.18 & 3.13 \\
+2017 & -5,870 & 1,904 & -3,966 & 126.03 & -2.03 \\
+2018 & -873 & 1,879 & 1,006 & 121.11 & 0.49 \\
+2019 & 249 & 766 & 1,015 & 116.11 & 0.47 \\
+2020 & -11,564 & 20,534 & 8,970 & 134.10 & 4.46 \\
+2021 & -6,117 & -1,389 & -7,506 & 123.88 & -3.47 \\
+2022 & -757 & 3,169 & 2,412 & 111.23 & 0.99 \\
+2023 & 3,030 & -9,469 & -6,439 & 96.87 & -2.38 \\
+2024 & 1,863 & 9,013 & 10,875 & 93.48 & 3.75 \\
+2025 & 2,059 & 4,161 & 6,219 & 89.67 & 2.03 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=1\linewidth]{07_general_government_debt.png}
+\caption{General Government Maastricht debt and stock-flow adjustment.}
+\label{fig:debt}
+\end{figure}
+
+The stock-flow adjustment is a residual category, not a behavioural variable: a large
+value is a signal to consult the source documentation, not an anomaly in itself. The debt
+ratio also moves with nominal GDP, so a falling ratio does not imply falling debt.
+
+\section{Intergovernmental Transfers}
+\label{sec:transfers}
+
+This appendix quantifies a convention rather than reporting a result. Because the
+subsectors are consolidated, a transfer between them changes the components and not the
+aggregate, so the recorded \emph{location} of a balance depends partly on the transfer
+convention. That bears on how the composition results in the body should be read, which is
+why it is documented; it is not itself one of those results.
+
+Historical source tables identify current and capital transfers received and paid between
+public administrations, which supports a mechanical sensitivity for 1977--1995:
+\[
+B^{sens}_{i,t} = B_{i,t} - \left(T^{received}_{i,t} - T^{paid}_{i,t}\right).
+\]
+The result is stored in
+\path{outputs/tables/historical_transfer_reallocation_sensitivity.csv}.
+
+It is deliberately not labelled an underlying or true balance, and it is never used to
+restate B.9 anywhere in this repository. A transfer normally finances an expenditure
+responsibility assigned to the recipient, so removing the transfer while leaving the
+responsibility in place does not describe a coherent alternative arrangement. What the
+sensitivity quantifies is how much the recorded \emph{location} of a balance depends on
+the transfer convention.
+
 \section{Descriptive Macroeconomic Co-Movement}
 \label{sec:comovement}
 

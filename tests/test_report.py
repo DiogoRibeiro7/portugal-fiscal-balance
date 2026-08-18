@@ -194,3 +194,51 @@ def test_report_has_no_unbalanced_environments() -> None:
         opened = len(re.findall(rf"\\begin\{{{environment}\}}", report))
         closed = len(re.findall(rf"\\end\{{{environment}\}}", report))
         assert opened == closed, f"Unbalanced {environment}: {opened} begin, {closed} end"
+
+
+def test_adjacent_diagnostics_live_in_appendices() -> None:
+    """The body must carry balance composition, not everything the pipeline computes.
+
+    Each of these answers a question adjacent to the report's own: a non-official
+    indicator, a different subject, a convention check and a weak specification. All
+    are retained in full, and none belongs among the B.9 results where it would be
+    read as one of them.
+    """
+    report = _report()
+    appendix = report.index(r"\appendix")
+    for heading in (
+        r"\section{Fixed-Capital-Formation Diagnostic}",
+        r"\section{Debt and Stock-Flow Adjustment}",
+        r"\section{Intergovernmental Transfers}",
+        r"\section{Descriptive Macroeconomic Co-Movement}",
+    ):
+        assert heading in report, f"{heading} was dropped rather than moved"
+        assert report.index(heading) > appendix, f"{heading} is still in the body"
+
+
+def test_body_carries_the_composition_argument() -> None:
+    """The sections the report's own question needs must precede the appendix."""
+    report = _report()
+    appendix = report.index(r"\appendix")
+    for heading in (
+        r"\section{Long-Run Subsector Decomposition}",
+        r"\section{Year-to-Year Attribution}",
+        r"\section{Social Security Funds: Revenue Composition and Internal Systems}",
+        r"\section{The Contribution Base}",
+        r"\section{Primary Balance and Interest}",
+        r"\section{Persistence and Structural Mean Shifts}",
+        r"\section{European Benchmark}",
+        r"\section{Methodological Limitations}",
+    ):
+        assert report.index(heading) < appendix, f"{heading} was pushed into the appendix"
+
+
+def test_the_contribution_base_follows_the_social_security_section() -> None:
+    """It answers the question that section raises, so it should sit next to it."""
+    report = _report()
+    social_security = report.index(
+        r"\section{Social Security Funds: Revenue Composition and Internal Systems}"
+    )
+    base = report.index(r"\section{The Contribution Base}")
+    primary = report.index(r"\section{Primary Balance and Interest}")
+    assert social_security < base < primary
