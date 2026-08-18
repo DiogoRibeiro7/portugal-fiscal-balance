@@ -44,7 +44,7 @@ rather than `43 of 49`. Three things follow:
    nothing, so the guarantee is enforced rather than hoped for;
 3. the authored prose stays reviewable as prose, because the numbers are named.
 
-Figures are not copied here. `main.tex` sets `\graphicspath` to
+Figures are not copied here. `paper.tex` sets `\graphicspath` to
 `../outputs/figures/`, so the paper, the report and the notebooks all show the same
 files and a figure cannot drift between them.
 
@@ -61,7 +61,7 @@ affects it.
 
 ## Editing rules
 
-- Edit `main.tex`, `sections/*.tex` and `references.bib` freely.
+- Edit `paper.tex`, `sections/*.tex` and `references.bib` freely.
 - Never edit `generated/`. Change
   `src/portugal_fiscal_balance/reporting/paper.py` and rerun the pipeline instead.
 - Adding a number to the prose means adding a macro in that module first. If you

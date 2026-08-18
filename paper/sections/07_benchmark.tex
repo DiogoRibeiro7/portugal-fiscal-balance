@@ -36,10 +36,17 @@ currency-invariant. We additionally require the denominator to be at least $0.5$
 GDP in absolute size before reporting a ratio, so that a near-zero denominator cannot
 manufacture a large one.
 
-\textbf{Coverage is made comparable.} A country-year enters only if all four required
-sectors are reported, and a reporter enters the summary only with at least fifteen
-complete years. A frequency computed over a handful of years is not comparable with one
-computed over thirty. This leaves \BenchmarkCountries\ reporters over
+\textbf{Coverage is made comparable.} A country-year enters only if the four required
+sectors --- the aggregate, central government, local government and social security funds
+--- are all reported. The state tier is required conditionally rather than absolutely: a
+country that reports S.1312 anywhere in its record must report it in that year too, while
+a country that never reports it, Portugal among them, is not excluded for lacking a tier
+it does not have. Requiring the tier unconditionally would drop every unitary reporter;
+not requiring it at all would admit federal country-years whose non-Social-Security
+aggregate is incomplete, and it is exactly those years in which the identity would fail
+to close. A reporter then enters the summary only with at least fifteen complete years,
+because a frequency computed over a handful of years is not comparable with one computed
+over thirty. This leaves \BenchmarkCountries\ reporters over
 \BenchmarkStart--\BenchmarkEnd, with Portugal contributing \BenchmarkYears\ years.
 
 Two remarks on what the comparison is worth. Eurostat's Portuguese rows agree with our

@@ -1,6 +1,6 @@
 % Authored. Tables and numbers come from generated/.
 
-\section{The Contribution Base}
+\section{Contributions and the Aggregate Employee Wage Bill}
 \label{sec:contributionbase}
 
 Every Social Security result to this point is internal to the fiscal accounts.
@@ -8,12 +8,24 @@ Section~\ref{sec:results} establishes that contributions are the largest positiv
 in the recent balance changes, and stops there: an accounting location, not an economic
 mechanism. This section supplies the link to something outside the accounts.
 
-\subsection{The base and the ratio}
+\subsection{A reference base, and the ratio to it}
 
-Contributions are levied on wages, so the natural base is the aggregate wage bill of the
-economy, $W_t = N_t \bar{w}_t$, with $N$ employees and $\bar{w}$ the average wage per
-employee. Writing the contributions-to-wage-bill ratio as $\tau_t = C_t / W_t$, the
-change in contributions decomposes exactly:
+Contributions are levied predominantly on wages, so the aggregate employee wage bill of
+the economy is the natural quantity to read them against: $W_t = N_t \bar{w}_t$, with $N$
+employees and $\bar{w}$ the average wage per employee.
+
+It is a \emph{reference base} and not the integral base of the levy, and the distinction
+carries through everything that follows. The contributions recorded in the
+national-accounts Social Security Funds sector are not all charged on employee wages.
+Some fall on other bases, the self-employed most obviously; some are imputed rather than
+levied at all. So $W$ does not exhaust what $C$ is charged on, and $C/W$ is not the rate
+at which any contributor pays. What $W$ does supply is the largest observable share of
+what contribution revenue is charged on, measured on the same statistical system as the
+fiscal accounts and available annually --- which is what a decomposition needs and what
+no statutory rate schedule provides.
+
+Writing the contributions-to-wage-bill ratio as $\tau_t = C_t / W_t$, the change in
+contributions decomposes exactly:
 \begin{equation}
 \Delta C_t = \underbrace{\tau_{t-1} \Delta W_t}_{\text{wage-bill component}}
 + \underbrace{W_{t-1} \Delta \tau_t}_{\text{ratio component}}
@@ -35,14 +47,13 @@ Statistics Portugal, taken from the harmonised dissemination of those accounts
 compensation of employees (D.1), because D.1 already includes employers' social
 contributions and would place part of the numerator inside the denominator.
 
-\paragraph{What $\tau$ is not.} It is not a statutory contribution rate.
-National-accounts social contributions received by the Social Security Funds include
-imputed contributions and contributions on bases other than employee wages, notably the
-self-employed. It is a ratio between two published aggregates, and it moves with
-coverage, compliance and composition as well as with legislated rates. It stands at
-\EffectiveRateLatest\ in \BaseYear\ against a panel mean of \EffectiveRateMean, both
-well below the headline levy, which is itself a sign that the two are not the same
-object.
+\paragraph{What $\tau$ is not.} It follows from the preceding paragraph that $\tau$ is
+not a statutory contribution rate. Its numerator contains revenue raised on bases its
+denominator does not measure, so it moves with coverage, compliance and composition as
+well as with legislated rates. It stands at \RatioLatest\ in \BaseYear\ against a panel
+mean of \RatioMean, both well below the headline levy, which is itself a sign that the
+two are not the same object. A movement in $\tau$ is therefore a residual to be named,
+not a policy change to be inferred.
 
 \subsection{What moved contributions}
 
@@ -52,16 +63,31 @@ In \BaseYear\ contributions rose by \BaseContributionsChange\ million euro, whic
 decomposes as
 \[
 \BaseContributionsChange = \underbrace{\BaseFromWageBill}_{\text{wage bill}}
-+ \underbrace{\BaseFromRate}_{\text{ratio}}
++ \underbrace{\BaseFromRatio}_{\text{ratio}}
 + \underbrace{\BaseRatioInteraction}_{\text{interaction}}.
 \]
-The wage bill did most of the work, but not all of it. The wage bill itself rose by
-\BaseWageBillChange\ million, and that splits the same way:
+The reference base did most of the work, but not all of it.
+
+A second and separate application of the same identity splits the movement in the wage
+bill itself. In \BaseYear\ the wage bill rose by \BaseWageBillChange\ million:
 \[
 \BaseWageBillChange = \underbrace{\BaseFromEmployment}_{\text{employees}}
 + \underbrace{\BaseFromAverageWage}_{\text{average wage}}
 + \underbrace{\BaseWageInteraction}_{\text{interaction}}.
 \]
+
+\input{generated/tab_wagebillsplit}
+
+The two decompositions must not be read as one nested inside the other, and the tables
+are separate for that reason. They have different totals ---
+\BaseContributionsChange\ million against \BaseWageBillChange\ million --- and the
+employment and average-wage terms are components of $\Delta W$, not sub-components of the
+\BaseFromWageBill\ million wage-bill term of $\Delta C$. What connects them is the factor
+$\tau_{t-1}$: the wage-bill term of the first identity is $\tau_{t-1}$ times the total of
+the second. The correct reading of the pair is that the movement was predominantly in the
+reference base rather than in the ratio, and that within that base it came more from
+wages per employee than from employee numbers.
+
 The interaction terms are small here, but they are stated rather than absorbed: a paper
 that insists the decomposition is exact should not present a two-term version of a
 three-term identity.
@@ -78,9 +104,11 @@ wages contribute more than employment.
 \centering
 \includegraphics[width=\linewidth]{19_contribution_base.png}
 \caption{Contributions and their base, 2001--\PanelEnd, in million euro. Upper panel: the
-change in contributions split into a base effect and a rate effect. Lower panel: the
-change in the wage bill split into employment and average wages. Both decompositions are
-exact; the black line is the identity total in each.}
+change in contributions split into a wage-bill component, a ratio component and their
+interaction. Lower panel: the change in the wage bill split into an employment component,
+an average-wage component and their interaction. The two panels decompose different
+quantities and have different totals; both are exact, and the black line is the identity
+total in each.}
 \label{fig:contributionbase}
 \end{figure}
 
@@ -88,15 +116,15 @@ exact; the black line is the identity total in each.}
 
 Section~\ref{sec:robustness} sets out why the nominal-GDP specification carries no weight,
 and one of its faults was that the regressor was an aggregate that merely correlates with
-the balance rather than the base a levy falls on. That fault is repairable, and repairing
-it is the point of this specification.
+the balance rather than a quantity the levy is charged on. That fault is repairable, and
+repairing it is the point of this specification.
 
 Regressing the annual change in contributions on the annual change in the wage bill over
 \WageBillObservations\ adjacent-year pairs gives a slope of \WageBillSlope\ with a HAC
 standard error of \WageBillSlopeSe\ and an $R^2$ of \WageBillRSquared. Three things are
 worth noting about that.
 
-The slope is close to the average contributions-to-wage-bill ratio of \EffectiveRateMean.
+The slope is close to the average contributions-to-wage-bill ratio of \RatioMean.
 That is consistent with a comparatively stable ratio component over the sample, but it is
 not implied by the identity: Equation~\eqref{eq:contributionbase} would deliver
 $\beta = \bar{\tau}$ only if $\Delta\tau$ and the interaction term were uncorrelated with
@@ -112,6 +140,36 @@ matters more than it sounds: bridging the gap treats a five-year movement as ann
 doing so drives the slope to 0.13 and the $R^2$ to 0.40. A single contaminated
 observation was enough to destroy the relationship.
 
+\subsection{A symmetric alternative}
+
+Equation~\eqref{eq:contributionbase} evaluates each factor at its base-year level and
+carries the interaction explicitly. An equally standard convention evaluates each factor
+at the midpoint of the two years, which splits the interaction evenly between them,
+\[
+\Delta C_t = \tfrac{1}{2}\left(\tau_t + \tau_{t-1}\right) \Delta W_t
++ \tfrac{1}{2}\left(W_t + W_{t-1}\right) \Delta \tau_t,
+\]
+and is exact in two terms rather than three. Neither convention is more correct. They
+answer slightly different questions, and which one is used is a choice worth checking
+rather than asserting.
+
+\input{generated/tab_symmetric}
+
+Under the symmetric convention the \BaseYear\ change splits into \SymmetricWageBill\
+million from the wage bill and \SymmetricRatio\ million from the ratio, against
+\BaseFromWageBill\ and \BaseFromRatio\ under Equation~\eqref{eq:contributionbase}. The
+difference between the two pairs is the interaction term, which the symmetric form
+distributes and the exact form reports; because the two differ by exactly half the
+interaction in each factor, the qualitative reading cannot turn on the choice. Over
+\SymmetricShareWindow\ the wage-bill share of the change runs from
+\SymmetricShareLow\% to \SymmetricShareHigh\% on the symmetric convention. Earlier
+years in the table are not uniform --- 2020 is the clear exception, when a flat wage
+bill left the ratio carrying almost the whole change --- and that is a property of
+those years rather than of the convention. We report the three-term form in
+the body because carrying the interaction rather than distributing it is the more
+conservative presentation, and because a reader can always distribute an interaction that
+is reported and cannot recover one that is not.
+
 \subsection{What this does and does not establish}
 
 The decomposition of Equation~\eqref{eq:contributionbase} is exact and descriptive. It
@@ -120,7 +178,10 @@ says nothing about why employment or wages moved. The regression quantifies a
 co-movement between two first differences and claims no identification.
 
 What it does establish is that the recent growth in Social Security contributions is
-overwhelmingly a base phenomenon rather than a rate phenomenon, and that within the base
-it has lately been driven more by wages per employee than by the number of employees.
+overwhelmingly associated with movement in the reference base rather than in the ratio to
+it, and that the base's own movement has lately come more from wages per employee than
+from the number of employees. Because the wage bill is a reference base and not the
+integral base of the levy, that is a statement about the largest observable component of
+what contributions are charged on, not about the whole of it.
 That is a mechanism in the accounting sense: it names the quantity whose movement the
 contributions followed. It is not a causal account of why that quantity moved.

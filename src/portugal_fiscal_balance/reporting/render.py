@@ -87,6 +87,7 @@ class ReportInputs:
     ss_change: pd.DataFrame
     primary: pd.DataFrame
     primary_signs: pd.DataFrame
+    primary_signs_by_regime: pd.DataFrame
     investment: pd.DataFrame
     debt: pd.DataFrame
     nominal_comovement: pd.DataFrame
@@ -96,6 +97,7 @@ class ReportInputs:
     base_panel: pd.DataFrame
     base_decomposition: pd.DataFrame
     base_regression: pd.DataFrame
+    base_symmetric: pd.DataFrame
     benchmark_panel: pd.DataFrame
     benchmark_summary: pd.DataFrame
     benchmark_position: pd.DataFrame
@@ -182,6 +184,9 @@ def load(root: Path) -> ReportInputs:
         ss_change=pd.read_csv(tables / "ssf_balance_change_decomposition.csv"),
         primary=pd.read_csv(tables / "primary_balance_and_interest.csv"),
         primary_signs=pd.read_csv(tables / "primary_balance_sign_summary.csv"),
+        primary_signs_by_regime=pd.read_csv(
+            tables / "primary_balance_sign_summary_by_regime.csv"
+        ),
         investment=pd.read_csv(tables / "investment_diagnostic.csv"),
         debt=pd.read_csv(tables / "debt_stock_flow_reconciliation.csv"),
         nominal_comovement=pd.read_csv(tables / "nominal_gdp_balance_comovement.csv"),
@@ -191,6 +196,7 @@ def load(root: Path) -> ReportInputs:
         base_panel=pd.read_csv(processed / "contribution_base_panel_1995_2025.csv"),
         base_decomposition=pd.read_csv(tables / "contribution_change_decomposition.csv"),
         base_regression=pd.read_csv(tables / "contribution_wage_bill_regression.csv"),
+        base_symmetric=pd.read_csv(tables / "contribution_symmetric_decomposition.csv"),
         benchmark_panel=pd.read_csv(processed / "european_subsector_panel_1995_2025.csv"),
         benchmark_summary=pd.read_csv(tables / "european_benchmark_summary.csv"),
         benchmark_position=pd.read_csv(tables / "european_benchmark_position.csv"),
@@ -1089,6 +1095,32 @@ def _section_primary(data: ReportInputs) -> str:
         "observations rather than the 49 of the canonical balance panel; the 1996--1999 "
         "components are missing.",
     )
+    regime_signs = _view(
+        _label_regimes(
+            _label_sectors(data.primary_signs_by_regime), column="statistical_regime"
+        ),
+        {
+            "statistical_regime": "Regime",
+            "sector": "Sector",
+            "n_years": "N",
+            "headline_negative_years": "Headline < 0",
+            "primary_positive_years": "Primary > 0",
+            "mean_interest_pct_gdp": "Mean interest (\\% GDP)",
+            "max_interest_pct_gdp": "Peak interest (\\% GDP)",
+        },
+    )
+    regime_signs_table = latex.table(
+        regime_signs,
+        caption="The same frequencies inside each statistical regime. The counts may be "
+        "pooled; the interest magnitudes may not.",
+        label="primarysignsregime",
+        digits=2,
+        column_digits={"N": 0, "Headline < 0": 0, "Primary > 0": 0},
+        note="Interest is a magnitude and the two regimes differ materially in it, so the "
+        "pooled means of Table~\\ref{tab:primarysigns} describe the historical regime better "
+        "than the modern one. The sign counts are reported pooled and split because the "
+        "classification survives the splice where the magnitudes do not.",
+    )
     central_signs = _sector_row(data.primary_signs, "central_government")
     positive_primary_years = [
         int(year)
@@ -1129,6 +1161,12 @@ positive in a non-trivial minority of the observed years. Interest peaked at
 arithmetic that separates them.
 
 {signs_table}
+Those statistics pool across the 1995 splice. The sign counts survive that, because a
+classification is not a magnitude, but the interest means do not: interest is a magnitude
+and the two regimes differ materially in it. Both are therefore reported by regime as
+well.
+
+{regime_signs_table}
 {primary_figure}
 Interest is overwhelmingly a Central Government item, which is why the primary and
 headline balances of the other subsectors nearly coincide. The primary balance excludes
@@ -1615,7 +1653,7 @@ def _section_contribution_base(data: ReportInputs) -> str:
             "year": "Year",
             "contributions_change_m_eur": "Change in contributions (M EUR)",
             "from_wage_bill_m_eur": "From the wage bill (M EUR)",
-            "from_ratio_m_eur": "From the effective rate (M EUR)",
+            "from_ratio_m_eur": "From the ratio (M EUR)",
             "wage_bill_ratio_interaction_m_eur": "Interaction (M EUR)",
         },
     )
@@ -1629,29 +1667,54 @@ def _section_contribution_base(data: ReportInputs) -> str:
             "employment_wage_interaction_m_eur": "Interaction (M EUR)",
         },
     )
+    symmetric = _view(
+        _tail_years(data.base_symmetric, 8),
+        {
+            "year": "Year",
+            "contributions_change_m_eur": "Change in contributions (M EUR)",
+            "from_wage_bill_m_eur": "From the wage bill (M EUR)",
+            "from_ratio_m_eur": "From the ratio (M EUR)",
+            "wage_bill_share_of_change": "Wage-bill share",
+        },
+    )
+    symmetric_table = latex.table(
+        symmetric,
+        caption="The same change under the symmetric convention, which evaluates each factor "
+        "at the midpoint of the two years and thereby splits the interaction evenly between "
+        "them.",
+        label="contributionsymmetric",
+        digits=0,
+        column_digits={"Wage-bill share": 2},
+        note="Exact in two terms rather than three. Neither convention is more correct; the "
+        "three-term form is reported above because carrying the interaction rather than "
+        "distributing it is the more conservative presentation.",
+    )
     residual = float(decomposition["contributions_closure_error_m_eur"].abs().max())
     decomposition_table = latex.table(
         view,
         caption="The annual change in Social Security contributions, split into the movement "
-        "of the wage bill and the movement of the effective ratio between them.",
+        "of the wage bill, the movement of the contributions-to-wage-bill ratio, and their "
+        "interaction.",
         label="contributionbase",
         digits=0,
         note="The interaction term is carried rather than dropped or shared between the two "
-        f"effects, because either would make the decomposition inexact. It closes to {residual:.1e} "
+        f"factors, because either would make the decomposition inexact. It closes to {residual:.1e} "
         "M EUR.",
     )
     split_table = latex.table(
         split,
-        caption="And what moved the wage bill: the number of employees against the average "
-        "wage per employee.",
+        caption="And what moved the wage bill itself: the number of employees against the "
+        "average wage per employee. This decomposes the change in the wage bill, not the "
+        "wage-bill component of the change in contributions; the two have different totals.",
         label="wagebillsplit",
         digits=0,
     )
     figure = latex.figure(
         "19_contribution_base.png",
-        caption="Contributions and their base. Upper panel: the change in contributions split "
-        "into a base effect and a rate effect. Lower panel: the change in the wage bill split "
-        "into employment and average wages.",
+        caption="Contributions and their reference base. Upper panel: the change in "
+        "contributions split into a wage-bill component, a ratio component and their "
+        "interaction. Lower panel: the change in the wage bill split into an employment "
+        "component, an average-wage component and their interaction.",
         label="contributionbasefig",
     )
     regression_note = ""
@@ -1665,33 +1728,40 @@ def _section_contribution_base(data: ReportInputs) -> str:
             rf"\textbf{{{row['wage_bill_coef']:.3f}}} with a HAC standard error of"
             f"\n{row['wage_bill_se_hac']:.3f} and an "
             rf"\(R^2\) of \textbf{{{row['r_squared']:.3f}}}."
-            "\nThe slope sits close to the mean effective ratio of "
-            f"{row['mean_ratio']:.3f}, which is what the\n"
-            "accounting predicts, and the fit is far tighter than the nominal-GDP specification\n"
-            r"in Appendix~\ref{sec:comovement}: the regressor here is the base the levy actually"
-            "\nfalls on rather than an aggregate that merely correlates with it. It remains a\n"
+            "\nThe slope sits close to the mean contributions-to-wage-bill ratio of "
+            f"{row['mean_ratio']:.3f}, which is\n"
+            "consistent with a stable ratio over the sample but is not implied by the identity,\n"
+            "and the fit is far tighter than the nominal-GDP specification\n"
+            r"in Appendix~\ref{sec:comovement}: the regressor here is a quantity the levy is"
+            "\ncharged on rather than an aggregate that merely correlates with it. It remains a\n"
             "descriptive statistic and no identification is claimed.\n"
         )
     return (
-        r"\section{The Contribution Base}"
+        r"\section{Contributions and the Aggregate Employee Wage Bill}"
         "\n"
         r"\label{sec:contributionbase}"
         "\n\n"
         "The Social Security results so far locate a movement inside the fiscal accounts. They\n"
-        "do not relate it to anything outside them. Contributions are levied on wages, so the\n"
-        "natural base is the aggregate wage bill "
+        "do not relate it to anything outside them. Contributions are levied predominantly on\n"
+        "wages, so the aggregate employee wage bill is their natural reference base, "
         r"\(W_t = N_t \bar{w}_t\), with \(N\) employees"
         "\nand "
-        r"\(\bar{w}\) the average wage. Writing the effective ratio as \(\tau_t = C_t / W_t\),"
+        r"\(\bar{w}\) the average wage. It is a reference base and not the integral base of the"
+        "\nlevy: some recorded contributions fall on other bases and some are imputed, so "
+        r"\(W\)"
+        "\ndoes not exhaust what "
+        r"\(C\)"
+        " is charged on. Writing the contributions-to-wage-bill\n"
+        r"ratio as \(\tau_t = C_t / W_t\),"
         "\nthe change in contributions decomposes exactly:\n"
         r"\[\Delta C_t = \tau_{t-1} \Delta W_t + W_{t-1} \Delta \tau_t"
         r" + \Delta W_t \Delta \tau_t.\]"
         "\n\n"
         "The wage bill and employment come from the Portuguese national accounts compiled by\n"
         "INE. "
-        r"\(\tau\) is \emph{not} a statutory contribution rate: national-accounts"
-        "\ncontributions include imputed contributions and bases other than employee wages, so\n"
-        "the ratio moves with coverage and composition as well as with legislated rates. It\n"
+        r"\(\tau\) is \emph{not} a statutory contribution rate: its numerator contains revenue"
+        "\nraised on bases its denominator does not measure, so the ratio moves with coverage,\n"
+        "compliance and composition as well as with legislated rates. It\n"
         "stands at "
         rf"\textbf{{{panel_latest['contributions_to_wage_bill_ratio']:.3f}}}"
         f" in {int(panel_latest['year'])} against "
@@ -1704,8 +1774,13 @@ def _section_contribution_base(data: ReportInputs) -> str:
         rf"\textbf{{{latex.number(float(latest['from_wage_bill_m_eur']), 0)} M EUR}}"
         " came from\nthe wage bill and "
         rf"\textbf{{{latex.number(float(latest['from_ratio_m_eur']), 0)} M EUR}}"
-        " from the\neffective ratio. The base effect splits again.\n\n"
+        " from the\nratio, with the remainder their interaction. A second and separate application of the\nsame identity splits the change in the wage bill itself. The two have different totals,\nand the employment and average-wage terms below are components of \\(\\Delta W\\) rather than\nsub-components of the wage-bill term above.\n\n"
         f"{split_table}"
+        "The interaction terms are carried rather than distributed. An equally standard\n"
+        "convention evaluates each factor at the midpoint of the two years, which splits the\n"
+        "interaction evenly between them and is exact in two terms rather than three. It is\n"
+        "reported alongside so the reading does not rest on the convention.\n\n"
+        f"{symmetric_table}"
         f"{figure}"
         f"{regression_note}"
         "\nThe decomposition is exact and descriptive. It does not establish that the wage bill\n"

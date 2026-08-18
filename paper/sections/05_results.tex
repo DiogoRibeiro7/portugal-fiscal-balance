@@ -22,12 +22,17 @@ Sources: Banco de Portugal / INE long series and INE via PORDATA.}
 \end{figure}
 
 That closeness is itself the first result, and it can be stated as a number rather
-than left to the eye. Over the full panel the General Government and Central
-Government ratios correlate at \AggregateCentralCorrelation, with a median absolute
-gap of \AggregateCentralMedianGap\ percentage points of GDP. The aggregate balance
-has been predominantly a Central Government quantity in level terms, which is what
-makes the divergence at the right-hand edge of the figure notable rather than
-routine.
+than left to the eye --- but it has to be stated inside each statistical regime, for
+the same reason the magnitudes are. A correlation computed across the 1995 splice runs
+partly through a vintage change, and would attribute to co-movement what is in part a
+change of source family. Within the historical regime the General Government and
+Central Government ratios correlate at \HistoricalTrackingCorrelation, with a median
+absolute gap of \HistoricalTrackingGap\ percentage points of GDP; within the modern
+regime, at \ModernTrackingCorrelation\ and \ModernTrackingGap\ points. That the two
+regimes agree is the substantive point, and it is a result rather than an assumption:
+the aggregate balance has been predominantly a Central Government quantity in level
+terms throughout, which is what makes the divergence at the right-hand edge of the
+figure notable rather than routine.
 
 Figure~\ref{fig:contributions} draws the identity directly, stacking the signed
 subsector contributions against the aggregate total. Where a tall stack sits under a
@@ -148,19 +153,26 @@ two methodologies.
 
 The scaling is what makes the exercise possible at all. On nominal euro the historical
 regime has no large episodes, because the amounts are small relative to modern GDP;
-on the GDP scale its movements are comparable to the modern ones. The largest single
-improvement in the table is \TopImprovementYear\ at \TopImprovementPct\ percentage
-points of GDP, and the largest deterioration \TopDeteriorationYear\ at
-\TopDeteriorationPct.
+on the GDP scale its movements are comparable to the modern ones.
+
+The extremes are nevertheless reported by regime and never selected across both. In the
+modern regime the largest improvement is \ModernBestYear\ at \ModernBestPct\ percentage
+points of GDP and the largest deterioration \ModernWorstYear\ at \ModernWorstPct; in the
+historical regime the largest deterioration is \HistoricalWorstYear\ at
+\HistoricalWorstPct. Naming a single ``largest movement of the panel'' would rank a
+historical episode against a modern one --- comparable on the scaling, incomparable on
+the methodology --- which is the same thing Table~\ref{tab:composition} refuses to do
+with the means.
 
 The two regimes differ in a way the ranking exposes. In the historical regime the
-five largest movements are all deteriorations; the large improvements of that period
-are smaller in absolute size than its large deteriorations. The modern regime contains
-both.
+\MovementsPerRegime\ largest movements are all deteriorations; the large improvements of
+that period are smaller in absolute size than its large deteriorations. The modern regime
+contains both, which is why it has a largest improvement to report and the historical
+regime does not.
 
 Central Government accounts for the largest share of every episode in the table.
-Given that it also carries the level of the aggregate balance, at the correlation
-reported above, this is less surprising than it first appears.
+Given that it also carries the level of the aggregate balance, at the within-regime
+correlations reported above, this is less surprising than it first appears.
 
 Table~\ref{tab:hierarchy} takes each episode one level further, splitting the
 dominant subsector's own movement into its revenue and expenditure changes. The split
@@ -191,11 +203,11 @@ spuriously detailed.
 
 \input{generated/tab_episodecomponents}
 
-The component view separates episodes that the totals make look alike. The largest
-deterioration, \TopDeteriorationYear, is dominated by \TopDeteriorationComponent\ at
-\TopDeteriorationComponentValue\ million euro: a collapse on the revenue side rather
-than an expenditure surge. The largest improvement, \TopImprovementYear, is dominated by
-\TopImprovementComponent\ at \TopImprovementComponentValue\ million: an expenditure
+The component view separates episodes that the totals make look alike. The modern
+regime's largest deterioration, \ModernWorstYear, is dominated by \ModernWorstComponent\
+at \ModernWorstComponentValue\ million euro: a collapse on the revenue side rather than
+an expenditure surge. Its largest improvement, \ModernBestYear, is dominated by
+\ModernBestComponent\ at \ModernBestComponentValue\ million: an expenditure
 retrenchment, and specifically a capital one, appearing as a positive contribution
 because a fall in expenditure raises the balance. The 2021 improvement, by contrast, is
 led by revenue components throughout.
@@ -258,8 +270,8 @@ useful external check.
 
 What this decomposition does not do is relate the movement to anything outside the
 fiscal accounts. It says which account moved, not what the account moved with.
-Section~\ref{sec:contributionbase} takes that step, relating contributions to the wage
-bill they are levied on. Even there the account remains descriptive: a contributory
+Section~\ref{sec:contributionbase} takes that step, relating contributions to the
+aggregate employee wage bill that is their principal observable reference base. Even there the account remains descriptive: a contributory
 balance responds to employment, wages, contribution rates, entitlement rules and
 demographics at once, and none of those is identified.
 
@@ -330,9 +342,18 @@ Over the \PrimaryObservedYears\ years for which interest expenditure is publishe
 the Central Government headline balance is negative in
 \PrimaryHeadlineNegative\ --- all of them --- while the primary balance is positive
 in \PrimaryPositiveYears: \PrimaryPositiveList. Those years are not confined to the
-recent period; they run from \PrimaryPositiveFirst\ to \PrimaryPositiveLast. Interest
-averaged \InterestMeanPct\% of GDP over the panel and peaked at
-\InterestPeakPct\%, and that is the arithmetic separating the two series.
+recent period; they run from \PrimaryPositiveFirst\ to \PrimaryPositiveLast.
+
+The counts pool across the splice on the terms established above, and the split by regime
+is informative in its own right: the primary balance is positive in
+\HistoricalPrimaryPositive\ of \HistoricalPrimaryYears\ historical years against
+\ModernPrimaryPositive\ of \ModernPrimaryYears\ modern ones, so the positive years are if
+anything a historical phenomenon rather than a recent one. Interest is the arithmetic
+separating the two series, and it is a magnitude, so it is reported by regime and not
+pooled: it averaged \HistoricalInterestMean\% of GDP in the historical regime against
+\ModernInterestMean\% in the modern one. The pooled \InterestMeanPct\% and the
+\InterestPeakPct\% peak therefore describe the historical regime far better than the
+modern one, and we quote them only as panel-wide reference points.
 Figure~\ref{fig:primary} shows the primary balance crossing zero repeatedly while the
 headline balance never does.
 

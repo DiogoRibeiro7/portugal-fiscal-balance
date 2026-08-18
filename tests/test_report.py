@@ -224,7 +224,7 @@ def test_body_carries_the_composition_argument() -> None:
         r"\section{Long-Run Subsector Decomposition}",
         r"\section{Year-to-Year Attribution}",
         r"\section{Social Security Funds: Revenue Composition and Internal Systems}",
-        r"\section{The Contribution Base}",
+        r"\section{Contributions and the Aggregate Employee Wage Bill}",
         r"\section{Primary Balance and Interest}",
         r"\section{Persistence and Structural Mean Shifts}",
         r"\section{European Benchmark}",
@@ -239,6 +239,6 @@ def test_the_contribution_base_follows_the_social_security_section() -> None:
     social_security = report.index(
         r"\section{Social Security Funds: Revenue Composition and Internal Systems}"
     )
-    base = report.index(r"\section{The Contribution Base}")
+    base = report.index(r"\section{Contributions and the Aggregate Employee Wage Bill}")
     primary = report.index(r"\section{Primary Balance and Interest}")
     assert social_security < base < primary

@@ -29,6 +29,7 @@ from portugal_fiscal_balance.analysis.contribution_base import (  # noqa: E402
     contribution_base_panel,
     contribution_change_decomposition,
     contribution_wage_bill_regression,
+    symmetric_contribution_decomposition,
 )
 from portugal_fiscal_balance.analysis.changepoints import (  # noqa: E402
     structural_break_bic_ladder,
@@ -58,6 +59,7 @@ from portugal_fiscal_balance.analysis.persistence import (  # noqa: E402
 from portugal_fiscal_balance.analysis.primary_balance import (  # noqa: E402
     investment_diagnostic,
     primary_balance_sign_summary,
+    primary_balance_sign_summary_by_regime,
     primary_balance_table,
 )
 from portugal_fiscal_balance.analysis.social_security import (  # noqa: E402
@@ -207,6 +209,10 @@ def main() -> None:
 
     write_csv(primary, TABLES / "primary_balance_and_interest.csv")
     write_csv(primary_signs, TABLES / "primary_balance_sign_summary.csv")
+    write_csv(
+        primary_balance_sign_summary_by_regime(primary),
+        TABLES / "primary_balance_sign_summary_by_regime.csv",
+    )
     write_csv(investment, TABLES / "investment_diagnostic.csv")
     write_csv(debt, TABLES / "debt_stock_flow_reconciliation.csv")
     write_csv(ss_accounts, TABLES / "social_security_account_metrics.csv")
@@ -229,6 +235,10 @@ def main() -> None:
     write_csv(base_panel, PROCESSED / "contribution_base_panel_1995_2025.csv")
     write_csv(base_decomposition, TABLES / "contribution_change_decomposition.csv")
     write_csv(base_regression, TABLES / "contribution_wage_bill_regression.csv")
+    write_csv(
+        symmetric_contribution_decomposition(base_panel),
+        TABLES / "contribution_symmetric_decomposition.csv",
+    )
     write_csv(transfer_sensitivity, TABLES / "historical_transfer_reallocation_sensitivity.csv")
     write_csv(nominal_comovement, TABLES / "nominal_gdp_balance_comovement.csv")
     write_csv(labour_comovement, TABLES / "historical_ssf_labour_comovement.csv")

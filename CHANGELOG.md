@@ -6,6 +6,52 @@ This project follows semantic versioning for repository releases where practical
 
 ## [Unreleased]
 
+### Fixed
+
+- **A conflation of two identities.** The conclusion, the changelog and the data
+  dictionary all described the employment and average-wage terms as sitting "within" the
+  wage-bill component of the contribution change. They do not: they sum to the change in
+  the wage bill, 7,196 M EUR in 2025, not to the 1,870 M EUR wage-bill component of the
+  2,468 M EUR contribution change. The two identities share the factor tau but not a
+  total. They are now stated separately, carried in two tables rather than one, and a
+  test asserts the two totals differ.
+- **The wage bill is a reference base, not the integral base of the levy.** Recorded
+  national-accounts contributions include imputed amounts and bases the wage bill does
+  not measure, so W does not exhaust what C is charged on and C/W is not the rate any
+  contributor pays. The section is retitled "Contributions and the Aggregate Employee
+  Wage Bill", and the remaining "effective rate", "base effect" and "rate effect"
+  wording is gone from the paper, the report and the analysis modules.
+- **Splice discipline applied to three statistics that had escaped it.** The
+  General-Government-to-Central-Government correlation is now reported inside each
+  regime (0.973 historical, 0.976 modern) and the pooled macro has been deleted so the
+  manuscript cannot cite a correlation computed through a vintage change. Primary-balance
+  counts are split (9 of 19 historical, 6 of 26 modern) and so is the interest burden
+  (5.52% of GDP against 3.19%), which is what makes the pooled 4.17% describe neither
+  period.
+- **No extreme is selected across the two regimes.** The "largest single improvement" and
+  "largest deterioration" of the whole panel are replaced by per-regime extremes, on the
+  same logic that already forbade ranking historical against modern episodes in
+  `tab_movements`.
+- The introduction no longer says that separating the movement in contributions "would
+  require a model of the contribution base ... that this paper does not build", which
+  contradicted the section that builds it.
+- Regime keys reached presentation tables raw, because the split is named two ways in the
+  pipeline (`historical_long_series` and `1977-1994_historical`). Both are now labelled.
+- `paper/README.md` referred to `main.tex`; the file is `paper.tex`.
+
+### Added
+
+- `contribution_symmetric_decomposition.csv` and a robustness subsection reporting it.
+  The midpoint convention splits the interaction evenly and is exact in two terms rather
+  than three; the wage-bill share of the change moves between 77% and 96% across the
+  recent years under it, so the qualitative reading does not turn on the convention. Each
+  factor differs from its exact counterpart by exactly half the interaction, which is
+  asserted rather than claimed.
+- `primary_balance_sign_summary_by_regime.csv`, and its table in the report. The counts
+  partition the pooled summary exactly.
+- `tab_wagebillsplit` and `tab_symmetric` as separate paper inputs, and five tests
+  covering the two new artefacts.
+
 ### Added
 
 - Two benchmark sensitivities, because both conclusions they support rested on a
@@ -16,17 +62,21 @@ This project follows semantic versioning for repository releases where practical
   pooled 27%, with Portugal at the 95th percentile on both: a reporter with two dozen
   surplus years no longer outweighs one with three.
 
-- **The contribution base.** Social Security contributions are now related to the wage bill
-  they are levied on, which is what takes the Social Security results from an accounting
+- **The contribution base.** Social Security contributions are now related to the aggregate
+  employee wage bill that is their principal observable reference base --- a reference base
+  and not the integral base of the levy, since recorded contributions include imputed
+  amounts and bases the wage bill does not measure --- which is what takes the Social Security results from an accounting
   location to a named quantity outside the fiscal accounts. Writing the
   contributions-to-wage-bill ratio as tau = C/W, the change in contributions decomposes
-  exactly into a wage-bill component, a ratio component and their interaction, and the wage
-  bill decomposes again into employment and average wages. Both close to numerical precision; the interaction terms are carried rather than
+  exactly into a wage-bill component, a ratio component and their interaction, and a second
+  application of the same identity decomposes the wage bill itself into employment and
+  average wages. Both close to numerical precision; the interaction terms are carried rather than
   dropped or shared, because either would make the decomposition inexact.
 - Of the 2,468 M EUR rise in contributions in 2025, 1,870 M EUR is the wage-bill component,
-  560 M EUR the ratio component and 38 M EUR their interaction; within the wage-bill
-  component, 4,842 M EUR came from higher average wages against 2,253 M EUR from more
-  employees, with 102 M EUR of interaction. The crises are where the mechanism is
+  560 M EUR the ratio component and 38 M EUR their interaction. Separately, the wage bill
+  itself rose by 7,196 M EUR: 4,842 M EUR from higher average wages, 2,253 M EUR from more
+  employees and 102 M EUR of interaction. The two identities share a factor but not a
+  total, and the second trio is not a split of the 1,870 M EUR component of the first. The crises are where the mechanism is
   clearest: in the austerity years employment and wages fall together, while in 2020 they
   move in opposite directions, leaving the wage bill flat and contributions rising on the
   ratio alone.
@@ -37,8 +87,8 @@ This project follows semantic versioning for repository releases where practical
   social contributions and would place part of the numerator inside the denominator.
 - The companion regression the review asked for: the change in contributions on the change
   in the wage bill, over 25 adjacent-year pairs, with a slope of 0.248 against a mean
-  contributions-to-wage-bill ratio of 0.221 and an R-squared of 0.926. The regressor is the base the levy
-  actually falls on rather than an aggregate that merely correlates with the balance, which
+  contributions-to-wage-bill ratio of 0.221 and an R-squared of 0.926. The regressor is a
+  quantity the levy is charged on rather than an aggregate that merely correlates with the balance, which
   is the substantive difference from the nominal-GDP specification whose fits span 0.07 to
   0.18.
 

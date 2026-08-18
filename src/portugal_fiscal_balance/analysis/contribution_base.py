@@ -5,7 +5,8 @@ They establish that social contributions are the largest positive term in the re
 Social Security balance changes, and they stop there: an accounting location, not an
 economic mechanism.
 
-This module supplies the missing link. Contributions are levied on wages, so the
+This module supplies the missing link. Contributions are levied predominantly on
+wages, so the
 natural base is the aggregate wage bill of the economy,
 
     W = N * wbar,
@@ -22,7 +23,7 @@ It is **not a statutory contribution rate**, which is why it is never called a r
 here. National-accounts social contributions
 received by the Social Security Funds include imputed contributions and contributions
 from bases other than employee wages, notably the self-employed. The ratio is an
-effective ratio between two published aggregates, and it moves with coverage,
+ratio between two published aggregates, and it moves with coverage,
 compliance and composition as well as with legislated rates.
 
 It is **not causal.** A decomposition that assigns part of a movement to the wage bill
@@ -31,6 +32,7 @@ has not shown that the wage bill produced it; the accounting holds by constructi
 
 from __future__ import annotations
 
+import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 
@@ -100,7 +102,10 @@ def contribution_change_decomposition(panel: pd.DataFrame) -> pd.DataFrame:
         dC = tau_{t-1} dW + W_{t-1} dtau + dW dtau,
 
     and the wage bill is itself the product of employees and average wages, so the
-    base effect splits again into an employment effect and an average-wage effect.
+    wage-bill component is itself the total of a second and separate application of
+    the same identity, into an employment component, an average-wage component and
+    their interaction. The two decompositions have different totals and neither is
+    nested in the other.
 
     Both close by construction. The residual columns exist to demonstrate that, not to
     absorb anything.
@@ -149,12 +154,49 @@ def contribution_change_decomposition(panel: pd.DataFrame) -> pd.DataFrame:
     return merged.dropna(subset=["contributions_change_m_eur"]).reset_index(drop=True)
 
 
+def symmetric_contribution_decomposition(panel: pd.DataFrame) -> pd.DataFrame:
+    """Re-run the decomposition with the interaction split evenly between the factors.
+
+    The baseline decomposition evaluates each factor effect at the previous year and
+    carries the interaction as its own term. That is exact but it is a convention: the
+    interaction could equally be attributed to either factor, or shared. The symmetric
+    alternative evaluates each effect at the midpoint,
+
+        dC = ((tau_t + tau_{t-1}) / 2) dW + ((W_t + W_{t-1}) / 2) dtau,
+
+    which is also exact and distributes the interaction evenly by construction, leaving
+    no residual term at all.
+
+    Neither is more correct. Reporting both is what shows that a conclusion about which
+    component dominates is a property of the data rather than of the allocation rule.
+    """
+    frame = panel.sort_values("year").reset_index(drop=True)
+    ratio = frame["contributions_to_wage_bill_ratio"]
+    wage_bill = frame["wage_bill_m_eur"]
+
+    out = pd.DataFrame({"year": frame["year"]})
+    out["contributions_change_m_eur"] = frame["contributions_m_eur"].diff()
+    out["from_wage_bill_m_eur"] = 0.5 * (ratio + ratio.shift()) * wage_bill.diff()
+    out["from_ratio_m_eur"] = 0.5 * (wage_bill + wage_bill.shift()) * ratio.diff()
+    out["closure_error_m_eur"] = out["contributions_change_m_eur"] - (
+        out["from_wage_bill_m_eur"] + out["from_ratio_m_eur"]
+    )
+    out["wage_bill_share_of_change"] = np.where(
+        out["contributions_change_m_eur"].abs().gt(1e-9),
+        out["from_wage_bill_m_eur"] / out["contributions_change_m_eur"],
+        np.nan,
+    )
+    # The same gap rule as the baseline: no change spans 1995 to 2000.
+    out = out.loc[frame["year"].diff().eq(1.0)]
+    return out.dropna(subset=["contributions_change_m_eur"]).reset_index(drop=True)
+
+
 def contribution_wage_bill_regression(panel: pd.DataFrame) -> pd.DataFrame:
     """Regress the change in contributions on the change in the wage bill.
 
     This is the specification the review named, reported as a companion to the
     decomposition rather than as a substitute for it. Its merit over the earlier
-    nominal-GDP regression is that the regressor is the base the levy actually falls
+    nominal-GDP regression is that the regressor is a quantity the levy is charged
     on. A slope near the average contributions-to-wage-bill ratio is what a broadly
     stable ratio would produce; it does not follow from the identity, because the ratio
     and interaction terms could co-move with the wage-bill change.

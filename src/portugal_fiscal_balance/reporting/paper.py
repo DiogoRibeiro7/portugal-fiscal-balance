@@ -124,18 +124,12 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
     )
     weakest = stability.loc[stability["modal_break_years_share"].idxmin()]
 
-    scaled = data.movements["aggregate_change_pct_gdp"]
-    top_improvement = data.movements.loc[scaled.idxmax()]
-    top_deterioration = data.movements.loc[scaled.idxmin()]
-
     latest_ssf_accounts = _latest(data.ssf)
     systems_first = data.ss_systems.sort_values("year").iloc[0]
     systems_latest = _latest(data.ss_systems)
 
     # How close General Government and Central Government actually track, rather
     # than an appeal to how close they look on a chart.
-    aggregate_ratio = data.balances["general_government_balance_pct_gdp"]
-    central_ratio = data.balances["central_government_balance_pct_gdp"]
 
     # Sign robustness, verified rather than asserted. A methodological revision
     # could in principle flip a small balance across zero; in the two overlaps this
@@ -165,13 +159,52 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
         position = int(rows["contribution_m_eur"].abs().idxmax())
         return cast("pd.Series[Any]", rows.loc[position])
 
-    improvement_component = _leading_component(int(top_improvement["year"]))
-    deterioration_component = _leading_component(int(top_deterioration["year"]))
+    # Episode champions, per regime. Electing one across the whole panel would rank
+    # a historical movement against a modern one, which is the comparison the rest of
+    # the analysis refuses for magnitudes.
+    def _regime_extreme(regime: str, largest: bool) -> pd.Series[Any]:
+        rows = data.movements.loc[data.movements["regime"].eq(regime)]
+        column = rows["aggregate_change_pct_gdp"]
+        position = int(column.idxmax() if largest else column.idxmin())
+        return cast("pd.Series[Any]", rows.loc[position])
+
+    modern_best = _regime_extreme("1995-2025_modern", largest=True)
+    modern_worst = _regime_extreme("1995-2025_modern", largest=False)
+    historical_worst = _regime_extreme("1977-1994_historical", largest=False)
+
+    improvement_component = _leading_component(int(modern_best["year"]))
+    deterioration_component = _leading_component(int(modern_worst["year"]))
 
     # Contribution base: the wage bill behind the contributions.
     base_latest = _latest(data.base_decomposition)
     base_panel_latest = _latest(data.base_panel)
     base_regression = data.base_regression.iloc[0]
+
+    # Statistics that depend on the level of a balance are computed inside each
+    # regime, the same rule the magnitudes follow. Splitting them here strengthens the
+    # claim rather than weakening it: the two regimes agree closely.
+    historical = data.balances.loc[data.balances["year"].le(1994)]
+    modern = data.balances.loc[data.balances["year"].ge(1995)]
+
+    def _tracking(frame: pd.DataFrame) -> tuple[float, float]:
+        aggregate = frame["general_government_balance_pct_gdp"]
+        central = frame["central_government_balance_pct_gdp"]
+        return float(aggregate.corr(central)), float((aggregate - central).abs().median())
+
+    historical_corr, historical_gap = _tracking(historical)
+    modern_corr, modern_gap = _tracking(modern)
+
+    regime_signs = data.primary_signs_by_regime.loc[
+        data.primary_signs_by_regime["sector"].eq("central_government")
+    ].sort_values("first_year")
+    historical_primary = regime_signs.iloc[0]
+    modern_primary = regime_signs.iloc[-1]
+
+
+    symmetric = data.base_symmetric
+    symmetric_latest = _latest(symmetric)
+    symmetric_window = symmetric.loc[symmetric["year"].ge(2022)]
+    symmetric_recent = symmetric_window["wage_bill_share_of_change"]
 
     floor_sensitivity = data.offset_floor_sensitivity
     surplus_composition = data.surplus_composition
@@ -266,19 +299,38 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
         "WeakestBreakSector": SECTOR_LABELS[str(weakest["sector"])],
         "WeakestBreakShare": _ratio(float(weakest["modal_break_years_share"]) * 100.0, 0),
         "WeakestBreakSets": str(int(weakest["n_distinct_break_year_sets"])),
-        # Ranked annual movements.
-        "TopImprovementYear": str(int(top_improvement["year"])),
-        "TopImprovementPct": _ratio(top_improvement["aggregate_change_pct_gdp"]),
-        "TopDeteriorationYear": str(int(top_deterioration["year"])),
-        "TopDeteriorationPct": _ratio(top_deterioration["aggregate_change_pct_gdp"]),
+        # Ranked annual movements, per regime.
+        "ModernBestYear": str(int(modern_best["year"])),
+        "ModernBestPct": _ratio(modern_best["aggregate_change_pct_gdp"]),
+        "ModernWorstYear": str(int(modern_worst["year"])),
+        "ModernWorstPct": _ratio(modern_worst["aggregate_change_pct_gdp"]),
+        "HistoricalWorstYear": str(int(historical_worst["year"])),
+        "HistoricalWorstPct": _ratio(historical_worst["aggregate_change_pct_gdp"]),
+        # How closely the aggregate tracks Central Government, inside each regime.
+        "HistoricalTrackingCorrelation": _ratio(historical_corr, 3),
+        "ModernTrackingCorrelation": _ratio(modern_corr, 3),
+        "HistoricalTrackingGap": _ratio(historical_gap),
+        "ModernTrackingGap": _ratio(modern_gap),
+        # Primary balance, inside each regime.
+        "HistoricalPrimaryYears": str(int(historical_primary["n_years"])),
+        "HistoricalPrimaryPositive": str(int(historical_primary["primary_positive_years"])),
+        "HistoricalInterestMean": _ratio(historical_primary["mean_interest_pct_gdp"]),
+        "ModernPrimaryYears": str(int(modern_primary["n_years"])),
+        "ModernPrimaryPositive": str(int(modern_primary["primary_positive_years"])),
+        "ModernInterestMean": _ratio(modern_primary["mean_interest_pct_gdp"]),
+        # The symmetric allocation of the interaction term.
+        "SymmetricWageBill": _money(symmetric_latest["from_wage_bill_m_eur"]),
+        "SymmetricRatio": _money(symmetric_latest["from_ratio_m_eur"]),
+        "SymmetricShareLow": _ratio(100.0 * float(symmetric_recent.min()), 0),
+        "SymmetricShareHigh": _ratio(100.0 * float(symmetric_recent.max()), 0),
+        "SymmetricShareWindow": (
+            f"{int(symmetric_window['year'].min())}--{int(symmetric_window['year'].max())}"
+        ),
         "MovementsPerRegime": str(int(data.movements["rank_in_regime"].max())),
-        "TopImprovementComponent": str(improvement_component["component"]).lower(),
-        "TopImprovementComponentValue": _money(improvement_component["contribution_m_eur"]),
-        "TopDeteriorationComponent": str(deterioration_component["component"]).lower(),
-        "TopDeteriorationComponentValue": _money(deterioration_component["contribution_m_eur"]),
-        # How closely the aggregate tracks Central Government.
-        "AggregateCentralCorrelation": _ratio(aggregate_ratio.corr(central_ratio), 3),
-        "AggregateCentralMedianGap": _ratio((aggregate_ratio - central_ratio).abs().median()),
+        "ModernBestComponent": str(improvement_component["component"]).lower(),
+        "ModernBestComponentValue": _money(improvement_component["contribution_m_eur"]),
+        "ModernWorstComponent": str(deterioration_component["component"]).lower(),
+        "ModernWorstComponentValue": _money(deterioration_component["contribution_m_eur"]),
         # Sign robustness across the retained source overlaps.
         "OverlapSignAgreements": str(overlap_signs),
         "OverlapSignTotal": str(int(len(data.overlap))),
@@ -297,14 +349,14 @@ def build_macros(data: ReportInputs) -> dict[str, str]:
         "BaseYear": str(int(base_latest["year"])),
         "BaseContributionsChange": _money(base_latest["contributions_change_m_eur"]),
         "BaseFromWageBill": _money(base_latest["from_wage_bill_m_eur"]),
-        "BaseFromRate": _money(base_latest["from_ratio_m_eur"]),
+        "BaseFromRatio": _money(base_latest["from_ratio_m_eur"]),
         "BaseWageBillChange": _money(base_latest["wage_bill_change_m_eur"]),
         "BaseFromEmployment": _money(base_latest["from_employment_m_eur"]),
         "BaseFromAverageWage": _money(base_latest["from_average_wage_m_eur"]),
         "BaseRatioInteraction": _money(base_latest["wage_bill_ratio_interaction_m_eur"]),
         "BaseWageInteraction": _money(base_latest["employment_wage_interaction_m_eur"]),
-        "EffectiveRateLatest": _ratio(base_panel_latest["contributions_to_wage_bill_ratio"], 3),
-        "EffectiveRateMean": _ratio(base_regression["mean_ratio"], 3),
+        "RatioLatest": _ratio(base_panel_latest["contributions_to_wage_bill_ratio"], 3),
+        "RatioMean": _ratio(base_regression["mean_ratio"], 3),
         "WageBillSlope": _ratio(base_regression["wage_bill_coef"], 3),
         "WageBillSlopeSe": _ratio(base_regression["wage_bill_se_hac"], 3),
         "WageBillRSquared": _ratio(base_regression["r_squared"], 3),
@@ -441,16 +493,38 @@ def _table_files(data: ReportInputs) -> dict[str, str]:
         },
     )
     episode_components["Side"] = episode_components["Side"].str.capitalize()
+    # Two tables rather than one, because they decompose two different quantities. A
+    # single table invited reading the employment and average-wage columns as a split
+    # of the wage-bill component of the contribution change, which they are not: they
+    # split the change in the wage bill itself.
     contribution_view = _view(
         _tail_years(data.base_decomposition, 8),
         {
             "year": "Year",
-            "contributions_change_m_eur": "$\Delta$ contributions",
-            "from_wage_bill_m_eur": "From wage bill",
-            "from_ratio_m_eur": "From rate",
-            "wage_bill_change_m_eur": "$\Delta$ wage bill",
-            "from_employment_m_eur": "From employment",
-            "from_average_wage_m_eur": "From average wage",
+            "contributions_change_m_eur": r"$\Delta C$",
+            "from_wage_bill_m_eur": "Wage-bill component",
+            "from_ratio_m_eur": "Ratio component",
+            "wage_bill_ratio_interaction_m_eur": "Interaction",
+        },
+    )
+    wage_bill_view = _view(
+        _tail_years(data.base_decomposition, 8),
+        {
+            "year": "Year",
+            "wage_bill_change_m_eur": r"$\Delta W$",
+            "from_employment_m_eur": "Employment component",
+            "from_average_wage_m_eur": "Average-wage component",
+            "employment_wage_interaction_m_eur": "Interaction",
+        },
+    )
+    symmetric_view = _view(
+        _tail_years(data.base_symmetric, 8),
+        {
+            "year": "Year",
+            "contributions_change_m_eur": r"$\Delta C$",
+            "from_wage_bill_m_eur": "Wage-bill component",
+            "from_ratio_m_eur": "Ratio component",
+            "wage_bill_share_of_change": "Wage-bill share",
         },
     )
     ssf_change = _view(
@@ -607,13 +681,36 @@ def _table_files(data: ReportInputs) -> dict[str, str]:
         ),
         "tab_contributionbase.tex": latex.table(
             contribution_view,
-            caption="The annual change in Social Security contributions, split into the "
-            "movement of the wage bill and the movement of the effective ratio, and the wage "
-            "bill split again into employment and average wages.",
+            caption="The annual change in Social Security contributions, $\\Delta C$, split "
+            "into a wage-bill component, a ratio component and their interaction.",
             label="contributionbase",
             digits=0,
-            note="The interaction terms are carried rather than dropped or shared between the "
-            "factors, because either would make the decomposition inexact.",
+            note="The three components sum to the change. The interaction is carried rather "
+            "than dropped or shared between the factors, because either would make the "
+            "decomposition inexact while looking tidier.",
+        ),
+        "tab_wagebillsplit.tex": latex.table(
+            wage_bill_view,
+            caption="The annual change in the wage bill itself, $\\Delta W$, split into an "
+            "employment component, an average-wage component and their interaction.",
+            label="wagebillsplit",
+            digits=0,
+            note="This decomposes $\\Delta W$, not the wage-bill component of $\\Delta C$ in "
+            "Table~\\ref{tab:contributionbase}. They are different quantities, and the columns "
+            "here do not sum to that component.",
+        ),
+        "tab_symmetric.tex": latex.table(
+            symmetric_view,
+            caption="The same change under the symmetric convention, which evaluates each "
+            "factor at the midpoint of the two years and thereby splits the interaction "
+            "evenly between them.",
+            label="symmetric",
+            digits=0,
+            column_digits={"Wage-bill share": 2},
+            note="Exact in two terms rather than three. Neither convention is more "
+            "correct; the body reports the three-term form because carrying the "
+            "interaction rather than distributing it is the more conservative "
+            "presentation.",
         ),
         "tab_ssfchange.tex": latex.table(
             ssf_change,

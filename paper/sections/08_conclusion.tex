@@ -10,7 +10,9 @@ The Central Government balance is negative in every one of the
 \SsfPositiveYears, with a longest unbroken run of \SsfLongestPositiveRun\ years.
 Regional and Local Government is the only subsector that changes sign with any
 regularity, and it is small in both directions. The aggregate tracks Central
-Government at a correlation of \AggregateCentralCorrelation. The aggregate is positive
+Government closely inside each statistical regime, correlating at
+\HistoricalTrackingCorrelation\ before the 1995 splice and \ModernTrackingCorrelation\
+after it. The aggregate is positive
 in \NumPositiveYears\ years, and in each of them the combined non-Social-Security
 balance is negative --- from which, given the identity, the rest of that year's
 composition follows.
@@ -25,24 +27,37 @@ that surplus with a negative non-Social-Security balance --- a composition prese
 only \PtSurplusYears.
 
 On the Social Security side, most of the recent increase in contributions is
-algebraically associated with growth in the wage bill rather than with movement in the
-contributions-to-wage-bill ratio. Of the \BaseContributionsChange\ million euro rise in
-\BaseYear, \BaseFromWageBill\ million is the wage-bill component, \BaseFromRate\ million
-the ratio component and \BaseRatioInteraction\ million their interaction; within the
-wage-bill component, \BaseFromAverageWage\ million came from higher average wages against
-\BaseFromEmployment\ million from more employees, with \BaseWageInteraction\ million of
-interaction. That is a mechanism in the accounting sense --- it names the quantity the
-contributions followed --- and not a causal account of why that quantity moved.
+algebraically associated with growth in the aggregate employee wage bill rather than with
+movement in the contributions-to-wage-bill ratio. Of the \BaseContributionsChange\ million
+euro rise in \BaseYear,
+\[
+\BaseContributionsChange = \BaseFromWageBill + \BaseFromRatio + \BaseRatioInteraction,
+\]
+the three terms being the wage-bill component, the ratio component and their interaction.
+The wage bill itself rose by \BaseWageBillChange\ million over the same year, and that is
+a second and separate identity:
+\[
+\BaseWageBillChange = \BaseFromEmployment + \BaseFromAverageWage + \BaseWageInteraction,
+\]
+in employees, average wage and interaction. The two share a factor but not a total, and
+the terms of the second are components of $\Delta W$ rather than parts of the
+\BaseFromWageBill\ million wage-bill component of the first. Read together they say that
+the movement was predominantly in the reference base rather than in the ratio, and that
+within the base it came more from wages per employee than from employee numbers. That is
+a mechanism in the accounting sense --- it names the quantity the contributions followed
+--- and not a causal account of why that quantity moved.
 
 Two results cut against readings that the aggregate series invites.
 
 The first concerns Central Government. Its balance is negative throughout the panel,
 but its primary balance is positive in \PrimaryPositiveYears\ of the
-\PrimaryObservedYears\ years for which detailed accounts exist, from
-\PrimaryPositiveFirst\ to \PrimaryPositiveLast. A persistently negative B.9 does not
-imply a persistently negative primary balance, and interest --- averaging
-\InterestMeanPct\% of GDP and peaking at \InterestPeakPct\% --- is the arithmetic that
-separates them.
+\PrimaryObservedYears\ years for which detailed accounts exist ---
+\HistoricalPrimaryPositive\ of \HistoricalPrimaryYears\ before the 1995 splice and
+\ModernPrimaryPositive\ of \ModernPrimaryYears\ after it, so the positive years are if
+anything a historical phenomenon rather than a recent one. A persistently negative B.9
+does not imply a persistently negative primary balance, and interest is the arithmetic
+that separates them: it averaged \HistoricalInterestMean\% of GDP in the historical
+regime against \ModernInterestMean\% in the modern one.
 
 The second concerns Social Security. The ESA 2010 Social Security Funds sector and
 the CFP budget-execution systems are different accounting objects whose balances

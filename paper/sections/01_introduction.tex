@@ -41,11 +41,15 @@ movements produce its annual changes, and how does its national-accounts boundar
 relate to the internal Social Security budget systems?}
 \end{enumerate}
 
-The second question is deliberately posed at the level of accounts rather than of
-economic mechanism. We decompose the change in the balance into the revenue and
-expenditure movements that produced it, which locates the change; we do not identify
-what caused those movements, which would require a model of the contribution base,
-entitlement rules and demographics that this paper does not build.
+The second question is posed at the level of accounts rather than of causes, and it
+is answered in two steps. We first decompose the change in the balance into the revenue
+and expenditure movements that produced it, which locates the change inside the
+accounts. We then take one step outside them, relating contributions to the aggregate
+employee wage bill that is their principal observable reference base
+(Section~\ref{sec:contributionbase}). That second step names a quantity the
+contributions moved with, and quantifies how much of their movement it accounts for. It
+does not identify what caused either to move, which would require a model of entitlement
+rules, labour supply and demographics that this paper does not build.
 
 Both are descriptive questions about recorded quantities, and we answer them as
 such. The central object is an accounting identity,
@@ -165,8 +169,11 @@ ESA 2010 Social Security Funds sector and the budget-execution systems published
 CFP are different accounting objects; we report them side by side, never add them, and
 measure the gap, which is non-zero in every one of the \SsfBoundaryYears\ years they
 overlap. Within the national-accounts sector, each annual balance change splits into the
-account movements that produced it, and those contributions are then related to the wage
-bill the levy is actually applied to. That last step is what takes the Social Security
+account movements that produced it, and those contributions are then related to the
+aggregate employee wage bill that is their principal observable reference base --- a
+reference base and not the integral base of the levy, since national-accounts
+contributions include imputed amounts and bases the wage bill does not contain. That last
+step is what takes the Social Security
 findings from an accounting location to a named quantity outside the fiscal accounts.
 
 \item \textbf{A European benchmark.} The same definitions applied to
@@ -185,8 +192,11 @@ aggregate balance is positive in \NumPositiveYears\
 \SsfPositiveYears, with a longest unbroken run of \SsfLongestPositiveRun\ years.
 Regional and Local Government is the only subsector that changes sign with any
 regularity, and it is small in both directions. The aggregate tracks Central
-Government closely: their GDP ratios correlate at \AggregateCentralCorrelation\ with
-a median absolute gap of \AggregateCentralMedianGap\ percentage points of GDP.
+Government closely in both statistical regimes: their GDP ratios correlate at
+\HistoricalTrackingCorrelation\ before the 1995 splice and \ModernTrackingCorrelation\
+after it, with median absolute gaps of \HistoricalTrackingGap\ and \ModernTrackingGap\
+percentage points of GDP. The correlation is computed inside each regime and never
+through the splice, where part of the co-movement would be a vintage change.
 
 In each of the \NumPositiveYears\ years with a positive aggregate balance, the
 combined non-Social-Security balance is negative. That is the empirical content of
@@ -206,9 +216,12 @@ A persistently negative headline balance does not imply a persistently negative
 primary balance. Central Government records a negative B.9 in every year of the
 panel, but its primary balance --- the balance excluding interest --- is positive in
 \PrimaryPositiveYears\ of the \PrimaryObservedYears\ years for which the detailed
-accounts exist, from \PrimaryPositiveFirst\ to \PrimaryPositiveLast. Interest
-averaged \InterestMeanPct\% of GDP over that panel and peaked at
-\InterestPeakPct\%, and that is the arithmetic separating the two series. We use
+accounts exist, from \PrimaryPositiveFirst\ to \PrimaryPositiveLast:
+\HistoricalPrimaryPositive\ of \HistoricalPrimaryYears\ years in the historical regime
+and \ModernPrimaryPositive\ of \ModernPrimaryYears\ in the modern one. Interest is the
+arithmetic separating the two series, and it is much the larger burden in the earlier
+period, averaging \HistoricalInterestMean\% of GDP historically against
+\ModernInterestMean\% in the modern regime. We use
 ``primary balance'' throughout and avoid calling it an underlying balance, which
 would suggest a structural or cyclically adjusted measure that this paper does not
 compute.
@@ -245,8 +258,9 @@ the 1995 splice, the vintages and the cross-source validation.
 Section~\ref{sec:method} states the decompositions and the persistence measures.
 Section~\ref{sec:results} presents the results. Section~\ref{sec:robustness} sets
 out the accounting boundaries and the robustness of the weaker statistics.
-Section~\ref{sec:contributionbase} relates Social Security contributions to the wage
-bill they are levied on. Section~\ref{sec:benchmark} places Portugal in the European
+Section~\ref{sec:contributionbase} relates Social Security contributions to the
+aggregate employee wage bill that serves as their reference base.
+Section~\ref{sec:benchmark} places Portugal in the European
 distribution.
 Section~\ref{sec:conclusion} concludes with what the evidence does and does not
 establish. Appendix~\ref{sec:changepoints} reports the change-point sensitivity in

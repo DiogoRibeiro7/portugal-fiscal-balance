@@ -177,6 +177,14 @@ list of the years with a positive primary balance. Central Government records a 
 B.9 in every observed year while its primary balance is positive in a substantial minority
 of them, so the two counts must be read together.
 
+## `outputs/tables/primary_balance_sign_summary_by_regime.csv`
+
+The same summary computed inside each statistical regime. The counts partition the
+pooled table exactly. The split exists because `mean_interest_pct_gdp` and
+`max_interest_pct_gdp` are magnitudes: Central Government interest averages 5.52% of
+GDP historically against 3.19% in the modern regime, so the pooled 4.17% describes
+neither period. Sign counts survive pooling and are reported both ways.
+
 ## `outputs/tables/ssf_accounting_boundary_comparison.csv`
 
 The ESA 2010 Social Security Funds balance beside the CFP budget-system total, with
@@ -239,25 +247,46 @@ Social Security contributions joined to the national-accounts wage bill.
 | `compensation_of_employees_m_eur` | Compensation of employees (D.1), retained for comparison but **not** used as the base: it contains employers' social contributions |
 | `employees_k`, `employment_k` | Employees and total employment, domestic concept, thousands |
 | `average_wage_eur` | Wage bill divided by employees |
-| `contributions_to_wage_bill_ratio` | Contributions divided by the wage bill. An effective ratio between two published aggregates, **not** a statutory rate: it moves with coverage, compliance and composition as well as with legislated rates |
+| `contributions_to_wage_bill_ratio` | Contributions divided by the wage bill. A ratio between two published aggregates, **not** a statutory rate: its numerator contains revenue raised on bases its denominator does not measure, so it moves with coverage, compliance and composition as well as with legislated rates |
 
 ## `outputs/tables/contribution_change_decomposition.csv`
 
-The annual change in contributions split by two nested exact identities:
+Two exact identities, applied to two different quantities. They are **not** nested:
 
-\[\Delta C = 	au_{t-1}\Delta W + W_{t-1}\Delta	au + \Delta W\Delta	au,\qquad
-\Delta W = ar w_{t-1}\Delta N + N_{t-1}\Deltaar w + \Delta N\Deltaar w.\]
+- the change in contributions,
+  `\Delta C = \tau_{t-1}\,\Delta W + W_{t-1}\,\Delta\tau + \Delta W\,\Delta\tau`;
+- the change in the wage bill itself,
+  `\Delta W = \bar{w}_{t-1}\,\Delta N + N_{t-1}\,\Delta\bar{w} + \Delta N\,\Delta\bar{w}`.
 
-`from_wage_bill_m_eur` and `from_ratio_m_eur` are the base and rate effects;
-`from_employment_m_eur` and `from_average_wage_m_eur` split the base effect again. The
-interaction columns are carried rather than dropped, and the closure columns exist to
-demonstrate exactness. No change is computed across the 1995-to-2000 source gap.
+`from_wage_bill_m_eur`, `from_ratio_m_eur` and `wage_bill_ratio_interaction_m_eur` sum to
+`contributions_change_m_eur`. `from_employment_m_eur`, `from_average_wage_m_eur` and
+`employment_wage_interaction_m_eur` sum to `wage_bill_change_m_eur` — a different and much
+larger total. The second trio decomposes `\Delta W`, not the wage-bill component of
+`\Delta C`; what links them is the factor `\tau_{t-1}`. Reading the employment and
+average-wage columns as parts of `from_wage_bill_m_eur` is a mathematical error and the
+two are reported as separate tables for that reason.
+
+The interaction columns are carried rather than dropped or shared between the factors, and
+the closure columns exist to demonstrate exactness. No change is computed across the
+1995-to-2000 source gap: bridging it would treat a five-year movement as annual.
+
+## `outputs/tables/contribution_symmetric_decomposition.csv`
+
+The same change under the symmetric (midpoint) convention,
+`\Delta C = \tfrac{1}{2}(\tau_t+\tau_{t-1})\,\Delta W
++ \tfrac{1}{2}(W_t+W_{t-1})\,\Delta\tau`, which is exact in two terms because it splits
+the interaction evenly between the factors. `wage_bill_share_of_change` is the wage-bill
+term as a share of the total. Neither convention is more correct; this table exists so the
+reading does not rest on the choice, and each factor here differs from its counterpart in
+the exact table by exactly half the interaction.
 
 ## `outputs/tables/contribution_wage_bill_regression.csv`
 
 The change in contributions regressed on the change in the wage bill, HAC standard errors.
-`coef_minus_mean_ratio` is the slope less the mean effective ratio: the accounting predicts
-they should be close, and they are.
+`coef_minus_mean_ratio` is the slope less the mean contributions-to-wage-bill ratio. The
+identity delivers a slope equal to the mean ratio only if `\Delta\tau` and the
+interaction are uncorrelated with `\Delta W`, which nothing here establishes, so their
+closeness is a descriptive fact about this sample rather than an arithmetic necessity.
 
 ## Main output metrics
 

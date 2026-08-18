@@ -753,3 +753,91 @@ def test_surplus_composition_agrees_under_both_weightings() -> None:
     # Portugal is at the top of the distribution on both readings.
     assert row["country_share"] == 1.0
     assert row["country_percentile"] > 90.0
+
+
+def test_symmetric_decomposition_is_exact_in_two_terms() -> None:
+    """The midpoint convention distributes the interaction; it must still close."""
+    symmetric = _read_csv(Path("outputs/tables/contribution_symmetric_decomposition.csv"))
+    assert not symmetric.empty
+
+    residual = (
+        symmetric["contributions_change_m_eur"]
+        - symmetric["from_wage_bill_m_eur"]
+        - symmetric["from_ratio_m_eur"]
+    )
+    assert residual.abs().max() < 1e-6, "Symmetric decomposition does not close"
+    # The convention has no third term to carry, so the persisted error must be zero.
+    assert symmetric["closure_error_m_eur"].abs().max() < 1e-6
+
+
+def test_symmetric_and_exact_decompositions_differ_only_by_the_interaction() -> None:
+    """Otherwise the two are not two conventions on one identity but two identities."""
+    exact = _read_csv(Path("outputs/tables/contribution_change_decomposition.csv"))
+    symmetric = _read_csv(Path("outputs/tables/contribution_symmetric_decomposition.csv"))
+    merged = exact.merge(symmetric, on="year", suffixes=("_exact", "_symmetric"))
+    assert not merged.empty
+
+    # The midpoint form splits the interaction evenly, so each factor picks up half.
+    half = 0.5 * merged["wage_bill_ratio_interaction_m_eur"]
+    wage_bill_gap = merged["from_wage_bill_m_eur_symmetric"] - merged["from_wage_bill_m_eur_exact"]
+    ratio_gap = merged["from_ratio_m_eur_symmetric"] - merged["from_ratio_m_eur_exact"]
+    assert (wage_bill_gap - half).abs().max() < 1e-6
+    assert (ratio_gap - half).abs().max() < 1e-6
+
+
+def test_the_two_contribution_identities_are_not_nested() -> None:
+    """The wage-bill split decomposes a different total, and the tables must show it.
+
+    Reading the employment and average-wage terms as parts of the wage-bill component
+    of the contribution change is a mathematical error: they sum to the change in the
+    wage bill, which is larger by a factor of roughly one over the ratio.
+    """
+    decomposition = _read_csv(Path("outputs/tables/contribution_change_decomposition.csv"))
+    latest = decomposition.sort_values("year").iloc[-1]
+
+    contribution_terms = (
+        latest["from_wage_bill_m_eur"]
+        + latest["from_ratio_m_eur"]
+        + latest["wage_bill_ratio_interaction_m_eur"]
+    )
+    wage_bill_terms = (
+        latest["from_employment_m_eur"]
+        + latest["from_average_wage_m_eur"]
+        + latest["employment_wage_interaction_m_eur"]
+    )
+    assert abs(contribution_terms - latest["contributions_change_m_eur"]) < 1e-6
+    assert abs(wage_bill_terms - latest["wage_bill_change_m_eur"]) < 1e-6
+    # The two totals are different quantities, and the second is much the larger.
+    assert wage_bill_terms > 2.0 * latest["from_wage_bill_m_eur"]
+
+
+def test_primary_sign_summary_by_regime_partitions_the_pooled_summary() -> None:
+    """Splitting the summary must reallocate observations, never invent or lose them."""
+    pooled = _read_csv(Path("outputs/tables/primary_balance_sign_summary.csv"))
+    by_regime = _read_csv(Path("outputs/tables/primary_balance_sign_summary_by_regime.csv"))
+    assert set(by_regime["statistical_regime"]) == {
+        "historical_long_series",
+        "esa2010_modern",
+    }
+
+    totals = by_regime.groupby("sector")[
+        ["n_years", "headline_negative_years", "primary_positive_years"]
+    ].sum()
+    for _, row in pooled.iterrows():
+        split = totals.loc[str(row["sector"])]
+        assert int(split["n_years"]) == int(row["n_years"])
+        assert int(split["headline_negative_years"]) == int(row["headline_negative_years"])
+        assert int(split["primary_positive_years"]) == int(row["primary_positive_years"])
+
+
+def test_interest_burden_differs_enough_between_regimes_to_forbid_pooling() -> None:
+    """The pooled interest mean is quoted only as a reference point; check why."""
+    by_regime = _read_csv(Path("outputs/tables/primary_balance_sign_summary_by_regime.csv"))
+    central = by_regime.loc[by_regime["sector"].eq("central_government")]
+    means = dict(zip(central["statistical_regime"], central["mean_interest_pct_gdp"], strict=True))
+    historical = means["historical_long_series"]
+    modern = means["esa2010_modern"]
+    # Not a stylised fact we impose: the gap is what makes a pooled mean describe
+    # neither regime, which is the discipline the manuscript applies to magnitudes.
+    assert historical > modern
+    assert historical - modern > 1.0

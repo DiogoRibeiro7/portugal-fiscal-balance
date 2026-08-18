@@ -54,9 +54,15 @@ STATISTICAL_REGIMES: Final[dict[str, tuple[int, int]]] = {
 }
 
 #: Presentation labels for the regime keys, used by tables and figure legends.
+#:
+#: The same split is keyed two ways across the pipeline: by the window it covers
+#: and by the source family that produced it. Both reach presentation tables, so
+#: both are labelled here rather than falling through to a raw key.
 REGIME_TABLE_LABELS: Final[dict[str, str]] = {
     "1977-1994_historical": "1977--1994 historical",
     "1995-2025_modern": "1995--2025 modern",
+    "historical_long_series": "1977--1994 historical",
+    "esa2010_modern": "1995--2025 modern",
 }
 
 ACCOUNT_METRICS: Final[tuple[str, ...]] = (

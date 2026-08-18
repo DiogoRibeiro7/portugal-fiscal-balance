@@ -814,31 +814,34 @@ Year & ESA 2010 balance (M EUR) & Budget-system total (M EUR) & Difference (M EU
 \end{figure}
 
 
-\section{The Contribution Base}
+\section{Contributions and the Aggregate Employee Wage Bill}
 \label{sec:contributionbase}
 
 The Social Security results so far locate a movement inside the fiscal accounts. They
-do not relate it to anything outside them. Contributions are levied on wages, so the
-natural base is the aggregate wage bill \(W_t = N_t \bar{w}_t\), with \(N\) employees
-and \(\bar{w}\) the average wage. Writing the effective ratio as \(\tau_t = C_t / W_t\),
+do not relate it to anything outside them. Contributions are levied predominantly on
+wages, so the aggregate employee wage bill is their natural reference base, \(W_t = N_t \bar{w}_t\), with \(N\) employees
+and \(\bar{w}\) the average wage. It is a reference base and not the integral base of the
+levy: some recorded contributions fall on other bases and some are imputed, so \(W\)
+does not exhaust what \(C\) is charged on. Writing the contributions-to-wage-bill
+ratio as \(\tau_t = C_t / W_t\),
 the change in contributions decomposes exactly:
 \[\Delta C_t = \tau_{t-1} \Delta W_t + W_{t-1} \Delta \tau_t + \Delta W_t \Delta \tau_t.\]
 
 The wage bill and employment come from the Portuguese national accounts compiled by
-INE. \(\tau\) is \emph{not} a statutory contribution rate: national-accounts
-contributions include imputed contributions and bases other than employee wages, so
-the ratio moves with coverage and composition as well as with legislated rates. It
+INE. \(\tau\) is \emph{not} a statutory contribution rate: its numerator contains revenue
+raised on bases its denominator does not measure, so the ratio moves with coverage,
+compliance and composition as well as with legislated rates. It
 stands at \textbf{0.265} in 2025 against \textbf{0.260} in 1995.
 
 \begin{table}[htbp]
 \centering
-\caption{The annual change in Social Security contributions, split into the movement of the wage bill and the movement of the effective ratio between them.}
+\caption{The annual change in Social Security contributions, split into the movement of the wage bill, the movement of the contributions-to-wage-bill ratio, and their interaction.}
 \label{tab:contributionbase}
 \small
 \fitwidth{%
 \begin{tabular}{@{}rrrrr@{}}
 \toprule
-Year & Change in contributions (M EUR) & From the wage bill (M EUR) & From the effective rate (M EUR) & Interaction (M EUR) \\
+Year & Change in contributions (M EUR) & From the wage bill (M EUR) & From the ratio (M EUR) & Interaction (M EUR) \\
 \midrule
 2018 & 1,166 & 947 & 206 & 12 \\
 2019 & 1,484 & 1,014 & 443 & 26 \\
@@ -852,16 +855,19 @@ Year & Change in contributions (M EUR) & From the wage bill (M EUR) & From the e
 \end{tabular}%
 }
 \par\smallskip
-\begin{minipage}{\linewidth}\footnotesize\itshape The interaction term is carried rather than dropped or shared between the two effects, because either would make the decomposition inexact. It closes to 3.2e-12 M EUR.\end{minipage}
+\begin{minipage}{\linewidth}\footnotesize\itshape The interaction term is carried rather than dropped or shared between the two factors, because either would make the decomposition inexact. It closes to 3.2e-12 M EUR.\end{minipage}
 \end{table}
 In 2025 contributions rose by \textbf{2,468 M EUR},
 of which \textbf{1,870 M EUR} came from
 the wage bill and \textbf{560 M EUR} from the
-effective ratio. The base effect splits again.
+ratio, with the remainder their interaction. A second and separate application of the
+same identity splits the change in the wage bill itself. The two have different totals,
+and the employment and average-wage terms below are components of \(\Delta W\) rather than
+sub-components of the wage-bill term above.
 
 \begin{table}[htbp]
 \centering
-\caption{And what moved the wage bill: the number of employees against the average wage per employee.}
+\caption{And what moved the wage bill itself: the number of employees against the average wage per employee. This decomposes the change in the wage bill, not the wage-bill component of the change in contributions; the two have different totals.}
 \label{tab:wagebillsplit}
 \small
 \fitwidth{%
@@ -881,10 +887,39 @@ Year & Change in the wage bill (M EUR) & From employment (M EUR) & From average 
 \end{tabular}%
 }
 \end{table}
+The interaction terms are carried rather than distributed. An equally standard
+convention evaluates each factor at the midpoint of the two years, which splits the
+interaction evenly between them and is exact in two terms rather than three. It is
+reported alongside so the reading does not rest on the convention.
+
+\begin{table}[htbp]
+\centering
+\caption{The same change under the symmetric convention, which evaluates each factor at the midpoint of the two years and thereby splits the interaction evenly between them.}
+\label{tab:contributionsymmetric}
+\small
+\fitwidth{%
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+Year & Change in contributions (M EUR) & From the wage bill (M EUR) & From the ratio (M EUR) & Wage-bill share \\
+\midrule
+2018 & 1,166 & 953 & 213 & 0.82 \\
+2019 & 1,484 & 1,027 & 456 & 0.69 \\
+2020 & 311 & 29 & 283 & 0.09 \\
+2021 & 1,430 & 1,273 & 157 & 0.89 \\
+2022 & 2,289 & 2,118 & 171 & 0.93 \\
+2023 & 2,806 & 2,692 & 114 & 0.96 \\
+2024 & 2,557 & 2,075 & 482 & 0.81 \\
+2025 & 2,468 & 1,889 & 579 & 0.77 \\
+\bottomrule
+\end{tabular}%
+}
+\par\smallskip
+\begin{minipage}{\linewidth}\footnotesize\itshape Exact in two terms rather than three. Neither convention is more correct; the three-term form is reported above because carrying the interaction rather than distributing it is the more conservative presentation.\end{minipage}
+\end{table}
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=1\linewidth]{19_contribution_base.png}
-\caption{Contributions and their base. Upper panel: the change in contributions split into a base effect and a rate effect. Lower panel: the change in the wage bill split into employment and average wages.}
+\caption{Contributions and their reference base. Upper panel: the change in contributions split into a wage-bill component, a ratio component and their interaction. Lower panel: the change in the wage bill split into an employment component, an average-wage component and their interaction.}
 \label{fig:contributionbasefig}
 \end{figure}
 \subsection{A companion regression}
@@ -893,10 +928,11 @@ Regressing the annual change in contributions on the annual change in the wage
 bill over 25 adjacent-year pairs gives a slope of
 \textbf{0.248} with a HAC standard error of
 0.022 and an \(R^2\) of \textbf{0.926}.
-The slope sits close to the mean effective ratio of 0.221, which is what the
-accounting predicts, and the fit is far tighter than the nominal-GDP specification
-in Appendix~\ref{sec:comovement}: the regressor here is the base the levy actually
-falls on rather than an aggregate that merely correlates with it. It remains a
+The slope sits close to the mean contributions-to-wage-bill ratio of 0.221, which is
+consistent with a stable ratio over the sample but is not implied by the identity,
+and the fit is far tighter than the nominal-GDP specification
+in Appendix~\ref{sec:comovement}: the regressor here is a quantity the levy is
+charged on rather than an aggregate that merely correlates with it. It remains a
 descriptive statistic and no identification is claimed.
 
 The decomposition is exact and descriptive. It does not establish that the wage bill
@@ -977,6 +1013,36 @@ Social Security Funds & 45 & 6 & 39 & 0.00 & 0.04 \\
 }
 \par\smallskip
 \begin{minipage}{\linewidth}\footnotesize\itshape The panel here is the detailed account panel, so the three subsectors have 45 observations rather than the 49 of the canonical balance panel; the 1996--1999 components are missing.\end{minipage}
+\end{table}
+
+Those statistics pool across the 1995 splice. The sign counts survive that, because a
+classification is not a magnitude, but the interest means do not: interest is a magnitude
+and the two regimes differ materially in it. Both are therefore reported by regime as
+well.
+
+\begin{table}[htbp]
+\centering
+\caption{The same frequencies inside each statistical regime. The counts may be pooled; the interest magnitudes may not.}
+\label{tab:primarysignsregime}
+\small
+\fitwidth{%
+\begin{tabular}{@{}llrrrrr@{}}
+\toprule
+Regime & Sector & N & Headline < 0 & Primary > 0 & Mean interest (\% GDP) & Peak interest (\% GDP) \\
+\midrule
+1977--1994 historical & General Government & 18 & 18 & 9 & 5.66 & 7.89 \\
+1995--2025 modern & General Government & 31 & 27 & 13 & 3.29 & 5.54 \\
+1977--1994 historical & Central Government & 19 & 19 & 9 & 5.52 & 7.73 \\
+1995--2025 modern & Central Government & 26 & 26 & 6 & 3.19 & 4.88 \\
+1977--1994 historical & Regional and Local & 19 & 13 & 10 & 0.18 & 0.62 \\
+1995--2025 modern & Regional and Local & 26 & 16 & 10 & 0.09 & 0.18 \\
+1977--1994 historical & Social Security Funds & 19 & 5 & 14 & 0.01 & 0.04 \\
+1995--2025 modern & Social Security Funds & 26 & 1 & 25 & 0.00 & 0.00 \\
+\bottomrule
+\end{tabular}%
+}
+\par\smallskip
+\begin{minipage}{\linewidth}\footnotesize\itshape Interest is a magnitude and the two regimes differ materially in it, so the pooled means of Table~\ref{tab:primarysigns} describe the historical regime better than the modern one. The sign counts are reported pooled and split because the classification survives the splice where the magnitudes do not.\end{minipage}
 \end{table}
 
 \begin{figure}[htbp]
