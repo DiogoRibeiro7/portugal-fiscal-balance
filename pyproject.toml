@@ -45,7 +45,7 @@ nbformat = ">=5.10,<6"
 nbclient = ">=0.10,<1"
 jupyter = ">=1,<2"
 ruff = ">=0.8,<1"
-mypy = ">=1.13,<2"
+mypy = ">=2.3.1,<3"
 pandas-stubs = ">=2.2,<3"
 # render.py reads config/sources.yml. Without the stub, mypy fails in CI while
 # passing locally wherever the stub happens to be installed.
